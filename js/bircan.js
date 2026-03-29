@@ -467,7 +467,8 @@ var MLZ_ODA_VARS = {
 /* ── DURUM ── */
 var mlzState = {
   binaTip:'', katSay:1, hatTip:'havai', kolonMat:'bakir',
-  daireTipleri:[], cihazlar:[], diyafon:'zil', kamera:0, kameraGun:15, asansor:false
+  daireTipleri:[], cihazlar:[], diyafon:'zil', kamera:0, kameraGun:15, asansor:false,
+  toprakYontem:'kazik', toprakKazik:1, binaA:10, binaB:10
 };
 
 /* Oda listesi oluştur */
@@ -551,7 +552,7 @@ function mlzBinaSec(tip, btn) {
     mlzOdaRender();
     mlzGoster(['mlz-s2b']);
   }
-  mlzGoster(['mlz-s3','mlz-s4','mlz-s6','mlz-s7','mlz-hesapla-wrap']);
+  mlzGoster(['mlz-s3','mlz-s4','mlz-s4b','mlz-s6','mlz-s7','mlz-hesapla-wrap']);
   mlzGizle(['mlz-sonuc']);
 }
 
@@ -1016,7 +1017,36 @@ function mlzHesapla() {
   paRows.push(['Anahtar',topAnahtar+' adet'],['Aydınlatma noktası',topLamba+' adet']);
   if(topTV>0) paRows.push(['TV/Uydu prizi',topTV+' adet']);
   if(topData>0) paRows.push(['Data prizi (RJ45)',topData+' adet']);
+  // Anahtar/priz kasası — her priz ve anahtar noktası için 1 kasa
+  var topKasa=(topPriz+topIslak+topAnahtar)*topDaire;
+  paRows.push(['Anahtar/Priz kasası (sıva altı)',topKasa+' adet']);
   html+=tbl('🔲 Priz & Anahtar',paRows);
+
+  // Topraklama sistemi — daire başına hesapla
+  // Topraklama sistemi — kazık veya galvaniz şerit
+  var toprakRows=[];
+  var tA=parseInt(document.getElementById('mlz-bina-a').value)||10;
+  var tB=parseInt(document.getElementById('mlz-bina-b').value)||10;
+  var cevre=2*(tA+tB); // bina çevresi
+  var katEkToprak=S.katSay>1?(S.katSay-1)*8:0; // ek kat başına 8m kablo
+
+  if(S.toprakYontem==='kazik') {
+    var kazikAdet=parseInt(document.getElementById('mlz-toprak-kazik').value)||1;
+    var toprakKabloM=cevre + (kazikAdet*8) + katEkToprak; // çevre + kazık başına 8m bağlantı + kat eki
+    toprakRows.push(['Topraklama çubuğu (bakır kaplı, 1.5m)',kazikAdet+' adet']);
+    toprakRows.push(['Topraklama kablosu NYA 1×16mm² (sarı-yeşil)',toprakKabloM+' m']);
+    toprakRows.push(['Topraklama klemensi',kazikAdet+' adet']);
+  } else {
+    // Galvaniz şerit: çevre + 4 köşe × 1.5m bağlantı payı
+    var seritM=cevre+6; // +6m sabit (4 köşe × 1.5m)
+    var baglKabloM=Math.round(cevre*0.2)+katEkToprak+8; // şeritten panoya bağlantı kablosu
+    toprakRows.push(['Galvaniz şerit 40×4mm',seritM+' m']);
+    toprakRows.push(['Bağlantı kablosu NYA 1×16mm² (sarı-yeşil)',baglKabloM+' m']);
+    toprakRows.push(['Şerit bağlantı klemensi','4 adet']);
+  }
+  toprakRows.push(['Eşpotansiyel bara (pano içi)',topDaire+' adet']);
+  if(isBina) toprakRows.push(['Ana topraklama barası (ADP)','1 adet']);
+  html+=tbl('🛡️ Topraklama Sistemi',toprakRows);
 
   // Diyafon
   var diyRows=diyMalz.map(function(d){return [d.m,d.a+(typeof d.a==='number'?' adet':'')];});
@@ -1058,9 +1088,10 @@ function mlzHesapla() {
   waMsg+='🏠 *Daire Panosu*\n';
   daireSonuclar.forEach(function(d){
     waMsg+=d.tip+' ('+d.adet+' adet): '+d.panoMod+' modül\n';
+    waMsg+=(trifaze?'4P':'2P')+' RCD 30mA 25A: 1 adet\n';
     var mcbGrup={};
-    d.mcbs.forEach(function(m){if(!mcbGrup[m.a])mcbGrup[m.a]=0;mcbGrup[m.a]++;});
-    Object.keys(mcbGrup).forEach(function(k){waMsg+='MCB '+k+': '+mcbGrup[k]+' adet\n';});
+    d.mcbs.forEach(function(m){var k=parseInt(m.a)>25?'25A':m.a;if(!mcbGrup[k])mcbGrup[k]=0;mcbGrup[k]++;});
+    Object.keys(mcbGrup).forEach(function(k){waMsg+='1P MCB '+k+': '+mcbGrup[k]+' adet\n';});
   });
   waMsg+='\n';
 
@@ -1081,6 +1112,25 @@ function mlzHesapla() {
   waMsg+='Aydınlatma: '+topLamba+' adet\n';
   if(topTV>0) waMsg+='TV prizi: '+topTV+' adet\n';
   if(topData>0) waMsg+='Data prizi: '+topData+' adet\n';
+  waMsg+='Anahtar/Priz kasası: '+topKasa+' adet\n';
+  waMsg+='\n';
+
+  waMsg+='🛡️ *Topraklama*\n';
+  if(S.toprakYontem==='kazik'){
+    var wKazik=parseInt(document.getElementById('mlz-toprak-kazik').value)||1;
+    var wCevre=2*(tA+tB);
+    var wKabloM=wCevre+(wKazik*8)+katEkToprak;
+    waMsg+='Yöntem: Kazık (çubuk)\n';
+    waMsg+='Topraklama çubuğu: '+wKazik+' adet\n';
+    waMsg+='NYA 1×16mm²: '+wKabloM+' m\n';
+    waMsg+='Klemensi: '+wKazik+' adet\n';
+  } else {
+    var wSerit=2*(tA+tB)+6;
+    waMsg+='Yöntem: Galvaniz şerit\n';
+    waMsg+='Galvaniz şerit 40×4mm: '+wSerit+' m\n';
+    waMsg+='NYA 1×16mm² (bağlantı): '+(Math.round(wSerit*0.2)+katEkToprak+8)+' m\n';
+  }
+  waMsg+='Eşpotansiyel bara: '+topDaire+' adet\n';
   waMsg+='\n';
 
   waMsg+='🔔 *Diyafon*\n';
@@ -1261,6 +1311,22 @@ document.addEventListener('DOMContentLoaded',function(){
       this.classList.add('active'); mlzState.kolonMat=this.dataset.kolon;
     });
   });
+  // Topraklama yöntemi
+  document.querySelectorAll('.mlz-toprak-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.mlz-toprak-btn').forEach(function(x){x.classList.remove('active');});
+      this.classList.add('active');
+      mlzState.toprakYontem=this.dataset.toprak;
+      var kazikDiv=document.getElementById('mlz-kazik-adet');
+      if(kazikDiv) kazikDiv.style.display=this.dataset.toprak==='kazik'?'block':'none';
+    });
+  });
+  var toprakKazikEl=document.getElementById('mlz-toprak-kazik');
+  if(toprakKazikEl) toprakKazikEl.addEventListener('change',function(){mlzState.toprakKazik=parseInt(this.value)||1;});
+  var binaAEl=document.getElementById('mlz-bina-a');
+  if(binaAEl) binaAEl.addEventListener('change',function(){mlzState.binaA=parseInt(this.value)||10;});
+  var binaBEl=document.getElementById('mlz-bina-b');
+  if(binaBEl) binaBEl.addEventListener('change',function(){mlzState.binaB=parseInt(this.value)||10;});
   // Asansör
   document.querySelectorAll('.mlz-asan-btn').forEach(function(b){
     b.addEventListener('click',function(){

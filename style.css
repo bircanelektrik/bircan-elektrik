@@ -417,8 +417,8 @@ footer a:hover { color: rgba(255,255,255,0.7); }
 .mlz-hat-btns { display:flex; gap:6px; }
 .mlz-hat-btn, .mlz-diyafon-btn, .mlz-kam-btn { padding:8px 16px; border:1px solid var(--gray-light); border-radius:var(--radius); background:var(--white); font-size:13px; font-weight:500; cursor:pointer; font-family:inherit; transition:all .2s; }
 .mlz-hat-btn:hover, .mlz-diyafon-btn:hover, .mlz-kam-btn:hover { border-color:var(--black); }
-.mlz-hat-btn.active, .mlz-diyafon-btn.active, .mlz-kam-btn.active, .mlz-asan-btn.active, .mlz-kolon-btn.active, .mlz-kat-btn.active { background:var(--black); color:var(--white); border-color:var(--black); }
-.mlz-asan-btns, .mlz-kam-btns { display:flex; gap:6px; }
+.mlz-hat-btn.active, .mlz-diyafon-btn.active, .mlz-kam-btn.active, .mlz-asan-btn.active, .mlz-kolon-btn.active, .mlz-kat-btn.active, .mlz-toprak-btn.active { background:var(--black); color:var(--white); border-color:var(--black); }
+.mlz-asan-btns, .mlz-kam-btns, .mlz-toprak-btns { display:flex; gap:6px; }
 
 /* Cihaz grid */
 .mlz-cihaz-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:8px; }

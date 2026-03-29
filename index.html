@@ -683,6 +683,29 @@
         </div>
       </div>
 
+      <!-- S4b: TOPRAKLAMA -->
+      <div class="mlz-step" id="mlz-s4b" style="display:none;">
+        <div class="mlz-step-header"><span class="mlz-step-num">4b</span><div><div class="mlz-step-title">Topraklama sistemi</div><div class="mlz-step-desc">Topraklama yöntemi ve bina ölçülerini girin.</div></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;">
+          <div>
+            <label class="mlz-lbl">Topraklama yöntemi</label>
+            <div class="mlz-toprak-btns"><button class="mlz-toprak-btn active" data-toprak="kazik">⚡ Kazık (Çubuk)</button><button class="mlz-toprak-btn" data-toprak="serit">📏 Galvaniz Şerit</button></div>
+          </div>
+          <div id="mlz-kazik-adet">
+            <label class="mlz-lbl">Kazık adedi</label>
+            <input type="number" id="mlz-toprak-kazik" value="1" min="1" max="10" class="mlz-input-sm">
+          </div>
+          <div>
+            <label class="mlz-lbl">Bina eni (m)</label>
+            <input type="number" id="mlz-bina-a" value="10" min="3" max="100" class="mlz-input-sm">
+          </div>
+          <div>
+            <label class="mlz-lbl">Bina boyu (m)</label>
+            <input type="number" id="mlz-bina-b" value="10" min="3" max="100" class="mlz-input-sm">
+          </div>
+        </div>
+      </div>
+
       <!-- S5: ASANSÖR (apartman) -->
       <div class="mlz-step" id="mlz-s5" style="display:none;">
         <div class="mlz-step-header"><span class="mlz-step-num">5</span><div><div class="mlz-step-title">Asansör var mı?</div><div class="mlz-step-desc">Asansör kuyu altyapısı ve besleme hesaba dahil edilir.</div></div></div>
