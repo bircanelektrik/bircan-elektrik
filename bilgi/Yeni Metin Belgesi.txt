@@ -1,3 +1,0 @@
-https://yakit-proxy.bircannelektrik.workers.dev/
-
-dash.cloudflare.com
