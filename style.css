@@ -37,8 +37,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 nav::after{content:'';position:absolute;left:2.65rem;right:2.65rem;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(210,165,111,0.36),transparent);opacity:.75}
 .nav-logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0;align-self:center}
 .nav-logo img{height:46px;width:auto;max-width:280px;object-fit:contain;display:block;opacity:.95;vertical-align:middle}
-.nav-links{display:flex;align-items:center;gap:2px;align-self:center}
-.nav-links a{position:relative;font-size:10px;letter-spacing:0.11em;text-transform:uppercase;color:var(--on-surface-muted);text-decoration:none;padding:9px 14px 12px;border-radius:999px;transition:color .3s,opacity .3s,background .3s,box-shadow .3s;text-shadow:none}
+.nav-links{display:flex;align-items:center;gap:0px;align-self:center;flex-wrap:nowrap}
+.nav-links a{position:relative;font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--on-surface-muted);text-decoration:none;padding:9px 10px 12px;border-radius:999px;transition:color .3s,opacity .3s,background .3s,box-shadow .3s;text-shadow:none}
 .nav-links a::after{content:'';position:absolute;left:14px;right:14px;bottom:5px;height:1px;background:linear-gradient(90deg,transparent,rgba(229,195,143,0.92),transparent);transform:scaleX(0);transform-origin:center;transition:transform .32s ease,opacity .32s ease;opacity:.7}
 .nav-links a:hover{color:var(--on-surface);background:rgba(210,165,111,0.06)}
 .nav-links a:hover::after{transform:scaleX(1)}
