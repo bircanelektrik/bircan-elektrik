@@ -182,7 +182,7 @@ function hesapSenaryo(cfg){
   if(kuyuTabanYakin) skor-=18;
   else if(kuyuTabanSinir) skor-=8;
   if(teslim==='depo' && (debiDurum==='bad'||debiDurum==='border')) skor+=14;
-  // Tek kuyuda arıza = sistem durur "†’ güvenlik dezavantajı
+  // Tek kuyuda arıza = sistem durur → güvenlik dezavantajı
   if(nKuyu===1) skor-=3;
   // Öncelik ayarı
   if(S.oncelik==='guvenlik' && nKuyu>1) skor+=6;
@@ -221,7 +221,6 @@ function hesapSenaryo(cfg){
     (toplamKW*1.2) -
     ((nKuyu-1)*9) -
     (teslim==='depo'?12:0) -
-    (tipi==='paralel3'?8:0) +
     (tipi==='zonlu'?12:0) +
     (nKuyu===1?6:0) +
     (sSure>12?-6:0)
@@ -259,7 +258,7 @@ function hesapSenaryo(cfg){
 }
 
 /* –– COST CONFIDENCE ––––––––––––––––––––––––––––––––––––––––––––––
-   Piyasa verisi yok "†’ her zaman 'low'. Sadece göreli yorum yapılabilir.
+   Piyasa verisi yok → her zaman 'low'. Sadece göreli yorum yapılabilir.
    Kullanıcıya KESİN TL asla gösterme kuralı bu fonksiyon üstünden uygulanır.
 */
 function calcCostConfidence(engine){
@@ -330,7 +329,6 @@ function getTrafficLight(senaryo){
 function farmerWhy(senaryo){
   if(senaryo.tipi==='tek')      return '<b>En sade çözüm budur.</b> Kuyu rahat yetiyorsa kurulum ve bakım kolay olur.';
   if(senaryo.tipi==='paralel2') return '<b>Yük 2 kuyuya bölünür.</b> Sistem rahatlar, pompa zorlanmaz, tek kuyunun yükü azalır.';
-  if(senaryo.tipi==='paralel3') return '<b>En yüksek yedekleme budur.</b> Arıza anında tüm sulama bir anda durmaz.';
   if(senaryo.tipi==='zonlu')    return '<b>Sulama sırayla yapılır.</b> Aynı anda tüm hatlar açılmadığı için pompa daha rahat çalışır.';
   if(senaryo.tipi==='depolu')   return '<b>Depo tampon görevi görür.</b> Kuyu yavaş dolsa bile sulama daha kontrollü yapılır.';
   return '';
@@ -356,6 +354,7 @@ function uretSenaryolar(){
   const isSolar = S.sebekeDurum==='yok' || S.sistemTercih==='gunes';
   const zonluSure = isSolar ? sure : Math.min(14, sure+3);
   const depoluSure = isSolar ? sure : Math.min(16, sure+4);
+  // NOT: Maksimum 2 kuyu desteklenmektedir. 3+ kuyu senaryoları üretilmez.
   const senaryolar = [
     // S1 – Tek sistem
     hesapSenaryo({
@@ -367,22 +366,16 @@ function uretSenaryolar(){
     hesapSenaryo({
       nKuyu:2, nHat:Math.max(1,Math.floor((S.hatSayisi||1))), sSure:sure,
       teslim:S.teslimNokta, tipi:'paralel2',
-      label:'2 Paralel Sistem', desc:'2 kuyu · 2 küçük pompa'
+      label:'2 Kuyulu Sistem', desc:'2 kuyu · 2 küçük pompa'
     }),
-    // S3 – 3 paralel
-    hesapSenaryo({
-      nKuyu:3, nHat:S.hatSayisi||1, sSure:sure,
-      teslim:S.teslimNokta, tipi:'paralel3',
-      label:'3 Paralel Sistem', desc:'3 kuyu · yedekleme'
-    }),
-    // S4 – Zonlanmış (solar ise süre aynı, şebekeyse +3 saat)
+    // S3 – Zonlanmış (solar ise süre aynı, şebekeyse +3 saat)
     hesapSenaryo({
       nKuyu:1, nHat:1, sSure:zonluSure,
       teslim:S.teslimNokta, tipi:'zonlu',
-      label:'Zonlanmış Sulama',
+      label:'Bölünmüş Sulama',
       desc: isSolar ? '1 kuyu · tek hat · zon bölmeli' : '1 kuyu · tek hat · uzun süre'
     }),
-    // S5 – Depolu (solar ise süre aynı, şebekeyse +4 saat)
+    // S4 – Depolu (solar ise süre aynı, şebekeyse +4 saat)
     hesapSenaryo({
       nKuyu:1, nHat:S.hatSayisi||1, sSure:depoluSure,
       teslim:'depo', tipi:'depolu',
@@ -400,18 +393,15 @@ function mantikliSenaryolar(tümü){
   const tek = tümü.find(s=>s.tipi==='tek') || tümü[0];
   // Kullanıcı mevcut 2+ kuyu girmişse: tek kuyulu/bölünmüş senaryolar aktif öneri olmamalı
   // Çünkü kuyu zaten var — ekonomi için kullanılmayan kuyu mantıksız.
+  // Maksimum 2 kuyu desteklenir — paralel3 hiçbir zaman gösterilmez.
   const mevcutCokKuyu = (S.kuyuDurum==='mevcut') && (S.kuyuSayisi||1) >= 2;
   const filtreli = tümü.filter(s=>{
+    if(s.tipi==='paralel3') return false;        // 3 kuyu seçeneği kaldırıldı — max 2 kuyu
     if((s.kararPuani||0)<35) return false;
-    // Mevcut çok kuyuda: tek, zonlu, depolu öneriler filtrelenir (alternatif listede kalabilir ama ana öneri olamaz)
+    // Mevcut 2 kuyuda: tek ve zonlu öneriler kaldırılır
     if(mevcutCokKuyu){
-      if(s.tipi==='tek') return false;           // Tek kuyu — kullanılmayan kuyular olur, mantıksız
-      if(s.tipi==='zonlu') return false;         // Bölünmüş sulama — kuyu sayısı 1'e düşürür
-      // paralel2, paralel3, depolu: kullanıcının kuyu sayısıyla uyumlu olanlar kalsın
-      if(s.tipi==='paralel3' && (S.kuyuSayisi||1) < 3) return false;
-    }
-    if(s.tipi==='paralel3'){
-      return tek.debiDurum!=='ok' || S.kurumaRisk==='var' || S.araziDonum>60 || tek.kuyuTabanSinir || tek.basincDurum!=='ok' || mevcutCokKuyu;
+      if(s.tipi==='tek') return false;
+      if(s.tipi==='zonlu') return false;
     }
     if(s.tipi==='depolu'){
       return tek.debiDurum!=='ok' || S.teslimNokta==='depo' || S.kurumaRisk==='var';
@@ -669,7 +659,6 @@ function muhendisYorum(senaryolar, onerilen){
   const s1 = senaryolar.find(s=>s.tipi==='tek') || senaryolar[0];
   const rec = onerilen || senaryolar.slice().sort((a,b)=>b.kararPuani-a.kararPuani)[0];
   const s2 = senaryolar.find(s=>s.tipi==='paralel2');
-  const s3 = senaryolar.find(s=>s.tipi==='paralel3');
   const ds = getDin();
   const kotF = S.egimDurum==='egimli'?(S.kotFarki||0):0;
 
@@ -727,9 +716,6 @@ function muhendisYorum(senaryolar, onerilen){
     U.push({tip:'info', anchor:'general', mesaj:'Depolu çözüm, düşük debili kuyularda sulamayı daha rahat yönetmenizi sağlar.'});
   else if(rec.tipi==='zonlu')
     U.push({tip:'info', anchor:'zone', mesaj:'Sulamayı bölerek yapmak pompa yükünü düşürür ve basıncı rahatlatır.'});
-
-  if(s2 && s3 && s3.kararPuani+4 < s2.kararPuani)
-    U.push({tip:'info', anchor:'general', mesaj:'3 kuyu bu arazi için gereksiz olabilir. 2 kuyulu çözüm daha dengeli görünüyor.'});
 
   // Sanity check uyarılarını da entegre et — layoutSanity'den gelenler
   if(typeof buildLayoutSanityWarnings==='function'){
@@ -864,9 +850,34 @@ document.querySelectorAll('[id^="rb_"]').forEach(grp=>{
 });
 
 function chkSebeke(){
-  const w=document.getElementById('sebeWarn');
-  if(S.sistemTercih==='sebeke'){ w.style.display='flex'; document.getElementById('panelYerGrup').style.display='none'; }
-  else { w.style.display='none'; document.getElementById('panelYerGrup').style.display='flex'; }
+  const w = document.getElementById('sebeWarn');
+  const panelGrup = document.getElementById('panelYerGrup');
+  const trafoGrup = document.getElementById('trafoGrup');
+  const sistemTercih = S.sistemTercih || 'solar';
+
+  // Panel yeri: solar veya hibrit modda göster
+  if(panelGrup){
+    panelGrup.style.display = (sistemTercih === 'sebeke') ? 'none' : 'flex';
+  }
+  // Trafo mesafe alanı: şebeke veya hibrit seçildiğinde göster
+  if(trafoGrup){
+    trafoGrup.style.display = (sistemTercih === 'sebeke' || sistemTercih === 'hibrit') ? 'flex' : 'none';
+  }
+  // Uyarı bandı
+  if(w){
+    if(sistemTercih === 'sebeke'){
+      w.style.display = 'flex';
+    } else if(sistemTercih === 'hibrit'){
+      w.style.display = 'flex';
+      // Uyarı metnini hibrit için güncelle
+      const span = w.querySelector('span') || w.querySelector('div:last-child');
+      if(span && span.textContent.indexOf('Hibrit') === -1){
+        span.textContent = 'Hibrit mod: Güneş paneli ve şebeke malzemeleri birlikte listelenecek. Trafo / pano mesafesini giriniz.';
+      }
+    } else {
+      w.style.display = 'none';
+    }
+  }
 }
 
 /* Field handlers */

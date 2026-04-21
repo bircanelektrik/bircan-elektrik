@@ -535,14 +535,28 @@ function renderSonuc(engineResult){
   ` : '<div class="bom-empty">Bir çözüm seçildiğinde malzeme listesi burada gösterilir.</div>';
 
   const detayIcerik = `
-    <h4>Basit Basınç Özeti</h4>
+    <h4>Basınç Özeti</h4>
     <div class="press-table" style="margin:0 0 8px 0;background:#040210">
-      <div class="press-row"><div class="press-label"><div>Sulama ekipmanının ihtiyacı<span class="press-sub">${YB[S.sulamaYontem].ad} sistemi çalışma basıncı</span></div></div><div class="press-val">${onerilen.sistBasinc.toFixed(2)} bar</div></div>
-      <div class="press-row add"><div class="press-label"><div>Arazi ve boru nedeniyle ek ihtiyaç<span class="press-sub">${onerilen.uzakKullanilan||S.uzakNokta||150} m hat${onerilen.uzakRevised?' <b style="color:var(--or)">(girilen '+onerilen.uzakRaw+'m geometri nedeniyle revize edildi)</b>':''}${onerilen.kotBar>0?' + '+S.kotFarki+' m kot farkı':''}</span></div></div><div class="press-val">+ ${(onerilen.kayip+onerilen.kotBar).toFixed(2)} bar</div></div>
-      <div class="press-row total"><div class="press-label"><div>Pompanın üretmesi gereken toplam</div></div><div class="press-val">${onerilen.hatBasiBar.toFixed(2)} bar</div></div>
-      <div class="press-row total"><div class="press-label"><div>Yuzey basinc ihtiyaci</div></div><div class="press-val">${onerilen.hatBasiBar.toFixed(2)} bar</div></div>
-      <div class="press-row add"><div class="press-label"><div>Kuyu kaldirma yuksekligi<span class="press-sub">Dinamik su ${Math.round(model.ds)} m + 5 m guvenlik</span></div></div><div class="press-val">+ ${(onerilen.pompaDer/10.2).toFixed(2)} bar</div></div>
-      <div class="press-row total"><div class="press-label"><div>Toplam manometrik ihtiyac<span class="press-sub">Yaklasik ${onerilen.toplamManometrikM} mSS</span></div></div><div class="press-val">${onerilen.toplamManometrikBar.toFixed(2)} bar</div></div>
+      <div class="press-row">
+        <div class="press-label"><div>Sulama ekipmanı ihtiyacı<span class="press-sub">${YB[S.sulamaYontem].ad} çalışma basıncı</span></div></div>
+        <div class="press-val">${onerilen.sistBasinc.toFixed(2)} bar</div>
+      </div>
+      <div class="press-row add">
+        <div class="press-label"><div>Arazi ve boru kaybı<span class="press-sub">${onerilen.uzakKullanilan||S.uzakNokta||150} m hat${onerilen.uzakRevised?' <b style="color:var(--or)">(girilen '+onerilen.uzakRaw+' m geometri nedeniyle revize edildi)</b>':''}${onerilen.kotBar>0?' + '+S.kotFarki+' m kot farkı':''}</span></div></div>
+        <div class="press-val">+ ${(onerilen.kayip+onerilen.kotBar).toFixed(2)} bar</div>
+      </div>
+      <div class="press-row total">
+        <div class="press-label"><div>Yüzey basınç ihtiyacı</div></div>
+        <div class="press-val">${onerilen.hatBasiBar.toFixed(2)} bar</div>
+      </div>
+      <div class="press-row add">
+        <div class="press-label"><div>Kuyu kaldırma yüksekliği<span class="press-sub">Dinamik su ${Math.round(model.ds)} m + 5 m güvenlik</span></div></div>
+        <div class="press-val">+ ${(onerilen.pompaDer/10.2).toFixed(2)} bar</div>
+      </div>
+      <div class="press-row total">
+        <div class="press-label"><div>Toplam manometrik ihtiyaç<span class="press-sub">≈ ${onerilen.toplamManometrikM} mSS</span></div></div>
+        <div class="press-val">${onerilen.toplamManometrikBar.toFixed(2)} bar</div>
+      </div>
     </div>
     <p style="font-style:italic;color:${onerilen.basincDurum==='ok'?'var(--gr)':onerilen.basincDurum==='kritik'?'var(--re)':'var(--or)'}">${onerilen.basincYorumFarmer}</p>
     ${pressureAlertsHtml}
@@ -551,7 +565,7 @@ function renderSonuc(engineResult){
     ${onerilen.debiDurum==='unknown'
       ? '<p>Kuyu debisi girilmedi. Sondaj raporu paylaşılırsa sistem su verme yeterliliğini daha net kontrol eder.</p>'
       : `<p><b style="color:${onerilen.debiDurum==='ok'?'var(--gr)':onerilen.debiDurum==='border'?'var(--or)':'var(--re)'}">${onerilen.debiDurum==='ok'?'Uygun':'Sınırda / dikkatli takip'}</b> – ${onerilen.debiMesaj}</p>
-         ${onerilen.debiOneriler.length?`<p><b style="color:var(--gold-l)">Öneri:</b> ${onerilen.debiOneriler.join(' · ')}</p>`:''}` }
+         ${onerilen.debiOneriler.length?`<p><b style="color:var(--gold-l)">Öneri:</b> ${onerilen.debiOneriler.join(' · ')}</p>`:''}`}
     ${flowAlertsHtml}
     ${waterAlertsHtml}
 
@@ -563,7 +577,7 @@ function renderSonuc(engineResult){
     ${zoneAlertsHtml}
 
     <h4>Alternatif Çözümler Özeti</h4>
-    <p>Arka planda ${model.scenarios.length} farklı kurulum denendi. Kullanıcıya gösterilen mantıklı seçenekler şunlar:</p>
+    <p>Arka planda ${model.scenarios.length} farklı kurulum denendi. Mantıklı seçenekler:</p>
     <ul style="font-size:12px;color:var(--tx2);padding-left:18px;line-height:1.7">
       ${model.visibleScenarios.map(s=>{
         const t=getTrafficLight(s);
@@ -573,14 +587,12 @@ function renderSonuc(engineResult){
 
     <h4>Kuyu ve Pompa Notu</h4>
     <p>Pompa dalış derinliği: <b>${onerilen.pompaDer} m</b> (dinamik su ${Math.round(model.ds)} m + 5 m güvenlik)<br>
-    Ana hat boru çapı: <b>DN${onerilen.boru.d_mm}</b> · Boru tipi: ${S.boruTip.toUpperCase()}</p>
+    Ana hat boru çapı: <b>${onerilen.boru.d_mm} mm${onerilen.boru.ic_mm?' (iç ~'+onerilen.boru.ic_mm+' mm)':''}</b> · Boru tipi: ${(S.boruTip||'hdpe').toUpperCase()}</p>
     ${wellAlertsHtml}
     ${pipeAlertsHtml}`;
 
-  const detayIcerikFinal = detayIcerik
-    .replace(`<div class="press-row total"><div class="press-label"><div>PompanÄ±n Ã¼retmesi gereken toplam</div></div><div class="press-val">${onerilen.hatBasiBar.toFixed(2)} bar</div></div>`, '')
-    .replace('DN'+onerilen.boru.d_mm, onerilen.boru.d_mm + ' mm' + (onerilen.boru.ic_mm ? ' (ic ~'+onerilen.boru.ic_mm+' mm)' : ''))
-    + `<p><b>Yuzey basinc ihtiyaci:</b> ${onerilen.hatBasiBar.toFixed(2)} bar<br><b>Toplam manometrik ihtiyac:</b> ${onerilen.toplamManometrikBar.toFixed(2)} bar (${onerilen.toplamManometrikM} mSS)</p>`;
+  // detayIcerikFinal artık detayIcerik ile aynı — post-process replace'ler kaldırıldı
+  const detayIcerikFinal = detayIcerik;
 
   const muhIcerik = `
     <h4>Senaryo Karşılaştırması</h4>
@@ -589,7 +601,7 @@ function renderSonuc(engineResult){
         <thead><tr><th>Senaryo</th><th>Karar</th><th>Güven</th><th>Pompa</th><th>Basınç</th><th>Debi</th></tr></thead>
         <tbody>
           ${model.scenarios.map(s=>`<tr class="${s===onerilen?'is-rec':''}">
-            <td>${getScenarioDisplayName(s)}${s===onerilen?' "…':''}</td>
+            <td>${getScenarioDisplayName(s)}${s===onerilen?' ★':''}</td>
             <td style="text-align:center">${s.kararPuani}</td>
             <td style="text-align:center">${s.guvenSkoru}</td>
             <td style="text-align:center">${s.secPompGuc} kW${s.nKuyu>1?' x '+s.nKuyu:''}</td>
@@ -602,13 +614,13 @@ function renderSonuc(engineResult){
     <h4>Karar Motoru</h4>
     <p>Karar puanı; teknik uygunluk, güven, işletme rahatlığı ve ekonomi dengesine göre ağırlıklı hesaplandı. Maliyet etkisi özellikle düşük tutuldu.</p>
     <h4>Hesap Prensipleri</h4>
-    <p>"¢ <b>Hat kaybı:</b> Hazen-Williams formülü (C=140, HDPE)<br>
-    "¢ <b>Pompa verimi:</b> η = 0.65 (submersible ortalama)<br>
-    "¢ <b>Emniyet payı:</b> x1.25<br>
-    "¢ <b>Panel gücü:</b> ${onerilen.pW} W (${S.oncelik} önceliği)<br>
-    "¢ <b>Güneş verisi:</b> ${GP[S.ilSecim]} kWh/m²/gün (${S.ilSecim})</p>
+    <p>· <b>Hat kaybı:</b> Hazen-Williams formülü (C=140, HDPE)<br>
+    · <b>Pompa verimi:</b> η = 0.65 (submersible ortalama)<br>
+    · <b>Emniyet payı:</b> x1.25<br>
+    · <b>Panel gücü:</b> ${onerilen.pW} W (${S.oncelik} önceliği)<br>
+    · <b>Güneş verisi:</b> ${GP[S.ilSecim]} kWh/m²/gün (${S.ilSecim})</p>
     <h4>Risk Değerlendirmesi</h4>
-    <p>Kuyular arası mesafe: <b>${S.kuyuMesafe} m</b> "†’ ${onerilen.interferans==='kritik'?'<span style="color:var(--re)">kritik</span>':onerilen.interferans==='orta'?'<span style="color:var(--or)">sınırda</span>':'<span style="color:var(--gr)">uygun</span>'}</p>
+    <p>Kuyular arası mesafe: <b>${S.kuyuMesafe} m</b> → ${onerilen.interferans==='kritik'?'<span style="color:var(--re)">kritik</span>':onerilen.interferans==='orta'?'<span style="color:var(--or)">sınırda</span>':'<span style="color:var(--gr)">uygun</span>'}</p>
     <p>Kuru çalışma payı: <b>${onerilen.kurumaPayi!==null?onerilen.kurumaPayi+' m':'hesaplanamadı'}</b></p>
     <h4>Maliyet Güven Seviyesi</h4>
     <p><b>${model.cost.badge}</b> – ${model.cost.salesText}</p>
@@ -673,11 +685,11 @@ function renderSonuc(engineResult){
     ${uyariHtml}
     ${optsHtml}
     ${bomSummaryHtml}
-    <button class="${bomBtnClass}" onclick="toggleAcc(this)"><span>Detaylı malzeme listesi</span><span class="acc-caret">"▶</span></button>
+    <button class="${bomBtnClass}" onclick="toggleAcc(this)"><span>Detaylı malzeme listesi</span><span class="acc-caret">▶</span></button>
     <div class="${bomContentClass}">${bomDetayHtml}</div>
-    <button class="acc-btn" onclick="toggleAcc(this)"><span>Detayı Gör</span><span class="acc-caret">"▶</span></button>
+    <button class="acc-btn" onclick="toggleAcc(this)"><span>Detayı Gör</span><span class="acc-caret">▶</span></button>
     <div class="acc-content">${detayIcerikFinal}</div>
-    <button class="acc-btn" onclick="toggleAcc(this)"><span>Teknik Detaylar</span><span class="acc-caret">"▶</span></button>
+    <button class="acc-btn" onclick="toggleAcc(this)"><span>Teknik Detaylar</span><span class="acc-caret">▶</span></button>
     <div class="acc-content">${muhIcerik}</div>
     ${fiyatHtml}
     <div class="legal">

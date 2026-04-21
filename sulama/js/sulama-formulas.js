@@ -604,21 +604,54 @@ function buildBomForScenario(senaryo, zon){
   addBomItem(items,'Filtrasyon ve kontrol','Basınç regülatörü',reguGerekli ? Math.max(1, senaryo.nKuyu) : 1,'adet',reguGerekli ? 'Basınç yüksek/sınırda olduğu için önerilir.' : 'Gerekirse eklenir.', reguGerekli?{}:{optional:true});
   addBomItem(items,'Filtrasyon ve kontrol','Debimetre',senaryo.nKuyu>1 || S.araziDonum>30 ? 1 : 1,'adet',senaryo.nKuyu>1 || S.araziDonum>30 ? 'İzleme için önerilir.' : 'Opsiyonel ölçüm ekipmanı.', senaryo.nKuyu>1 || S.araziDonum>30 ? {} : {optional:true});
 
-  if(S.sistemTercih!=='sebeke'){
+  // ── ENERJİ MALZEMELERİ ──────────────────────────────────────────────
+  // Durum 1: Sadece güneş enerjisi (sistemTercih='solar' veya 'gunes', sebekeDurum='yok')
+  // Durum 2: Sadece şebeke (sistemTercih='sebeke') → trafo mesafesine göre kablo hesabı
+  // Durum 3: Güneş + şebeke (sistemTercih='hibrit') → her iki grubun malzemeleri listelenir
+  // Durum 4: Yerel enerji var (sebekeDurum='var', sistemTercih='sebeke') → trafo/kablo hesabı
+
+  const isSolarEnergy = S.sistemTercih === 'solar' || S.sistemTercih === 'gunes';
+  const isSebequeOnly = S.sistemTercih === 'sebeke';
+  const isHibrit = S.sistemTercih === 'hibrit';
+
+  if(isSolarEnergy || isHibrit){
+    // SOLAR malzemeleri
     const dcCable = round1((senaryo.toplamP * (S.panelYer==='yer' ? 2.6 : 1.7)) + (senaryo.nKuyu*12));
-    addBomItem(items,'Elektrik ve enerji','Solar panel',senaryo.toplamP,'adet',senaryo.pW+' W panel modülü.');
-    addBomItem(items,'Elektrik ve enerji','İnverter',senaryo.nKuyu,'adet',senaryo.invKW+' kW pompa inverteri.');
-    addBomItem(items,'Elektrik ve enerji','Solar kablo',dcCable,'m','Panel yerleşimi netleşmediği için ön keşif metrajı.',{approx:true,approxHint:'Panel dizilimi ve pano konumu netleşince solar kablo metri revize edilir.'});
-    addBomItem(items,'Elektrik ve enerji','DC koruma ekipmanları',Math.max(1, senaryo.nKuyu),'set','Parafudr, sigorta, ayırıcı seti.');
-    addBomItem(items,'Elektrik ve enerji','Pompa kontrol panosu',senaryo.nKuyu,'adet','AC koruma ve sürücü bağlantısı için.');
-  } else {
-    const enerjiKablosu = round1((S.trafoMesafe || 25) * 1.1 * Math.max(1, senaryo.nKuyu));
-    addBomItem(items,'Elektrik ve enerji','Pompa panosu',senaryo.nKuyu,'adet','Şebeke kontrollü pano.');
-    addBomItem(items,'Elektrik ve enerji','Kontaktör',senaryo.nKuyu,'adet','Motor kumandası için.');
-    addBomItem(items,'Elektrik ve enerji','Termik röle',senaryo.nKuyu,'adet','Motor koruması için.');
-    addBomItem(items,'Elektrik ve enerji','Sigorta seti',senaryo.nKuyu,'set','Giriş ve motor koruma sigortaları.');
-    addBomItem(items,'Elektrik ve enerji','Enerji kablosu',enerjiKablosu,'m',(S.trafoMesafe ? 'Trafo mesafesine göre hesaplandı.' : 'Trafo mesafesi girilmedi; 25 m varsayıldı.') + ' ' + kabloKesit, S.trafoMesafe?{}:{approx:true,approxHint:'Pano ve trafo konumu netleşince enerji kablosu metri revize edilir.'});
+    addBomItem(items,'Elektrik ve enerji (Güneş)','Solar panel',senaryo.toplamP,'adet',senaryo.pW+' W panel modülü.');
+    addBomItem(items,'Elektrik ve enerji (Güneş)','İnverter',senaryo.nKuyu,'adet',senaryo.invKW+' kW pompa inverteri.');
+    addBomItem(items,'Elektrik ve enerji (Güneş)','Solar kablo',dcCable,'m','Panel yerleşimi netleşmediği için ön keşif metrajı.',{approx:true,approxHint:'Panel dizilimi ve pano konumu netleşince solar kablo metri revize edilir.'});
+    addBomItem(items,'Elektrik ve enerji (Güneş)','DC koruma ekipmanları',Math.max(1, senaryo.nKuyu),'set','Parafudr, sigorta, ayırıcı seti.');
+    addBomItem(items,'Elektrik ve enerji (Güneş)','Pompa kontrol panosu',senaryo.nKuyu,'adet','AC koruma ve sürücü bağlantısı için.');
+    if(isHibrit){
+      addBomItem(items,'Elektrik ve enerji (Güneş)','Hibrit şarj kontrol ünitesi',1,'adet','Güneş ve şebeke geçişini yöneten kontrol ünitesi.');
+      addBomItem(items,'Elektrik ve enerji (Güneş)','Enerji izleme modülü',1,'adet','Güneş / şebeke enerji payını izlemek için.',{tag:'optional'});
+    }
   }
+
+  if(isSebequeOnly || isHibrit){
+    // ŞEBEKE malzemeleri — trafo mesafesine göre kablo hesabı
+    const trafoM = S.trafoMesafe || 0;
+    const enerjiKablosuM = round1((trafoM > 0 ? trafoM : 25) * 1.1 * Math.max(1, senaryo.nKuyu));
+    const trafoNot = trafoM > 0
+      ? 'Trafo mesafesi ' + trafoM + ' m olarak girildi. ' + kabloKesit + ' kablo.'
+      : 'Trafo mesafesi girilmedi; 25 m varsayıldı. ' + kabloKesit + ' kablo.';
+    const trafoApprox = trafoM > 0 ? {} : {approx:true, approxHint:'Trafo ve pano konumu netleşince enerji kablosu metrajı revize edilir.'};
+
+    const sebeCategory = isHibrit ? 'Elektrik ve enerji (Şebeke)' : 'Elektrik ve enerji';
+    addBomItem(items, sebeCategory,'Pompa panosu',senaryo.nKuyu,'adet','Şebeke kontrollü pano.');
+    addBomItem(items, sebeCategory,'Kontaktör',senaryo.nKuyu,'adet','Motor kumandası için.');
+    addBomItem(items, sebeCategory,'Termik röle',senaryo.nKuyu,'adet','Motor koruması için.');
+    addBomItem(items, sebeCategory,'Sigorta seti',senaryo.nKuyu,'set','Giriş ve motor koruma sigortaları.');
+    addBomItem(items, sebeCategory,'Enerji kablosu (trafo → pano)',enerjiKablosuM,'m', trafoNot, trafoApprox);
+    if(trafoM > 50){
+      // Uzun trafo hattı için ek not
+      addBomItem(items, sebeCategory,'Kablo kanalı / koruyucu',round1(trafoM * 1.05),'m','Trafo hattı boyunca kablo koruması.',{approx:true,approxHint:'Kablo güzergahına göre saha keşfiyle netleşir.'});
+    }
+    if(isHibrit){
+      addBomItem(items, sebeCategory,'Şebeke bağlantı sigortası',1,'set','Hibrit sistemde şebeke giriş koruması için.');
+    }
+  }
+  // ─────────────────────────────────────────────────────────────────────
 
   if(senaryo.tipi==='depolu' || senaryo.teslim==='depo'){
     const tankM3 = estimateTankVolume(senaryo);
