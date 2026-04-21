@@ -436,3 +436,47 @@ input[type="range"]{accent-color:var(--primary)}
 #hizmet-alani .leaflet-tooltip-top:before{border-top-color:rgba(255,255,255,0.94)!important}
 @media(max-width:980px){.neden-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.neden-card,.neden-card:nth-child(n+4){grid-column:span 1}}
 @media(max-width:768px){nav{padding:1rem 1.25rem}nav::after{left:1.25rem;right:1.25rem}.nav-links{display:none}.hero{grid-template-columns:1fr;padding:5.5rem 1.5rem 3.25rem;gap:2.75rem}.hero>div:first-child::before{left:-18%;top:-22%;width:320px;height:320px}.hero h1{font-size:2.8rem}.hero-badge{margin-bottom:1.65rem;padding:8px 14px}.hero-stats-inline{max-width:100%}.hero-cta-sub{display:none}#vizyon,#neden-biz,#hizmetler,#rehber,#ekip,#teknik,#hizmet-alani,#referanslar,#yorumlar,#teklif{padding:3.35rem 1.5rem}#iletisim-sec{padding:3.35rem 1.5rem;grid-template-columns:1fr}.section-divider{padding:0 1.5rem;margin-bottom:2.25rem}.ig-section{padding:0 1.5rem 1rem}.ig-grid{grid-template-columns:repeat(2,1fr)}footer{padding:1.35rem 1.5rem;flex-direction:column;text-align:center;gap:6px}.lumen-grid{grid-template-columns:1fr}.vizyon-pillars{grid-template-columns:repeat(2,1fr)}.teklif-wrapper{grid-template-columns:1fr}.neden-grid{grid-template-columns:1fr}.map-shell{padding:1.25rem!important}.map-fuel-row,.map-result-head{flex-direction:column;align-items:flex-start}.map-canvas{border-radius:18px!important}}
+
+/* ══════════════════════════════════════════════════════
+   SULAMA ENTRY BLOCK — Tarımsal Sulama & Kuyu Analizi
+   Sınıf adları index.html'deki gerçek yapıya göre
+   ══════════════════════════════════════════════════════ */
+
+.sulama-entry{position:relative;background:linear-gradient(160deg,rgba(18,20,23,0.96) 0%,rgba(14,16,18,0.99) 100%);border:1px solid rgba(210,165,111,0.18);border-radius:calc(var(--radius) + 2px);padding:2rem 2rem 1.5rem;box-shadow:0 0 0 1px rgba(255,255,255,0.03) inset,0 24px 56px rgba(0,0,0,0.28),0 0 48px rgba(210,165,111,0.04);overflow:hidden}
+.sulama-entry::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,rgba(210,165,111,0.38) 40%,rgba(229,195,143,0.22) 70%,transparent 100%)}
+.sulama-entry::after{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(210,165,111,0.06) 0%,transparent 70%);pointer-events:none}
+
+/* Baş */
+.sulama-entry__head{margin-bottom:1.75rem}
+.sulama-entry__badge{display:inline-flex;align-items:center;gap:6px;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--primary);background:linear-gradient(180deg,rgba(210,165,111,0.12) 0%,rgba(210,165,111,0.06) 100%);border:1px solid rgba(229,195,143,0.16);border-radius:99px;padding:5px 12px;margin-bottom:1rem;box-shadow:inset 0 0 0 1px rgba(229,195,143,0.08)}
+.sulama-entry__badge::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--primary-bright);animation:pulse 2.8s infinite}
+.sulama-entry__title{font-family:var(--font-display);font-size:clamp(1.25rem,2.4vw,1.7rem);font-weight:700;color:var(--on-surface);letter-spacing:-0.03em;line-height:1.1;margin:0 0 0.75rem}
+.sulama-entry__desc{font-size:13px;line-height:1.85;color:var(--body-copy);max-width:580px;margin:0}
+
+/* Özellik grid — mevcut HTML: article.sulama-entry__item > div.sulama-entry__item-title + p */
+.sulama-entry__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.75rem}
+.sulama-entry__item{display:flex;flex-direction:column;gap:6px;background:linear-gradient(180deg,rgba(28,32,36,0.9) 0%,rgba(18,20,23,0.95) 100%);border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius);padding:14px 16px;transition:background .25s,border-color .25s,transform .25s;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.02)}
+.sulama-entry__item:hover{background:linear-gradient(180deg,rgba(210,165,111,0.09) 0%,rgba(18,20,23,0.95) 100%);border-color:rgba(210,165,111,0.2);transform:translateY(-1px)}
+.sulama-entry__item-title{font-size:11px;font-weight:600;color:var(--primary);letter-spacing:0.02em;line-height:1.3}
+.sulama-entry__item p{font-size:11px;color:var(--on-surface-muted);line-height:1.6;margin:0}
+
+/* CTA butonları — mevcut HTML: .sulama-entry__cta--primary / --secondary */
+.sulama-entry__actions{display:flex;gap:10px;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap}
+.sulama-entry__cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);font-family:var(--font-body);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:opacity .25s,box-shadow .25s,transform .25s;white-space:nowrap;padding:12px 24px}
+.sulama-entry__cta--primary{background:var(--primary-gradient);color:var(--on-primary);border:none;box-shadow:0 8px 24px rgba(140,91,54,0.24),0 0 0 1px rgba(229,195,143,0.18)}
+.sulama-entry__cta--primary:hover{opacity:.88;transform:translateY(-1px);box-shadow:0 12px 32px rgba(140,91,54,0.32),0 0 0 1px rgba(229,195,143,0.22)}
+.sulama-entry__cta--secondary{background:rgba(37,211,102,0.07);color:rgba(34,197,94,0.85);border:1px solid rgba(37,211,102,0.18);text-transform:none;letter-spacing:.01em}
+.sulama-entry__cta--secondary:hover{background:rgba(37,211,102,0.13);border-color:rgba(37,211,102,0.3);transform:translateY(-1px)}
+
+/* Güven notu */
+.sulama-entry__trust{font-size:10px;color:var(--on-surface-muted);line-height:1.7;opacity:.55;margin:0;padding-top:.5rem;border-top:1px solid rgba(255,255,255,0.04)}
+
+/* Mobil */
+@media(max-width:768px){
+  .sulama-entry{padding:1.5rem 1.25rem 1.25rem}
+  .sulama-entry__grid{grid-template-columns:repeat(2,1fr)}
+  .sulama-entry__actions{flex-direction:column;align-items:stretch}
+  .sulama-entry__cta{text-align:center}
+}
+@media(max-width:420px){.sulama-entry__grid{grid-template-columns:1fr}}
+/* ── /SULAMA ENTRY BLOCK ── */

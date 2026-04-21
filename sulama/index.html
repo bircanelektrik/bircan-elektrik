@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Tarımsal Sulama Asistanı – Bircan Elektrik</title>
+<link rel="stylesheet" href="css/sulama-base.css">
+<link rel="stylesheet" href="css/sulama-forms.css">
+<link rel="stylesheet" href="css/sulama-results.css">
+<body>
+<div id="app">
+
+<!-- HEADER -->
+<div class="hdr">
+  <svg class="hlogo" viewBox="0 0 44 44" fill="none">
+    <rect width="44" height="44" rx="8" fill="#1A1400"/>
+    <path d="M22 8L28 14H35V22L28 28V35H20L14 28H8V20L14 14H22V8Z" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+    <circle cx="22" cy="22" r="5" fill="#C9A84C" opacity="0.9"/>
+    <path d="M22 14V10M22 34V30M10 22H14M30 22H34" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  </svg>
+  <div>
+    <div class="htitle">Tarımsal Sulama Asistanı</div>
+    <div class="hsub">Bircan Elektrik – Mühendis gibi düşünen, çiftçi dilinde konuşan karar sistemi</div>
+  </div>
+  <div class="hbadge"><div class="bdot"></div>v7</div>
+</div>
+
+<!-- PROGRESS -->
+<div class="prog">
+  <div class="prog-steps" id="progSteps">
+    <div class="si"><div class="sc act" id="sc1">1</div><div class="sl act" id="sl1">Kuyu</div></div>
+    <div class="si"><div class="sc off" id="sc2">2</div><div class="sl off" id="sl2">Sulama</div></div>
+    <div class="si"><div class="sc off" id="sc3">3</div><div class="sl off" id="sl3">Enerji</div></div>
+    <div class="si"><div class="sc off" id="sc4">4</div><div class="sl off" id="sl4">Hedef</div></div>
+    <div class="si"><div class="sc off" id="sc5">✓</div><div class="sl off" id="sl5">Sonuç</div></div>
+  </div>
+</div>
+
+<div class="pad">
+
+<!-- ══════════════════════════════════════════════════════ STEP 1 · KUYU -->
+<div class="sec act" id="step1">
+  <div class="stitle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Kuyu Bilgileri</div>
+  <div class="ssub">Pompa seçimi ve basma yüksekliği için temel veriler</div>
+
+  <div class="g2" style="margin-bottom:12px">
+    <div class="fg">
+      <label>Kuyu Durumu <span class="req">*</span></label>
+      <div class="rbg" id="rb_kuyuDurum">
+        <div class="rb sel" data-val="mevcut">Mevcut Kuyu</div>
+        <div class="rb" data-val="yeni">Yeni Sondaj</div>
+      </div>
+    </div>
+    <div class="fg">
+      <label>Kuruma Riski</label>
+      <div class="rbg" id="rb_kurumaRisk">
+        <div class="rb" data-val="var">Var</div>
+        <div class="rb sel" data-val="yok">Yok</div>
+        <div class="rb" data-val="bilinmiyor">Bilinmiyor</div>
+      </div>
+    </div>
+  </div>
+  <div class="g2" style="margin-bottom:12px">
+    <div class="fg">
+      <label>Kuyu Toplam Derinliği (m) <span class="req">*</span>
+        <div class="tip"><div class="ti">?</div><div class="tb"><b>Kuyu Toplam Derinliği</b>Sondaj raporundaki en dip noktaya olan mesafe. Örn: 80m sondaj → 80 yazılır.</div></div>
+      </label>
+      <input type="number" id="kuyuDerinlik" placeholder="örn: 80" min="5" max="500" oninput="onField('kuyuDerinlik')"/>
+      <div class="field-note" id="fn_kuyuDerinlik"></div>
+    </div>
+    <div class="fg">
+      <label>Statik Su Seviyesi (m) – Dinlenmiş
+        <div class="tip"><div class="ti">?</div><div class="tb"><b>Statik Su Seviyesi</b>Pompa çalışmıyorken kuyudaki su yüzeyinin derinliği. Sondaj raporunda yer alır.</div></div>
+      </label>
+      <input type="number" id="statikSu" placeholder="örn: 30" min="0" max="400" oninput="onField('statikSu')"/>
+      <div class="field-note" id="fn_statikSu"></div>
+    </div>
+  </div>
+
+  <!-- DİNAMİK SU -->
+  <div class="dkard">
+    <div style="display:flex;align-items:center;gap:7px;margin-bottom:10px">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2"><path d="M12 2C12 2 6 8 6 13a6 6 0 0012 0c0-5-6-11-6-11z"/></svg>
+      <span style="font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:0.5px">Dinamik Su Seviyesi</span>
+      <div class="tip"><div class="ti">?</div><div class="tb"><b>Dinamik Su Seviyesi</b>Pompa çalışırken su seviyesinin düştüğü en derin nokta. Statik seviyeden büyük olmalıdır.<br><br>Örnek: Statik=30m → pompa çalışınca 45m → Dinamik=45m</div></div>
+      <span style="font-size:9px;color:var(--gold);background:#1A1200;border:1px solid #3A2800;border-radius:4px;padding:1px 6px;margin-left:auto">Kritik</span>
+    </div>
+    <div class="dtabs">
+      <div class="dtab sel" id="dt_bil" onclick="setDmod('biliyorum')">Değeri Biliyorum</div>
+      <div class="dtab" id="dt_bil2" onclick="setDmod('bilinmiyor')">Bilmiyorum / Tahmin</div>
+    </div>
+    <div class="dia act" id="dm_bil">
+      <label style="margin-bottom:5px;display:block">Pompa çalışırken su kaç metreye iniyor? (m) <span class="req">*</span></label>
+      <input type="number" id="dinamikSu" placeholder="örn: 45" min="1" max="400" oninput="onField('dinamikSu')"/>
+      <div class="field-note" id="fn_dinamikSu" style="font-size:10px;color:var(--tx3);margin-top:4px">Statik seviyeden büyük olmalıdır.</div>
+    </div>
+    <div class="dia" id="dm_bil2">
+      <div class="box note" style="margin-bottom:0;margin-top:4px">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/></svg>
+        <span><b style="color:var(--gold-l)">Otomatik tahmin: Statik × 1.30</b> Statik su seviyesine %30 emniyet payı eklenecek. <span style="color:#D4841A">⚠  Kesin teklif için sondaj raporu paylaşın.</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-top:12px">
+    <div class="fg">
+      <label>Kuyu Çapı
+        <div class="tip"><div class="ti">?</div><div class="tb"><b>Kuyu Çapı</b>Pompa bu çapa göre seçilir. 4" kuyuya 4" veya daha küçük pompa girer.</div></div>
+      </label>
+      <select id="kuyuCap">
+        <option value="">Önce kuyu çapı seçiniz</option>
+        <option value="4">4" (≈ 10.2 cm)</option>
+        <option value="5">5" (≈ 12.7 cm)</option>
+        <option value="6">6" (≈ 15.2 cm)</option>
+        <option value="8">8" (≈ 20.3 cm)</option>
+        <option value="10">10" (≈ 25.4 cm)</option>
+        <option value="12">12" (≈ 30.5 cm)</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label>Kuyu Debisi (Ton/Saat)
+        <div class="tip"><div class="ti">?</div><div class="tb"><b>Kuyu Debisi</b>Sondaj raporundaki saatlik su kapasitesi. Girilirse sistem yeterliliği kontrol eder. Bilinmiyorsa boş bırakın.</div></div>
+      </label>
+      <input type="number" id="kuyuDebi" placeholder="Sondaj raporu varsa giriniz" min="0.1" max="500" step="0.1" oninput="onField('kuyuDebi')"/>
+      <div class="field-note st-auto" id="fn_kuyuDebi">Girilirse debi yeterliliği kontrol edilir.</div>
+    </div>
+    <div class="fg">
+      <label>Mevcut / Planlanan Kuyu Sayısı
+        <div class="tip"><div class="ti">?</div><div class="tb"><b>Kuyu Sayısı</b>Arazide kullanılabilecek toplam kuyu adedi. Birden fazla kuyu: debiyi böler, basıncı düşürür, kuruma riskini azaltır. Sistem arka planda 1/2/3 kuyu + depolu + zonlu senaryoları test eder.</div></div>
+      </label>
+      <select id="kuyuSayisi" onchange="onField('kuyuSayisi')">
+        <option value="1">1 Kuyu</option>
+        <option value="2">2 Kuyu</option>
+        <option value="3">3 Kuyu</option>
+        <option value="4">4 Kuyu</option>
+      </select>
+      <div class="field-note st-auto" id="fn_kuyuSayisi">Sistem en uygun kuyu sayısını kendi de önerecek.</div>
+    </div>
+    <div class="fg">
+      <label>Kuyular Arası Ortalama Mesafe (m)
+        <div class="tip"><div class="ti">?</div><div class="tb"><b>Kuyular Arası Mesafe</b>Paralel kuyuların birbirine olan mesafesi. &lt;100m: kritik (interferans), 100-150m: orta, &gt;150m: güvenli.</div></div>
+      </label>
+      <input type="number" id="kuyuMesafe" placeholder="örn: 150 m" min="0" max="2000" oninput="onField('kuyuMesafe')" value="150"/>
+      <div class="field-note" id="fn_kuyuMesafe"></div>
+    </div>
+  </div>
+
+  <div class="navbtns"><div></div><button class="btn btnnx" onclick="step1To2()">Sulama ve Arazi →</button></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ STEP 2 · SULAMA + BASINÇ -->
+<div class="sec" id="step2">
+  <div class="stitle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2"><path d="M12 2C12 2 6 8 6 13a6 6 0 0012 0c0-5-6-11-6-11z"/></svg>Sulama, Arazi ve Su İhtiyacı</div>
+  <div class="ssub">Tüm arazi ve sulama verileri – bir kez girilir</div>
+
+  <div class="g2" style="margin-bottom:12px">
+    <div class="fg s2">
+      <label>Sulama Yöntemi <span class="req">*</span></label>
+      <div class="rbg" id="rb_sulamaYontem">
+        <div class="rb" data-val="damla">Damla Sulama</div>
+        <div class="rb sel" data-val="yagmurlama">Yağmurlama</div>
+        <div class="rb" data-val="salma">Salma / Karık</div>
+      </div>
+    </div>
+    <div class="fg">
+      <label>Arazi Büyüklüğü (Dönüm) <span class="req">*</span>
+        <div class="tip"><div class="ti">?</div><div class="tb"><b>Dönüm</b>1 dönüm = 1.000 m². Su ihtiyacı ve lateral hesabı için kullanılır.</div></div>
+      </label>
+      <input type="number" id="araziDonum" placeholder="örn: 20" min="0.1" max="5000" step="0.1" oninput="onArazi()"/>
+      <div class="field-note" id="fn_araziDonum"></div>
+    </div>
+    <div class="fg">
+      <label>Üretim / Arazi Düzeni Tipi <span class="req">*</span></label>
+      <select id="uretimTipi" onchange="onProductionTypeChange()">
+        <option value="">Önce üretim tipini seçiniz</option>
+        <option value="tarla">Tarla Bitkisi</option>
+        <option value="sebze">Sebze Tarlası</option>
+        <option value="meyve">Meyve Bahçesi</option>
+        <option value="bag">Bağ / Asma Sistemi</option>
+        <option value="zeytinlik">Zeytinlik / Seyrek Ağaçlı Bahçe</option>
+        <option value="peyzaj">Çim / Peyzaj Alanı</option>
+        <option value="ozel">Karma / Özel Düzen</option>
+      </select>
+      <div class="field-note" id="fn_uretimTipi">Üretim tipi seçildiğinde ürün listesi ve yerleşim alanları buna göre açılır.</div>
+    </div>
+    <div class="fg">
+      <label>Ürün</label>
+      <select id="urunTip" onchange="onProductChange()">
+        <option value="">Seçiniz</option>
+        <option value="misir">Mısır / Silaj Mısır</option>
+        <option value="bugday">Buğday / Arpa</option>
+        <option value="pancar">Şeker Pancarı</option>
+        <option value="aycicegi">Ayçiçeği</option>
+        <option value="pamuk">Pamuk</option>
+        <option value="domates">Domates / Biber / Patlıcan</option>
+        <option value="salatalik">Salatalık / Kabak</option>
+        <option value="patates">Patates / Soğan</option>
+        <option value="kavun">Kavun / Karpuz</option>
+        <option value="meyve">Meyve Bahçesi</option>
+        <option value="bag">Bağ / Üzüm</option>
+        <option value="zeytin">Zeytin</option>
+        <option value="cim">Çim / Yeşil Alan</option>
+        <option value="yonca">Yonca / Korunga</option>
+        <option value="diger">Diğer / Karma</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="typeSpecificWrap" class="type-card empty">
+    <div class="type-card-title">Üretim tipine özel girişler</div>
+    <div class="type-card-sub">Önce üretim tipini seçin. Sistem ardından bu arazi düzenine uygun yerleşim sorularını açacak.</div>
+  </div>
+  <div id="step2SanityAlerts"></div>
+
+  <div class="g2" style="margin-bottom:12px">
+    <div class="fg">
+      <label>En Uzak Nokta Mesafesi (m)
+        <div class="tip"><div class="ti">?</div><div class="tb"><b>En Uzak Nokta</b>Kuyudan en uzaktaki sulama başlığına boru hattı uzunluğu. Hat kaybı hesabı için kullanılır.</div></div>
+      </label>
+      <input type="number" id="uzakNokta" placeholder="örn: 300" min="10" max="5000" oninput="onArazi()"/>
+      <div class="field-note" id="fn_uzakNokta">Girilmezse tahmin aşamasında 150 m varsayılır.</div>
+    </div>
+    <div class="fg">
+      <label>Kot Farkı / Arazi Eğimi
+        <div class="tip"><div class="ti">?</div><div class="tb"><b>Kot Farkı</b>Kuyu ile en yüksek sulama noktası arasındaki yükseklik farkı. Her 1 m ≈ 0.10 bar ek basınç gerektirir.</div></div>
+      </label>
+      <div class="rbg" id="rb_egimDurum" style="margin-bottom:6px">
+        <div class="rb sel" data-val="duz">Düz Arazi</div>
+        <div class="rb" data-val="egimli">Eğimli</div>
+      </div>
+      <div id="kotGrup" style="display:none">
+        <input type="number" id="kotFarki" placeholder="örn: 15 m" min="0" max="200" oninput="onArazi()"/>
+      </div>
+    </div>
+    <div class="fg">
+      <label>Ana Boru Çapı Tercihi</label>
+      <select id="boruCap" onchange="onArazi()">
+        <option value="">Otomatik Hesapla</option>
+        <option value="63">DN63 (63mm / 2")</option>
+        <option value="75">DN75 (75mm / 2.5")</option>
+        <option value="90">DN90 (90mm / 3")</option>
+        <option value="110">DN110 (110mm / 4")</option>
+        <option value="125">DN125 (125mm / ~5")</option>
+        <option value="160">DN160 (160mm / 6")</option>
+        <option value="200">DN200 (200mm / 8")</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label>Boru Tipi</label>
+      <div class="rbg" id="rb_boruTip">
+        <div class="rb sel" data-val="hdpe">HDPE</div>
+        <div class="rb" data-val="pvc">PVC</div>
+        <div class="rb" data-val="galvaniz">Galvaniz</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SU TAHMİN PANELİ -->
+  <div id="suPanel" style="display:none">
+    <div class="subox">
+      <div class="subox-head">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C12 2 6 8 6 13a6 6 0 0012 0c0-5-6-11-6-11z"/></svg>
+        Otomatik Su Tahmini – Temmuz/Ağustos Pik Dönemi
+        <div class="tip" style="margin-left:4px"><div class="ti" style="border-color:var(--cy);color:var(--cy)">?</div><div class="tb" style="border-color:var(--cy)"><b>Su Tahmini</b>Bitki ve arazi verilerine dayalı teorik pik değer. Günlük su alanını bu değerle doldurabilir veya kendiniz girebilirsiniz.</div></div>
+      </div>
+      <div class="su3" id="su3grid"></div>
+      <div id="suNot" style="font-size:10px;color:var(--tx3);line-height:1.5;margin-bottom:8px"></div>
+      <button class="apply-btn" id="suApplyBtn" onclick="suUygula()">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Önerilen Değeri Uygula
+      </button>
+    </div>
+  </div>
+
+  <!-- GÜNLÜK SU + ÇALIŞMA SÜRESİ -->
+  <div class="g2" style="margin-top:12px">
+    <div class="fg">
+      <label>Günlük Su İhtiyacı (Ton/Gün) <span class="req">*</span>
+        <div class="tip"><div class="ti">?</div><div class="tb"><b>Günlük Su</b>Sistemin bir günde basması gereken toplam su. Yukarıdaki tahminden otomatik alabilirsiniz veya kendiniz girebilirsiniz.</div></div>
+      </label>
+      <input type="number" id="gunlukSu" placeholder="örn: 150 – veya tahmini uygula" min="1" max="10000" oninput="onGunlukSu('manual')"/>
+      <div class="field-note" id="fn_gunlukSu" style="font-size:10px;color:var(--tx3)">Henüz girilmedi.</div>
+    </div>
+    <div class="fg">
+      <label>Günlük Çalışma Süresi (Saat)
+        <div class="tip"><div class="ti">?</div><div class="tb"><b>Çalışma Süresi</b>Solar sistemde maks 8-10 saat verimli güneş var. Şebeke sisteminde 24 saate kadar çıkabilir.</div></div>
+      </label>
+      <input type="number" id="calismaSure" placeholder="örn: 8" min="1" max="20" value="8" oninput="onArazi()"/>
+      <div class="field-note" id="fn_calismaSure"></div>
+    </div>
+    <div class="fg">
+      <label>Eş Zamanlı Hat / Zon Sayısı
+        <div class="tip"><div class="ti">?</div><div class="tb"><b>Zon</b>Arazi aynı anda kaç eş zamanlı bölüme ayrılarak sulanacak? Pompa debisi yetmiyorsa sistem otomatik böler.</div></div>
+      </label>
+      <input type="number" id="hatSayisi" placeholder="önerilen otomatik çıkar" min="1" max="50" value="1" oninput="onArazi()"/>
+      <div class="field-note" id="fn_hatSayisi">Günlük su ve üretim tipi girince otomatik öneri çıkar.</div>
+    </div>
+    <div class="fg">
+      <label>Su Teslim Noktası
+        <div class="tip"><div class="ti">?</div><div class="tb"><b>Doğrudan Sulama</b>Pompa suyu kuyudan direkt sulama hattına basar.<br><br><b>Depo (Tank)</b>Pompa önce bir depoya basar. Kuyu debisi düşükse veya gündüz dolum + gece sulama isteniyorsa mantıklı.</div></div>
+      </label>
+      <div class="rbg" id="rb_teslimNokta">
+        <div class="rb sel" data-val="direkt">Doğrudan</div>
+        <div class="rb" data-val="depo">Depo (Tank)</div>
+      </div>
+    </div>
+  </div>
+  <!-- GELISMIS SULAMA PARAMETRELERI (opsiyonel) -->
+  <details style="margin-top:12px;background:var(--dk3);border:1px solid var(--bdr);border-radius:8px;padding:0">
+    <summary style="cursor:pointer;padding:11px 14px;font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:0.4px;user-select:none;list-style:none;display:flex;align-items:center;justify-content:space-between">
+      <span>Hassas Ayar (Istege Bagli)</span>
+      <span style="color:var(--tx3);font-size:14px">▾</span>
+    </summary>
+    <div style="padding:0 14px 14px 14px;border-top:1px solid var(--bdr)">
+      <div style="font-size:10px;color:var(--tx3);margin:10px 0 8px 0;line-height:1.5">Ana hesap uretim kartina gore yapilir. Bu kutu yalnizca hassas ayar / ikinci kaynak icindir. Ayni kavram uretim kartinda da doluysa sistem uretim kartini kullanir ve bunu dogrulama notunda acikca yazar.</div>
+      <div class="priority-note"><b>Veri onceligi:</b> 1. uretim tipi karti 2. hassas ayar 3. otomatik varsayimlar</div>
+
+      <div id="advYag" class="g2" style="margin-top:8px">
+        <div class="fg" id="advField_spAralikX">
+          <label style="font-size:9px">Sprinkler Araligi X (m)</label>
+          <input type="number" id="spAralikX" placeholder="orn: 12" min="3" max="40" step="0.5" oninput="onAdv()"/>
+        </div>
+        <div class="fg" id="advField_spAralikY">
+          <label style="font-size:9px">Sprinkler Araligi Y (m)</label>
+          <input type="number" id="spAralikY" placeholder="orn: 12" min="3" max="40" step="0.5" oninput="onAdv()"/>
+        </div>
+        <div class="fg" id="advField_spDebi">
+          <label style="font-size:9px">Sprinkler Debisi (m³/h)</label>
+          <input type="number" id="spDebi" placeholder="orn: 1.5" min="0.1" max="20" step="0.1" oninput="onAdv()"/>
+        </div>
+        <div class="fg" id="advField_spBasinc">
+          <label style="font-size:9px">Sprinkler Calisma Basinci (bar)</label>
+          <input type="number" id="spBasinc" placeholder="orn: 3.5" min="1" max="10" step="0.1" oninput="onAdv()"/>
+        </div>
+      </div>
+
+      <div id="advDamla" class="g2" style="margin-top:8px">
+        <div class="fg" id="advField_dmlSiraArasi">
+          <label style="font-size:9px">Sira Arasi Duzeltmesi (m)</label>
+          <input type="number" id="dmlSiraArasi" placeholder="orn: 1.5" min="0.3" max="10" step="0.1" oninput="onAdv()"/>
+        </div>
+        <div class="fg" id="advField_dmlDamlAralik">
+          <label style="font-size:9px">Damlatici Araligi Duzeltmesi (m)</label>
+          <input type="number" id="dmlDamlAralik" placeholder="orn: 0.5" min="0.1" max="3" step="0.1" oninput="onAdv()"/>
+        </div>
+        <div class="fg" id="advField_dmlDamlDebi">
+          <label style="font-size:9px">Damlatici Debisi Duzeltmesi (L/h)</label>
+          <input type="number" id="dmlDamlDebi" placeholder="orn: 2" min="0.5" max="16" step="0.5" oninput="onAdv()"/>
+        </div>
+        <div class="fg" id="advField_dmlLateralLen">
+          <label style="font-size:9px">Lateral Uzunlugu Override (m)</label>
+          <input type="number" id="dmlLateralLen" placeholder="otomatik tahmin" min="5" max="400" oninput="onAdv()"/>
+        </div>
+      </div>
+
+      <div id="advDamlaBahceInfo" style="display:none;margin-top:10px;font-size:10px;color:var(--tx2);line-height:1.6;padding:9px;background:#0A0800;border:1px dashed #5A4519;border-radius:6px">
+        Meyve, bag ve zeytinlik damla hesabinda yerlesim verisi yalnizca uretim kartindan alinir. Bu kutuda ayni bilgiler tekrar sorulmaz.
+      </div>
+
+      <div id="advNotice" style="margin-top:10px;font-size:10px;color:var(--tx3);line-height:1.5;padding:8px;background:#0A0800;border:1px dashed #3A2800;border-radius:6px">
+        <b style="color:var(--or)">on tahmin modu</b> — hassas ayar girilmedi, sistem uretim karti ve varsayimlarla calisiyor.
+      </div>
+    </div>
+  </details>
+
+  <!-- BASINÇ İHTİYACI ALANI -->
+  <div class="fg" style="margin-top:12px">
+    <label>Basınç İhtiyacı (Bar) – İsteğe Bağlı
+      <div class="tip"><div class="ti">?</div><div class="tb"><b>Basınç İhtiyacı</b>Boş bırakırsanız aşağıdaki otomatik hesap doğrudan kullanılır. Kendiniz girerseniz panel devre dışı kalır.</div></div>
+    </label>
+    <input type="number" id="basinc" placeholder="Boş = aşağıdaki otomatik hesap kullanılır" min="0.5" max="20" step="0.1" oninput="onBasinc('manual')"/>
+    <div class="field-note" id="fn_basinc">Boş – aşağıdaki otomatik hesap aktif ve doğrudan kullanılıyor.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       YENİ: BASINÇ PANELİ – 3 PARÇA DAĞILIM (ekipman + hat + kot = toplam)
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="bpanel" id="bpanel">
+    <div class="bpanel-head">
+      <div class="bpanel-title">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span id="bPanelMod">Pompa Çıkış Basıncı – Otomatik Hesap</span>
+      </div>
+      <span class="bpanel-stage" id="bStage">Ön Tahmin</span>
+    </div>
+    <div class="box note" id="bAssumNote" style="margin-bottom:10px;font-size:10px"></div>
+    <div id="bVentilWarn"></div>
+
+    <!-- YENİ: 3 Parça dağılım tablosu -->
+    <div class="press-table" id="pressTable"></div>
+
+    <!-- YENİ: Çiftçi dilinde basınç yorumu -->
+    <div id="pressComment"></div>
+
+    <!-- Uygula butonu sadece kullanıcı manuel override istiyorsa -->
+    <div id="bApplyWrap" style="display:none;margin-top:8px">
+      <button class="apply-btn" id="bApplyBtn" onclick="basincUygula()">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Değeri Basınç Alanına Yaz (Manuel Override)
+      </button>
+    </div>
+    <div id="bActiveNote" style="font-size:10px;color:var(--gr);margin-top:8px">✓ Bu değer otomatik olarak kullanılıyor – alanı boş bıraktığınız sürece ek işlem gerekmez.</div>
+  </div>
+
+  <div class="navbtns"><button class="btn btnbk" onclick="goTo(1)">← Geri</button><button class="btn btnnx" onclick="step2To3()">Enerji Bilgileri →</button></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ STEP 3 · ENERJİ -->
+<div class="sec" id="step3">
+  <div class="stitle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Enerji ve Altyapı</div>
+  <div class="ssub">Sistem tipi ve güneş enerjisi boyutlandırması</div>
+  <div class="g2">
+    <div class="fg s2">
+      <label>Şebeke Elektriği Durumu <span class="req">*</span></label>
+      <div class="rbg" id="rb_sebekeDurum">
+        <div class="rb" data-val="var">Şebeke Var</div>
+        <div class="rb sel" data-val="yok">Şebeke Yok</div>
+        <div class="rb" data-val="gelecek">Gelme İhtimali Var</div>
+      </div>
+    </div>
+    <div class="fg">
+      <label>Trafo Mesafesi (m)</label>
+      <input type="number" id="trafoMesafe" placeholder="Şebeke varsa giriniz" min="0" max="5000"/>
+    </div>
+    <div class="fg">
+      <label>Sistem Tercihi <span class="req">*</span></label>
+      <div class="rbg" id="rb_sistemTercih">
+        <div class="rb sel" data-val="solar">Sadece Güneş</div>
+        <div class="rb" data-val="hibrit">Güneş + Şebeke</div>
+        <div class="rb" data-val="sebeke">Sadece Şebeke</div>
+      </div>
+    </div>
+    <div class="fg" id="panelYerGrup">
+      <label>Panel Kurulum Yeri</label>
+      <div class="rbg" id="rb_panelYer">
+        <div class="rb sel" data-val="yer">Yer Montaj</div>
+        <div class="rb" data-val="cati">Çatı Montaj</div>
+      </div>
+    </div>
+    <div class="fg">
+      <label>İl / Bölge (Güneş Potansiyeli)</label>
+      <select id="ilSecim">
+        <option value="orta">Orta Anadolu (Konya/Kayseri/Ankara)</option>
+        <option value="ege">Ege (İzmir/Aydın/Manisa)</option>
+        <option value="akdeniz">Akdeniz (Adana/Mersin/Antalya)</option>
+        <option value="gdo">G.D. Anadolu (Gaziantep/Şanlıurfa)</option>
+        <option value="ic">İç Anadolu (Sivas/Kırşehir)</option>
+        <option value="marmara">Marmara (İstanbul/Bursa)</option>
+        <option value="karadeniz">Karadeniz</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label>Mevcut Pompa (Varsa)</label>
+      <input type="text" id="mevcutPompa" placeholder="örn: 5.5 kW, Grundfos SP7-23"/>
+    </div>
+  </div>
+  <div id="sebeWarn" style="display:none" class="box warn">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+    "Sadece Şebeke" seçildi – solar panel sistemi malzeme listesine dahil edilmeyecek.
+  </div>
+  <div class="navbtns"><button class="btn btnbk" onclick="goTo(2)">← Geri</button><button class="btn btnnx" onclick="goTo(4)">Sistem Hedefi →</button></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ STEP 4 · HEDEF -->
+<div class="sec" id="step4">
+  <div class="stitle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>Sistem Hedefi</div>
+  <div class="ssub">Önceliğinizi belirleyin – sistem buna göre karar verecek</div>
+  <div class="gf">
+    <div class="fg">
+      <label>Temel Öncelik <span class="req">*</span></label>
+      <div class="rbg" id="rb_oncelik" style="flex-direction:column">
+        <div class="rb sel" data-val="guvenlik" style="text-align:left;padding:9px 13px"><b style="color:inherit">Önce Güvenlik</b><br><span style="font-size:10px;opacity:0.7;font-weight:400">Sistem hiç durmasın – yedekli kurulum, düşük arıza riski</span></div>
+        <div class="rb" data-val="verim" style="text-align:left;padding:9px 13px"><b style="color:inherit">En Yüksek Verim</b><br><span style="font-size:10px;opacity:0.7;font-weight:400">Mevcut sudan maksimum fayda – yüksek verimli pompa</span></div>
+        <div class="rb" data-val="hiz" style="text-align:left;padding:9px 13px"><b style="color:inherit">Hızlı Sulama</b><br><span style="font-size:10px;opacity:0.7;font-weight:400">Kısa sürede yüksek tonaj – güçlü pompa</span></div>
+        <div class="rb" data-val="maliyet" style="text-align:left;padding:9px 13px"><b style="color:inherit">En Düşük İlk Yatırım</b><br><span style="font-size:10px;opacity:0.7;font-weight:400">Bütçe odaklı – işlevsel ekipman, optimum sayı</span></div>
+        <div class="rb" data-val="uzunomur" style="text-align:left;padding:9px 13px"><b style="color:inherit">Uzun Ömür</b><br><span style="font-size:10px;opacity:0.7;font-weight:400">Premium ekipman – minimum arıza, maks garanti</span></div>
+      </div>
+    </div>
+    <div class="fg"><label>Sistemi Kim Kullanacak?</label><div class="rbg" id="rb_kullanci"><div class="rb sel" data-val="kendisi">Çiftçinin Kendisi</div><div class="rb" data-val="isci">İşçi/Personel</div></div></div>
+    <div class="fg"><label>Ad Soyad (İsteğe Bağlı)</label><input type="text" id="adSoyad" placeholder="Müşteri adı"/></div>
+  </div>
+  <div id="calcValidationPanel" class="validation-panel" style="display:none"></div>
+  <div class="navbtns"><button class="btn btnbk" onclick="goTo(3)">← Geri</button><button class="btn btnan" onclick="hesapla()">Sistemi Analiz Et ▶</button></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ STEP 5 · SONUÇ -->
+<div class="sec" id="step5"><div id="resultContent"></div></div>
+
+</div><!-- /pad -->
+</div><!-- /app -->
+
+<script src="js/sulama-debug.js"></script>
+<script src="js/sulama-data.js"></script>
+<script src="js/sulama-utils.js"></script>
+<script src="js/sulama-formulas.js"></script>
+<script src="js/sulama-scenarios.js"></script>
+<script src="js/sulama-ui-forms.js"></script>
+<script src="js/sulama-validation.js"></script>
+<script src="js/sulama-ui-results.js"></script>
+<script src="js/sulama-init.js"></script>
+</body>
+</html>
+

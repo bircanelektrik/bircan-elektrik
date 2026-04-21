@@ -487,6 +487,37 @@
   ───────────────────────────────────────── */
   window.addEventListener('load', function () {
     ScrollTrigger.refresh();
+
+  /* ─────────────────────────────────────────
+     23. SULAMA ENTRY — panel açılınca fade-up
+  ───────────────────────────────────────── */
+  (function () {
+    if (prefersReduced) return;
+    var sulamaPanel = document.getElementById('cat-sulama');
+    if (!sulamaPanel) return;
+    var animated = false;
+    var obs = new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        if (m.type === 'attributes' && m.attributeName === 'class') {
+          if (sulamaPanel.classList.contains('open') && !animated) {
+            animated = true;
+            gsap.from('.sulama-entry', {
+              opacity: 0, y: 22, duration: 0.7, ease: 'power3.out', delay: 0.05
+            });
+            gsap.from('.sulama-entry__item', {
+              opacity: 0, y: 14, stagger: 0.07, duration: 0.55, ease: 'power3.out', delay: 0.18
+            });
+            gsap.from('.sulama-entry__actions', {
+              opacity: 0, y: 10, duration: 0.5, ease: 'power3.out', delay: 0.52
+            });
+          }
+        }
+      });
+    });
+    obs.observe(sulamaPanel, { attributes: true });
+  }());
+  /* ── /SULAMA ENTRY ── */
+
   });
 
 })();
