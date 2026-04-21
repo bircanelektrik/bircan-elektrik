@@ -650,7 +650,7 @@ function renderSonuc(engineResult){
     '',
     'Keşif tarihi için iletişime geçmek istiyorum.'
   ];
-  const waMsg = encodeURIComponent(waParts.join('\n'));
+  const waMsg = waParts.join('\n');
 
   document.getElementById('resultContent').innerHTML = `
     <div style="margin-bottom:14px">
@@ -703,9 +703,9 @@ function renderSonuc(engineResult){
 
   setTimeout(function(){
     var btn=document.getElementById('waBtnResult');
-    if(btn) btn.onclick=function(){window.open('https://api.whatsapp.com/send?phone=905340140949&text='+waMsg,'_blank');};
+    if(btn) btn.onclick=function(){window.open('https://wa.me/905340140949?text='+encodeURIComponent(waMsg),'_blank');};
     var bomBtn=document.getElementById('waBtnBom');
-    if(bomBtn) bomBtn.onclick=function(){window.open('https://api.whatsapp.com/send?phone=905340140949&text='+waMsg,'_blank');};
+    if(bomBtn) bomBtn.onclick=function(){window.open('https://wa.me/905340140949?text='+encodeURIComponent(waMsg),'_blank');};
   },50);
 }
 
