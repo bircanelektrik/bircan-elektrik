@@ -90,7 +90,14 @@
     </div>
   </div>
 
-  <!-- Kuyu kuruma riski, kuyu çapı, kuyu sayısı ve kuyu debisi soruları özellikle kaldırıldı. -->
+  <!-- Kuyu debisi — opsiyonel, girilirse daha kesin sonuç -->
+  <div class="fg" style="margin-top:10px">
+    <label>Kuyu Debisi (m³/saat) – Opsiyonel
+      <div class="tip"><div class="ti">?</div><div class="tb"><b>Kuyu Debisi</b>Kuyunun saatte verebileceği su miktarı. Sondaj raporunda "debi" veya "verim" olarak geçer.<br><br>Girilmezse sistem gereken minimum debiyi hesaplayıp gösterir.</div></div>
+    </label>
+    <input type="number" id="kuyuDebi" placeholder="örn: 10 — boş bırakılabilir" min="0.1" max="500" step="0.1" oninput="onField('kuyuDebi')"/>
+    <div class="field-note" id="fn_kuyuDebi" style="font-size:10px;color:var(--tx3);margin-top:4px">Boş bırakırsanız sistem gereken minimum debiyi hesaplayıp uyarır.</div>
+  </div>
 
   <div class="navbtns"><div></div><button class="btn btnnx" onclick="step1To2()">Sulama ve Arazi →</button></div>
 </div>
