@@ -7,23 +7,18 @@
 <title>Tarımsal Sulama Asistanı – Bircan Elektrik</title>
 <link rel="stylesheet" href="css/sulama-base.css">
 <link rel="stylesheet" href="css/sulama-forms.css">
-<link rel="stylesheet" href="css/sulama-results.css">
+<link rel="stylesheet" href="css/sulama-results.css?v=20260423-3">
 <body>
 <div id="app">
 
 <!-- HEADER -->
 <div class="hdr">
-  <svg class="hlogo" viewBox="0 0 44 44" fill="none">
-    <rect width="44" height="44" rx="8" fill="#1A1400"/>
-    <path d="M22 8L28 14H35V22L28 28V35H20L14 28H8V20L14 14H22V8Z" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
-    <circle cx="22" cy="22" r="5" fill="#C9A84C" opacity="0.9"/>
-    <path d="M22 14V10M22 34V30M10 22H14M30 22H34" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
-  </svg>
+  <img class="hlogo" src="data:image/jpeg;base64,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" alt="Bircan Elektrik logo"/>
   <div>
-    <div class="htitle">Tarımsal Sulama Asistanı</div>
-    <div class="hsub">Bircan Elektrik – Mühendis gibi düşünen, çiftçi dilinde konuşan karar sistemi</div>
+    <div class="htitle"><span class="htitle-brand">Bircan Elektrik</span><span class="htitle-sep">·</span><span class="htitle-app">Tarımsal Sulama Asistanı</span></div>
+    <div class="hsub">Mühendis gibi düşünen, çiftçi dilinde konuşan karar sistemi</div>
   </div>
-  <div class="hbadge"><div class="bdot"></div>v7</div>
+
 </div>
 
 <!-- PROGRESS -->
@@ -45,19 +40,11 @@
   <div class="ssub">Pompa seçimi ve basma yüksekliği için temel veriler</div>
 
   <div class="g2" style="margin-bottom:12px">
-    <div class="fg">
+    <div class="fg s2">
       <label>Kuyu Durumu <span class="req">*</span></label>
       <div class="rbg" id="rb_kuyuDurum">
         <div class="rb sel" data-val="mevcut">Mevcut Kuyu</div>
         <div class="rb" data-val="yeni">Yeni Sondaj</div>
-      </div>
-    </div>
-    <div class="fg">
-      <label>Kuruma Riski</label>
-      <div class="rbg" id="rb_kurumaRisk">
-        <div class="rb" data-val="var">Var</div>
-        <div class="rb sel" data-val="yok">Yok</div>
-        <div class="rb" data-val="bilinmiyor">Bilinmiyor</div>
       </div>
     </div>
   </div>
@@ -66,7 +53,7 @@
       <label>Kuyu Toplam Derinliği (m) <span class="req">*</span>
         <div class="tip"><div class="ti">?</div><div class="tb"><b>Kuyu Toplam Derinliği</b>Sondaj raporundaki en dip noktaya olan mesafe. Örn: 80m sondaj → 80 yazılır.</div></div>
       </label>
-      <input type="number" id="kuyuDerinlik" placeholder="örn: 80" min="5" max="500" oninput="onField('kuyuDerinlik')"/>
+      <input type="number" id="kuyuDerinlik" placeholder="örn: 80" min="5" max="150" oninput="onField('kuyuDerinlik')"/>
       <div class="field-note" id="fn_kuyuDerinlik"></div>
     </div>
     <div class="fg">
@@ -103,48 +90,7 @@
     </div>
   </div>
 
-  <div class="g2" style="margin-top:12px">
-    <div class="fg">
-      <label>Kuyu Çapı
-        <div class="tip"><div class="ti">?</div><div class="tb"><b>Kuyu Çapı</b>Pompa bu çapa göre seçilir. 4" kuyuya 4" veya daha küçük pompa girer.</div></div>
-      </label>
-      <select id="kuyuCap">
-        <option value="">Önce kuyu çapı seçiniz</option>
-        <option value="4">4" (≈ 10.2 cm)</option>
-        <option value="5">5" (≈ 12.7 cm)</option>
-        <option value="6">6" (≈ 15.2 cm)</option>
-        <option value="8">8" (≈ 20.3 cm)</option>
-        <option value="10">10" (≈ 25.4 cm)</option>
-        <option value="12">12" (≈ 30.5 cm)</option>
-      </select>
-    </div>
-    <div class="fg">
-      <label>Kuyu Debisi (Ton/Saat)
-        <div class="tip"><div class="ti">?</div><div class="tb"><b>Kuyu Debisi</b>Sondaj raporundaki saatlik su kapasitesi. Girilirse sistem yeterliliği kontrol eder. Bilinmiyorsa boş bırakın.</div></div>
-      </label>
-      <input type="number" id="kuyuDebi" placeholder="Sondaj raporu varsa giriniz" min="0.1" max="500" step="0.1" oninput="onField('kuyuDebi')"/>
-      <div class="field-note st-auto" id="fn_kuyuDebi">Girilirse debi yeterliliği kontrol edilir.</div>
-    </div>
-    <div class="fg">
-      <label>Mevcut / Planlanan Kuyu Sayısı
-        <div class="tip"><div class="ti">?</div><div class="tb"><b>Kuyu Sayısı</b>Arazide kullanılabilecek toplam kuyu adedi. Birden fazla kuyu: debiyi böler, basıncı düşürür, kuruma riskini azaltır. Sistem arka planda 1/2/3 kuyu + depolu + zonlu senaryoları test eder.</div></div>
-      </label>
-      <select id="kuyuSayisi" onchange="onField('kuyuSayisi')">
-        <option value="1">1 Kuyu</option>
-        <option value="2">2 Kuyu</option>
-        <option value="3">3 Kuyu</option>
-        <option value="4">4 Kuyu</option>
-      </select>
-      <div class="field-note st-auto" id="fn_kuyuSayisi">Sistem en uygun kuyu sayısını kendi de önerecek.</div>
-    </div>
-    <div class="fg">
-      <label>Kuyular Arası Ortalama Mesafe (m)
-        <div class="tip"><div class="ti">?</div><div class="tb"><b>Kuyular Arası Mesafe</b>Paralel kuyuların birbirine olan mesafesi. &lt;100m: kritik (interferans), 100-150m: orta, &gt;150m: güvenli.</div></div>
-      </label>
-      <input type="number" id="kuyuMesafe" placeholder="örn: 150 m" min="0" max="2000" oninput="onField('kuyuMesafe')" value="150"/>
-      <div class="field-note" id="fn_kuyuMesafe"></div>
-    </div>
-  </div>
+  <!-- Kuyu kuruma riski, kuyu çapı, kuyu sayısı ve kuyu debisi soruları özellikle kaldırıldı. -->
 
   <div class="navbtns"><div></div><button class="btn btnnx" onclick="step1To2()">Sulama ve Arazi →</button></div>
 </div>
@@ -167,7 +113,7 @@
       <label>Arazi Büyüklüğü (Dönüm) <span class="req">*</span>
         <div class="tip"><div class="ti">?</div><div class="tb"><b>Dönüm</b>1 dönüm = 1.000 m². Su ihtiyacı ve lateral hesabı için kullanılır.</div></div>
       </label>
-      <input type="number" id="araziDonum" placeholder="örn: 20" min="0.1" max="5000" step="0.1" oninput="onArazi()"/>
+      <input type="number" id="araziDonum" placeholder="örn: 20" min="0.1" max="300" step="0.1" oninput="onArazi()"/>
       <div class="field-note" id="fn_araziDonum"></div>
     </div>
     <div class="fg">
@@ -291,9 +237,9 @@
     </div>
     <div class="fg">
       <label>Eş Zamanlı Hat / Zon Sayısı
-        <div class="tip"><div class="ti">?</div><div class="tb"><b>Zon</b>Arazi aynı anda kaç eş zamanlı bölüme ayrılarak sulanacak? Pompa debisi yetmiyorsa sistem otomatik böler.</div></div>
+        <div class="tip"><div class="ti">?</div><div class="tb"><b>Zon</b>Arazi aynı anda kaç bölüme ayrılarak sulanacak? Küçük-orta arazilerde genellikle 1-2 zon yeterlidir. Pompa debisi yetmiyorsa sistem otomatik minimum zonu hesaplar.</div></div>
       </label>
-      <input type="number" id="hatSayisi" placeholder="önerilen otomatik çıkar" min="1" max="50" value="1" oninput="onArazi()"/>
+      <input type="number" id="hatSayisi" placeholder="genellikle 1-2 yeterli" min="1" max="10" value="1" oninput="onArazi()"/>
       <div class="field-note" id="fn_hatSayisi">Günlük su ve üretim tipi girince otomatik öneri çıkar.</div>
     </div>
     <div class="fg">
@@ -416,12 +362,25 @@
       <div class="rbg" id="rb_sebekeDurum">
         <div class="rb" data-val="var">Şebeke Var</div>
         <div class="rb sel" data-val="yok">Şebeke Yok</div>
-        <div class="rb" data-val="gelecek">Gelme İhtimali Var</div>
       </div>
     </div>
-    <div class="fg">
-      <label>Trafo Mesafesi (m)</label>
-      <input type="number" id="trafoMesafe" placeholder="Şebeke varsa giriniz" min="0" max="5000"/>
+    <div class="fg" id="trafoGrup">
+      <label>Trafo / Şebeke Mesafesi (m)</label>
+      <input type="number" id="trafoMesafe" placeholder="Şebeke varsa giriniz" min="0" max="5000" oninput="onField('trafoMesafe')"/>
+    </div>
+    <div class="fg" id="hatTipGrup" style="display:none">
+      <label>Hat Döşeme Tipi <span class="req">*</span></label>
+      <div class="rbg" id="rb_hatTip">
+        <div class="rb sel" data-val="yeralti">Yer Alt&#305; (Kablo)</div>
+        <div class="rb" data-val="havai">Havai Hat (İletken)</div>
+      </div>
+    </div>
+    <div class="fg" id="kabloMalzemeGrup" style="display:none">
+      <label>İletken Malzemesi</label>
+      <div class="rbg" id="rb_kabloMalzeme">
+        <div class="rb sel" data-val="bakir">Bak&#305;r (Cu)</div>
+        <div class="rb" data-val="aluminyum">Al&#252;minyum (Al)</div>
+      </div>
     </div>
     <div class="fg">
       <label>Sistem Tercihi <span class="req">*</span></label>
@@ -457,7 +416,7 @@
   </div>
   <div id="sebeWarn" style="display:none" class="box warn">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
-    "Sadece Şebeke" seçildi – solar panel sistemi malzeme listesine dahil edilmeyecek.
+    <span id="sebeWarnText">"Sadece Şebeke" seçildi – solar panel sistemi malzeme listesine dahil edilmeyecek.</span>
   </div>
   <div class="navbtns"><button class="btn btnbk" onclick="goTo(2)">← Geri</button><button class="btn btnnx" onclick="goTo(4)">Sistem Hedefi →</button></div>
 </div>
@@ -468,14 +427,23 @@
   <div class="ssub">Önceliğinizi belirleyin – sistem buna göre karar verecek</div>
   <div class="gf">
     <div class="fg">
-      <label>Temel Öncelik <span class="req">*</span></label>
-      <div class="rbg" id="rb_oncelik" style="flex-direction:column">
-        <div class="rb sel" data-val="guvenlik" style="text-align:left;padding:9px 13px"><b style="color:inherit">Önce Güvenlik</b><br><span style="font-size:10px;opacity:0.7;font-weight:400">Sistem hiç durmasın – yedekli kurulum, düşük arıza riski</span></div>
-        <div class="rb" data-val="verim" style="text-align:left;padding:9px 13px"><b style="color:inherit">En Yüksek Verim</b><br><span style="font-size:10px;opacity:0.7;font-weight:400">Mevcut sudan maksimum fayda – yüksek verimli pompa</span></div>
-        <div class="rb" data-val="hiz" style="text-align:left;padding:9px 13px"><b style="color:inherit">Hızlı Sulama</b><br><span style="font-size:10px;opacity:0.7;font-weight:400">Kısa sürede yüksek tonaj – güçlü pompa</span></div>
-        <div class="rb" data-val="maliyet" style="text-align:left;padding:9px 13px"><b style="color:inherit">En Düşük İlk Yatırım</b><br><span style="font-size:10px;opacity:0.7;font-weight:400">Bütçe odaklı – işlevsel ekipman, optimum sayı</span></div>
-        <div class="rb" data-val="uzunomur" style="text-align:left;padding:9px 13px"><b style="color:inherit">Uzun Ömür</b><br><span style="font-size:10px;opacity:0.7;font-weight:400">Premium ekipman – minimum arıza, maks garanti</span></div>
+      <label>Sistem Hedefi <span class="req">*</span></label>
+      <div id="hedefGroup" style="display:flex;flex-direction:column;gap:6px">
+        <div class="rb-hedef" id="hdf_maliyet" data-val="maliyet" onclick="selectHedef('maliyet')" style="background:var(--dk3);border:1px solid var(--bdr);border-radius:7px;padding:9px 13px;cursor:pointer;text-align:left">
+          <b style="color:inherit">&#128176; Maliyet Odakl&#305;</b><br>
+          <span style="font-size:10px;opacity:0.7;font-weight:400">B&#252;t&#231;e &#246;ncelikli &#8211; i&#351;levsel ve yeterli ekipman. Di&#287;er hedeflerle birle&#351;tirilemez.</span>
+        </div>
+        <div class="rb-hedef sel" id="hdf_uzunomur" data-val="uzunomur" onclick="selectHedef('uzunomur')" style="background:#1A1200;border:1px solid var(--gold);border-radius:7px;padding:9px 13px;cursor:pointer;text-align:left">
+          <b style="color:inherit">&#128297; Uzun &#214;m&#252;rl&#252;</b><br>
+          <span style="font-size:10px;opacity:0.7;font-weight:400">Premium kablo, vana ve pano donan&#305;m&#305; &#8211; minimum ar&#305;za, uzun garanti.</span>
+        </div>
+        <div class="rb-hedef" id="hdf_verimli" data-val="verimli" onclick="selectHedef('verimli')" style="background:var(--dk3);border:1px solid var(--bdr);border-radius:7px;padding:9px 13px;cursor:pointer;text-align:left">
+          <b style="color:inherit">&#9889; Y&#252;ksek Verimli</b><br>
+          <span style="font-size:10px;opacity:0.7;font-weight:400">Y&#252;ksek verimli pompa, inverter ve panel se&#231;imi &#8211; enerji optimizasyonu odakl&#305;.</span>
+        </div>
+        <div id="hedefHint" style="font-size:10px;color:var(--tx3);padding:4px 2px">&#128161; Uzun &#214;m&#252;rl&#252; + Y&#252;ksek Verimli ayn&#305; anda se&#231;ilebilir. Maliyet Odakl&#305; tek ba&#351;&#305;na se&#231;ilir.</div>
       </div>
+    </div>
     </div>
     <div class="fg"><label>Sistemi Kim Kullanacak?</label><div class="rbg" id="rb_kullanci"><div class="rb sel" data-val="kendisi">Çiftçinin Kendisi</div><div class="rb" data-val="isci">İşçi/Personel</div></div></div>
     <div class="fg"><label>Ad Soyad (İsteğe Bağlı)</label><input type="text" id="adSoyad" placeholder="Müşteri adı"/></div>
@@ -490,15 +458,16 @@
 </div><!-- /pad -->
 </div><!-- /app -->
 
-<script src="js/sulama-debug.js"></script>
-<script src="js/sulama-data.js"></script>
-<script src="js/sulama-utils.js"></script>
-<script src="js/sulama-formulas.js"></script>
-<script src="js/sulama-scenarios.js"></script>
-<script src="js/sulama-ui-forms.js"></script>
-<script src="js/sulama-validation.js"></script>
-<script src="js/sulama-ui-results.js"></script>
-<script src="js/sulama-init.js"></script>
+<script src="js/sulama-debug.js?v=20260423-3"></script>
+<script src="js/sulama-data.js?v=20260423-3"></script>
+<script src="js/sulama-utils.js?v=20260423-3"></script>
+<script src="js/sulama-formulas.js?v=20260423-3"></script>
+<script src="js/sulama-scenarios.js?v=20260423-3"></script>
+<script src="js/sulama-ui-forms.js?v=20260423-3"></script>
+<script src="js/sulama-price-data.js?v=20260423-3"></script>
+<script src="js/sulama-validation.js?v=20260423-3"></script>
+<script src="js/sulama-ui-results.js?v=20260423-3"></script>
+<script src="js/sulama-init.js?v=20260423-3"></script>
+<script src="js/feedback-popup.js?v=20260423-3"></script>
 </body>
 </html>
-
