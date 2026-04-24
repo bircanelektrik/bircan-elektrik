@@ -1,6 +1,9 @@
 /* sulama-results.css --- Sonu--- ekran---: navbtns, senaryo kartlar---, BOM, WA butonu, responsive */
 /* NAVBTNS */
 .navbtns{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+.navbtns:has(.btnan){display:none}
+.edit-recalc-bar{display:flex!important;align-items:center;padding:12px 14px;border:1px solid rgba(201,168,76,0.22);border-radius:10px;background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(201,168,76,0.03));flex-wrap:wrap}
+.edit-recalc-note{flex:1;min-width:220px;font-size:11px;line-height:1.5;color:var(--tx2)}
 .btn{border:none;border-radius:7px;padding:9px 20px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.18s;letter-spacing:0.4px;text-transform:uppercase}
 .btnbk{background:transparent;border:1px solid var(--bdr);color:var(--tx2)}
 .btnbk:hover{border-color:var(--tx3);color:var(--tx)}
@@ -118,6 +121,22 @@
 .price-badge.low{background:#2A2000;color:#FFD372;border:1px solid #7A5A00}
 .price-badge.medium{background:#0A1030;color:#C9E6FF;border:1px solid #355E9A}
 .price-badge.high{background:#06200B;color:#DDF8E4;border:1px solid #1A8A47}
+.investment-block{align-items:stretch}
+.price-main{flex:1}
+.price-warning{font-size:11px;color:var(--tx2);line-height:1.65;background:#111;border:1px dashed #4A3510;border-radius:10px;padding:10px 12px;margin:6px 0 12px 0}
+.price-amount{font-family:'Barlow Condensed',sans-serif;font-size:34px;line-height:1;color:#fff;font-weight:700;letter-spacing:0.4px;margin:2px 0 6px 0}
+.price-subline{font-size:12px;color:var(--gold-l);line-height:1.55;margin-bottom:10px}
+.price-meta{font-size:12px;color:var(--tx2);line-height:1.65;margin-bottom:8px}
+.payback-box{background:#111;border:1px solid #2C2414;border-radius:10px;padding:12px;margin:12px 0}
+.payback-title{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.45px;font-weight:700;margin-bottom:5px}
+.payback-value{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:700;line-height:1.05;color:#fff;margin-bottom:6px}
+.payback-note{font-size:11px;color:var(--tx2);line-height:1.6}
+.price-disclaimer{font-size:11px;color:var(--tx3);line-height:1.7;border-top:1px dashed #3A2800;padding-top:10px;margin-top:10px}
+
+@media (max-width:700px){
+  .price-amount{font-size:28px}
+  .payback-value{font-size:22px}
+}
 
 /* KAR---ILA---TIRMA TABLOSU (m---hendis detay---) */
 .cmp-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-top:6px}
@@ -163,11 +182,51 @@
 .bom-note{font-size:10px;color:#FFD372;line-height:1.45;margin-top:4px}
 .print-hide{}
 
+.schema-block{background:#0A0800;border:1px solid #3A2800;border-radius:12px;padding:16px}
+.schema-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.schema-badge{display:inline-block;padding:4px 10px;border-radius:999px;border:1px solid #7A5A00;background:#2A2000;color:#FFD372;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;white-space:nowrap}
+.schema-section{background:#111;border:1px solid #272114;border-radius:10px;padding:12px;margin-bottom:12px}
+.schema-section-head{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--gold-l);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px}
+.schema-section-sub{font-size:11px;color:var(--tx3);line-height:1.55;margin-bottom:10px}
+.schema-read-note{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.45px;margin-top:4px}
+.schema-mini-head{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:0.45px;font-weight:700;margin:12px 0 8px 0}
+.schema-source-grid,.schema-step-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.schema-single-wrap{display:grid;grid-template-columns:minmax(220px,420px);justify-content:center}
+.schema-step-card{display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px;align-items:flex-start;background:#15120B;border:1px solid #3A2800;border-radius:12px;padding:12px}
+.schema-step-card.energy{border-color:#5A3000;background:#171005}
+.schema-step-card.water{border-color:#1A3A5E;background:#071019}
+.schema-step-card.merge{border-color:#7A5A00;background:#1A1200}
+.schema-step-no{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#2A2000;border:1px solid #7A5A00;color:#FFD372;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700}
+.schema-step-card.water .schema-step-no{background:#071623;border-color:#1A3A5E;color:#8FD3FF}
+.schema-step-title{font-size:13px;font-weight:700;color:#fff;line-height:1.35}
+.schema-step-meta{font-size:11px;color:var(--tx2);line-height:1.55;margin-top:4px}
+.schema-flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.schema-node{min-width:140px;flex:1 1 150px;background:#15120B;border:1px solid #3A2800;border-radius:10px;padding:11px 12px}
+.schema-node.energy{border-color:#5A3000;background:#171005}
+.schema-node.water{border-color:#1A3A5E;background:#071019}
+.schema-node.merge{border-color:#7A5A00;background:#1A1200}
+.schema-node-label{font-size:12px;font-weight:700;color:#fff;line-height:1.35}
+.schema-node-meta{font-size:10px;color:var(--tx2);line-height:1.5;margin-top:4px}
+.schema-arrow{color:var(--gold);font-size:18px;font-weight:700;line-height:1;flex:0 0 auto}
+.schema-branch-layout{display:flex;flex-direction:column;gap:10px}
+.schema-branch-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.schema-merge-wrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+.schema-merge-line{width:2px;height:18px;background:linear-gradient(180deg,#7A5A00,#C9A84C)}
+.schema-merge-hint{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.45px}
+.schema-ground{background:#111;border:1px dashed #4A3510;border-radius:10px;padding:12px}
+.schema-ground-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.schema-ground-tag{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:#1A1200;border:1px solid #4A3510;color:var(--tx2);font-size:10px;line-height:1.4}
+
 /* RESPONSIVE */
 @media(max-width:600px){
   .g2,.g3,.opts-grid,.hero-grid,.why-grid,.bom-summary-grid,.bom-tools,.type-grid{grid-template-columns:1fr 1fr}
   .opts-grid{grid-template-columns:1fr}
   .hero-grid,.why-grid,.bom-summary-grid,.bom-tools{grid-template-columns:1fr}
+  .schema-top,.schema-branch-row,.schema-source-grid,.schema-step-grid{grid-template-columns:1fr;display:grid}
+  .schema-top{display:grid}
+  .schema-node{min-width:0}
+  .schema-single-wrap{grid-template-columns:1fr}
+  .schema-arrow{width:100%;text-align:center;transform:rotate(90deg)}
   .fg.s2{grid-column:span 1}
   .pad{padding:14px}
   body{padding:6px}
@@ -179,8 +238,9 @@
   .hdr,.prog,.navbtns,.print-hide,.wa-btn{display:none!important}
   .acc-btn{display:none!important}
   .acc-content{display:block!important;border:none!important;padding:0!important;margin-bottom:12px!important}
-  .hero-block,.why-block,.tl-block,.opts-wrap,.bom-block,.price-block,.legal,.warn-item,.assist-note,.opt-card,.bom-scenario{background:#fff!important;color:#000!important;border-color:#bbb!important;box-shadow:none!important}
+  .hero-block,.why-block,.tl-block,.opts-wrap,.bom-block,.price-block,.legal,.warn-item,.assist-note,.opt-card,.bom-scenario,.schema-block,.schema-section,.schema-node,.schema-ground{background:#fff!important;color:#000!important;border-color:#bbb!important;box-shadow:none!important}
   .hero-title,.block-title,.opts-head,.price-title,.bom-scenario-title,.tl-status{color:#000!important}
+  .schema-node-label,.schema-section-head{color:#000!important}
   .opt-row .orv,.hero-stat-value,.suv,.press-row .press-val{color:#000!important}
   .cmp-tbl th,.cmp-tbl td{color:#000!important;border-color:#ccc!important}
   .cmp-tbl th{background:#eee!important}
@@ -224,3 +284,32 @@
 /* --- DEBUG MODE --- */
 .sulama-debug-panel{position:fixed;bottom:10px;right:10px;background:#0A0A0A;border:1px solid #333;border-radius:8px;padding:10px 14px;font-size:10px;font-family:monospace;color:#6B6555;max-width:280px;z-index:9000;opacity:0.85}
 .sulama-debug-panel b{color:#C9A84C}
+
+/* ── YENİ: inv-block — Maliyet özet paneli v2 ── */
+.inv-block{background:#0A0800;border:1px solid #3A2800;border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.inv-header{margin-bottom:14px}
+.inv-badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px}
+.inv-badge.none{background:#2A1515;color:#FFB0B0;border:1px solid #7A3030}
+.inv-badge.low{background:#2A2000;color:#FFD372;border:1px solid #7A5A00}
+.inv-badge.medium{background:#0A1030;color:#C9E6FF;border:1px solid #355E9A}
+.inv-badge.high{background:#06200B;color:#DDF8E4;border:1px solid #1A8A47}
+.inv-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--gold-l);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px}
+.inv-desc{font-size:11px;color:var(--tx3);line-height:1.55}
+.inv-warn-text{font-size:12px;line-height:1.6;margin-top:8px}
+.inv-total-row{background:#111;border:1px dashed #4A3510;border-radius:10px;padding:12px 14px;margin-bottom:14px}
+.inv-total-num{font-family:'Barlow Condensed',sans-serif;font-size:34px;line-height:1;color:#fff;font-weight:700;letter-spacing:0.4px;margin-bottom:4px}
+.inv-total-sub{font-size:12px;color:var(--gold-l)}
+.inv-section-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--tx3);margin:14px 0 6px}
+.inv-table{background:#060402;border:1px solid #2A1E00;border-radius:8px;overflow:hidden}
+.inv-row{display:flex;justify-content:space-between;align-items:center;padding:7px 12px;border-bottom:1px solid #1A1200;font-size:12px}
+.inv-row:last-child{border-bottom:none}
+.inv-label{color:var(--tx2)}
+.inv-val{font-weight:600;color:var(--tx);text-align:right}
+.inv-val-sm{font-size:11px;font-weight:400;color:var(--tx2)}
+.inv-val-muted{font-size:11px;font-weight:400;color:var(--tx3)}
+.inv-row-total{background:#1A1200;border-top:1px solid var(--gold)!important}
+.inv-row-total .inv-label{color:var(--gold);font-weight:700;font-size:13px}
+.inv-row-total .inv-val{color:var(--gold-l);font-size:15px}
+.inv-footer{font-size:10px;color:var(--tx3);line-height:1.6;border-top:1px dashed #2A1E00;padding-top:12px;margin-top:14px}
+@media(max-width:500px){.inv-total-num{font-size:26px}}
+@media print{.inv-block{background:#fff!important;color:#000!important;border-color:#bbb!important}.inv-total-num,.inv-title{color:#000!important}.inv-row{border-color:#ddd!important}}
