@@ -140,7 +140,7 @@ function buildReportOutputSummary(model, recommended, selectedScenario, selected
     ['Giris zon/hat sayisi', (S.hatSayisi || 1)+' adet'],
     ['Hidrolik minimum zon', (activeScenario.hidrolikMinZon || 1)+' adet'],
     ['Uygulanan zon', (activeScenario.hidrolikAutoZon || activeScenario.nHat || 1)+' adet'],
-    ['Pompa secimi', activeScenario.secPompGuc+' kW'+(activeScenario.nKuyu>1 ? ' x '+activeScenario.nKuyu : '')],
+    ['Pompa secimi', activeScenario.secPompGuc+' kW/pompa (tek kuyu)'],
     ['Yuzey basinc ihtiyaci', activeScenario.hatBasiBar.toFixed(2)+' bar'],
     ['Toplam manometrik ihtiyac', activeScenario.toplamManometrikBar.toFixed(2)+' bar (~'+activeScenario.toplamManometrikM+' mSS)'],
     ['Ana boru', boruText],
@@ -174,6 +174,7 @@ function buildReportOutputSummary(model, recommended, selectedScenario, selected
 }
 
 function renderSonuc(engineResult){
+  const yasalUyariText = 'Bu rapor kesin bir mühendislik projesi değil, bir ön keşif ve fikir verme uygulamasıdır. Sahada detaylı keşif ve ölçüm yapılmadan (özellikle sondaj debi teyidi olmadan) hukuki bir bağlayıcılığı yoktur.';
   const adSoyad = document.getElementById('adSoyad').value || '';
   const tarih = new Date().toLocaleDateString('tr-TR');
   const isSolar = S.sistemTercih !== 'sebeke';
@@ -186,8 +187,41 @@ function renderSonuc(engineResult){
   const selectedScenario = _explicitSel || onerilen;  // Varsayılan: önerilen senaryo
   const _isExplicitSelection = !!_explicitSel;
   const selectedBom = selectedScenario && model.bomByScenario ? model.bomByScenario[selectedScenario.tipi] : null;
+  const investment = (typeof buildInvestmentModel === 'function')
+    ? buildInvestmentModel(selectedBom, selectedScenario)
+    : null;
+  const investmentBadge = investment && investment.confidence ? investment.confidence.badge : 'On kesif seviyesi';
+  const investmentLevel = investment && investment.confidence ? investment.confidence.level : 'low';
+  const investmentRange = investment && investment.available ? investment.rangeText : 'Kesif sonrasi netlesir';
+  const investmentCenter = investment && investment.available ? investment.centerText : model.cost.salesText;
+  const investmentTotal = investment && investment.available ? investment.totalInvestmentText : 'Kesif sonrasi netlesir';
+  // Maliyet limit kontrolü: 2M TL üstünde maliyet sayfasını gizle
+  // Bu değerde hesap güvenilirliği düşük; kullanıcıyı doğru yönlendirmek daha iyi
+  const MALIYET_MAX_TL = 2000000;
+  const _invRawTotal = investment && investment.available ? (investment.totalInvestment || 0) : 0;
+  const maliyetGoster = _invRawTotal <= MALIYET_MAX_TL || !investment || !investment.available;
+  const maliyetAsimUyari = !maliyetGoster
+    ? 'Bu konfigürasyon için tahmini maliyet ' + Math.round(_invRawTotal/1000) + ' k TL sinirini asiyor. ' +
+      'Bu büyüklükte sistem özel mühendislik projesi gerektirir; uygulama ön keşif sınırını aştığından maliyet gösterilmiyor. ' +
+      'Lütfen arazi büyüklüğünü veya kuyu derinliğini düşürün ya da Bircan Elektrik ile iletişime geçin.'
+    : '';
+  const investmentMaterialCenter = investment && investment.available ? investment.materialCenterText : model.cost.salesText;
+  const investmentMaterialRange = investment && investment.available ? investment.materialRangeText : investmentRange;
+  const investmentCoverage = investment && investment.available ? (investment.matchedText + ' · ' + investment.coverageText) : model.cost.relativeComment;
+  const investmentProfileText = investment && investment.available && investment.profile
+    ? (investment.profile.label + ' · ' + investment.profile.badge)
+    : 'Tahmini maliyet bandi';
+  const investmentBrandText = investment && investment.available && investment.profile
+    ? investment.profile.brandText
+    : model.cost.secondaryText;
+  const solarSizingLabel = selectedScenario && selectedScenario.solarSizingLabel ? selectedScenario.solarSizingLabel : '';
+  const solarSizingText = selectedScenario && selectedScenario.solarSizingText ? selectedScenario.solarSizingText : '';
+  const solarSizingFactorText = selectedScenario && selectedScenario.solarSizingFactor
+    ? String(selectedScenario.solarSizingFactor)
+    : ((S.sistemTercih === 'solar' || S.sistemTercih === 'gunes') ? '2.2' : '1.7');
   const shareScenario = selectedScenario || onerilen;
   const shareBom = selectedBom || recBom;
+  const activeKolonSema = (selectedBom && selectedBom.kolonSema) || (recBom && recBom.kolonSema) || null;
   const bomBtnClass = S.bomAccordionOpen ? 'acc-btn open' : 'acc-btn';
   const bomContentClass = S.bomAccordionOpen ? 'acc-content open' : 'acc-content';
   const reportToolsHtml = `
@@ -240,7 +274,162 @@ function renderSonuc(engineResult){
         <div class="bom-scenario-sub">${traffic.icon} ${traffic.status} · ${bom.summary.pumpText} · ${bom.summary.totalPipe} m toplam boru</div>
         ${renderBomGroups(bom.groups)}
         ${bom.warnings.length ? `<div class="assist-note" style="margin-top:10px"><div class="assist-note-title">Akıllı uyarılar</div><div class="assist-note-body">${bom.warnings.join(' ')}</div></div>` : ''}
-        ${bom.assumptions.length ? `<div class="bom-caption"><b>Varsayımlar / açıklamalar:</b> ${bom.assumptions.join(' ')}</div>` : ''}
+        ${bom.assumptions.length ? `<div class="bom-caption">${investmentMaterialCenter} malzeme maliyeti · ${investmentTotal} yaklaşık tahmini toplam yatırım bedeli · ${investmentCoverage}</div>` : ''}
+      </div>`;
+  }
+
+  function renderSchemaNode(node, tone){
+    if(!node) return '';
+    return `
+      <div class="schema-node ${tone||''}">
+        <div class="schema-node-label">${escapeReportHtml(node.label || '')}</div>
+        ${node.meta ? `<div class="schema-node-meta">${escapeReportHtml(node.meta)}</div>` : ''}
+      </div>`;
+  }
+
+  function renderSchemaFlow(nodes, tone){
+    if(!nodes || !nodes.length) return '';
+    return `
+      <div class="schema-flow">
+        ${nodes.map((node, idx)=>`
+          ${renderSchemaNode(node, tone)}
+          ${idx < nodes.length-1 ? '<div class="schema-arrow">→</div>' : ''}
+        `).join('')}
+      </div>`;
+  }
+
+  function renderKolonSema(schema){
+    if(!schema) return '<div class="bom-empty">Seçili çözüm için kolon şeması üretilemedi.</div>';
+
+    const hasBranches = schema.energySources && schema.energySources.length > 1 && schema.mergeNode;
+    const energyHtml = hasBranches
+      ? `
+        <div class="schema-branch-layout">
+          <div class="schema-branch-row">
+            ${schema.energySources.map(node=>renderSchemaNode(node,'energy')).join('')}
+          </div>
+          <div class="schema-merge-wrap">
+            <div class="schema-merge-line"></div>
+            <div class="schema-merge-hint">Ortak enerji toplama noktası</div>
+            ${renderSchemaNode(schema.mergeNode,'merge')}
+          </div>
+          ${renderSchemaFlow(schema.energyFlow,'energy')}
+        </div>`
+      : renderSchemaFlow((schema.energySources || []).concat(schema.mergeNode ? [schema.mergeNode] : [], schema.energyFlow || []), 'energy');
+
+    return `
+      <div class="schema-block">
+        <div class="schema-top">
+          <div>
+            <div class="block-title">Kolon Şeması</div>
+            <div class="block-sub">Seçili çözüm için okunabilir tek hat özeti. Ön keşif seviyesinde şematik akıştır.</div>
+          </div>
+          <div class="schema-badge">${escapeReportHtml(schema.modeLabel || 'Tek hat şeması')}</div>
+        </div>
+
+        <div class="schema-section">
+          <div class="schema-section-head">Enerji Hattı</div>
+          <div class="schema-section-sub">${escapeReportHtml(schema.modeNote || '')}</div>
+          ${energyHtml}
+        </div>
+
+        <div class="schema-section">
+          <div class="schema-section-head">Su / Hidrolik Hattı</div>
+          ${renderSchemaFlow(schema.waterFlow || [], 'water')}
+        </div>
+
+        <div class="schema-ground">
+          <div class="schema-section-head">${escapeReportHtml((schema.grounding && schema.grounding.title) || 'Topraklama')}</div>
+          <div class="schema-section-sub">${escapeReportHtml((schema.grounding && schema.grounding.note) || '')}</div>
+          <div class="schema-ground-tags">
+            ${((schema.grounding && schema.grounding.tags) || []).map(tag=>`<span class="schema-ground-tag">${escapeReportHtml(tag)}</span>`).join('')}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function renderSchemaStepCard(node, tone, stepNo){
+    if(!node) return '';
+    return `
+      <div class="schema-step-card ${tone || ''}">
+        <div class="schema-step-no">${stepNo}</div>
+        <div class="schema-step-body">
+          <div class="schema-step-title">${escapeReportHtml(node.label || '')}</div>
+          ${node.meta ? `<div class="schema-step-meta">${escapeReportHtml(node.meta)}</div>` : ''}
+        </div>
+      </div>`;
+  }
+
+  function renderSchemaStepGrid(nodes, tone, startNo){
+    if(!nodes || !nodes.length) return '';
+    return `
+      <div class="schema-step-grid">
+        ${nodes.map((node, idx)=>renderSchemaStepCard(node, tone, startNo + idx)).join('')}
+      </div>`;
+  }
+
+  function renderKolonSema(schema){
+    if(!schema) return '<div class="bom-empty">Secili cozum icin kolon semasi uretilemedi.</div>';
+
+    const energySources = schema.energySources || [];
+    const energyFlow = schema.energyFlow || [];
+    const waterFlow = schema.waterFlow || [];
+    let energyStepNo = 1;
+
+    const energySourcesHtml = energySources.length
+      ? `
+        <div class="schema-mini-head">Kaynaklar</div>
+        <div class="schema-source-grid">
+          ${energySources.map(node=>renderSchemaStepCard(node, 'energy', energyStepNo++)).join('')}
+        </div>`
+      : '';
+
+    const mergeHtml = schema.mergeNode
+      ? `
+        <div class="schema-mini-head">Birlesim ve ana koruma</div>
+        <div class="schema-single-wrap">
+          ${renderSchemaStepCard(schema.mergeNode, 'merge', energyStepNo++)}
+        </div>`
+      : '';
+
+    const energyFlowHtml = energyFlow.length
+      ? `
+        <div class="schema-mini-head">Pompa enerji hatti</div>
+        ${renderSchemaStepGrid(energyFlow, 'energy', energyStepNo)}`
+      : '<div class="bom-empty">Enerji akisi uretilemedi.</div>';
+
+    return `
+      <div class="schema-block">
+        <div class="schema-top">
+          <div>
+            <div class="block-title">Kolon Semasi</div>
+            <div class="block-sub">Akis numara sirasina gore okunur. Bu panel tek hat mantigini daha anlasilir gostermek icin sadelestirildi.</div>
+            <div class="schema-read-note">Ustten alta ve kart numaralarina gore takip edin.</div>
+          </div>
+          <div class="schema-badge">${escapeReportHtml(schema.modeLabel || 'Tek hat semasi')}</div>
+        </div>
+
+        <div class="schema-section">
+          <div class="schema-section-head">Enerji Hatti</div>
+          <div class="schema-section-sub">${escapeReportHtml(schema.modeNote || '')}</div>
+          ${energySourcesHtml}
+          ${mergeHtml}
+          ${energyFlowHtml}
+        </div>
+
+        <div class="schema-section">
+          <div class="schema-section-head">Su / Hidrolik Hatti</div>
+          <div class="schema-section-sub">Suyun izledigi yol asagidaki sira ile okunur.</div>
+          ${renderSchemaStepGrid(waterFlow, 'water', 1)}
+        </div>
+
+        <div class="schema-ground">
+          <div class="schema-section-head">${escapeReportHtml((schema.grounding && schema.grounding.title) || 'Topraklama')}</div>
+          <div class="schema-section-sub">${escapeReportHtml((schema.grounding && schema.grounding.note) || '')}</div>
+          <div class="schema-ground-tags">
+            ${((schema.grounding && schema.grounding.tags) || []).map(tag=>`<span class="schema-ground-tag">${escapeReportHtml(tag)}</span>`).join('')}
+          </div>
+        </div>
       </div>`;
   }
 
@@ -352,7 +541,7 @@ function renderSonuc(engineResult){
   const bomSummaryHtml = `
     <div id="bomAnchor" class="bom-block">
       <div class="block-title">Detaylı malzeme listesi</div>
-      <div class="block-sub">${selectedBom ? selectedBom.summary.statusText : 'Önerilen sistem için malzeme listesi aşağıda. Farklı bir kart seçin.'} Fiyat için keşif gereklidir.</div>
+      <div class="block-sub">${selectedBom ? selectedBom.summary.statusText : 'Önerilen sistem için malzeme listesi aşağıda. Farklı bir kart seçin.'} Kalem bazlı fiyat verilmez; arka planda yaklaşık toplam yatırım tahmini hesaplanır.</div>
       ${selectedBom ? `
         <div class="bom-summary-grid">
           <div class="bom-summary-item">
@@ -375,7 +564,7 @@ function renderSonuc(engineResult){
           ${selectedBom.summary.mainEquipment.map(item=>`<span class="bom-chip">${item}</span>`).join('')}
         </div>
       ` : '<div class="bom-empty">Onerilen rozet secili anlamina gelmez. Malzeme listesini acmak icin bir kart secin; her seferinde yalnizca secili senaryonun listesi gosterilir.</div>'}
-      <div class="bom-caption">${model.cost.salesText} ${model.cost.relativeComment}</div>
+      <div class="bom-caption">${investmentMaterialCenter} malzeme maliyeti · ${investmentTotal} yaklaşık tahmini toplam yatırım bedeli · ${investmentCoverage}</div>
     </div>`;
 
   const whyHtml = `
@@ -438,7 +627,7 @@ function renderSonuc(engineResult){
         <span>Acil dikkat edilmesi gerekenler</span>
       </div>
       ${criticalAlerts.map(u=>{
-        const loc = {well:'Kuyu', flow:'Debi', zone:'Zon', pressure:'Basınç', layout:'Yerleşim', pipe:'Boru', water:'Su'}[u.anchor||''] || 'Genel';
+        const loc = {well:'Kuyu', flow:'Debi', zone:'Zon', pressure:'Basınç', layout:'Yerleşim', pipe:'Boru', water:'Su', energy:'Enerji'}[u.anchor||''] || 'Genel';
         return `
           <div class="critical-alert">
             <span class="ca-badge">${loc}</span>
@@ -455,6 +644,7 @@ function renderSonuc(engineResult){
   const pressureAlertsHtml = renderAnchoredAlerts('pressure', {headline:'Basınç notları', compact:true});
   const pipeAlertsHtml     = renderAnchoredAlerts('pipe',     {headline:'Boru metrajı notları', compact:true});
   const waterAlertsHtml    = renderAnchoredAlerts('water',    {headline:'Günlük su / süre notları', compact:true});
+  const energyAlertsHtml   = renderAnchoredAlerts('energy',   {headline:'Enerji / solar notları', compact:true});
   // Layout (agronomik) ana akışta kalsın — kullanıcı "1m sıra arası" gibi girdiyi hemen görmeli
   const layoutAlertsHtml   = renderAnchoredAlerts('layout',   {headline:'Yerleşim ve agronomik kontrol'});
 
@@ -477,7 +667,7 @@ function renderSonuc(engineResult){
     const entry = optionEntryMap.get(id);
     if(entry.roles.indexOf(role)===-1) entry.roles.push(role);
     let badge = {cls:'rec', text:'Onerilen'};
-    if(role==='eco') badge = {cls:scenario===onerilen ? 'same' : 'eco', text:scenario===onerilen ? 'Ekonomik avantaj da burada' : 'Daha ekonomik'};
+    if(role==='eco') badge = {cls:scenario===onerilen ? 'same' : 'eco', text:scenario===onerilen ? 'İlk yatırım avantajı da burada' : 'Düşük ilk yatırım'};
     if(role==='safe') badge = {cls:scenario===onerilen ? 'same' : 'safe', text:scenario===onerilen ? 'Guven avantaji da burada' : 'Daha guvenli'};
     if(!entry.badges.some(item=>item.text===badge.text)) entry.badges.push(badge);
   }
@@ -503,7 +693,7 @@ function renderSonuc(engineResult){
               ${entry.badges.map(badge=>`<span class="opt-badge ${badge.cls}">${badge.text}</span>`).join('')}
               ${isActive?'<span class="opt-badge active">aktif liste</span>':''}
               <div class="opt-title">${getScenarioDisplayName(s)}</div>
-              <div class="opt-row"><span class="orl">Pompa</span><span class="orv">${s.secPompGuc} kW${s.nKuyu>1?' x '+s.nKuyu:''}</span></div>
+              <div class="opt-row"><span class="orl">Pompa</span><span class="orv">${s.secPompGuc} kW/pompa</span></div>
               <div class="opt-row"><span class="orl">Kuyu düzeni</span><span class="orv">${getWellLayoutText(s)}</span></div>
               <div class="opt-row"><span class="orl">Çalışma</span><span class="orv">${getOperationText(s)}</span></div>
               <div class="opt-row"><span class="orl">Ana boru</span><span class="orv">${bom ? bom.summary.mainPipe : 0} m</span></div>
@@ -533,6 +723,7 @@ function renderSonuc(engineResult){
     </div>
     ${renderBomScenario(selectedBom,getScenarioDisplayName(selectedScenario)+' için malzeme listesi')}
   ` : '<div class="bom-empty">Bir çözüm seçildiğinde malzeme listesi burada gösterilir.</div>';
+  const kolonSemaHtml = renderKolonSema(activeKolonSema);
 
   const detayIcerik = `
     <h4>Basınç Özeti</h4>
@@ -558,21 +749,46 @@ function renderSonuc(engineResult){
         <div class="press-val">${onerilen.toplamManometrikBar.toFixed(2)} bar</div>
       </div>
     </div>
+    ${(()=>{
+      // Sulama yöntemine göre su miktarı ve pompa boyutu nasıl değişir — bilgi kutusu
+      const suTahmin = (typeof hesapSu==='function') ? hesapSu() : null;
+      if(!suTahmin || !suTahmin.damla || !suTahmin.yagmurlama) return '';
+      const farkYuzde = Math.round(Math.abs(suTahmin.yagmurlama - suTahmin.damla) / Math.max(1,suTahmin.damla) * 100);
+      if(farkYuzde < 8) return '';
+      const secilenSu = S.sulamaYontem==='damla' ? suTahmin.damla : S.sulamaYontem==='yagmurlama' ? suTahmin.yagmurlama : suTahmin.salma;
+      const verimAd = S.sulamaYontem==='damla' ? 'Damla %92 verim' : S.sulamaYontem==='yagmurlama' ? 'Yağmurlama %77 verim' : 'Salma %55 verim';
+      return '<div style="margin:0 0 10px;padding:8px 11px;border-radius:7px;background:#120800;border:1px solid #5A3000;font-size:11px;color:#D4841A;line-height:1.6">' +
+        'ℹ️ <b>Yöntem seçimi pompa boyutunu etkiler:</b> Bu hesap <b>' + secilenSu + ' ton/gün</b> üzerinden yapıldı (' + verimAd + '). ' +
+        'Karşılaştırma → Damla: <b>' + suTahmin.damla + ' ton/gün</b> · Yağmurlama: <b>' + suTahmin.yagmurlama + ' ton/gün</b> (fark %' + farkYuzde + '). ' +
+        'Su miktarı değişince pompa kW ve solar panel sayısı da değişir.' +
+        '</div>';
+    })()}
     <p style="font-style:italic;color:${onerilen.basincDurum==='ok'?'var(--gr)':onerilen.basincDurum==='kritik'?'var(--re)':'var(--or)'}">${onerilen.basincYorumFarmer}</p>
     ${pressureAlertsHtml}
 
     <h4>Su Verme Durumu</h4>
     ${onerilen.debiDurum==='unknown'
-      ? '<p>Kuyu debisi girilmedi. Sondaj raporu paylaşılırsa sistem su verme yeterliliğini daha net kontrol eder.</p>'
+      ? '<p><b style="color:var(--re)">Şartlı uygun:</b> Kuyu debisi girilmediği için sistem su verme yeterliliğini doğrulayamıyor. Sondaj raporu olmadan bu tasarım için kesin uygunluk söylenmez.</p>'
       : `<p><b style="color:${onerilen.debiDurum==='ok'?'var(--gr)':onerilen.debiDurum==='border'?'var(--or)':'var(--re)'}">${onerilen.debiDurum==='ok'?'Uygun':'Sınırda / dikkatli takip'}</b> – ${onerilen.debiMesaj}</p>
          ${onerilen.debiOneriler.length?`<p><b style="color:var(--gold-l)">Öneri:</b> ${onerilen.debiOneriler.join(' · ')}</p>`:''}`}
     ${flowAlertsHtml}
     ${waterAlertsHtml}
 
+    ${(S.sistemTercih||'solar')!=='sebeke' ? `
+    <h4>Enerji / Solar Ön Boyut</h4>
+    <p><b>${onerilen.totKwp} kWp</b> solar ön boyut · ${solarSizingLabel || 'Ön boyut'}</p>
+    <p>Enerji boyutlandırma katsayısı <b>×${solarSizingFactorText}</b> ile hesaplandı. Bu pompa için minimum <b>${onerilen.solarMinKwp || 9} kWp</b> olmalı. ${solarSizingText}</p>
+    <p>Daha rahat çalışma için referans bant: <b>${onerilen.solarBalancedKwp || onerilen.totKwp} - ${onerilen.solarReserveKwp || onerilen.totKwp} kWp</b>.</p>
+    ${energyAlertsHtml}
+    ` : ''}
+
     <h4>Bölüm / Zon Önerisi</h4>
     <p>${model.zon.yorum} ${model.zon.tip==='tahmini'
       ? '<span style="color:var(--or);font-weight:700">(ön öneri)</span>'
       : '<span style="color:var(--gr);font-weight:700">(gelişmiş hesap)</span>'}</p>
+    ${(onerilen.hidrolikMinZon>1 || onerilen.tipi==='zonlu' || onerilen.teslim==='depo')
+      ? '<p><b style="color:var(--gold-l)">Not:</b> Bu senaryoda tüm hatlar aynı anda açılmaz. Zonlama veya depolu çalışma teknik olarak gereklidir.</p>'
+      : ''}
     <p>${model.zon.teknik}</p>
     ${zoneAlertsHtml}
 
@@ -604,7 +820,7 @@ function renderSonuc(engineResult){
             <td>${getScenarioDisplayName(s)}${s===onerilen?' ★':''}</td>
             <td style="text-align:center">${s.kararPuani}</td>
             <td style="text-align:center">${s.guvenSkoru}</td>
-            <td style="text-align:center">${s.secPompGuc} kW${s.nKuyu>1?' x '+s.nKuyu:''}</td>
+            <td style="text-align:center">${s.secPompGuc} kW/pompa</td>
             <td style="text-align:center;color:${s.ventilGer?'var(--re)':'var(--gr)'}">${s.hatBasiBar.toFixed(2)}</td>
             <td style="text-align:center;color:${s.debiDurum==='ok'?'var(--gr)':s.debiDurum==='border'?'var(--or)':s.debiDurum==='bad'?'var(--re)':'var(--tx3)'}">${s.debiDurum==='ok'?'✓':s.debiDurum==='border'?'⚠ ':s.debiDurum==='bad'?'✗':'–'}</td>
           </tr>`).join('')}
@@ -615,32 +831,119 @@ function renderSonuc(engineResult){
     <p>Karar puanı; teknik uygunluk, güven, işletme rahatlığı ve ekonomi dengesine göre ağırlıklı hesaplandı. Maliyet etkisi özellikle düşük tutuldu.</p>
     <h4>Hesap Prensipleri</h4>
     <p>· <b>Hat kaybı:</b> Hazen-Williams formülü (C=140, HDPE)<br>
-    · <b>Pompa verimi:</b> η = 0.65 (submersible ortalama)<br>
-    · <b>Emniyet payı:</b> x1.25<br>
+    · <b>Pompa verimi:</b> güç sınıfına göre kademeli (yaklaşık ηtoplam 0.48–0.61)<br>
+    · <b>Emniyet payı:</b> x1.15<br>
     · <b>Panel gücü:</b> ${onerilen.pW} W (${S.oncelik} önceliği)<br>
-    · <b>Güneş verisi:</b> ${GP[S.ilSecim]} kWh/m²/gün (${S.ilSecim})</p>
+    · <b>Güneş verisi:</b> ${GP[S.ilSecim]} kWh/m²/gün (${S.ilSecim})<br>
+    · <b>Solar enerji boyutlandırma:</b> katsayı ×${solarSizingFactorText}, minimum ${onerilen.solarMinKwp || 9} kWp (${solarSizingLabel || 'ön boyut'})</p>
     <h4>Risk Değerlendirmesi</h4>
     <p>Kuyular arası mesafe: <b>${S.kuyuMesafe} m</b> → ${onerilen.interferans==='kritik'?'<span style="color:var(--re)">kritik</span>':onerilen.interferans==='orta'?'<span style="color:var(--or)">sınırda</span>':'<span style="color:var(--gr)">uygun</span>'}</p>
     <p>Kuru çalışma payı: <b>${onerilen.kurumaPayi!==null?onerilen.kurumaPayi+' m':'hesaplanamadı'}</b></p>
-    <h4>Maliyet Güven Seviyesi</h4>
-    <p><b>${model.cost.badge}</b> – ${model.cost.salesText}</p>
+    <h4>Yatırım Özeti ve Güven</h4>
+    <p><b>${investmentBadge}</b>  ${investmentTotal}</p>
     <ul style="font-size:12px;color:var(--tx2);padding-left:18px;line-height:1.7">
-      ${model.cost.blockers.map(item=>`<li>${item}</li>`).join('')}
+      <li>${investmentCoverage}</li>
+      <li>Malzeme maliyeti: ${investmentMaterialCenter} · arka plan malzeme aralığı: ${investmentMaterialRange}</li>
+      <li>${investment && investment.available ? investment.totalNote : model.cost.secondaryText}</li>
+      <li><b>Marka sınıfı:</b> ${investmentBrandText}</li>
+      ${investment && investment.unpricedCore && investment.unpricedCore.length ? `<li>Saha teyidi gereken kalemler: ${investment.unpricedCore.join(', ')}</li>` : ''}
     </ul>
-    <p style="font-size:11px;color:var(--tx3);font-style:italic">${model.cost.relativeComment}</p>
+    <p style="font-size:11px;color:var(--tx3);font-style:italic">${investment && investment.confidence ? investment.confidence.text : model.cost.relativeComment}</p>
+
     <h4>Kullanılan Varsayımlar</h4>
     <ul style="font-size:12px;color:var(--tx2);padding-left:18px;line-height:1.7">
       ${(model.assumptions.length?model.assumptions:['Ek varsayım yok.']).map(item=>`<li>${item}</li>`).join('')}
     </ul>`;
 
-  const fiyatHtml = `
-    <div class="price-block">
-      <div class="price-icon">📋</div>
-      <div>
-        <span class="price-badge ${model.cost.level}">${model.cost.badge}</span>
-        <div class="price-title">Fiyat / Teklif Bilgisi</div>
-        <div class="price-body"><b>${model.cost.salesText}</b> ${model.cost.secondaryText} ${model.cost.relativeComment}</div>
+  // Grup bazlı maliyet kırılımı — selectedBom.groups üzerinden hesaplanır
+  function buildGroupBreakdown(bom, scenario){
+    if(!bom || !bom.groups || !scenario) return [];
+    const profile = (typeof getInvestmentProfile === 'function') ? getInvestmentProfile() : {};
+    const rows = [];
+    bom.groups.forEach(function(group){
+      if(!group.items || !group.items.length) return;
+      let net = 0, hasPrice = false;
+      group.items.forEach(function(item){
+        if(typeof calculateInvestmentLine !== 'function') return;
+        const line = calculateInvestmentLine(item, scenario, profile);
+        if(line && line.status === 'priced' && !line.optional){
+          net += line.total;
+          hasPrice = true;
+        }
+      });
+      if(hasPrice && net > 0){
+        rows.push({ title: group.title, net: net });
+      }
+    });
+    return rows;
+  }
+
+  const groupBreakdown = buildGroupBreakdown(selectedBom, selectedScenario);
+
+  function fmtTL(val){
+    if(!val || val < 100) return '—';
+    return '~ ' + (Math.round(val/1000)*1000).toLocaleString('tr-TR') + ' TL';
+  }
+
+  // Kurulum/saha gideri: toplam - malzeme merkezi
+  const matCenter = investment && investment.available ? (investment.materialCenter || 0) : 0;
+  const totInv    = investment && investment.available ? (investment.totalInvestment || 0) : 0;
+  const sahaCost  = totInv - matCenter;
+
+  const breakdownRowsHtml = groupBreakdown.map(function(r){
+    return `<div class="inv-row"><span class="inv-label">${r.title}</span><span class="inv-val">${fmtTL(r.net)}</span></div>`;
+  }).join('') + (sahaCost > 0 ? `<div class="inv-row"><span class="inv-label">Kurulum / işçilik / saha giderleri</span><span class="inv-val">${fmtTL(sahaCost)}</span></div>` : '');
+
+  const brandRows = [
+    ['Pompa', 'İmpo / Coverco / Alarko'],
+    ['Panel sürücü', 'Lexron / Tommatech / Mexxsun'],
+    ['Altyapı', 'Plas / Poelsan / Erhas']
+  ].map(([k,v])=>`<div class="inv-row"><span class="inv-label">${k}</span><span class="inv-val inv-val-sm">${v}</span></div>`).join('');
+
+  const fiyatHtml = !maliyetGoster ? `
+    <div class="inv-block" style="border-color:#6E1A1A;background:#140404">
+      <div class="inv-header">
+        <span class="inv-badge low">Kapsam dışı</span>
+        <div class="inv-title">Maliyet tahmini gösterilemiyor</div>
       </div>
+      <div class="inv-warn-text" style="color:#D44A4A">${maliyetAsimUyari}</div>
+    </div>` : `
+    <div class="inv-block">
+      <div class="inv-header">
+        <span class="inv-badge ${investmentLevel}">${investmentBadge}</span>
+        <div class="inv-title">Yaklaşık tahmini toplam yatırım bedeli</div>
+        <div class="inv-desc">Ortalama malzeme maliyetine ek olarak kurulum, işçilik, bağlantı ve saha giderleri dahil edilmiş ön tahmindir. Kesin teklif değildir.</div>
+      </div>
+
+      <div class="inv-total-row">
+        <div class="inv-total-num">${investmentTotal}</div>
+        <div class="inv-total-sub">Malzeme: <b>${investmentMaterialCenter}</b> &nbsp;·&nbsp; Aralık: ${investmentMaterialRange}</div>
+      </div>
+
+      ${breakdownRowsHtml ? `
+      <div class="inv-section-title">Maliyet kırılımı</div>
+      <div class="inv-table">
+        ${breakdownRowsHtml}
+        <div class="inv-row inv-row-total">
+          <span class="inv-label">Toplam tahmini yatırım</span>
+          <span class="inv-val">${investmentTotal}</span>
+        </div>
+      </div>` : ''}
+
+      <div class="inv-section-title">Marka sınıfı</div>
+      <div class="inv-table">
+        ${brandRows}
+        <div class="inv-row"><span class="inv-label">Profil</span><span class="inv-val inv-val-sm">Ekonomik giriş sınıfı · Premium hariç</span></div>
+      </div>
+
+      <div class="inv-section-title">Kapsam dışı kalemler</div>
+      <div class="inv-table">
+        <div class="inv-row"><span class="inv-label">Sondaj</span><span class="inv-val inv-val-muted">Hariç</span></div>
+        <div class="inv-row"><span class="inv-label">Resmi izinler / trafo kurulus bedeli</span><span class="inv-val inv-val-muted">Hariç</span></div>
+        <div class="inv-row"><span class="inv-label">Saha beton / inşaat imalatları</span><span class="inv-val inv-val-muted">Hariç</span></div>
+      </div>
+
+      <div class="inv-footer">Bu rapor kesin bir mühendislik projesi değil; ön keşif ve fikir verme uygulamasıdır. Sahada detaylı keşif ve ölçüm yapılmadan hukuki bir bağlayıcılığı yoktur.</div>
     </div>`;
 
   const waParts = [
@@ -652,13 +955,13 @@ function renderSonuc(engineResult){
     'Günlük su: ' + S.gunlukSu + ' ton',
     '',
     'Seçili çözüm: ' + getScenarioDisplayName(shareScenario),
-    'Pompa: ' + shareScenario.secPompGuc + ' kW' + (shareScenario.nKuyu>1 ? ' x ' + shareScenario.nKuyu : ''),
+    'Pompa: ' + shareScenario.secPompGuc + ' kW',
     'Toplam basınç: ' + shareScenario.hatBasiBar.toFixed(2) + ' bar',
     (shareBom ? 'Malzeme özeti: ' + shareBom.summary.pumpText + ' · ' + shareBom.summary.totalPipe + ' m boru' : ''),
     (shareBom ? 'Ana ekipman: ' + shareBom.summary.mainEquipment.join(', ') : ''),
     (isSolar ? 'Solar: ' + shareScenario.totKwp + ' kWp' : 'Enerji: şebeke'),
     'Durum: ' + (selectedScenario ? getTrafficLight(selectedScenario).status : model.tl.status),
-    'Fiyat: ' + model.cost.salesText,
+    'Yaklaşık toplam yatırım: ' + investmentTotal,
     '',
     'Keşif tarihi için iletişime geçmek istiyorum.'
   ];
@@ -672,6 +975,7 @@ function renderSonuc(engineResult){
       </div>
       <div class="ssub">${adSoyad?adSoyad+' – ':''}${tarih} – Çiftçi özeti + mühendislik arka planı</div>
     </div>
+    <div class="legal"><b>Yasal Uyarı:</b> ${yasalUyariText}</div>
     ${reportToolsHtml}
     ${inputSummaryHtml}
     ${outputSummaryHtml}
@@ -687,17 +991,14 @@ function renderSonuc(engineResult){
     ${bomSummaryHtml}
     <button class="${bomBtnClass}" onclick="toggleAcc(this)"><span>Detaylı malzeme listesi</span><span class="acc-caret">▶</span></button>
     <div class="${bomContentClass}">${bomDetayHtml}</div>
+    <button class="acc-btn" onclick="toggleAcc(this)"><span>Kolon Şeması</span><span class="acc-caret">▶</span></button>
+    <div class="acc-content">${kolonSemaHtml}</div>
     <button class="acc-btn" onclick="toggleAcc(this)"><span>Detayı Gör</span><span class="acc-caret">▶</span></button>
     <div class="acc-content">${detayIcerikFinal}</div>
     <button class="acc-btn" onclick="toggleAcc(this)"><span>Teknik Detaylar</span><span class="acc-caret">▶</span></button>
     <div class="acc-content">${muhIcerik}</div>
     ${fiyatHtml}
-    <div class="legal">
-      <b>⚠– Uyarı ve Sorumluluk Reddi</b>
-      Bu rapor bir <b>ön mühendislik analizidir</b>. Fiyat ancak yeterli veri ve saha keşfi ile netleşir.
-      Çoklu kuyu, depo ve yeni sondaj senaryolarında izin, etüt ve saha teyidi gerekir.
-      Bircan Elektrik bu ön analizden doğrudan hukuki sorumluluk kabul etmez.
-    </div>
+    <div class="legal"><b>Yasal Uyarı:</b> ${yasalUyariText}</div>
     <button class="wa-btn" id="waBtnResult">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       WhatsApp – Özet + Malzeme Gönder
@@ -747,9 +1048,43 @@ function toggleAcc(btn){
    "•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"•"• */
 
 /* Navigasyon */
+function syncEditAnalyzeUI(stepNo){
+  const existingBar = document.getElementById('editAnalyzeBar');
+  if(existingBar) existingBar.remove();
+
+  const staticAnalyzeBars = Array.from(document.querySelectorAll('.navbtns')).filter(function(bar){
+    return bar.id !== 'editAnalyzeBar' && !!bar.querySelector('.btnan');
+  });
+  staticAnalyzeBars.forEach(function(bar){
+    bar.style.display = stepNo === 4 ? 'flex' : 'none';
+  });
+
+  const step4AnalyzeBtn = staticAnalyzeBars[0]?.querySelector('.btnan') || document.querySelector('#step4 .btnan');
+  if(step4AnalyzeBtn){
+    step4AnalyzeBtn.innerHTML = (S && S._duzenlemeModu)
+      ? 'Yeniden Hesapla &#9654;'
+      : 'Sistemi Analiz Et &#9654;';
+  }
+
+  if(!(S && S._duzenlemeModu) || stepNo >= 5 || stepNo === 4) return;
+
+  const activeStep = document.getElementById('step'+stepNo);
+  if(!activeStep) return;
+
+  const bar = document.createElement('div');
+  bar.id = 'editAnalyzeBar';
+  bar.className = 'navbtns edit-recalc-bar';
+  bar.innerHTML = `
+    <div class="edit-recalc-note">Duzenleme modu aktif. Degisikliklerden sonra yeniden hesaplayin.</div>
+    <button class="btn btnan" onclick="hesapla()">Yeniden Hesapla &#9654;</button>`;
+  activeStep.appendChild(bar);
+}
+
 function goTo(n){
+  window._currentStep = n;  // adım takibi — validation paneli sadece adım 4'te gösterilsin
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));
   document.getElementById('step'+n).classList.add('act');
+  syncEditAnalyzeUI(n);
   for(let i=1;i<=5;i++){
     const sc=document.getElementById('sc'+i), sl=document.getElementById('sl'+i); if(!sc) continue;
     const dn = n===5?6:n;
@@ -762,28 +1097,53 @@ function goTo(n){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function step1To2(){
+  // Klamp: kuyu derinliği max 150 m
+  const kdEl=document.getElementById('kuyuDerinlik');
+  if(kdEl && parseFloat(kdEl.value)>150){ kdEl.value=150; }
+  // Klamp: statik su kuyu derinliğinden büyük olamaz
+  const ssEl=document.getElementById('statikSu');
+  const kdVal=parseFloat(kdEl&&kdEl.value)||0;
+  if(ssEl && parseFloat(ssEl.value)>=kdVal && kdVal>0){ ssEl.value=Math.max(0,kdVal-1); }
+
   S.kuyuDerinlik=parseFloat(document.getElementById('kuyuDerinlik').value)||0;
   S.statikSu=parseFloat(document.getElementById('statikSu').value)||0;
   S.dinamikSu=parseFloat(document.getElementById('dinamikSu').value)||0;
-  S.kuyuDebi=parseFloat(document.getElementById('kuyuDebi').value)||0;
-  S.kuyuSayisi=parseInt(document.getElementById('kuyuSayisi').value)||1;
-  S.kuyuMesafe=parseFloat(document.getElementById('kuyuMesafe').value)||150;
+  const kuyuDebiEl = document.getElementById('kuyuDebi');
+  const kuyuMesafeEl = document.getElementById('kuyuMesafe');
+  S.kuyuDebi = kuyuDebiEl ? (parseFloat(kuyuDebiEl.value)||0) : (S.kuyuDebi || 0);
+  S.kuyuSayisi = 1;
+  S.kuyuMesafe = kuyuMesafeEl ? (parseFloat(kuyuMesafeEl.value)||150) : (S.kuyuMesafe || 150);
   const kd=S.kuyuDerinlik, ds=getDin();
   if(!kd){ alert('Lütfen kuyu derinliğini giriniz.'); return; }
+  if(S.kuyuDerinlik>150){ alert('Kuyu derinliği en fazla 150 m olabilir. Bu araç 150 m üstü kuyular için tasarlanmamıştır.'); return; }
   if(S.dmod==='biliyorum' && !ds){ alert('Lütfen dinamik su seviyesini giriniz veya "Bilmiyorum" seçiniz.'); return; }
   if(S.dmod==='biliyorum' && ds>=kd){ alert('Dinamik su ('+ds+'m) kuyu derinliğinden ('+kd+'m) büyük olamaz!'); return; }
   if(S.dmod==='biliyorum' && S.statikSu>0 && ds<=S.statikSu){ alert('Dinamik su statik sudan büyük olmalıdır. Lütfen veriyi kontrol edin.'); return; }
+  if(S.statikSu>=S.kuyuDerinlik && S.kuyuDerinlik>0){ alert('Statik su seviyesi ('+S.statikSu+'m) kuyu derinliğinden ('+S.kuyuDerinlik+'m) büyük olamaz!'); return; }
   goTo(2); renderSuPanel(); renderBasincPanel();
 }
 function step2To3(){
   const gs=parseFloat(document.getElementById('gunlukSu').value)||0;
   if(!gs){ alert('Lütfen günlük su ihtiyacını giriniz veya tahmini uygulayın.'); return; }
   S.gunlukSu=gs;
+  const sureEl = document.getElementById('calismaSure');
+  const sureVal = sureEl ? parseFloat(sureEl.value) : NaN;
+  if(Number.isFinite(sureVal) && sureVal > 0){
+    S.calismaSure = sureVal;
+  }
+  // Klamp: arazi max 25 dönüm
+  const adEl=document.getElementById('araziDonum');
+  if(adEl && parseFloat(adEl.value)>25){ adEl.value=25; }
   S.araziDonum=parseFloat(document.getElementById('araziDonum').value)||0;
   S.uretimTipi=document.getElementById('uretimTipi')?.value || S.uretimTipi || '';
   if(!S.araziDonum){ alert('Lütfen arazi büyüklüğünü (dönüm) giriniz.'); return; }
+  if(S.araziDonum>25){ alert('Arazi büyüklüğü en fazla 25 dönüm olabilir. Daha büyük alanlar için alanı bloklara bölüp her blok için ayrı analiz yapın.'); return; }
   if(!S.uretimTipi){ alert('Lütfen üretim / arazi düzeni tipini seçiniz.'); return; }
   goTo(3);
 }
 
 /* ANA ANALİZ – tüm state'i senkronlayıp senaryoları üretir */
+
+
+
+

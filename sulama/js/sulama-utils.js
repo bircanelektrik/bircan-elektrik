@@ -352,19 +352,16 @@ function getEquipmentPressureDefault(){
 }
 function getScenarioDisplayName(senaryo){
   const map = {
-    tek:'Tek sistem',
-    paralel2:'2 kuyulu sistem',
-    paralel3:'3 kuyulu sistem',
+    tek:'Tek kuyu sistem',
     zonlu:'Bölünmüş sulama',
-    depolu:'Depolu çözüm'
+    depolu:'Depolu tampon çözüm'
   };
-  return map[senaryo.tipi] || senaryo.label || 'Sistem';
+  return senaryo.label || map[senaryo.tipi] || 'Sistem';
 }
 function getWellLayoutText(senaryo){
   if(senaryo.tipi==='depolu') return '1 kuyu + depo';
-  if(senaryo.tipi==='zonlu') return '1 kuyu + bölümlü hat';
-  if(senaryo.nKuyu===1) return '1 kuyu';
-  return senaryo.nKuyu+' kuyu birlikte';
+  if(senaryo.tipi==='zonlu') return '1 kuyu + bolumlu hat';
+  return '1 kuyu';
 }
 function getOperationText(senaryo){
   if(senaryo.tipi==='depolu') return senaryo.sSure+' saat/gün + depo dolumu';
@@ -413,8 +410,11 @@ function groupBomItems(items){
   ];
   const groups = {};
   items.forEach(item=>{
-    if(!groups[item.category]) groups[item.category]=[];
-    groups[item.category].push(item);
+    const category = item.category && item.category.indexOf('Elektrik ve enerji')===0
+      ? 'Elektrik ve enerji'
+      : item.category;
+    if(!groups[category]) groups[category]=[];
+    groups[category].push(category===item.category ? item : { ...item, category });
   });
   return order.filter(key=>groups[key]?.length).map(key=>({title:key, items:groups[key]}));
 }

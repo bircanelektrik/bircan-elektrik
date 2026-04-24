@@ -19,11 +19,47 @@ function renderTypeSelectField(id, label, options, opts={}){
   </div>`;
 }
 function clearProductionLayoutState(){
-  S.tipSiraArasi=0; S.tipBitkiArasi=0; S.tipToplamSira=0; S.tipTarlaEn=0; S.tipTarlaBoy=0;
+  S.tipSiraArasi=0; S.tipBitkiArasi=0; S.tipAgacAralikM2=0; S.tipToplamSira=0; S.tipTarlaEn=0; S.tipTarlaBoy=0;
   S.tipToplamAgac=0; S.tipAgacDamlaAdet=0; S.tipLateralTip='tek'; S.tipDamlaticiDebi=0; S.tipDamlaticiAralik=0;
   S.tipEkiliOran=100; S.tipLateralYon='uzun'; S.tipDikimTip='tek'; S.tipBahceYasi='olgun'; S.tipDirekArasi=0;
   S.tipSprinklerPreset='standart'; S.tipBaslikAralikX=0; S.tipBaslikAralikY=0; S.tipBaslikDebi=0; S.tipBaslikTip='rotor'; S.tipSulamaAcisi='tam'; S.tipBasinc=0;
   S.tipManualSira=0; S.tipManualLateralM=0; S.tipManualAgac=0; S.tipManualBlok=0;
+}
+function applyProductionDefaults(force=false){
+  const ctx = getFormContext();
+  if(!S.uretimTipi || !ctx.isDrip) return;
+  const defaults = getProductLayoutDefaults();
+  const profile = getCropMethodProfile();
+  const applyValue = function(key, value){
+    if(value===undefined || value===null || value==='' || Number.isNaN(value)) return;
+    if(force || !S[key]) S[key] = value;
+  };
+  const applyText = function(key, value){
+    if(!value) return;
+    if(force || !S[key]) S[key] = value;
+  };
+
+  applyValue('tipSiraArasi', defaults.rowSpace);
+  applyValue('tipDamlaticiAralik', defaults.emitterSpacing);
+  applyValue('tipDamlaticiDebi', defaults.emitterFlow);
+
+  if(['sebze','meyve','bag','zeytinlik'].includes(S.uretimTipi)){
+    applyValue('tipBitkiArasi', defaults.plantSpace);
+  }
+  if(['meyve','bag','zeytinlik'].includes(S.uretimTipi)){
+    const defaultPlantArea = Number(defaults.rowSpace || 0) * Number(defaults.plantSpace || 0);
+    applyValue('tipAgacAralikM2', defaultPlantArea>0 ? +defaultPlantArea.toFixed(1) : 0);
+  }
+  if(['meyve','bag','zeytinlik'].includes(S.uretimTipi)){
+    applyValue('tipAgacDamlaAdet', defaults.emittersPerPlant);
+    applyText('tipLateralTip', profile.lateralType || 'tek');
+  }
+  if(S.uretimTipi==='tarla'){
+    applyValue('tipEkiliOran', S.tipEkiliOran || 100);
+  }
+  if(['meyve','zeytinlik'].includes(S.uretimTipi)){
+    applyText('tipBahceYasi', S.tipBahceYasi || 'olgun');
+  }
 }
 function renderProductOptions(){
   const el=document.getElementById('urunTip');
@@ -51,6 +87,7 @@ function renderProductionDetailFields(){
       <div class="type-card-sub">Önce üretim tipini seçin. Sistem ardından bu arazi düzenine uygun yerleşim sorularını açacak.</div>`;
     return;
   }
+  applyProductionDefaults(false);
   const defaults=getProductLayoutDefaults();
   const ctx=getFormContext();
   const methodLabel=getIrrigationMethodName();
@@ -100,8 +137,7 @@ function renderProductionDetailFields(){
     ].join('');
   } else if(S.uretimTipi==='meyve'){
     fields = ctx.isSprinkler ? sprinklerFields : ctx.isDrip ? [
-      renderTypeNumberField('tipSiraArasi','Ağaç Sıra Arası (m)','örn: 4.5',{min:1,max:20,step:0.1,required:true}),
-      renderTypeNumberField('tipBitkiArasi','Ağaç Üzeri Mesafe (m)','örn: 3.5',{min:1,max:20,step:0.1,required:true}),
+      renderTypeNumberField('tipAgacAralikM2','Ağaç Aralığı (m² / ağaç)','örn: 16',{min:1,max:250,step:0.1,required:true,note:'Ağaç yoğunluğu m²/ağaç ile hesaplanır; su tahmini bu değeri esas alır.'}),
       renderTypeNumberField('tipToplamSira','Toplam Sıra Sayısı','örn: 18',{min:1,max:5000,step:1}),
       renderTypeNumberField('tipToplamAgac','Toplam Ağaç Sayısı','manuel girilebilir',{min:1,max:50000,step:1,note:'Bunu girerseniz ağaç hesabı doğrudan kullanılır.'}),
       renderTypeNumberField('tipTarlaEn','Bahçe Eni (m)','opsiyonel',{min:5,max:5000,step:1}),
@@ -117,8 +153,7 @@ function renderProductionDetailFields(){
     ].join('');
   } else if(S.uretimTipi==='bag'){
     fields = ctx.isSprinkler ? sprinklerFields : ctx.isDrip ? [
-      renderTypeNumberField('tipSiraArasi','Sıra Arası Mesafe (m)','örn: 3',{min:1,max:10,step:0.1,required:true}),
-      renderTypeNumberField('tipBitkiArasi','Omca Aralığı (m)','örn: 2.2',{min:0.5,max:6,step:0.1,required:true}),
+      renderTypeNumberField('tipAgacAralikM2','Omca Aralığı (m² / omca)','örn: 6.5',{min:0.5,max:120,step:0.1,required:true,note:'Omca yoğunluğu bu değerden hesaplanır.'}),
       renderTypeNumberField('tipDirekArasi','Direkler Arası (m)','örn: 6',{min:1,max:15,step:0.1,note:'Montaj planı için referans olur.'}),
       renderTypeNumberField('tipToplamSira','Toplam Sıra Sayısı','örn: 22',{min:1,max:5000,step:1}),
       renderTypeNumberField('tipTarlaEn','Bağ Eni (m)','opsiyonel',{min:5,max:5000,step:1}),
@@ -132,8 +167,7 @@ function renderProductionDetailFields(){
     ].join('');
   } else if(S.uretimTipi==='zeytinlik'){
     fields = ctx.isSprinkler ? sprinklerFields : ctx.isDrip ? [
-      renderTypeNumberField('tipSiraArasi','Sıra Arası Mesafe (m)','örn: 6',{min:1,max:20,step:0.1,required:true}),
-      renderTypeNumberField('tipBitkiArasi','Ağaç Aralığı (m)','örn: 6',{min:1,max:20,step:0.1,required:true}),
+      renderTypeNumberField('tipAgacAralikM2','Ağaç Aralığı (m² / ağaç)','örn: 36',{min:1,max:500,step:0.1,required:true,note:'Seyrek dikimde m²/ağaç bilgisi su tahminini stabilize eder.'}),
       renderTypeNumberField('tipToplamAgac','Toplam Ağaç Sayısı','örn: 120',{min:1,max:50000,step:1}),
       renderTypeNumberField('tipToplamSira','Toplam Sıra Sayısı','opsiyonel',{min:1,max:5000,step:1}),
       renderTypeNumberField('tipAgacDamlaAdet','Ağaç Başına Damlatıcı','örn: 4',{min:1,max:20,step:1,required:true}),
@@ -218,6 +252,7 @@ function readProductionInputs(){
   S.urunTip = readTextInput('urunTip', S.urunTip);
   S.tipSiraArasi = readNumericInput('tipSiraArasi');
   S.tipBitkiArasi = readNumericInput('tipBitkiArasi');
+  S.tipAgacAralikM2 = readNumericInput('tipAgacAralikM2');
   S.tipToplamSira = readNumericInput('tipToplamSira');
   S.tipTarlaEn = readNumericInput('tipTarlaEn');
   S.tipTarlaBoy = readNumericInput('tipTarlaBoy');
@@ -250,6 +285,7 @@ function onProductionTypeChange(){
     clearProductionLayoutState();
     S.urunTip='';
   }
+  applyProductionDefaults(true);
   renderProductOptions();
   renderProductionDetailFields();
   updateDripAdvancedUI();
@@ -257,6 +293,7 @@ function onProductionTypeChange(){
 }
 function onProductChange(){
   S.urunTip = readTextInput('urunTip', '');
+  applyProductionDefaults(true);
   renderProductionDetailFields();
   onArazi();
 }
@@ -279,6 +316,7 @@ function onProductionField(){
   }
   readProductionInputs();
   deriveFieldDimensions();
+  if(typeof syncAutoWaterEstimate==='function') syncAutoWaterEstimate('yerleşim değişti');
   updateDripAdvancedUI();
   onAdv();
   renderSuPanel();
@@ -333,6 +371,9 @@ function updateDripAdvancedUI(){
   }
 }
 function onArazi(){
+  // Gercek zamanli klamp: arazi max 25 donum
+  const adEl=document.getElementById('araziDonum');
+  if(adEl && parseFloat(adEl.value)>25){ adEl.value=25; }
   S.araziDonum=parseFloat(document.getElementById('araziDonum').value)||0;
   S.uretimTipi=readTextInput('uretimTipi', S.uretimTipi);
   S.urunTip=document.getElementById('urunTip').value||'';
@@ -341,11 +382,18 @@ function onArazi(){
   S.kotFarki=parseFloat(document.getElementById('kotFarki').value)||0;
   S.boruCap=document.getElementById('boruCap').value||'';
   S.hatSayisi=Math.max(1,parseInt(document.getElementById('hatSayisi').value)||1);
-  S.calismaSure=parseFloat(document.getElementById('calismaSure').value)||8;
+  const sureEl = document.getElementById('calismaSure');
+  const sureVal = sureEl ? parseFloat(sureEl.value) : NaN;
+  if(Number.isFinite(sureVal) && sureVal > 0){
+    S.calismaSure = sureVal;
+  } else if(!(Number.isFinite(Number(S.calismaSure)) && Number(S.calismaSure) > 0)){
+    S.calismaSure = 8;
+  }
   // ── Dönüm ↔ En ↔ Boy otomatik türetme ──
   // Kural: 3'ten 2'si girilmişse, eksik olanı hesapla (sadece boş ise, kullanıcı değerini ezme).
   // 1 dönüm = 1000 m² · alan = en × boy
   deriveFieldDimensions();
+  if(typeof syncAutoWaterEstimate==='function') syncAutoWaterEstimate('ürün / arazi değişti');
   const fn=document.getElementById('fn_uzakNokta');
   if(fn){
     if(S.uzakNokta>0){ fn.className='field-note st-manual'; fn.textContent='✓ '+S.uzakNokta+' m girildi.'; }
@@ -370,6 +418,7 @@ function deriveFieldDimensions(){
   const hasDonum = donum > 0;
   const hasEn = enVal > 0;
   const hasBoy = boyVal > 0;
+  const activeId = document.activeElement ? document.activeElement.id : '';
   const clearHint = id => {
     const hint = document.getElementById('fn_'+id);
     if(hint && hint.dataset.derived==='1'){
@@ -393,20 +442,7 @@ function deriveFieldDimensions(){
       hint.dataset.derived = '1';
     }
   };
-  // Kullanıcı bir alana gerçek değer yazmışsa (derived flag'i yok), o değer kutsaldır.
-  const enManual = hasEn && enEl.dataset.derived !== '1';
-  const boyManual = hasBoy && boyEl.dataset.derived !== '1';
-
-  if(hasDonum && enManual && !boyManual){
-    // En + dönüm verilmiş → boy türet
-    const boy = alanM2 / enVal;
-    if(boy >= 5 && boy <= 5000) setDerived('tipTarlaBoy', boy, 'dönüm ve en');
-  } else if(hasDonum && boyManual && !enManual){
-    // Boy + dönüm verilmiş → en türet
-    const en = alanM2 / boyVal;
-    if(en >= 5 && en <= 5000) setDerived('tipTarlaEn', en, 'dönüm ve boy');
-  } else if(!hasDonum && enManual && boyManual){
-    // En + boy verilmiş → dönüm türet
+  const setDonumFromDimensions = () => {
     const derivedDonum = (enVal * boyVal) / 1000;
     const donumEl = document.getElementById('araziDonum');
     if(donumEl && !donumEl.value){
@@ -418,10 +454,71 @@ function deriveFieldDimensions(){
         hint.textContent = '✓ '+derivedDonum.toFixed(1)+' dönüm (en × boy\'dan türetildi).';
       }
     }
-  } else if(hasDonum && !enManual && !boyManual){
-    // Sadece dönüm var — eski derived değerleri temizle (kare kabul etmeyelim)
-    clearHint('tipTarlaEn');
-    clearHint('tipTarlaBoy');
+  };
+
+  if(hasDonum){
+    // Dönüm varken en-boy her zaman dönüme göre canlı senkron kalır.
+    if(activeId==='tipTarlaEn' && hasEn){
+      const boy = alanM2 / enVal;
+      if(boy >= 5 && boy <= 5000) setDerived('tipTarlaBoy', boy, 'dönüm ve en');
+      return;
+    }
+    if(activeId==='tipTarlaBoy' && hasBoy){
+      const en = alanM2 / boyVal;
+      if(en >= 5 && en <= 5000) setDerived('tipTarlaEn', en, 'dönüm ve boy');
+      return;
+    }
+    if(hasEn && !hasBoy){
+      const boy = alanM2 / enVal;
+      if(boy >= 5 && boy <= 5000) setDerived('tipTarlaBoy', boy, 'dönüm ve en');
+      return;
+    }
+    if(hasBoy && !hasEn){
+      const en = alanM2 / boyVal;
+      if(en >= 5 && en <= 5000) setDerived('tipTarlaEn', en, 'dönüm ve boy');
+      return;
+    }
+    if(!hasEn && !hasBoy){
+      const side = Math.sqrt(alanM2);
+      if(side >= 5 && side <= 5000){
+        setDerived('tipTarlaEn', side, 'dönüm');
+        setDerived('tipTarlaBoy', side, 'dönüm');
+      }
+      return;
+    }
+    if(activeId==='araziDonum' && hasEn && hasBoy){
+      const ratioLive = clamp(enVal / Math.max(1, boyVal), 0.2, 5);
+      const liveEn = Math.sqrt(alanM2 * ratioLive);
+      const liveBoy = alanM2 / liveEn;
+      if(liveEn >= 5 && liveEn <= 5000 && liveBoy >= 5 && liveBoy <= 5000){
+        setDerived('tipTarlaEn', liveEn, 'dönüm');
+        setDerived('tipTarlaBoy', liveBoy, 'dönüm');
+      }
+      return;
+    }
+    const measuredAreaM2 = enVal * boyVal;
+    const areaDiffRatio = measuredAreaM2>0 ? Math.abs(measuredAreaM2 - alanM2) / alanM2 : 0;
+    if(areaDiffRatio > 0.01){
+      // Her ikisi doluyken dönüm değişirse oranı koruyup ölçekle.
+      const ratio = clamp(enVal / Math.max(1, boyVal), 0.2, 5);
+      const autoEn = Math.sqrt(alanM2 * ratio);
+      const autoBoy = alanM2 / autoEn;
+      if(autoEn >= 5 && autoEn <= 5000 && autoBoy >= 5 && autoBoy <= 5000){
+        setDerived('tipTarlaEn', autoEn, 'dönüm');
+        setDerived('tipTarlaBoy', autoBoy, 'dönüm');
+      } else {
+        clearHint('tipTarlaEn');
+        clearHint('tipTarlaBoy');
+      }
+    }
+    return;
+  }
+
+  // Dönüm boşsa, en-boydan dönüm türet.
+  const enManual = hasEn && enEl.dataset.derived !== '1';
+  const boyManual = hasBoy && boyEl.dataset.derived !== '1';
+  if(enManual && boyManual){
+    setDonumFromDimensions();
   }
 }
 
@@ -436,8 +533,11 @@ function renderZonHint(){
     hint.className = 'field-note';
     el.parentElement && el.parentElement.appendChild(hint);
   }
-  // Su + süre + üretim tipi yoksa öneri veremeyiz
-  const gs = Number(S.gunlukSu) || 0;
+  // Kullanici su degeri bos olsa bile otomatik tahminden zon onerisi uretilsin.
+  const suTahmin = (typeof hesapSu==='function') ? hesapSu() : null;
+  const gsManual = Number(S.gunlukSu) || 0;
+  const gsAuto = suTahmin && Number(suTahmin.aktif)>0 ? Number(suTahmin.aktif) : 0;
+  const gs = gsManual>0 ? gsManual : gsAuto;
   const sSure = Number(S.calismaSure) || 8;
   if(!gs || !S.uretimTipi){
     hint.className = 'field-note st-auto';
@@ -447,36 +547,55 @@ function renderZonHint(){
   }
   // Sistemin saatlik debi ihtiyacı
   const saatlikIhtiyac = gs / sSure;      // m³/h
-  // Yerleşim saatlik debisi (damla: ağaç × damlatıcı × L/h; tarla: sprinkler × debi)
-  let yerlesimIhtiyac = 0;
-  try {
-    if(S.sulamaYontem==='damla' && typeof getDripLayoutModel==='function'){
-      const m = getDripLayoutModel();
-      yerlesimIhtiyac = m.systemFlowM3h || 0;
-    } else if(S.sulamaYontem==='yagmurlama' && typeof getSprinklerLayoutModel==='function'){
-      const m = getSprinklerLayoutModel();
-      yerlesimIhtiyac = (m.sprinklerCount||0) * (m.headFlow||0);
+  let plan = null;
+  if(typeof getHydraulicZoneDemand==='function'){
+    try {
+      plan = getHydraulicZoneDemand(saatlikIhtiyac, Number(S.hatSayisi)||1);
+    } catch(e){
+      plan = null;
     }
-  } catch(e){ /* yerlesim henüz eksik */ }
-  if(!yerlesimIhtiyac){
-    hint.className = 'field-note st-auto';
-    hint.textContent = 'Yerleşim bilgileri tamamlanınca otomatik zon önerisi çıkar.';
+  }
+
+  if(plan){
+    const minZon = Math.max(1, Number(plan.minZones)||1);
+    const girilen = Math.max(1, parseInt(el.value)||1);
+    el.placeholder = 'önerilen: ' + minZon;
+    // FIX: Yağmurlama + büyük başlık sayısı → zon değil rotasyon bilgisi göster
+    const _isSprinkler = S.sulamaYontem === 'yagmurlama';
+    const _zonCapped = plan.zonCapped;
+    if(_isSprinkler && (minZon > 8 || _zonCapped)){
+      el.placeholder = 'önerilen: 1-2';
+      hint.className = 'field-note st-auto';
+      hint.innerHTML = 'Yağmurlama sisteminde pompa <b>'+Number(plan.maxUnits||1)+' başlığı</b> aynı anda çalıştırır, ' +
+        'geri kalanları sırayla sular (rotasyon). Zon sayısını <b>1-2</b> bırakın.';
+    } else if(girilen < minZon){
+      hint.className = 'field-note err';
+      hint.innerHTML = '⚠ <b>En az '+minZon+' zon gerekli.</b> Yerleşim debisi '+Number(plan.layoutDemandM3h||0).toFixed(1)+' m³/h, pompa aynı anda '+Number(plan.availableFlowM3h||0).toFixed(1)+' m³/h verebilir.';
+    } else if(girilen > minZon + 2){
+      hint.className = 'field-note err';
+      hint.innerHTML = '⚠ <b>'+girilen+' zon fazla.</b> Bu arazi için hesaplanan minimum <b>'+minZon+'</b>. '+minZon+' ile bırakın.';
+    } else if(girilen === 1 && minZon === 1){
+      hint.className = 'field-note st-manual';
+      hint.textContent = '✓ 1 zon — tüm alan aynı anda sulanabilir, ek bölme gerekmiyor.';
+    } else {
+      hint.className = 'field-note st-manual';
+      hint.textContent = '✓ '+girilen+' zon hidrolik olarak uygun (hesaplanan minimum: '+minZon+').';
+    }
+    if(gsManual<=0){
+      if(hint.innerHTML){
+        hint.innerHTML += ' <span style="color:var(--tx3)">(su tahmini otomatik kullanıldı)</span>';
+      } else {
+        hint.textContent += ' (su tahmini otomatik kullanıldı)';
+      }
+    }
     return;
   }
-  const minZon = Math.max(1, Math.ceil(yerlesimIhtiyac / saatlikIhtiyac));
-  const girilen = Math.max(1, parseInt(el.value)||1);
-  el.placeholder = 'önerilen: ' + minZon;
-  if(girilen < minZon){
-    hint.className = 'field-note err';
-    hint.innerHTML = '⚠ <b>En az '+minZon+' zon gerekli.</b> Yerleşim debisi '+yerlesimIhtiyac.toFixed(1)+' m³/h, pompa aynı anda '+saatlikIhtiyac.toFixed(1)+' m³/h verebilir.';
-  } else if(girilen > minZon + 2){
-    hint.className = 'field-note';
-    hint.style.color = 'var(--or)';
-    hint.textContent = 'Önerilen '+minZon+' zon yeterli olurdu — '+girilen+' zon sulamayı gereksiz uzatır.';
-  } else {
-    hint.className = 'field-note st-manual';
-    hint.textContent = '✓ '+girilen+' zon hidrolik olarak uygun (min '+minZon+').';
-  }
+
+  const approx = Math.max(1, Math.round((Number(S.araziDonum)||1) * (S.sulamaYontem==='yagmurlama' ? 0.15 : 0.10)));
+  el.placeholder = 'önerilen: ' + approx;
+  hint.className = 'field-note st-auto';
+  hint.textContent = 'Yerleşim debisi tamamlanınca zon önerisi kendini günceller. Ön öneri: en az '+approx+' zon.';
+  if(gsManual<=0) hint.textContent += ' (su tahmini otomatik kullanıldı)';
 }
 function onGunlukSu(_src){
   const v=parseFloat(document.getElementById('gunlukSu').value)||0;

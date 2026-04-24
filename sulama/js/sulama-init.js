@@ -6,15 +6,23 @@ function hesapla(){
   S.sistemTercih = document.querySelector('#rb_sistemTercih .sel')?.dataset.val || 'solar';
   S.panelYer     = document.querySelector('#rb_panelYer .sel')?.dataset.val || 'yer';
   S.ilSecim      = document.getElementById('ilSecim').value || 'orta';
-  S.oncelik      = document.querySelector('#rb_oncelik .sel')?.dataset.val || 'guvenlik';
+  // S.oncelik / S.oncelik2 selectHedef() tarafından yönetilir — DOM okuma gerekmiyor.
   S.kullanci     = document.querySelector('#rb_kullanci .sel')?.dataset.val || 'kendisi';
   S.sulamaYontem = document.querySelector('#rb_sulamaYontem .sel')?.dataset.val || 'yagmurlama';
   S.egimDurum    = document.querySelector('#rb_egimDurum .sel')?.dataset.val || 'duz';
   S.teslimNokta  = document.querySelector('#rb_teslimNokta .sel')?.dataset.val || 'direkt';
   S.boruTip      = document.querySelector('#rb_boruTip .sel')?.dataset.val || 'hdpe';
   S.trafoMesafe  = parseFloat(document.getElementById('trafoMesafe').value)||0;
+  S.hatTip       = document.querySelector('#rb_hatTip .sel')?.dataset.val || 'yeralti';
+  S.kabloMalzeme = document.querySelector('#rb_kabloMalzeme .sel')?.dataset.val || 'bakir';
   S.gunlukSu     = parseFloat(document.getElementById('gunlukSu').value)||0;
-  S.calismaSure  = parseFloat(document.getElementById('calismaSure').value)||8;
+  const sureEl = document.getElementById('calismaSure');
+  const sureVal = sureEl ? parseFloat(sureEl.value) : NaN;
+  if(Number.isFinite(sureVal) && sureVal > 0){
+    S.calismaSure = sureVal;
+  } else if(!(Number.isFinite(Number(S.calismaSure)) && Number(S.calismaSure) > 0)){
+    S.calismaSure = 8;
+  }
   S.hatSayisi    = Math.max(1, parseInt(document.getElementById('hatSayisi').value)||1);
   S.uzakNokta    = parseFloat(document.getElementById('uzakNokta').value)||0;
   S.kotFarki     = parseFloat(document.getElementById('kotFarki').value)||0;
@@ -66,6 +74,7 @@ function hesapla(){
   S.bomAccordionOpen = false;
 
   if(typeof dbg !== "undefined") dbg.log("ENGINE_RESULT", {scenarios: engineResult.scenarios ? engineResult.scenarios.length : 0});
+  S._duzenlemeModu = false;
   renderSonuc(engineResult);
   goTo(5);
 }
@@ -81,7 +90,7 @@ function duzenle(){
       <div style="font-size:11px;color:#A09880;margin-bottom:14px">Hangi bölümü düzenlemek istiyorsunuz?</div>
       <div style="display:flex;flex-direction:column;gap:7px">
         ${[
-          [1,'Kuyu Bilgileri','Derinlik, dinamik su, debi, kuyu sayısı'],
+          [1,'Kuyu Bilgileri','Derinlik, dinamik su ve debi'],
           [2,'Sulama, Arazi ve Basınç','Yöntem, dönüm, ürün, mesafe, su, basınç'],
           [3,'Enerji ve Altyapı','Şebeke, sistem tipi, il, panel'],
           [4,'Sistem Hedefi','Öncelik, kullanıcı']
@@ -100,16 +109,6 @@ function gitAdim(n){
   kapatModal();
   S._duzenlemeModu = true;
   goTo(n);
-  // "Yeniden Hesapla" butonu SADECE düzenleme modunda eklenir
-  setTimeout(function(){
-    const nav = document.querySelector('#step'+n+' .navbtns');
-    if(!nav || nav.querySelector('.btn-yeniden')) return;
-    const btn = document.createElement('button');
-    btn.className = 'btn btnan btn-yeniden';
-    btn.innerHTML = 'Yeniden Hesapla –¶';
-    btn.onclick = function(){ hesapla(); };
-    nav.appendChild(btn);
-  }, 30);
 }
 function kapatModal(){ const ov=document.getElementById('duzenleOverlay'); if(ov) ov.remove(); }
 
@@ -131,7 +130,7 @@ function yeniHesap(){
   S.araziDonum=0; S.uretimTipi=''; S.urunTip=''; S.uzakNokta=0; S.kotFarki=0;
   S.kuyuDerinlik=0; S.dinamikSu=0; S.statikSu=0; S.kuyuDebi=0;
   S.kuyuSayisi=1; S.kuyuMesafe=150;
-  S.trafoMesafe=0;
+  S.trafoMesafe=0; S.hatTip='yeralti'; S.kabloMalzeme='bakir';
   clearProductionLayoutState();
   S.spAralikX=0; S.spAralikY=0; S.spDebi=0; S.spBasinc=0;
   S.dmlSiraArasi=0; S.dmlDamlAralik=0; S.dmlDamlDebi=0; S.dmlLateralLen=0;
@@ -152,18 +151,29 @@ function yeniHesap(){
   if(validationPanel) validationPanel.style.display='none';
   document.getElementById('resultContent').innerHTML='';
 
+  // Hedef butonlarını sıfırla — default: uzunomur
+  ['maliyet','uzunomur','verimli'].forEach(function(v){
+    var el = document.getElementById('hdf_'+v);
+    if(!el) return;
+    var isSel = v==='uzunomur';
+    el.classList.toggle('sel', isSel);
+    el.style.background   = isSel ? '#1A1200' : 'var(--dk3)';
+    el.style.borderColor  = isSel ? 'var(--gold)' : 'var(--bdr)';
+    el.style.color        = isSel ? 'var(--gold)' : '';
+  });
+  S.oncelik = 'uzunomur'; S.oncelik2 = '';
+
   // Varsayılanları yeniden seç
   const defaults = { kuyuDurum:'mevcut', kurumaRisk:'yok', sulamaYontem:'yagmurlama',
     egimDurum:'duz', boruTip:'hdpe', teslimNokta:'direkt', sebekeDurum:'yok',
-    sistemTercih:'solar', panelYer:'yer', oncelik:'guvenlik', kullanci:'kendisi' };
+    sistemTercih:'solar', panelYer:'yer', kullanci:'kendisi' };
   Object.keys(defaults).forEach(k=>{
     const grp=document.getElementById('rb_'+k); if(!grp) return;
     grp.querySelectorAll('.rb').forEach(b=>b.classList.toggle('sel', b.dataset.val===defaults[k]));
     S[k]=defaults[k];
   });
 
-  // Düzenleme modunda eklenmiş "Yeniden Hesapla" butonlarını temizle
-  document.querySelectorAll('.btn-yeniden').forEach(b=>b.remove());
+
 
   renderProductOptions();
   renderProductionDetailFields();
@@ -180,4 +190,7 @@ setTimeout(function(){
   renderBasincPanel();
   onAdv();
   chkSebeke();
+  if(typeof syncEditAnalyzeUI==='function') syncEditAnalyzeUI(window._currentStep || 1);
+  // Hedef butonları: default uzunomur seçili
+  if(typeof selectHedef==='function') selectHedef('uzunomur', true);
 }, 0);

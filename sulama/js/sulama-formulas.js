@@ -37,19 +37,24 @@ function getTreeLayoutModel(kind){
   const defs = getOrchardDefaults();
   const areaWidth = S.tipTarlaEn || geom.width;
   const areaLength = S.tipTarlaBoy || geom.length;
+  const areaM2 = Math.max(1, areaWidth * areaLength);
   const lateralLength = firstPositive(S.dmlLateralLen, areaLength);
   const lateralTip = (S.tipLateralTip || 'tek')==='cift' ? 'cift' : 'tek';
   const lateralFactor = lateralTip==='cift' ? 2 : 1;
+  const plantAreaM2 = firstPositive(S.tipAgacAralikM2);
   const rowSpace = firstPositive(S.tipSiraArasi, defs.rowSpace);
   const plantSpace = firstPositive(S.tipBitkiArasi, defs.plantSpace);
   const emitterSpacing = firstPositive(S.tipDamlaticiAralik, defs.emitterSpacing);
   const emitterFlow = firstPositive(S.tipDamlaticiDebi, defs.emitterFlow);
   const rowCountDerived = estimateFitCount(areaWidth, rowSpace);
   const plantsPerRowDerived = estimateFitCount(areaLength, plantSpace);
-  const rowCount = Math.max(1, firstPositive(S.tipToplamSira, rowCountDerived));
+  const derivedPlantCountBySpacing = Math.max(1, rowCountDerived * plantsPerRowDerived);
+  const derivedPlantCountByArea = plantAreaM2>0 ? Math.max(1, Math.round(areaM2 / plantAreaM2)) : 0;
+  const rowCountRaw = Math.max(1, firstPositive(S.tipToplamSira, rowCountDerived));
   const manualPlantCount = S.tipToplamAgac || 0;
-  const derivedPlantCount = Math.max(1, rowCountDerived * plantsPerRowDerived);
-  const plantCount = Math.max(1, manualPlantCount || (rowCount * plantsPerRowDerived));
+  const derivedPlantCount = Math.max(1, derivedPlantCountByArea || derivedPlantCountBySpacing);
+  const plantCount = Math.max(1, manualPlantCount || derivedPlantCount);
+  const rowCount = Math.max(1, Math.min(rowCountRaw, plantCount));
   const baseEmitterCount = (S.tipBahceYasi==='genc' && S.uretimTipi==='meyve') ? Math.max(2, defs.emittersPerPlant-1) : defs.emittersPerPlant;
   const emittersPerPlant = Math.max(1, firstPositive(S.tipAgacDamlaAdet, (baseEmitterCount * lateralFactor)));
   const emitterCount = Math.max(1, plantCount * emittersPerPlant);
@@ -57,13 +62,15 @@ function getTreeLayoutModel(kind){
   const totalLateralM = round1(lateralCount * lateralLength * 1.05);
   const hasUserRowSpace = hasPositive(S.tipSiraArasi);
   const hasUserPlantSpace = hasPositive(S.tipBitkiArasi);
+  const hasUserPlantDensity = hasPositive(S.tipAgacAralikM2) || (hasUserRowSpace && hasUserPlantSpace);
   const hasUserEmitterFlow = hasPositive(S.tipDamlaticiDebi);
   const hasUserEmitterCount = hasPositive(S.tipAgacDamlaAdet);
-  const hasTreeCountContext = manualPlantCount>0 || hasPositive(S.tipToplamSira) || (hasPositive(S.tipTarlaEn) && hasPositive(S.tipTarlaBoy));
-  const exact = hasUserRowSpace && hasUserPlantSpace && hasUserEmitterFlow && hasUserEmitterCount && hasTreeCountContext;
-  const hasMeaningfulData = rowSpace>0 && plantSpace>0 && emitterFlow>0;
+  const hasTreeCountContext = manualPlantCount>0 || hasPositive(S.tipToplamSira) || hasPositive(S.tipAgacAralikM2) || hasPositive(S.araziDonum) || (hasPositive(S.tipTarlaEn) && hasPositive(S.tipTarlaBoy));
+  const exact = hasUserPlantDensity && hasUserEmitterFlow && hasUserEmitterCount && hasTreeCountContext;
+  const hasMeaningfulData = (plantAreaM2>0 || (rowSpace>0 && plantSpace>0)) && emitterFlow>0;
   const systemFlowM3h = round1((emitterCount * emitterFlow) / 1000);
-  const rowFlowM3h = round1((Math.max(1, Math.ceil(plantCount / rowCount)) * emittersPerPlant * emitterFlow) / 1000);
+  const plantsPerRow = Math.max(1, Math.ceil(plantCount / rowCount));
+  const rowFlowM3h = round1((plantsPerRow * emittersPerPlant * emitterFlow) / 1000);
   const notes = [];
   if(!exact){
     notes.push('Ön kabul ile oluşturuldu.');
@@ -81,10 +88,11 @@ function getTreeLayoutModel(kind){
     hasMeaningfulData,
     rowSpace,
     plantSpace,
+    plantAreaM2,
     emitterSpacing,
     emitterFlow,
     rowCount,
-    plantsPerRow:Math.max(1, Math.ceil(plantCount / rowCount)),
+    plantsPerRow,
     derivedPlantCount,
     plantCount,
     emittersPerPlant,
@@ -226,10 +234,20 @@ function getSprinklerLayoutModel(overrides){
   const geom = getFieldGeometry();
   const ovr = overrides || {};
   // Öncelik: (1) kullanıcı hassas ayarı, (2) override (profile'dan gelen — ör. büyük tabanca 30×30),
-  //         (3) varsayılan 12.
-  const spacingX = firstPositive(S.tipBaslikAralikX, S.spAralikX, ovr.spacingX, 12);
-  const spacingY = firstPositive(S.tipBaslikAralikY, S.spAralikY, ovr.spacingY, 12);
+  //         (3) headFlow büyükse otomatik geniş aralık, (4) varsayılan 12.
   const headFlow = firstPositive(S.tipBaslikDebi, S.spDebi, ovr.headFlow);
+  // Kullanıcı aralık girmemişse debiye göre uygun aralık seç.
+  // headFlow girilmemişse üretim tipine göre makul saha aralığı (tarla ≥18m, peyzaj 10-12m).
+  // headFlow girilmişse debiden aralık türet.
+  // NOT: 12m aralık standart tarla sprinkleri için KÜÇÜK; gerçek tarla rotoru 18-24m aralıklı çalışır.
+  // Peyzaj/çim: küçük popup/rotor 10-12m, ~1.0-1.5 m3/h
+  // Tarla/sebze: orta rotor 18m, ~2.5 m3/h; büyük tabanca 24-30m, ~3.5-6 m3/h
+  const _isLandscape = (typeof isLandscapeProduction === 'function') ? isLandscapeProduction() : (S.uretimTipi === 'peyzaj');
+  const _autoSpacing = headFlow
+    ? (headFlow > 3.5 ? 30 : headFlow > 2.0 ? 18 : headFlow > 1.5 ? 15 : 12)
+    : (_isLandscape ? 12 : 18);  // tarla default 18m (peyzaj 12m)
+  const spacingX = firstPositive(S.tipBaslikAralikX, S.spAralikX, ovr.spacingX, _autoSpacing);
+  const spacingY = firstPositive(S.tipBaslikAralikY, S.spAralikY, ovr.spacingY, _autoSpacing);
   const headPressure = firstPositive(S.tipBasinc, S.spBasinc, ovr.headPressure, getEquipmentPressureDefault());
   const sprinklerCount = Math.max(1, Math.ceil(geom.areaM2 / Math.max(1, spacingX*spacingY)));
   const lateralCount = Math.max(1, Math.ceil(geom.width / Math.max(1, spacingY)));
@@ -538,8 +556,15 @@ function buildBomForScenario(senaryo, zon){
   if(senaryo.tipi==='depolu') anaHatM += 20;
   if(senaryo.tipi==='zonlu') anaHatM *= 1.08;
   anaHatM = round1(anaHatM);
-  const panoMesafe = S.sistemTercih==='sebeke' ? (S.trafoMesafe || 25) : (S.panelYer==='yer' ? 25 : 12);
-  const kabloEach = round1((senaryo.pompaDer + panoMesafe + 5) * 1.08);
+  const isSolarEnergy = S.sistemTercih === 'solar' || S.sistemTercih === 'gunes';
+  const isSebequeOnly = S.sistemTercih === 'sebeke';
+  const isHibrit = S.sistemTercih === 'hibrit';
+  // chkSebeke() ile tutarlı: hibrit/sebeke tercihinde sebekeDurum'dan bağımsız şebeke var kabul edilir
+  const hasGridLine = isSebequeOnly || isHibrit;
+  const trafoInputM = Number(S.trafoMesafe) || 0;
+  const effectiveTrafoM = hasGridLine ? (trafoInputM > 0 ? trafoInputM : 25) : 0;
+  const panoMesafe = hasGridLine ? effectiveTrafoM : (S.panelYer==='yer' ? 25 : 12);
+  const kabloEach = round1((senaryo.pompaDer + 5) * 1.08);
   const toplamPompaKablosu = round1(kabloEach * senaryo.nKuyu);
   const kabloKesit = chooseCableSection(senaryo.secPompGuc);
   const effectiveZones = Math.max(1, zon?.zon || S.hatSayisi || 1);
@@ -552,7 +577,9 @@ function buildBomForScenario(senaryo, zon){
   const reducer = Math.max(1, senaryo.nKuyu + (needsZoning?1:0));
   const rakor = Math.max(2, senaryo.nKuyu*2 + kolektorEk);
   const flans = senaryo.boru.d_mm>=100 || senaryo.secPompGuc>=11 ? Math.max(2, senaryo.nKuyu*2) : senaryo.nKuyu;
+  const elektrikKategori = 'Elektrik ve enerji';
   const totalPipeM = {main:anaHatM, irrigation:0};
+  let kolonSema = null;
   let mainEquipment = [
     senaryo.nKuyu + ' adet pompa',
     pipeDisplay + ' ana hat',
@@ -560,11 +587,20 @@ function buildBomForScenario(senaryo, zon){
   ];
   const ctx = {senaryo, zon, geom, items, warnings, assumptions, totalPipeM, mainEquipment};
 
-  addBomItem(items,'Pompa ve kuyu ekipmanları','Dalgıç pompa',senaryo.nKuyu,'adet',senaryo.secPompGuc+' kW / '+senaryo.pompHP+' HP · '+pumpDia.value,pumpDia.approx?{approx:true}:{});
+  // Premium mod notları — Uzun Ömürlü veya Yüksek Verimli seçiliyse ekipman kalitesi vurgulanır
+  const _isPremium   = (typeof isPremiumMode==='function')  ? isPremiumMode()   : false;
+  const _isUzunOmur  = (typeof isUzunOmurMode==='function') ? isUzunOmurMode()  : false;
+  const _isVerimli   = (typeof isVerimliMode==='function')  ? isVerimliMode()   : false;
+  const _isMaliyet   = (typeof isMaliyetMode==='function')  ? isMaliyetMode()   : false;
+  const pompaNot = senaryo.secPompGuc+' kW / '+senaryo.pompHP+' HP · '+pumpDia.value +
+    (_isVerimli  ? ' · Yüksek verimli sınıf pompa (η≥70%) tercih edilmelidir.'  : '') +
+    (_isUzunOmur ? ' · Paslanmaz gövde ve IE3 motor sınıfı önerilir.'           : '') +
+    (_isMaliyet  ? ' · Standart ekonomik sınıf pompa.'                          : '');
+  addBomItem(items,'Pompa ve kuyu ekipmanları','Dalgıç pompa',senaryo.nKuyu,'adet',pompaNot,pumpDia.approx?{approx:true}:{});
   addBomItem(items,'Pompa ve kuyu ekipmanları','Check valve (çekvalf)',senaryo.nKuyu,'adet','Her pompa çıkışına 1 adet.');
   addBomItem(items,'Pompa ve kuyu ekipmanları','Kuru çalışma koruma',senaryo.nKuyu,'adet',S.kurumaRisk==='var' || senaryo.kuyuTabanSinir ? 'Zorunlu öneri.' : 'Pompa güvenliği için önerilir.', (S.kurumaRisk==='var'||senaryo.kuyuTabanSinir)?{}:{optional:true});
   addBomItem(items,'Pompa ve kuyu ekipmanları','Seviye elektrodu',senaryo.teslim==='depo' ? Math.max(1, senaryo.nKuyu) : senaryo.nKuyu,'adet',senaryo.teslim==='depo' ? 'Depo ve kuyu seviyesini izlemek için.' : 'Kuyu izleme için opsiyonel.', senaryo.teslim==='depo'?{}:{optional:true});
-  addBomItem(items,'Pompa ve kuyu ekipmanları','Pompa kablosu',toplamPompaKablosu,'m',kabloKesit+' · kuyu derinliği + pano mesafesine göre hesaplandı.', !S.trafoMesafe && S.sistemTercih==='sebeke' ? {approx:true} : {});
+  addBomItem(items,'Pompa ve kuyu ekipmanları','Dalgıç pompa kolon kablosu',toplamPompaKablosu,'m',kabloKesit+' · kuyu içi derinlik + servis payına göre hesaplandı.');
 
   addBomItem(items,'Ana boru hattı','HDPE ana boru DN'+senaryo.boru.d_mm,anaHatM,'m','Ana hat uzunluğu + %10 fire.');
   addBomItem(items,'Ana boru hattı','PVC alternatif DN'+senaryo.boru.d_mm,anaHatM,'m','Saha ve montaj koşuluna göre opsiyon.',{optional:true,approx:true,approxHint:'Boru tipi saha ve fiyat tercihine göre netleşir.'});
@@ -604,54 +640,292 @@ function buildBomForScenario(senaryo, zon){
   addBomItem(items,'Filtrasyon ve kontrol','Basınç regülatörü',reguGerekli ? Math.max(1, senaryo.nKuyu) : 1,'adet',reguGerekli ? 'Basınç yüksek/sınırda olduğu için önerilir.' : 'Gerekirse eklenir.', reguGerekli?{}:{optional:true});
   addBomItem(items,'Filtrasyon ve kontrol','Debimetre',senaryo.nKuyu>1 || S.araziDonum>30 ? 1 : 1,'adet',senaryo.nKuyu>1 || S.araziDonum>30 ? 'İzleme için önerilir.' : 'Opsiyonel ölçüm ekipmanı.', senaryo.nKuyu>1 || S.araziDonum>30 ? {} : {optional:true});
 
-  // ── ENERJİ MALZEMELERİ ──────────────────────────────────────────────
-  // Durum 1: Sadece güneş enerjisi (sistemTercih='solar' veya 'gunes', sebekeDurum='yok')
-  // Durum 2: Sadece şebeke (sistemTercih='sebeke') → trafo mesafesine göre kablo hesabı
-  // Durum 3: Güneş + şebeke (sistemTercih='hibrit') → her iki grubun malzemeleri listelenir
-  // Durum 4: Yerel enerji var (sebekeDurum='var', sistemTercih='sebeke') → trafo/kablo hesabı
+  // ── ENERJİ MALZEMELERİ ─────────────────────────────────────────────────────────────────────────
+  // Durum 1: Sadece güneş (solar/gunes + sebekeDurum=yok)
+  // Durum 2: Sadece şebeke (sistemTercih=sebeke) → ADP + trafo kablosu
+  // Durum 3: Hibrit → her iki grubun malzemeleri + hibrit kontrol
+  // Durum 4: Yerel şebeke var + solar → Durum 1 + 2 birlikte
 
-  const isSolarEnergy = S.sistemTercih === 'solar' || S.sistemTercih === 'gunes';
-  const isSebequeOnly = S.sistemTercih === 'sebeke';
-  const isHibrit = S.sistemTercih === 'hibrit';
+  // ── Ortak yardımcı hesaplar ──
+  const sahaEnerjiKablosuM = round1(Math.max(
+    18,
+    ((panoMesafe + 8) * Math.max(1, senaryo.nKuyu)) + (senaryo.nKuyu>1 ? ((S.kuyuMesafe||0) * 0.35) : 0)
+  ));
 
+  // ─── KOLON KABLO KESİT HESABI ─────────────────────────────────────────────
+  // Hat tipi ve malzeme S state'inden alınır (chkSebeke + hesapla() ile set edilir)
+  const hatTip       = S.hatTip       || 'yeralti';   // 'yeralti' | 'havai'
+  const kabloMalzeme = S.kabloMalzeme || 'bakir';     // 'bakir' | 'aluminyum'
+  const isAl         = kabloMalzeme === 'aluminyum';
+  const isHavai      = hatTip === 'havai';
+
+  // Kablo tip adı (rapor için)
+  // Yeraltı Cu: NYY | Yeraltı Al: NAYY | Havai Cu: NYM/NYA | Havai Al: ALPEK/NAYY-J
+  const kabloTipAdi = isHavai
+    ? (isAl ? 'NAYY-J (havai, Al)' : 'NYY-J / NYA (havai, Cu)')
+    : (isAl ? 'NAYY (yeraltı, Al)' : 'NYY (yeraltı, Cu)');
+
+  // Özdirenç: Cu=0.0175, Al=0.028 Ω·mm²/m (20°C)
+  const rho = isAl ? 0.028 : 0.0175;
+
+  // Akım taşıma kapasitesi tablosu (IEC 60364-5-52, PVC izolasyon)
+  // Yeraltı döşeme (toprak içi, 20°C, tek devre): Cu ve Al için
+  // Havai hatta akım kapasitesi ~%15-20 daha yüksektir (hava soğutma)
+  const havaiFaktor = isHavai ? 1.15 : 1.0;
+  // 6 mm² Cu eklendi (IEC 60364-5-52: toprak içi 41 A, havai ~47 A)
+  const izTablosu_Cu = {6:41, 10:52, 16:68, 25:89, 35:110, 50:134, 70:170, 95:207, 120:239, 150:275, 185:314, 240:368};
+  const izTablosu_Al = {16:52, 25:68, 35:84, 50:103, 70:131, 95:162, 120:188, 150:216, 185:245, 240:287};
+  const izTablosu = isAl ? izTablosu_Al : izTablosu_Cu;
+  // 6 mm² Cu listede mevcut (şebeke kolon hattı için minimum pratik kesit)
+  const stdKesitler = isAl ? [16,25,35,50,70,95,120,150,185,240] : [6,10,16,25,35,50,70,95,120,150,185,240];
+
+  function secKolonKesit(kW, mesafeM){
+    if(kW <= 0 || mesafeM <= 0) return {kesit: stdKesitler[0], akim:0, amin:0, kabloTip:kabloTipAdi};
+    // 3-fazlı akım: I = P / (√3 × U × cosφ)
+    // Basitleştirilmiş: I = kW×1000 / (√3×380×0.9) ≈ kW×1000 / 592
+    const cosfi = 0.9;
+    const I = (kW * 1000) / (Math.sqrt(3) * 380 * cosfi);  // A (ondalıklı, yuvarlama sonra)
+    const I_ceil = Math.ceil(I);
+
+    // Gerilim düşümü hesabı: ΔU = (√3 × I × L × ρ) / A
+    // Hedef: %3 → ΔU_izin = 380 × 0.03 = 11.4 V
+    const deltaU_izin = 380 * 0.03;
+    const A_min = (Math.sqrt(3) * I * mesafeM * rho) / deltaU_izin;
+
+    // Gerilim düşümü limitinden minimum kesit
+    let secilenA = stdKesitler.find(a => a >= A_min) || stdKesitler[stdKesitler.length-1];
+
+    // Akım taşıma kapasitesi kontrolü: Iz × havaiFaktor ≥ I × 1.15 (termik koruma ile IEC standart emniyet)
+    let finalKesit = secilenA;
+    while(true){
+      const Iz = (izTablosu[finalKesit]||0) * havaiFaktor;
+      if(Iz >= I_ceil * 1.15) break;
+      const idx = stdKesitler.indexOf(finalKesit);
+      if(idx < 0 || idx >= stdKesitler.length-1){ finalKesit=stdKesitler[stdKesitler.length-1]; break; }
+      finalKesit = stdKesitler[idx+1];
+    }
+
+    // Gerçek gerilim düşümü doğrulama
+    const deltaU_gercek = (Math.sqrt(3) * I * mesafeM * rho) / finalKesit;
+    const deltaU_yuzde  = Math.round(deltaU_gercek / 380 * 100 * 10) / 10;
+
+    return {
+      kesit: finalKesit,
+      akim:  Math.round(I * 10) / 10,
+      amin:  Math.round(A_min * 10) / 10,
+      deltaU_v:    Math.round(deltaU_gercek * 10) / 10,
+      deltaU_yuzde,
+      kabloTip: kabloTipAdi
+    };
+  }
+
+  // 3 fazlı akım hesabı (şebeke için)
+  const sebekePompKW  = senaryo.secPompGuc || 0;
+  const sebekeSolarKW = (isSolarEnergy||isHibrit) ? (senaryo.totKwp||0) : 0;
+  const sebekeToplKW  = sebekePompKW + sebekeSolarKW;
+  const kolonHesap    = hasGridLine ? secKolonKesit(sebekeToplKW, effectiveTrafoM) : null;
+  const kolonKesitStr = kolonHesap
+    ? kolonHesap.kesit + ' mm² ' + (isAl?'Al':'Cu') + ' · ' + kabloTipAdi +
+      (kolonHesap.deltaU_yuzde ? ' · ΔU%=' + kolonHesap.deltaU_yuzde + '%' : '')
+    : '';
+  const sebekeAkim    = kolonHesap ? kolonHesap.akim : 0;
+
+  // ── Ortak pano ekipmanları (tüm senaryolarda) ──
+  addBomItem(items, elektrikKategori,'Ana şalter / giriş izolasyonu',1,'adet','AC taraf enerji giriş izolasyonu. Tüm senaryolarda zorunlu.');
+  addBomItem(items, elektrikKategori,'Motor koruma şalteri (TMŞ)',senaryo.nKuyu,'adet',
+    'Her pompa çıkışında termik-manyetik şalter. Kısa devre ve aşırı akım koruması için.');
+  addBomItem(items, elektrikKategori,'Faz koruma rölesi',1,'adet',
+    'Faz sırası, eksik faz ve gerilim dengesizliğine karşı koruma.');
+  addBomItem(items, elektrikKategori,'Kaçak akım koruma rölesi (RCD/RCCB)',1,'adet',
+    '30 mA hassasiyetli, ıslak ortam (sulama sahası) için zorunlu koruma.');
+  addBomItem(items, elektrikKategori,'Klemens / kablo pabucu seti',senaryo.nKuyu,'set',
+    'Pano içi sonlandırma ve servis bağlantıları.',{approx:true,approxHint:'Pano yerleşimine göre revize edilir.'});
+  // Uzun Ömürlü modda kablo kesiti bir üst standart değere yükselt (ısınma payı)
+  var _kabloKesitFinal = kabloKesit;
+  if(_isUzunOmur){
+    var _std = ['3 x 2.5 mm²','3 x 4 mm²','3 x 6 mm²','3 x 10 mm²','3 x 16 mm²','3 x 25 mm²'];
+    var _idx = _std.indexOf(kabloKesit);
+    if(_idx >= 0 && _idx < _std.length-1) _kabloKesitFinal = _std[_idx+1];
+  }
+  var _kabloNot = _kabloKesitFinal + ' · pano ile kuyu başı arası saha dağıtımı.' +
+    (_isUzunOmur ? ' Premium mod: kesit bir üst standarta yükseltildi (daha az ısınma, uzun ömür).' : '') +
+    (_isMaliyet  ? ' Standart kesit kullanıldı.' : '');
+  addBomItem(items, elektrikKategori,'Kolon / enerji kablosu (pano → kuyu başı)',sahaEnerjiKablosuM,'m',
+    _kabloNot,{approx:true,approxHint:'Gerçek güzergaha göre revize edilir.'});
+
+  // ── TOPRAKLAMA PAKETİ (zorunlu uyarı) ──
+  addBomItem(items, elektrikKategori,'⚠ Topraklama paketi (ZORUNLU)',1,'set',
+    '16 mm² bakır topraklama kablosu · Bakır veya galvaniz topraklama çubuğu (min. 1.5 m) · ' +
+    'Toprak ek klemens ve bağlantı elemanları. IEC 60364-4-41 ve IEC 62305 gereği zorunludur. ' +
+    'Islak ortam ve yıldırım riski nedeniyle ihmal edilmemelidir.');
+
+  // ── GÜNEŞ ENERJİSİ BÖLÜMÜ ──
   if(isSolarEnergy || isHibrit){
-    // SOLAR malzemeleri
     const dcCable = round1((senaryo.toplamP * (S.panelYer==='yer' ? 2.6 : 1.7)) + (senaryo.nKuyu*12));
-    addBomItem(items,'Elektrik ve enerji (Güneş)','Solar panel',senaryo.toplamP,'adet',senaryo.pW+' W panel modülü.');
-    addBomItem(items,'Elektrik ve enerji (Güneş)','İnverter',senaryo.nKuyu,'adet',senaryo.invKW+' kW pompa inverteri.');
-    addBomItem(items,'Elektrik ve enerji (Güneş)','Solar kablo',dcCable,'m','Panel yerleşimi netleşmediği için ön keşif metrajı.',{approx:true,approxHint:'Panel dizilimi ve pano konumu netleşince solar kablo metri revize edilir.'});
-    addBomItem(items,'Elektrik ve enerji (Güneş)','DC koruma ekipmanları',Math.max(1, senaryo.nKuyu),'set','Parafudr, sigorta, ayırıcı seti.');
-    addBomItem(items,'Elektrik ve enerji (Güneş)','Pompa kontrol panosu',senaryo.nKuyu,'adet','AC koruma ve sürücü bağlantısı için.');
+    const panelAlan = senaryo.panelAlanM2 || Math.round(senaryo.toplamP * 2.0 * 1.5);
+    const egim     = senaryo.optimalEgim  || 33;
+    const _panelKalite = _isVerimli ? ' Yüksek verimli monokristal (≥%21 verim) panel seçilmelidir.' :
+                         _isUzunOmur ? ' Cam-cam veya uzun garantili (≥25 yıl) panel tercih edilmelidir.' :
+                         _isMaliyet ? ' Standart polikristal veya ekonomik monokristal panel kullanılabilir.' : '';
+    // Enerji boyutlandirma katsayisi dogrudan minimum hedef gucu belirler.
+    const kwpNot   = 'Kurulu güç: pompa ' + senaryo.secPompGuc + ' kW, panel toplam ' +
+                     senaryo.totKwp + ' kWp. Enerji boyutlandırma katsayısı ×' + (senaryo.solarSizingFactor || ((S.sistemTercih === 'solar' || S.sistemTercih === 'gunes') ? 2.2 : 1.7)) +
+                     ' esas alındı. Bu pompa için minimum kurulu güç ~' + (senaryo.solarMinKwp || 9) + ' kWp olmalı. Panel: ' + senaryo.pW + ' W/adet.' + _panelKalite +
+                     ' Solar sınıf: ' + (senaryo.solarSizingLabel || 'Dengeli kurulum') + '. ' +
+                     (senaryo.solarSizingText || 'Güneş tarafı için tipik saha kayıpları dahil ön boyutlandırma uygulanmıştır.') +
+                     ' Daha rahat çalışma için dengeli / rezervli bant yaklaşık ' + (senaryo.solarBalancedKwp || senaryo.totKwp) + '-' + (senaryo.solarReserveKwp || senaryo.totKwp) + ' kWp aralığına çıkar.';
+
+
+
+    addBomItem(items, elektrikKategori,'Solar panel',senaryo.toplamP,'adet',
+      kwpNot + ' Tahmini panel alanı: ~' + panelAlan + ' m². ' +
+      'Optimal montaj eğimi (' + (S.ilSecim||'orta') + ' ili): ' + egim + '°.');
+    addBomItem(items, elektrikKategori,'Solar pompa inverteri',senaryo.nKuyu,'adet',
+      senaryo.invKW+' kW pompa inverteri. MPPT denetimli, dalgıç pompa sürücüsü.');
+    addBomItem(items, elektrikKategori,'Solar DC kablo',dcCable,'m',
+      'Panel → inverter arası DC hat. Ön keşif metrajı.',{approx:true,approxHint:'Panel dizilimi netleşince revize edilir.'});
+    addBomItem(items, elektrikKategori,'DC koruma ekipmanları (string sigorta + parafudr)',Math.max(1,senaryo.nKuyu),'set',
+      'String sigorta, DC parafudr ve DC ayırıcı seti. Her inverter girişine.');
+    addBomItem(items, elektrikKategori,'Panel taşıyıcı konstrüksiyon',Math.max(1,senaryo.nKuyu),'set',
+      S.panelYer==='yer'
+        ? 'Sabit eğimli yer montaj çelik konstrüksiyonu. Optimal eğim: '+egim+'°.'
+        : 'Çatı/yapı üstü montaj konstrüksiyonu. Eğim yapıya göre netleşir.',
+      {approx:true,approxHint:'Panel dizilimi ve montaj sahası netleşince kesinleşir.'});
     if(isHibrit){
-      addBomItem(items,'Elektrik ve enerji (Güneş)','Hibrit şarj kontrol ünitesi',1,'adet','Güneş ve şebeke geçişini yöneten kontrol ünitesi.');
-      addBomItem(items,'Elektrik ve enerji (Güneş)','Enerji izleme modülü',1,'adet','Güneş / şebeke enerji payını izlemek için.',{tag:'optional'});
+      addBomItem(items, elektrikKategori,'Hibrit kontrol ünitesi',1,'adet',
+        'Güneş ve şebeke geçişini otomatik yöneten kontrol ünitesi.');
+      addBomItem(items, elektrikKategori,'Enerji izleme modülü',1,'adet',
+        'Güneş / şebeke enerji payını izlemek için.',{tag:'optional'});
     }
+    mainEquipment.push('solar panel ' + senaryo.toplamP + ' adet (' + senaryo.totKwp + ' kWp)');
   }
 
-  if(isSebequeOnly || isHibrit){
-    // ŞEBEKE malzemeleri — trafo mesafesine göre kablo hesabı
-    const trafoM = S.trafoMesafe || 0;
-    const enerjiKablosuM = round1((trafoM > 0 ? trafoM : 25) * 1.1 * Math.max(1, senaryo.nKuyu));
-    const trafoNot = trafoM > 0
-      ? 'Trafo mesafesi ' + trafoM + ' m olarak girildi. ' + kabloKesit + ' kablo.'
-      : 'Trafo mesafesi girilmedi; 25 m varsayıldı. ' + kabloKesit + ' kablo.';
-    const trafoApprox = trafoM > 0 ? {} : {approx:true, approxHint:'Trafo ve pano konumu netleşince enerji kablosu metrajı revize edilir.'};
+  // ── ŞEBEKE / AC ALTYAPI BÖLÜMÜ ──
+  if(hasGridLine){
+    const enerjiKablosuM = round1(effectiveTrafoM * 1.1 * Math.max(1, senaryo.nKuyu));
+    const trafoNot = trafoInputM > 0
+      ? 'Trafo mesafesi ' + trafoInputM + ' m. Gerilim düşümü hesabına göre kesit: ' + kolonKesitStr + '.'
+      : 'Trafo mesafesi girilmedi; 25 m varsayıldı. Kesit: ' + kolonKesitStr + '.';
+    const trafoApprox = trafoInputM > 0 ? {} : {approx:true,approxHint:'Trafo ve pano konumu netleşince kablo revize edilir.'};
 
-    const sebeCategory = isHibrit ? 'Elektrik ve enerji (Şebeke)' : 'Elektrik ve enerji';
-    addBomItem(items, sebeCategory,'Pompa panosu',senaryo.nKuyu,'adet','Şebeke kontrollü pano.');
-    addBomItem(items, sebeCategory,'Kontaktör',senaryo.nKuyu,'adet','Motor kumandası için.');
-    addBomItem(items, sebeCategory,'Termik röle',senaryo.nKuyu,'adet','Motor koruması için.');
-    addBomItem(items, sebeCategory,'Sigorta seti',senaryo.nKuyu,'set','Giriş ve motor koruma sigortaları.');
-    addBomItem(items, sebeCategory,'Enerji kablosu (trafo → pano)',enerjiKablosuM,'m', trafoNot, trafoApprox);
-    if(trafoM > 50){
-      // Uzun trafo hattı için ek not
-      addBomItem(items, sebeCategory,'Kablo kanalı / koruyucu',round1(trafoM * 1.05),'m','Trafo hattı boyunca kablo koruması.',{approx:true,approxHint:'Kablo güzergahına göre saha keşfiyle netleşir.'});
+    // Ana Dağıtım Panosu (ADP) — şebeke varsa zorunlu
+    addBomItem(items, elektrikKategori,'Ana Dağıtım Panosu (ADP)',1,'adet',
+      'Şebeke girişi, sigorta grubu ve pompanın tüm AC kontrolü bu panoda toplanır. ' +
+      'Pompalar icin toplam yuk: ~' + sebekeToplKW.toFixed(1) + ' kW.');
+    addBomItem(items, elektrikKategori,'Pompa panosu',senaryo.nKuyu,'adet','Şebeke + motor kontrol ünitesi.');
+    addBomItem(items, elektrikKategori,'Kontaktör',senaryo.nKuyu,'adet','Motor kumandası için AC kontaktör.');
+    addBomItem(items, elektrikKategori,'Termik röle',senaryo.nKuyu,'adet','Motor aşırı akım koruması için termik röle.');
+    addBomItem(items, elektrikKategori,'NH sigorta seti (giriş + motor)',senaryo.nKuyu,'set',
+      'Giriş bıçaklı sigorta grubu ve motor koruma sigortaları.');
+
+    // 3 fazlı akım bilgisi raporla
+    const sebekeI = sebekeToplKW > 0 ? Math.round(sebekeToplKW*1000/(Math.sqrt(3)*380*0.9)) : 0;
+    const akimNot = sebekeToplKW > 0 ? '3 fazli (trifaze) sistem akimi: ~'+sebekeToplKW.toFixed(1)+' kW, ~'+sebekeI+' A (cos fi=0.9). ' : '';
+
+    // Trafo kolon kablosu — 4 iletken (3 faz + nötr), Cu
+    const _kolonKesit  = kolonHesap ? kolonHesap.kesit : (isAl ? 25 : 16);
+    const _kabloMalzAd = isAl ? 'Al' : 'Cu';
+    const _dusuNot     = kolonHesap && kolonHesap.deltaU_yuzde
+      ? ' Hesaplanan ΔU%=' + kolonHesap.deltaU_yuzde + '% (limit %3). I≈' + (kolonHesap.akim||0).toFixed(1) + ' A.'
+      : ' Gerilim düşümü %3 limiti esas alındı.';
+    const _hatNot      = isHavai ? ' Havai hat döşeme.' : ' Yeraltı döşeme (toprak içi, beton koruma önerilir).';
+    addBomItem(items, elektrikKategori,
+      'Ana kolon kablosu (trafo → ADP) — 4×' + _kolonKesit + ' mm² ' + _kabloMalzAd + ' ' + kabloTipAdi,
+      enerjiKablosuM,'m',
+      trafoNot + ' 4 iletken (3 faz + nötr).' + _dusuNot + _hatNot,
+      trafoApprox);
+    if(effectiveTrafoM > 50){
+      addBomItem(items, elektrikKategori,'Kablo kanalı / boru koruması',round1(effectiveTrafoM * 1.05),'m',
+        'Trafo hattı boyunca kablo koruması (HDPE boru veya galvaniz kanal).',
+        {approx:true,approxHint:'Kablo güzergahına göre saha keşfiyle netleşir.'});
     }
     if(isHibrit){
-      addBomItem(items, sebeCategory,'Şebeke bağlantı sigortası',1,'set','Hibrit sistemde şebeke giriş koruması için.');
+      addBomItem(items, elektrikKategori,'Şebeke bağlantı sigortası',1,'set','Hibrit sistemde şebeke giriş koruması.');
     }
+    mainEquipment.push('ADP + ' + enerjiKablosuM + ' m kolon kablosu');
   }
-  // ─────────────────────────────────────────────────────────────────────
+
+  // ── KOLON ŞEMASI / TEK HAT ÖZETI ──────────────────────────────────────────────────────────────
+  (function buildKolonSema(){
+    const hasGrid  = hasGridLine;
+    const hasSolar = isSolarEnergy || isHibrit;
+    const yontem   = S.sulamaYontem === 'yagmurlama' ? 'Sprinkler başlıkları' : S.sulamaYontem === 'damla' ? 'Damla lateralleri' : 'Yüzey dağıtım hattı';
+    const mode = hasSolar && hasGrid ? 'hibrit' : hasSolar ? 'solar' : 'sebeke';
+    const cableText = hasGrid
+      ? '4×' + (kolonHesap ? kolonHesap.kesit : 95) + ' mm² ' + (isAl ? 'Al' : 'Cu') + ' ' + kabloTipAdi
+      : '';
+    const energySources = [];
+    let mergeNode = null;
+    let energyFlow = [];
+
+    if(mode === 'hibrit'){
+      energySources.push(
+        { label:'Trafo / Şebeke', meta:cableText + ' · ADP girişi' },
+        { label:'Solar Panel Dizisi', meta:senaryo.totKwp + ' kWp · ' + senaryo.toplamP + ' adet' }
+      );
+      mergeNode = { label:'Ana Dağıtım Panosu (ADP)', meta:'Şebeke + solar AC toplama ve ana koruma' };
+      energyFlow = [
+        { label:'Pompa Panosu', meta:'TMŞ + faz koruma + RCD' },
+        { label:'Dalgıç Pompa', meta:senaryo.secPompGuc + ' kW' }
+      ];
+    } else if(mode === 'solar'){
+      energyFlow = [
+        { label:'Solar Panel Dizisi', meta:senaryo.totKwp + ' kWp · ' + senaryo.toplamP + ' adet' },
+        { label:'DC Koruma', meta:'String sigorta + parafudr' },
+        { label:'Pompa İnverteri', meta:senaryo.invKW + ' kW · MPPT sürücü' },
+        { label:'Pompa Panosu', meta:'TMŞ + faz koruma + RCD' },
+        { label:'Dalgıç Pompa', meta:senaryo.secPompGuc + ' kW' }
+      ];
+    } else {
+      energyFlow = [
+        { label:'Trafo / Şebeke', meta:cableText || 'AC giriş hattı' },
+        { label:'Ana Dağıtım Panosu (ADP)', meta:'Giriş izolasyonu + ana koruma' },
+        { label:'Pompa Panosu', meta:'TMŞ + kontaktör + termik + RCD' },
+        { label:'Dalgıç Pompa', meta:senaryo.secPompGuc + ' kW' }
+      ];
+    }
+
+    const waterFlow = [
+      { label:'Kuyu', meta:'Su kaynağı' },
+      { label:'Dalgıç Pompa', meta:senaryo.secPompGuc + ' kW' },
+      { label:'Çekvalf', meta:'Geri kaçışı önler' },
+      { label:'Ana Hat', meta:'HDPE DN' + senaryo.boru.d_mm + pipeTechNote },
+      { label:'Filtre Grubu', meta:'Kum + disk filtrasyon' }
+    ];
+    if(senaryo.tipi==='depolu' || senaryo.teslim==='depo'){
+      waterFlow.push({ label:'Depo', meta:'Tampon hacim / ara depolama' });
+    }
+    if(senaryo.tipi==='zonlu' || (zon && zon.zon > 1)){
+      waterFlow.push({ label:'Zon Vanaları', meta:(zon?.zon || 1) + ' zon' });
+    }
+    waterFlow.push({ label:yontem, meta:'Saha dağıtım sonu' });
+
+    kolonSema = {
+      mode,
+      modeLabel: mode === 'hibrit' ? 'Hibrit kolon şeması' : mode === 'solar' ? 'Solar kolon şeması' : 'Şebeke kolon şeması',
+      modeNote: mode === 'hibrit'
+        ? 'Şebeke ve güneş aynı ana dağıtım panosunda birleşir.'
+        : mode === 'solar'
+          ? 'Enerji akışı DC taraftan inverter üzerinden pompaya iner.'
+          : 'Enerji akışı şebekeden doğrudan pano ve pompa hattına ilerler.',
+      energySources,
+      mergeNode,
+      energyFlow,
+      waterFlow,
+      grounding: {
+        title:'Topraklama ve koruma',
+        note:'Islak ortam, kaçak akım ve yıldırım etkileri için topraklama ihmal edilmez.',
+        tags:[
+          '16 mm² bakır topraklama kablosu',
+          'Bakır / galvaniz çubuk (min 1.5 m)',
+          'IEC 60364-4-41',
+          'IEC 62305'
+        ]
+      }
+    };
+    assumptions.push('Kolon / tek hat şeması seçili çözüm için ayrı panelde ön keşif seviyesinde gösterildi.');
+  })();
+  // ─────────────────────────────────────────────────────────────────────────────────────────────
 
   if(senaryo.tipi==='depolu' || senaryo.teslim==='depo'){
     const tankM3 = estimateTankVolume(senaryo);
@@ -682,6 +956,15 @@ function buildBomForScenario(senaryo, zon){
   if(!S.kuyuDebi){
     assumptions.push('Kuyu debisi bilinmediği için su verme güveni saha verisiyle netleşir.');
   }
+  // Hedef seçimi rapor notu
+  if(_isPremium){
+    var _hedefAd = [];
+    if(_isUzunOmur) _hedefAd.push('Uzun Ömürlü');
+    if(_isVerimli)  _hedefAd.push('Yüksek Verimli');
+    assumptions.push('Sistem hedefi: '+_hedefAd.join(' + ')+'. Kablo kesitleri, pompa ve panel sınıfı premium standarda göre seçilmiştir. Malzeme listesindeki notlar incelenmelidir.');
+  } else if(_isMaliyet){
+    assumptions.push('Sistem hedefi: Maliyet Odaklı. Standart ekipman seçilmiştir; uzun vadeli işletme maliyetleri değerlendirilmelidir.');
+  }
   if(S.sulamaYontem==='yagmurlama' && !getSprinklerLayoutModel().exact){
     assumptions.push(isLandscapeProduction() ? 'Peyzaj başlık hesabı ön kabul ile üretildi.' : 'Sprinkler hesabında standart grid varsayıldı.');
   }
@@ -693,7 +976,7 @@ function buildBomForScenario(senaryo, zon){
         : 'Damla sistem hesabında standart yerleşim varsayımı kullanıldı.'
     );
   }
-  if(!S.trafoMesafe && S.sistemTercih==='sebeke'){
+  if(!S.trafoMesafe && hasGridLine){
     assumptions.push('Trafo/pano mesafesi girilmediği için 25 m enerji kablosu varsayıldı.');
   }
 
@@ -711,9 +994,10 @@ function buildBomForScenario(senaryo, zon){
     groups:groupBomItems(items),
     warnings:uniqueScenarioRefs(warnings),
     assumptions:uniqueScenarioRefs(assumptions),
+    kolonSema,
     override:smartOverride,
     summary:{
-      pumpText:senaryo.nKuyu+' pompa · '+senaryo.secPompGuc+' kW'+(senaryo.nKuyu>1?' x '+senaryo.nKuyu:''),
+      pumpText:senaryo.nKuyu+' pompa · '+senaryo.secPompGuc+' kW/pompa'+(senaryo.nKuyu>1?' · toplam '+senaryo.toplamKW+' kW':''),
       pipeText:totalPipe+' m toplam boru',
       mainEquipment:mainEquipment.slice(0,4),
       mainPipe:anaHatM,

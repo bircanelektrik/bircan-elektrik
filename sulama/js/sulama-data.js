@@ -15,7 +15,7 @@ const S = {
   boruCap:'', boruTip:'hdpe', hatSayisi:1, calismaSure:8, teslimNokta:'direkt',
   gunlukSu:0, gunlukSuState:'empty',
   basinc:0, basincState:'empty',
-  tipSiraArasi:0, tipBitkiArasi:0, tipToplamSira:0, tipTarlaEn:0, tipTarlaBoy:0,
+  tipSiraArasi:0, tipBitkiArasi:0, tipAgacAralikM2:0, tipToplamSira:0, tipTarlaEn:0, tipTarlaBoy:0,
   tipToplamAgac:0, tipAgacDamlaAdet:0, tipLateralTip:'tek', tipDamlaticiDebi:0,
   tipDamlaticiAralik:0, tipEkiliOran:100, tipLateralYon:'uzun', tipDikimTip:'tek',
   tipBahceYasi:'olgun', tipDirekArasi:0, tipSprinklerPreset:'standart', tipBaslikAralikX:0, tipBaslikAralikY:0,
@@ -152,12 +152,14 @@ const YB={
 const BORU_IC={63:56,75:68,90:82,110:100,125:114,160:147,200:184};
 const GP={orta:5.2,ege:5.8,akdeniz:6.0,gdo:6.2,ic:5.0,marmara:4.5,karadeniz:3.8};
 const STD_POMP=[0.75,1.1,1.5,2.2,3,4,5.5,7.5,11,15,18.5,22,30,37,45,55,75];
-// Pompa gücü (kW) → maksimum basma yüksekliği (mSS) tahmini
-// Kaynak: SS 615 serisi 4" dalgıç pompa kataloğu + sahada doğrulanmış tipik TDH bantları.
-// Bu değerler BOP (Best Operating Point) civarındaki debide elde edilebilir maksimumdur.
-// Güvenlik: seçim yapılırken %15 pay bırakılır (yani talep_TDH > STD_POMP_TDH[kW]*0.85 ise bir üst seç).
+// Pompa gücü (kW) → tipik ulaşılabilir basma yüksekliği (mSS)
+// Revize: Nisan 2026 saha katalog kontrolü (Impo / WNP / Pedrollo örnek eğrileri) ile
+// küçük-orta güç pompaların eski tablodan fazla düşük kaldığı görüldü.
+// Bu tablo artık "mutlak max" değil, pratikte seçime esas alınabilecek tipik başlık bandıdır.
+// Özellikle 5.5–11 kW sınıfı daha gerçekçi hale getirildi; böylece 150–200 mSS bandında
+// gereksiz 22–37 kW sıçramaları önlenir.
 const STD_POMP_TDH={
-  0.75:30, 1.1:40, 1.5:50, 2.2:65, 3:80, 4:100, 5.5:130, 7.5:170,
-  11:220, 15:270, 18.5:320, 22:370, 30:440, 37:510, 45:570, 55:640, 75:750
+  0.75:35, 1.1:48, 1.5:62, 2.2:82, 3:105, 4:140, 5.5:195, 7.5:235,
+  11:295, 15:355, 18.5:415, 22:470, 30:560, 37:650, 45:730, 55:810, 75:930
 };
 const STD_INV=[1.5,2.2,4,5.5,7.5,11,15,18.5,22,30,37,45,55,75,90,110];

@@ -24,6 +24,7 @@ function buildLayoutSanityWarnings(){
 
   // ── 1. Sıra arası × üretim tipi mantığı ─────────────────────────
   const rowSpace = Number(S.tipSiraArasi) || 0;
+  const plantAreaM2 = Number(S.tipAgacAralikM2) || 0;
   if(rowSpace > 0){
     if(['meyve','zeytinlik'].includes(production)){
       if(rowSpace < 2){
@@ -59,7 +60,13 @@ function buildLayoutSanityWarnings(){
 
   // ── 2. Bitki/ağaç arası mantığı ────────────────────────────────
   const plantSpace = Number(S.tipBitkiArasi) || 0;
-  if(plantSpace > 0 && ['meyve','zeytinlik'].includes(production) && plantSpace < 1.5){
+  if(plantAreaM2 > 0 && ['meyve','zeytinlik'].includes(production) && plantAreaM2 < 4){
+    out.push({
+      tip:'warn', anchor:'layout',
+      mesaj:'Ağaç aralığı ' + plantAreaM2 + ' m²/ağaç çok dar. Değeri kontrol edin; su tahmini bu yoğunluğu doğrudan kullanır.'
+    });
+  }
+  if(!plantAreaM2 && plantSpace > 0 && ['meyve','zeytinlik'].includes(production) && plantSpace < 1.5){
     out.push({
       tip:'warn', anchor:'layout',
       mesaj:'Ağaç arası '+plantSpace+' m çok dar. Olgun taçlı ağaçlar için genel aralık 3–6 m olur; değeri kontrol edin.'
@@ -88,12 +95,14 @@ function buildLayoutSanityWarnings(){
   }
 
   // ── 4. Ağaç yoğunluğu — sıra × bitki geometrisinden türetilmiş ─
-  if(rowSpace > 0 && plantSpace > 0 && don > 0 && ['meyve','zeytinlik','bag'].includes(production) && !toplamAgac){
-    const hektarBasiAgac = 10000 / (rowSpace * plantSpace);
+  const treeAreaM2 = plantAreaM2 > 0 ? plantAreaM2 : (rowSpace > 0 && plantSpace > 0 ? (rowSpace * plantSpace) : 0);
+  if(treeAreaM2 > 0 && don > 0 && ['meyve','zeytinlik','bag'].includes(production) && !toplamAgac){
+    const hektarBasiAgac = 10000 / treeAreaM2;
+    const spacingLabel = plantAreaM2 > 0 ? (plantAreaM2 + ' m²/ağaç') : (rowSpace + ' × ' + plantSpace + ' m');
     if(production==='meyve' && hektarBasiAgac > 2500){
       out.push({
         tip:'warn', anchor:'layout',
-        mesaj:'Girilen '+rowSpace+' × '+plantSpace+' m düzeni hektar başına '+Math.round(hektarBasiAgac)+' ağaç çıkarıyor — bu bodur/süper yoğun dikim seviyesidir. Standart bahçe için değerleri kontrol edin.'
+        mesaj:'Girilen '+spacingLabel+' düzeni hektar başına '+Math.round(hektarBasiAgac)+' ağaç çıkarıyor — bu bodur/süper yoğun dikim seviyesidir. Standart bahçe için değerleri kontrol edin.'
       });
     } else if(production==='zeytinlik' && hektarBasiAgac > 500){
       out.push({
@@ -206,21 +215,42 @@ function buildCalculationValidation(){
     add(warnings, msg);
     if(hard) hardWarningCount++;
   };
+  // ── Uygulama kapsam sınırları ──
+  const SINIR = {
+    kuyuDerinlikMax: 150,  // m — üstü özel mühendislik projesi
+    araziDonumMax:   25,   // dönüm — üstünde hesap yapılmaz
+    gunlukSuIdeal:   7000  // ton/gün — üstünde uyarı
+  };
+  // --- BLOCKER: kuyu derinliği ---
+  if(S.kuyuDerinlik > SINIR.kuyuDerinlikMax)
+    add(blockers,'Kuyu derinliği '+S.kuyuDerinlik+' m — uygulama sınırı '+SINIR.kuyuDerinlikMax+' m. Bu derinlik özel mühendislik projesi gerektirir; ön keşif aracı doğru sonuç veremez.');
+  // --- BLOCKER: arazi ---
+  if(S.araziDonum > SINIR.araziDonumMax)
+    add(blockers,'Arazi '+S.araziDonum+' dönüm — uygulama sınırı '+SINIR.araziDonumMax+' dönümdür. Alanı ≤'+SINIR.araziDonumMax+' dönümlük bloklara bölüp her blok için ayrı analiz yapın.');
+  // --- WARNING: günlük su 7000 ton/gün üstünde ---
+  if(S.gunlukSu > SINIR.gunlukSuIdeal)
+    addWarning('Günlük su ihtiyacı '+S.gunlukSu+' ton/gün — ideal bant 7000 ton/gün altıdır. Bu değerde büyük sistem sınıfına girilir; sonuçlar ön keşif niteliği taşır.', true);
+
   if(!S.kuyuDerinlik) add(blockers,'Kuyu derinligi gerekli.');
   if(!S.gunlukSu) add(blockers,'Gunluk su ihtiyaci gerekli.');
   if(!S.araziDonum) add(blockers,'Arazi buyuklugu (donum) gerekli.');
   if(!S.uretimTipi) add(blockers,'Uretim tipi gerekli.');
   if(S.uretimTipi && !S.urunTip) addWarning('Urun secilmedi. Su tahmini urun bilgisi olmadan zayif kalir.');
+  if(!(Number(S.kuyuDebi) > 0)) addWarning('Kuyu debisi girilmedi. Sonuc en fazla sartli uygun seviyesinde yorumlanabilir.', true);
 
   const missingCritical = [];
-  if(ctx.isSprinkler){
+  // ctx hem S.sulamaYontem hem de S.uretimTipi'ne göre türetilir.
+  // Çift güvence: ctx + S.sulamaYontem doğrudan kontrol (radio gecikmesi sorununu önler)
+  const _yontemSprinkler = ctx.isSprinkler && S.sulamaYontem === 'yagmurlama';
+  const _yontemDamla     = ctx.isDrip      && S.sulamaYontem === 'damla';
+  const _yontemSalma     = S.sulamaYontem === 'salma';
+  if(_yontemSprinkler){
     if(!hasPositive(S.tipBaslikAralikX || S.spAralikX)) missingCritical.push('Sprinkler araligi X');
     if(!hasPositive(S.tipBaslikAralikY || S.spAralikY)) missingCritical.push('Sprinkler araligi Y');
     if(!hasPositive(S.tipBaslikDebi || S.spDebi)) missingCritical.push('Sprinkler debisi');
-  } else if(ctx.isDrip){
+  } else if(_yontemDamla){
     if(ctx.isTree){
-      if(!hasPositive(S.tipSiraArasi)) missingCritical.push('Sira arasi');
-      if(!hasPositive(S.tipBitkiArasi)) missingCritical.push('Agac / omca araligi');
+      if(!hasPositive(S.tipAgacAralikM2) && !hasPositive(S.tipToplamAgac)) missingCritical.push('Agac / omca araligi (m2) veya toplam agac');
       if(!hasPositive(S.tipAgacDamlaAdet)) missingCritical.push('Bitki basina damlatici adedi');
       if(!hasPositive(S.tipDamlaticiDebi)) missingCritical.push('Damlatici debisi');
     } else if(S.uretimTipi==='sebze'){
@@ -257,13 +287,13 @@ function buildCalculationValidation(){
     }
   });
 
-  if(ctx.isSprinkler && (
+  if(_yontemSprinkler && (
     hasPositive(S.tipDamlaticiDebi) || hasPositive(S.tipDamlaticiAralik) || hasPositive(S.tipAgacDamlaAdet) ||
     hasPositive(S.dmlSiraArasi) || hasPositive(S.dmlDamlAralik) || hasPositive(S.dmlDamlDebi) || hasPositive(S.dmlAgacDamlaAdet)
   )){
     addWarning('Damla alanlarinda dolu veri var; yagmurlama hesabinda bunlar kullanilmayacak.');
   }
-  if(ctx.isDrip && (
+  if(_yontemDamla && (
     hasPositive(S.tipBaslikAralikX) || hasPositive(S.tipBaslikAralikY) || hasPositive(S.tipBaslikDebi) ||
     hasPositive(S.spAralikX) || hasPositive(S.spAralikY) || hasPositive(S.spDebi)
   )){
@@ -284,15 +314,27 @@ function buildCalculationValidation(){
       addWarning('Donum bilgisi ile en-boy carpimi arasinda %'+Math.round(diff*100)+' fark var. Su ihtiyaci donume, yerlesim hesabı en-boy verisine gore yapiliyor.', true);
     }
   }
-  if(ctx.isTree && hasPositive(S.tipToplamAgac) && hasPositive(S.tipSiraArasi) && hasPositive(S.tipBitkiArasi) && hasPositive(S.tipTarlaEn) && hasPositive(S.tipTarlaBoy)){
-    const derivedTreeCount = estimateFitCount(S.tipTarlaEn, S.tipSiraArasi) * estimateFitCount(S.tipTarlaBoy, S.tipBitkiArasi);
-    const diff = Math.abs(derivedTreeCount - S.tipToplamAgac) / Math.max(1, S.tipToplamAgac);
-    if(diff>0.15){
-      addWarning('Toplam agac sayisi ile sira planindan tureyen sayi uyusmuyor. Manuel agac sayisi kullanilacak.', true);
+  if(ctx.isTree && hasPositive(S.tipToplamAgac)){
+    const areaM2 = (hasPositive(S.tipTarlaEn) && hasPositive(S.tipTarlaBoy))
+      ? (S.tipTarlaEn * S.tipTarlaBoy)
+      : ((S.araziDonum || 0) * 1000);
+    let derivedTreeCount = 0;
+    if(hasPositive(S.tipAgacAralikM2) && areaM2>0){
+      derivedTreeCount = Math.max(1, Math.round(areaM2 / S.tipAgacAralikM2));
+    } else if(hasPositive(S.tipSiraArasi) && hasPositive(S.tipBitkiArasi) && hasPositive(S.tipTarlaEn) && hasPositive(S.tipTarlaBoy)){
+      derivedTreeCount = estimateFitCount(S.tipTarlaEn, S.tipSiraArasi) * estimateFitCount(S.tipTarlaBoy, S.tipBitkiArasi);
+    }
+    if(derivedTreeCount>0){
+      const diff = Math.abs(derivedTreeCount - S.tipToplamAgac) / Math.max(1, S.tipToplamAgac);
+      if(diff>0.15){
+        addWarning('Toplam agac sayisi ile yerlesimden tureyen sayi uyusmuyor. Manuel agac sayisi kullanilacak.', true);
+      }
     }
   }
-  if(!blockers.length && S.gunlukSu>0 && S.calismaSure>0 && (ctx.isSprinkler || ctx.isDrip)){
-    const zonePreview = getHydraulicZoneDemand(S.gunlukSu / S.calismaSure, S.hatSayisi || 1);
+  const suPreviewModel = (typeof hesapSu==='function') ? hesapSu() : null;
+  const suPreview = (S.gunlukSu>0) ? S.gunlukSu : ((suPreviewModel && suPreviewModel.aktif) ? suPreviewModel.aktif : 0);
+  if(!blockers.length && suPreview>0 && S.calismaSure>0 && (ctx.isSprinkler || ctx.isDrip)){
+    const zonePreview = getHydraulicZoneDemand(suPreview / S.calismaSure, S.hatSayisi || 1);
     if(zonePreview && zonePreview.autoAdjusted){
       addWarning('Girilen zon/hat degeri hidrolik olarak yetmiyor. Yerlesim ve pompa debisine gore en az ' + zonePreview.minZones + ' zon gerekli; sistem bunu otomatik revize edecek.', true);
     }
@@ -310,10 +352,10 @@ function buildCalculationValidation(){
     warnings,
     checks,
     canAnalyze:blockers.length===0,
-    badgeLabel:{ready:'Hesap hazir', provisional:'On kabul', blocked:'Eksik kritik veri'}[level],
-    title:{ready:'Hesap dogrulamasi guclu', provisional:'Hesap on kabul seviyesinde', blocked:'Hesap icin kritik eksik var'}[level],
+    badgeLabel:{ready:'Hesap hazir', provisional:'Sartli on uygun', blocked:'Eksik kritik veri'}[level],
+    title:{ready:'Hesap dogrulamasi guclu', provisional:'Hesap sartli on uygun seviyesinde', blocked:'Hesap icin kritik eksik var'}[level],
     summary:{ready:'Gorunen alanlar secilen yontemle uyumlu ve ana veri kaynagi net.',
-      provisional:'Sonuc uretilebilir; ancak bazi yerlesim alanlari veya cakismlar nedeniyle on kabul etiketi gerekir.',
+      provisional:'Sonuc uretilebilir; ancak debi veya yerlesim teyidi eksik oldugu icin cikti sartli yorumlanmalidir.',
       blocked:'Sonuc uretmeden once temel eksikler tamamlanmali.'}[level]
   };
   if(typeof dbg!=="undefined") dbg.validation(_vres);
@@ -322,6 +364,12 @@ function buildCalculationValidation(){
 function renderValidationPanel(validation){
   const panel=document.getElementById('calcValidationPanel');
   if(!panel) return;
+  // Validation paneli sadece Adım 4'te (sistem hedefi) gösterilsin
+  const currentStep = window._currentStep || 1;
+  if(currentStep < 4){
+    panel.style.display='none';
+    return;
+  }
   const hasContext = !!(S.kuyuDerinlik || S.gunlukSu || S.uretimTipi || S.araziDonum);
   if(!hasContext){
     panel.style.display='none';
@@ -453,6 +501,7 @@ function calcDailyWaterNeed(urunTip, araziDonum, sulamaYontem, uretimTipi, agacP
 
   if(!B || !don) return null;
 
+  // Emniyet çarpanı: %10 ek güvenlik payı (voltaj dalgası, debi sapması)
   const EMNIYET = 1.10;
 
   // Ağaç bazlı hesap: üretim tipi VEYA ürünün kendi type'ı meyve/bağ/zeytinlik ise
@@ -460,47 +509,40 @@ function calcDailyWaterNeed(urunTip, araziDonum, sulamaYontem, uretimTipi, agacP
   const isTree = (tip==='meyve'||tip==='bag'||tip==='zeytinlik') ||
                  (bTip==='meyve'||bTip==='bag'||bTip==='zeytinlik');
   if(isTree){
-    const AGAC_OPT = {
-      elma:100, armut:90, kiraz:75, seftali:95, kayisi:85,
-      nar:75, ceviz:125, incir:65,
-      uzum:45, bagDiger:45,
-      zeytin:60, zeytinDiger:55, meyveDiger:90
-    };
-    const litreOpt = AGAC_OPT[urunTip] || 90;
-    const ag = agacParams || {};
-    let agacSayisi = parseFloat(ag.tipToplamAgac) || 0;
-    let guven = 'on-kabul';
-
-    if(!agacSayisi && parseFloat(ag.tipSiraArasi)>0 && parseFloat(ag.tipBitkiArasi)>0){
-      const en  = parseFloat(ag.tipTarlaEn)  || Math.sqrt(don*1000)*1.3;
-      const boy = parseFloat(ag.tipTarlaBoy) || Math.sqrt(don*1000)*0.77;
-      agacSayisi = estimateFitCount(en, parseFloat(ag.tipSiraArasi)) *
-                   estimateFitCount(boy, parseFloat(ag.tipBitkiArasi));
-      guven = 'iyi';
-    }
-    if(!agacSayisi){
-      const perDonum = tip==='zeytinlik' ? 18 : tip==='bag' ? 30 : 50;
-      agacSayisi = Math.round(don * perDonum);
-    }
-    if(parseFloat(ag.tipToplamAgac)>0){
-      agacSayisi = parseFloat(ag.tipToplamAgac);
-      guven = 'gercek';
-    }
-
-    const gunlukTon = (agacSayisi * litreOpt * EMNIYET) / 1000;
-    const damla      = round1(gunlukTon);
-    const yagmurlama = round1(gunlukTon * 1.20);           // +%20 buharlaşma + rüzgar
-    // Salma: akademik standart randıman %50 → +%100 israf payı
-    const salma      = round1(gunlukTon * 2.00);
-    const aktif = yontem==='damla' ? damla : yontem==='yagmurlama' ? yagmurlama : salma;
+    // pikMM × kapsama faktörü × dönüm = net ton/gün (dönüm bazlı, ağaç sayısından bağımsız)
+    // Kapsama faktörü: damla sadece ağaç tac iz düşümünü sular — tüm dönümü değil.
+    // Kaynak: FAO-56 Kc × ET₀, DSİ sulama kılavuzu, TAGEM (v7.8)
+    // meyve  %65: 4×3-5×4m dikim, tac alanı/parsel alanı ≈ 0.65
+    // bag    %70: 3×2.2m sıkışık omca, tac kaplama yüksek
+    // zeytinlik %45: 6×6-8×8m seyrek dikim, boş alan fazla
+    const treeType = (tip==='meyve'||tip==='bag'||tip==='zeytinlik') ? tip : (bTip==='meyve'||bTip==='bag'||bTip==='zeytinlik' ? bTip : 'meyve');
+    const KAPSAMA = {meyve:0.65, bag:0.70, zeytinlik:0.45};
+    const kapsama = KAPSAMA[treeType] || 0.65;
+    const netTonGun = round1(B.pikMM * kapsama * don);
+    const rawDamla      = round1(netTonGun / VERIM.damla      * EMNIYET);
+    const rawYagmurlama = round1(netTonGun / VERIM.yagmurlama * EMNIYET);
+    const rawSalma      = round1(netTonGun / VERIM.salma      * EMNIYET);
+    // Güvenlik limiti: ton/dönüm/gün — fiziksel üst bant, normalde tetiklenmez
+    const treeLimits = {meyve:8.0, bag:7.0, zeytinlik:5.0};
+    const maxTonDonumGun = treeLimits[treeType] || 8.0;
+    const maxAktifTon = Math.max(0.5, maxTonDonumGun * don);
+    const damla      = round1(Math.min(rawDamla,      maxAktifTon));
+    const yagmurlama = round1(Math.min(rawYagmurlama, maxAktifTon));
+    const salma      = round1(Math.min(rawSalma,      maxAktifTon));
+    const aktif      = yontem==='damla' ? damla : yontem==='yagmurlama' ? yagmurlama : salma;
+    const tonDonumGun = don>0 ? round1(aktif / don) : 0;
+    const extreme = aktif > maxAktifTon;
+    const extremeReason = extreme ? 'Su ihtiyaci guvenlik limitiyle normalize edildi. Yerlesim girdilerini kontrol edin.' : '';
+    const methodFactor = netTonGun>0 ? round1(aktif / netTonGun) : 1;
 
     return {
       bitki: B,
       damla, yagmurlama, salma, aktif,
-      sezonlukToplam: Math.round(gunlukTon * (B.sezon||4) * 30),
-      agacBazi: true, agacSayisi: Math.round(agacSayisi), litreAgac: litreOpt,
-      guven,
-      not: B.ad + ' · ' + Math.round(agacSayisi) + ' ağaç · ' + litreOpt + ' L/ağaç/gün'
+      tonDonumGun, maxTonDonumGun, extreme, extremeReason,
+      netTonGun, methodFactor,
+      sezonlukToplam: Math.round(aktif * (B.sezon||4) * 30),
+      agacBazi: false, guven: 'iyi',
+      not: B.ad + ' · ' + don + ' dönüm · ETc=' + B.pikMM + ' mm/gün · kapsama %' + Math.round(kapsama*100)
     };
   }
 
@@ -508,17 +550,39 @@ function calcDailyWaterNeed(urunTip, araziDonum, sulamaYontem, uretimTipi, agacP
   // pikMM × dönüm = net ton/gün (1 mm × 1000 m² = 1 ton)
   const alanKatsayi = (tip==='tarla') ? clamp((parseFloat((agacParams||{}).tipEkiliOran)||100)/100, 0.1, 1) : 1;
   const etkiliDon   = round1(don * alanKatsayi);
-  const netTonGun   = B.pikMM * etkiliDon;  // ton/gün net
+  // pikMM × dönüm = net ton/gün (1 mm/gün × 1000 m² = 1 ton/gün)
+  // Field limitleri (ton/dönüm/gün) aşırı değerlere karşı güvenlik sağlar.
+  const netTonGun   = B.pikMM * etkiliDon;
 
-  const damla      = Math.round(netTonGun / VERIM.damla      * EMNIYET);
-  const yagmurlama = Math.round(netTonGun / VERIM.yagmurlama * EMNIYET);
-  const salma      = Math.round(netTonGun / VERIM.salma      * EMNIYET);
-  const aktif = yontem==='damla' ? damla : yontem==='yagmurlama' ? yagmurlama : salma;
+  // Net bitki su ihtiyacı sabittir. Yöntemler arası fark sistem verimi üzerinden hesaplanır.
+  // FIX: Eski sabit fieldLimits (tarla:6.0, sebze:6.5) yüksek-su ürünlerinde (domates 7.8,
+  // mısır 8.2, pancar 8.0, yonca 9.0) tüm yöntemleri aynı limite kilitliyordu.
+  // rawDamla/rawYag/rawSalma üçü de limitin üstünde kalınca Math.min hepsini eşitledi.
+  // Dinamik limit: pikMM * 4.0 ≈ salma en kötü senaryosunun ~2 katı — absürd değerleri
+  // keser, normal hesabı bozmaz.
+  const maxTonDonumGun = B.pikMM * 4.0;
+  const maxAktifTon = Math.max(0.5, maxTonDonumGun * don);
+  const rawDamla      = netTonGun / VERIM.damla      * EMNIYET;
+  const rawYagmurlama = netTonGun / VERIM.yagmurlama * EMNIYET;
+  const rawSalma      = netTonGun / VERIM.salma      * EMNIYET;
+  const damla      = round1(Math.min(rawDamla,      maxAktifTon));
+  const yagmurlama = round1(Math.min(rawYagmurlama, maxAktifTon));
+  const salma      = round1(Math.min(rawSalma,      maxAktifTon));
+  const aktif      = yontem==='damla' ? damla : yontem==='yagmurlama' ? yagmurlama : salma;
+  const tonDonumGun = don>0 ? round1(aktif / don) : 0;
+  // Extreme uyarısı sadece seçili aktif yöntem için.
+  const extreme = aktif > maxAktifTon;
+  const extremeReason = extreme
+    ? 'Su ihtiyaci guvenlik limitiyle normalize edildi. Donum ve urun yerlesimini kontrol edin.'
+    : '';
+  const methodFactor = netTonGun>0 ? round1(aktif / netTonGun) : 1;
 
   return {
     bitki: B,
     damla, yagmurlama, salma, aktif,
-    sezonlukToplam: Math.round(B.sezon * 30 * netTonGun),
+    tonDonumGun, maxTonDonumGun, extreme, extremeReason,
+    netTonGun: round1(netTonGun), methodFactor,
+    sezonlukToplam: Math.round((B.sezon||4) * 30 * aktif),
     agacBazi: false, guven: 'iyi',
     not: B.ad + ' · ' + don + ' dönüm' +
          (alanKatsayi<1 ? ' · etkili ' + etkiliDon + ' dönüm' : '')
@@ -534,6 +598,7 @@ function hesapSu(){
     S.uretimTipi,
     {
       tipToplamAgac: S.tipToplamAgac,
+      tipAgacAralikM2: S.tipAgacAralikM2,
       tipSiraArasi:  S.tipSiraArasi,
       tipBitkiArasi: S.tipBitkiArasi,
       tipTarlaEn:    S.tipTarlaEn,
@@ -541,6 +606,45 @@ function hesapSu(){
       tipEkiliOran:  S.tipEkiliOran
     }
   );
+}
+
+function syncAutoWaterEstimate(reason=''){
+  const input = document.getElementById('gunlukSu');
+  if(!input) return;
+  const su = hesapSu();
+
+  if(S.gunlukSuState==='applied'){
+    if(!su){
+      input.value = '';
+      S.gunlukSu = 0;
+      S.gunlukSuState = 'empty';
+      setFieldState('gunlukSu','','');
+      return;
+    }
+    const eskiDeger = parseFloat(input.value) || 0;
+    input.value = su.aktif;
+    S.gunlukSu = su.aktif;
+    const note = reason ? ' · ' + reason : '';
+    // Yöntem değişikliği kaynaklıysa ve değer anlamlı ölçüde farklılaştıysa uyar
+    const yontemDegisti = reason.toLowerCase().includes('yöntem') || reason.toLowerCase().includes('sulama');
+    const degerFarki = eskiDeger > 0 ? Math.abs(eskiDeger - su.aktif) / Math.max(1, eskiDeger) : 0;
+    if(yontemDegisti && degerFarki > 0.05){
+      const yontemAd = S.sulamaYontem==='damla' ? 'Damla (%92 verim)' : S.sulamaYontem==='yagmurlama' ? 'Yağmurlama (%77 verim)' : 'Salma (%55 verim)';
+      setFieldState('gunlukSu','applied',
+        '⚠ Sulama yöntemi değişti → su ihtiyacı güncellendi: ' + su.aktif + ' ton/gün' +
+        ' (' + yontemAd + '). Bu değer pompa ve solar boyutunu doğrudan etkiler.');
+    } else {
+      setFieldState('gunlukSu','applied','✓ Tahmin güncellendi (' + su.aktif + ' ton/gün' + note + ').');
+    }
+    return;
+  }
+
+  if(S.gunlukSuState==='manual' && su && S.gunlukSu>0){
+    const fark = Math.abs(S.gunlukSu - su.aktif) / Math.max(1, su.aktif);
+    if(fark > 0.25){
+      setFieldState('gunlukSu','manual','✓ Manuel değer korunuyor. Yeni tahmin: ' + su.aktif + ' ton/gün.');
+    }
+  }
 }
 
 /* renderSuPanel — orijinal subox HTML yapısını kullanır */
@@ -585,9 +689,17 @@ function renderSuPanel(){
     else if(oran > 1.6)
       uyariHtml = '<div style="margin-top:6px;font-size:10px;color:var(--or)">⚠ Girilen değer tahminden yüksek — kök çürümesi riski.</div>';
   }
+  if(su.extreme){
+    uyariHtml += '<div style="margin-top:6px;font-size:10px;color:var(--re)">⚠ ' + su.extremeReason + '</div>';
+  }
 
   const agacSatir = su.agacBazi
     ? '<span style="color:var(--pu-l)">' + su.agacSayisi + ' ağaç · ' + su.litreAgac + ' L/ağaç/gün</span> · '
+    : '';
+  const suBreakdown = su.netTonGun > 0
+    ? 'Net bitki ihtiyacı ~<b>' + su.netTonGun + ' ton/gün</b> · seçili yöntem ve güvenlik payı sonrası <b style="color:var(--gold)">' + su.aktif + ' ton/gün</b>' +
+      (su.tonDonumGun>0 ? ' · <b>' + su.tonDonumGun + ' ton/dönüm/gün</b>' : '') +
+      (su.methodFactor>1 ? ' (çarpan ~x' + su.methodFactor + ')' : '')
     : '';
 
   // HTML'deki mevcut subox yapısını güncelle (innerHTML replace)
@@ -613,11 +725,23 @@ function renderSuPanel(){
           '</div>';
       }).join('') +
     '</div>' +
+    (function(){
+      // Yöntemler arası su farkı önemli bir pompa/maliyet farkı yaratıyorsa uyar
+      if(!su.damla || !su.yagmurlama) return '';
+      var farkYuzde = Math.round(Math.abs(su.yagmurlama - su.damla) / Math.max(1, su.damla) * 100);
+      if(farkYuzde < 8) return '';
+      return '<div style="margin:5px 0 6px;padding:7px 10px;border-radius:6px;' +
+        'background:#120800;border:1px solid #5A3000;font-size:10px;color:#D4841A;line-height:1.6">' +
+        '⚠ <b>Yöntem seçimi su miktarını %' + farkYuzde + ' değiştirir:</b> ' +
+        'Damla → <b>' + su.damla + ' ton/gün</b> · Yağmurlama → <b>' + su.yagmurlama + ' ton/gün</b><br>' +
+        'Bu fark pompa boyutunu, solar panel sayısını ve toplam maliyeti doğrudan etkiler. ' +
+        'Hesap her zaman <b>seçili yöntemin</b> (' + su.aktif + ' ton/gün) değeri üzerinden yapılır.' +
+        '</div>';
+    })() +
     '<div id="suNot" style="font-size:10px;color:var(--tx3);line-height:1.5;margin-bottom:8px">' +
       agacSatir +
       '<b style="color:var(--cy)">' + su.bitki.ad + '</b> — ' +
-      S.araziDonum + ' dönüm | Seçili yöntem için ' +
-      '<b style="color:var(--gold)">' + su.aktif + ' ton/gün</b> | ' +
+      S.araziDonum + ' dönüm | ' + suBreakdown + ' | ' +
       'Sezonluk ~<b>' + su.sezonlukToplam + ' ton</b><br>' +
       '<em>' + (su.bitki.not||'') + '</em>' +
     '</div>' +
@@ -638,6 +762,10 @@ function renderSuPanel(){
 
 function suUygula(){
   var su = hesapSu(); if(!su) return;
+  if(su.extreme){
+    const onay = confirm('⚠ Tahmini su degeri yuksek gorunuyor: ' + su.aktif + ' ton/gun (' + su.tonDonumGun + ' ton/donum/gun).\\n\\nYine de bu degeri uygulamak istiyor musunuz?');
+    if(!onay) return;
+  }
   document.getElementById('gunlukSu').value = su.aktif;
   S.gunlukSu = su.aktif; S.gunlukSuState = 'applied';
   setFieldState('gunlukSu','applied','✓ Tahmin uygulandı (' + su.aktif + ' ton/gün).');
@@ -744,7 +872,7 @@ function renderBasincPanel(){
   if(toplam > BP.guvenliMax * 1.2){
     pcCls='bad'; pcIcon='✗'; pcMsg='Basınç çok yüksek – sulama ekipmanları zarar görebilir. Önerilen çözüm: sistem 2 parçaya bölünsün veya basınç düşürücü regülatör takılsın.';
   } else if(toplam > BP.guvenliMax){
-    pcCls='bad'; pcIcon='⚠ '; pcMsg='Basınç yüksek – basınç düşürücü regülatör (PRV) gerekir. Alternatif: 2 paralel kuyu sistemi.';
+    pcCls='bad'; pcIcon='⚠ '; pcMsg='Basınç yüksek – basınç düşürücü regülatör (PRV) gerekir. Alternatif: zonlu veya depolu çalışma.';
   } else if(toplam > BP.max){
     pcCls='warn'; pcIcon='⚠ '; pcMsg='Basınç sınırda. Sistem çalışır ama 2 parçaya bölünürse daha rahat çalışır ve ekipman ömrü uzar.';
   } else if(toplam < BP.min){
@@ -809,7 +937,7 @@ function renderSonucLegacy(senaryolar, uyarilar, su, ds){
   // Önerilen = en yüksek skor (tüm senaryolar içinden)
   const onerilen = senaryolar.find(s=>s.onerilen) || senaryolar[0];
 
-  // Daha ekonomik: En az toplam kW (pompa × kuyu) "†’ düşük ilk yatırım
+  // Düşük ilk yatırım: En az toplam kW (pompa × kuyu)
   const enEkonomik = gösterilecek.slice().sort((a,b)=>
     (a.secPompGuc*a.nKuyu) - (b.secPompGuc*b.nKuyu) || a.nKuyu - b.nKuyu
   )[0];
@@ -857,23 +985,23 @@ function renderSonucLegacy(senaryolar, uyarilar, su, ds){
     const t = getTrafficLight(s);
 
     let badgeCls='rec', badgeText='"… Önerilen';
-    if(rol==='eco'){ badgeCls='eco'; badgeText='"¬ Daha Ekonomik'; }
+    if(rol==='eco'){ badgeCls='eco'; badgeText='Düşük ilk yatırım'; }
     if(rol==='safe'){ badgeCls='safe'; badgeText='🛡 Daha Güvenli'; }
     if(rol!=='rec' && isRec){ badgeCls='same'; badgeText='= Aynı zamanda önerilen'; }
 
-    const kuyuText = s.nKuyu===1 ? '1 kuyu · tek pompa' : s.nKuyu+' kuyu · paralel';
+    const kuyuText = s.tipi==='depolu' ? '1 kuyu · depo tamponlu' : s.tipi==='zonlu' ? '1 kuyu · zonlu' : '1 kuyu · tek pompa';
     const sureText = s.sSure+' saat/gün';
 
     let yorum = '';
     if(rol==='rec')  yorum = 'En dengeli seçim – hem güvenli hem makul.';
-    if(rol==='eco')  yorum = s.nKuyu===1 ? 'Tek sistem – en düşük ilk yatırım, ancak tek noktaya bağımlı.' : 'Görece düşük ekipman maliyeti.';
-    if(rol==='safe') yorum = s.nKuyu>1 ? 'Paralel kuyu – bir pompa arızalansa sulama durmaz.' : 'Zonlu/depolu yaklaşım ile sistem rahatlar.';
+    if(rol==='eco')  yorum = s.tipi==='depolu' ? 'Depolu tampon kurgu işletmeyi rahatlatır; nihai karar keşifle verilmelidir.' : 'İlk yatırım tarafında daha hafif bir kurgu olabilir.';
+    if(rol==='safe') yorum = s.tipi==='zonlu' ? 'Zonlu çalışma pompa yükünü dengeler.' : 'Zonlu/depolu yaklaşım ile sistem rahatlar.';
 
     return `
       <div class="opt-card ${isRec?'is-rec':''}">
         <span class="opt-badge ${badgeCls}">${badgeText}</span>
         <div class="opt-title">${s.label}</div>
-        <div class="opt-row"><span class="orl">Pompa</span><span class="orv">${s.secPompGuc} kW${s.nKuyu>1?' × '+s.nKuyu:''}</span></div>
+        <div class="opt-row"><span class="orl">Pompa</span><span class="orv">${s.secPompGuc} kW/pompa</span></div>
         <div class="opt-row"><span class="orl">Kuyu</span><span class="orv">${kuyuText}</span></div>
         <div class="opt-row"><span class="orl">Çalışma</span><span class="orv">${sureText}</span></div>
         ${isSolar?`<div class="opt-row"><span class="orl">Solar</span><span class="orv">${s.totKwp} kWp</span></div>`:''}
@@ -885,7 +1013,7 @@ function renderSonucLegacy(senaryolar, uyarilar, su, ds){
   const optsHtml = `
     <div class="opts-wrap">
       <div class="opts-head">3 Seçenek</div>
-      <div class="opts-sub">Önerilen · Daha ekonomik · Daha güvenli</div>
+      <div class="opts-sub">Önerilen · Düşük ilk yatırım · Daha güvenli</div>
       <div class="opts-grid">
         ${optKart(önerilen, 'rec')}
         ${optKart(enEkonomik, 'eco')}
@@ -908,19 +1036,22 @@ function renderSonucLegacy(senaryolar, uyarilar, su, ds){
 
     <h4>Debi Durumu</h4>
     ${önerilen.debiDurum==='unknown'
-      ? '<p>Kuyu debisi girilmedi. Sondaj raporu paylaşılırsa sistem yeterlilik kontrolü yapar.</p>'
+      ? '<p><b style="color:var(--re)">Şartlı uygun:</b> Kuyu debisi girilmediği için sistem yeterlilik kontrolünü tamamlayamaz. Sondaj raporu olmadan kesin uygunluk söylenmez.</p>'
       : `<p><b style="color:${önerilen.debiDurum==='ok'?'var(--gr)':önerilen.debiDurum==='border'?'var(--or)':'var(--re)'}">${önerilen.debiDurum==='ok'?'✓ Uygun':önerilen.debiDurum==='border'?'⚠  Sınırda':'✓— Yetersiz'}</b> – ${önerilen.debiMesaj}</p>
          ${önerilen.debiOneriler.length?`<p><b style="color:var(--gold-l)">Çözüm önerileri:</b> ${önerilen.debiOneriler.join(' · ')}</p>`:''}`}
 
     <h4>Zon / Hat Önerisi</h4>
     <p>${zon.yorum}${zon.tip==='tahmini'?' <span style="color:var(--or);font-weight:700">(ön öneri – detaylı proje gerektirir)</span>':' <span style="color:var(--gr);font-weight:700">(gerçek hesap)</span>'}</p>
+    ${(önerilen.hidrolikMinZon>1 || önerilen.tipi==='zonlu' || önerilen.teslim==='depo')
+      ? '<p><b style="color:var(--gold-l)">Not:</b> Tüm hatlar aynı anda açılamaz. Zonlama veya depolu tampon bu senaryoda teknik gerekliliktir.</p>'
+      : ''}
 
     <h4>Alternatif Sistemler Özeti</h4>
     <p>Arka planda ${senaryolar.length} senaryo test edildi, bunlardan ${gösterilecek.length} tanesi anlamlı çıktı:</p>
     <ul style="font-size:12px;color:var(--tx2);padding-left:18px;line-height:1.7">
       ${gösterilecek.map(s=>{
         const t=getTrafficLight(s);
-        return `<li>${t.icon} <b style="color:${s===önerilen?'var(--gold-l)':'var(--tx)'}">${s.label}</b> – ${s.secPompGuc} kW${s.nKuyu>1?' × '+s.nKuyu:''} · ${s.sSure}s/gün · ${t.status}</li>`;
+        return `<li>${t.icon} <b style="color:${s===önerilen?'var(--gold-l)':'var(--tx)'}">${s.label}</b> – ${s.secPompGuc} kW/pompa · ${s.sSure}s/gün · ${t.status}</li>`;
       }).join('')}
     </ul>
 
@@ -943,7 +1074,7 @@ function renderSonucLegacy(senaryolar, uyarilar, su, ds){
             return `<tr class="${s===önerilen?'is-rec':''}">
               <td>${s.label}${s===önerilen?' "…':''}</td>
               <td style="text-align:center">${s.nKuyu}</td>
-              <td style="text-align:center">${s.secPompGuc}kW</td>
+              <td style="text-align:center">${s.secPompGuc} kW/pompa</td>
               <td style="text-align:center;color:var(--gold-l)">${s.toplamKW}</td>
               <td style="text-align:center;color:${s.ventilGer?'var(--re)':'var(--gr)'}">${s.hatBasiBar.toFixed(2)}${s.ventilGer?' ⚠ ':''}</td>
               <td style="text-align:center;color:${s.debiDurum==='ok'?'var(--gr)':s.debiDurum==='border'?'var(--or)':s.debiDurum==='bad'?'var(--re)':'var(--tx3)'}">${s.debiDurum==='ok'?'✓':s.debiDurum==='border'?'⚠ ':s.debiDurum==='bad'?'✗':'–'}</td>
@@ -956,18 +1087,18 @@ function renderSonucLegacy(senaryolar, uyarilar, su, ds){
 
     <h4>Hesap Prensipleri</h4>
     <p>"¢ <b>Hat kaybı:</b> Hazen-Williams formülü (C=140, HDPE)<br>
-    "¢ <b>Pompa verimi:</b> η = 0.65 (submersible ortalama)<br>
-    "¢ <b>Emniyet payı:</b> ×1.25 (hız önceliğinde ×1.25 ek)<br>
+    "¢ <b>Pompa verimi:</b> güç sınıfına göre kademeli (yaklaşık ηtoplam 0.48–0.61)<br>
+    "¢ <b>Emniyet payı:</b> ×1.15 (hız önceliğinde ek +%20)<br>
     "¢ <b>Panel gücü:</b> ${önerilen.pW}W (${S.oncelik} önceliğine göre)<br>
     "¢ <b>PSH (Güneş):</b> ${GP[S.ilSecim]} kWh/m²/gün (${S.ilSecim})</p>
 
     <h4>Skor Formülü (Çok Kriterli)</h4>
-    <p>Taban: 50 puan. Eklenen: +basınç uygunluğu, +debi uygunluğu, +çoklu kuyu & kuruma riski, +öncelik bonusları.<br>
+    <p>Taban: 50 puan. Eklenen: +basınç uygunluğu, +debi uygunluğu, +kuruma riski yönetimi, +öncelik bonusları.<br>
     Düşen: –basınç aşımı, –debi yetersizliği, –interferans, –kuyu dibi yakın, –tek nokta bağımlılığı.</p>
 
     <h4>Göreli Maliyet Karşılaştırması</h4>
     <p style="color:var(--or);font-weight:600">Fiyat güven skoru: düşük "†’ Spesifik TL gösterilmiyor.</p>
-    <p>Göreceli sıralama (en düşük ilk yatırım "†’ en yüksek):<br>
+    <p>Göreceli sıralama (en düşük ilk yatırım → en yüksek):<br>
     ${gösterilecek.slice().sort((a,b)=>(a.secPompGuc*a.nKuyu)-(b.secPompGuc*b.nKuyu)).map((s,i)=>`<b style="color:var(--tx)">${i+1}.</b> ${s.label} (${s.toplamKW} kW toplam)`).join('<br>')}
     </p>
     <p style="font-size:11px;color:var(--tx3);font-style:italic">Kesin rakam için: malzeme seçimi + saha keşfi + güncel piyasa fiyatları gerekir.</p>
@@ -1001,7 +1132,7 @@ function renderSonucLegacy(senaryolar, uyarilar, su, ds){
     'Gunluk su: ' + S.gunlukSu + ' ton',
     '',
     'Onerilen sistem: ' + önerilen.label,
-    'Pompa: ' + önerilen.secPompGuc + 'kW x ' + önerilen.nKuyu,
+    'Pompa: ' + önerilen.secPompGuc + ' kW',
     'Pompa cikis basinci: ' + önerilen.hatBasiBar.toFixed(2) + ' bar',
     (isSolar ? 'Solar: ' + önerilen.totKwp + ' kWp' : 'Enerji: sebeke'),
     'Durum: ' + tl.status,
@@ -1042,8 +1173,8 @@ function renderSonucLegacy(senaryolar, uyarilar, su, ds){
     <div class="legal">
       <b>⚠– Uyarı ve Sorumluluk Reddi</b>
       Bu rapor bir <b>ön mühendislik analizidir</b>. Fiyat tahmini yapılmamıştır;
-      kesin teklif için saha keşfi zorunludur. Çoklu kuyu senaryolarında DSİ ruhsatı,
-      sondaj izni ve hidrojeolojik etüt gerekir. Bircan Elektrik bu hesaplamadan
+      kesin teklif için saha keşfi zorunludur. Nihai kurulum kararı için yerinde keşif,
+      debi teyidi ve resmi süreç kontrolü gerekir. Bircan Elektrik bu hesaplamadan
       hukuki sorumluluk kabul etmez.
     </div>
 
@@ -1070,49 +1201,59 @@ function renderSonucLegacy(senaryolar, uyarilar, su, ds){
 }
 
 function salesHeadline(rec){
+  if(rec.debiDurum==='unknown') return 'Bu tasarım kuyu debisi teyidi gelene kadar şartlı uygundur.';
   const map = {
-    tek:'Bu arazi için en dengeli çözüm tek sistemdir.',
-    paralel2:'Bu arazi için en dengeli çözüm 2 kuyulu sistemdir.',
-    paralel3:'Bu arazi için en güçlü çözüm 3 kuyulu sistemdir.',
-    zonlu:'Bu arazi için en dengeli çözüm sulamayı bölerek yapmaktır.',
-    depolu:'Bu arazi için en dengeli çözüm depolu sistemdir.'
+    tek:'Bu arazi için temel çözüm tek kuyu sistemidir.',
+    zonlu:'Bu arazi için gerekli çözüm sulamayı zonlara bölmektir.',
+    depolu:'Bu arazi için gerekli çözüm depolu tampon sistemdir.'
   };
   return map[rec.tipi] || 'Bu arazi için en uygun çözüm bu sistemdir.';
 }
 function salesWhyLead(rec){
   const nedenler = [];
-  if(rec.nKuyu>1) nedenler.push('yük tek kuyuda toplanmıyor');
+  if(rec.debiDurum==='unknown') nedenler.push('kuyu debisi teyitsiz olduğu için sonuç şartlı yorumlanıyor');
   else if(rec.tipi==='zonlu') nedenler.push('sulama sırayla yapılıyor');
+  else if(rec.teslim==='depo') nedenler.push('depo tamponu debi dalgalanmasını yumuşatıyor');
+  else nedenler.push('tek kuyu debisi mevcut plana göre kontrol altında');
+  if(rec.hidrolikMinZon>1 || rec.tipi==='zonlu' || rec.teslim==='depo') nedenler.push('zonlama bu senaryoda teknik olarak gerekli');
   if(rec.basincDurum==='ok') nedenler.push('basınç güvenli aralıkta kalıyor');
   else if(rec.basincDurum==='sinir') nedenler.push('bölünmüş çalışma basıncı rahatlatıyor');
   if(rec.debiDurum==='ok') nedenler.push('kuyu suyu bu düzeni taşıyor');
   else if(rec.teslim==='depo') nedenler.push('depo düşük debiyi tamponluyor');
+  if((S.sistemTercih||'solar')!=='sebeke' && rec.solarSizingLabel) nedenler.push('solar paket '+rec.solarSizingLabel.toLowerCase()+' seviyesinde');
   if(!nedenler.length) nedenler.push('hesaplar bu düzenin daha dengeli olduğunu gösteriyor');
   return 'Sebep: '+nedenler.slice(0,3).join(', ')+'.';
 }
 function salesShortComment(rec){
   const notlar = [];
   if(S.egimDurum==='egimli' && S.kotFarki>0) notlar.push('Arazi eğimi hesaba katıldı.');
-  if(rec.nKuyu>1) notlar.push('Bir pompa dursa bile sulamanın tamamı bir anda durmaz.');
-  else if(rec.teslim==='depo') notlar.push('Kuyu düşük debide kalsa da depo kullanım rahatlığı sağlar.');
+  if(rec.teslim==='depo') notlar.push('Kuyu düşük debide kalsa da depo kullanım rahatlığı sağlar.');
+  else if(rec.tipi==='zonlu') notlar.push('Zonlu çalışma pompa yükünü dengeler.');
+  if(rec.debiDurum==='unknown') notlar.push('Kuyu debisi girilmediği için sonuç kesin uygunluk sayılmaz.');
+  if((S.sistemTercih||'solar')!=='sebeke' && rec.solarSizingState==='minimum') notlar.push('Solar güç minimum çalışır bantta kaldı.');
   if(rec.kuyuTabanSinir || S.kurumaRisk==='var') notlar.push('Kuru çalışma koruması şart.');
   return notlar.slice(0,2).join(' ') || farmerBenefit(rec);
 }
 function salesWhyCards(rec){
   const kartlar = [];
-  if(rec.nKuyu>1){
-    kartlar.push({title:'Kuyu yükü', body:'Su ihtiyacı tek kuyuda toplanmıyor. Sistem daha rahat çalışıyor.'});
-  } else if(rec.tipi==='zonlu'){
-    kartlar.push({title:'Çalışma düzeni', body:'Aynı anda tüm hatlar açılmadığı için pompa daha rahat çalışıyor.'});
+  if(rec.tipi==='zonlu'){
+    kartlar.push({title:'Zonlama zorunlu', body:'Aynı anda tüm hatlar açılamadığı için sulama bölünerek yapılmalıdır; bu senaryoda zonlama tercih değil gerekliliktir.'});
+  } else if(rec.teslim==='depo'){
+    kartlar.push({title:'Depo tamponu', body:'Depo, kuyu debisi dalgalansa bile sulamayı dengede tutar; bu senaryoda tampon yapı teknik güvenlik sağlar.'});
   } else {
     kartlar.push({title:'Kurulum sadeliği', body:'Sistem daha sade kurulur ve günlük kullanım daha anlaşılır olur.'});
   }
-  if(rec.debiDurum==='ok'){
+  if(rec.debiDurum==='unknown'){
+    kartlar.push({title:'Debi teyidi şart', body:'Kuyu debisi girilmediği için pompa ve sulama güveni kesin kabul edilemez. Sondaj raporu ile teyit gerekir.'});
+  } else if(rec.debiDurum==='ok'){
     kartlar.push({title:'Su kapasitesi', body:'Kuyu debisi bu çalışma düzenini taşıyabilecek seviyede görünüyor.'});
   } else if(rec.debiDurum==='border'){
     kartlar.push({title:'Su kapasitesi', body:'Sistem çalışır; ama çalışma süresi biraz uzatılırsa daha rahat olur.'});
   } else if(rec.teslim==='depo'){
     kartlar.push({title:'Su kapasitesi', body:'Kuyu düşük debide kalsa bile depo tamponu sistemi rahatlatır.'});
+  }
+  if((S.sistemTercih||'solar')!=='sebeke' && rec.solarSizingLabel){
+    kartlar.push({title:'Enerji seviyesi', body:'Solar paket '+rec.solarSizingLabel.toLowerCase()+' olarak sınıflandı. '+(rec.solarSizingText || 'Enerji tarafı saha kayıpları ile birlikte değerlendirilmelidir.')});
   }
   if(rec.basincDurum==='ok'){
     kartlar.push({title:'Basınç rahatlığı', body:'Pompanın üretmesi gereken basınç güvenli aralıkta kalıyor.'});
@@ -1132,12 +1273,13 @@ function salesOptionComment(s, role, model){
   if(role==='eco'){
     if(s===model.recommended) return 'Önerilen çözüm aynı zamanda ilk yatırım tarafında da dengeli.';
     if(s.tipi==='zonlu') return 'Sulamayı bölmek ilk yatırımı hafifletebilir, yine de keşif gerekir.';
-    if(s.nKuyu===1) return 'İlk yatırım hafifleyebilir; ancak tüm yük tek kuyuda toplanır.';
+    if(s.tipi==='depolu') return 'Depolu tampon ilk yatırımı artırır ama debi yönetimini rahatlatır.';
+    if(s.nKuyu===1) return 'Tek kuyu çözümünde ilk yatırım hafif kalır, işletme disiplini önemlidir.';
     return 'İlk yatırım tarafında daha hafif olabilir. Kesin fiyat için keşif gerekir.';
   }
   if(role==='safe'){
     if(s===model.recommended) return 'Önerilen çözüm güvenlik tarafında da güçlü görünüyor.';
-    if(s.nKuyu>1) return 'Yük dağıldığı için arıza anında tüm sulama bir anda durmaz.';
+    if(s.tipi==='zonlu') return 'Zonlu çalışma ile pompa zorlanması düşer.';
     if(s.teslim==='depo') return 'Depo tamponu düşük debi günlerinde sistemi daha güvenli hale getirir.';
     return 'Kullanım güvenliği için daha korumalı bir çözüm olabilir.';
   }
@@ -1186,18 +1328,20 @@ function buildSalesModel(engine){
       },
       {
         label:'Gerekli pompa gücü',
-        value:recommended.secPompGuc+' kW'+(recommended.nKuyu>1?' x '+recommended.nKuyu:''),
-        note:S.sistemTercih!=='sebeke' ? (recommended.totKwp+' kWp solar ön boyut') : 'Şebeke ile çalışabilir'
+        value:recommended.secPompGuc+' kW/pompa',
+        note:S.sistemTercih!=='sebeke'
+          ? (recommended.totKwp+' kWp solar ön boyut · '+(recommended.solarSizingLabel || 'ön boyut'))
+          : 'Şebeke ile çalışabilir'
       },
       {
         label:'Uygun kuyu düzeni',
         value:getWellLayoutText(recommended),
-        note:recommended.nKuyu>1 ? 'Yük paylaşılır' : recommended.teslim==='depo' ? 'Depo tampon görevi görür' : 'Sade kurulum'
+        note:recommended.teslim==='depo' ? 'Depo tampon görevi görür' : recommended.tipi==='zonlu' ? 'Zonlu çalışma ile yük azalır' : 'Sade kurulum'
       },
       {
         label:'Çalışma düzeni',
         value:getOperationText(recommended),
-        note:tl.status==='Uygun' ? 'İşletme daha rahat' : 'Takip önerilir'
+        note:tl.status==='Uygun' ? 'İşletme daha rahat' : tl.status==='Şartlı uygun' ? 'Debi teyidi gerekir' : 'Takip önerilir'
       },
       {
         label:'Toplam boru',
