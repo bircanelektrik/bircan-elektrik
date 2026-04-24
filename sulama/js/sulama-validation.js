@@ -215,28 +215,20 @@ function buildCalculationValidation(){
     add(warnings, msg);
     if(hard) hardWarningCount++;
   };
-  // ── Uygulama kapsam sınırları ──
-  const SINIR = {
-    kuyuDerinlikMax: 150,  // m — üstü özel mühendislik projesi
-    araziDonumMax:   25,   // dönüm — üstünde hesap yapılmaz
-    gunlukSuIdeal:   7000  // ton/gün — üstünde uyarı
-  };
-  // --- BLOCKER: kuyu derinliği ---
-  if(S.kuyuDerinlik > SINIR.kuyuDerinlikMax)
-    add(blockers,'Kuyu derinliği '+S.kuyuDerinlik+' m — uygulama sınırı '+SINIR.kuyuDerinlikMax+' m. Bu derinlik özel mühendislik projesi gerektirir; ön keşif aracı doğru sonuç veremez.');
-  // --- BLOCKER: arazi ---
-  if(S.araziDonum > SINIR.araziDonumMax)
-    add(blockers,'Arazi '+S.araziDonum+' dönüm — uygulama sınırı '+SINIR.araziDonumMax+' dönümdür. Alanı ≤'+SINIR.araziDonumMax+' dönümlük bloklara bölüp her blok için ayrı analiz yapın.');
-  // --- WARNING: günlük su 7000 ton/gün üstünde ---
-  if(S.gunlukSu > SINIR.gunlukSuIdeal)
-    addWarning('Günlük su ihtiyacı '+S.gunlukSu+' ton/gün — ideal bant 7000 ton/gün altıdır. Bu değerde büyük sistem sınıfına girilir; sonuçlar ön keşif niteliği taşır.', true);
-
   if(!S.kuyuDerinlik) add(blockers,'Kuyu derinligi gerekli.');
   if(!S.gunlukSu) add(blockers,'Gunluk su ihtiyaci gerekli.');
   if(!S.araziDonum) add(blockers,'Arazi buyuklugu (donum) gerekli.');
   if(!S.uretimTipi) add(blockers,'Uretim tipi gerekli.');
   if(S.uretimTipi && !S.urunTip) addWarning('Urun secilmedi. Su tahmini urun bilgisi olmadan zayif kalir.');
-  if(!(Number(S.kuyuDebi) > 0)) addWarning('Kuyu debisi girilmedi. Sonuc en fazla sartli uygun seviyesinde yorumlanabilir.', true);
+  // Debi uyarısı: girilmemişse gerekli minimum debiyi hesapla ve göster
+  if(!(Number(S.kuyuDebi) > 0)){
+    const _sure = (Number(S.calismaSure) > 0) ? Number(S.calismaSure) : 8;
+    const _gs   = Number(S.gunlukSu) || 0;
+    const _minDebi = _gs > 0 ? Math.ceil((_gs / _sure) * 10) / 10 : null;
+    if(_minDebi){
+      addWarning('Bu sistem için kuyunun en az ' + _minDebi + ' m³/saat (' + (Math.ceil(_minDebi/3.6*10)/10) + ' L/sn) vermesi gerekir — kuyu debisi bilinmiyorsa sondaj raporuyla teyit edin.', false);
+    }
+  }
 
   const missingCritical = [];
   // ctx hem S.sulamaYontem hem de S.uretimTipi'ne göre türetilir.
@@ -1244,7 +1236,12 @@ function salesWhyCards(rec){
     kartlar.push({title:'Kurulum sadeliği', body:'Sistem daha sade kurulur ve günlük kullanım daha anlaşılır olur.'});
   }
   if(rec.debiDurum==='unknown'){
-    kartlar.push({title:'Debi teyidi şart', body:'Kuyu debisi girilmediği için pompa ve sulama güveni kesin kabul edilemez. Sondaj raporu ile teyit gerekir.'});
+    const _sure2 = (Number(S.calismaSure) > 0) ? Number(S.calismaSure) : 8;
+    const _minDebi2 = (Number(S.gunlukSu) > 0) ? Math.ceil((Number(S.gunlukSu) / _sure2) * 10) / 10 : null;
+    const _debiKart = _minDebi2
+      ? 'Bu sistem için kuyunun en az <b>' + _minDebi2 + ' m³/saat</b> (' + (Math.ceil(_minDebi2/3.6*10)/10) + ' L/sn) vermesi gerekir. Sondaj raporu olmadan kesin uygunluk söylenemez.'
+      : 'Kuyu debisi girilmediği için pompa ve sulama güveni kesin kabul edilemez. Sondaj raporu ile teyit gerekir.';
+    kartlar.push({title:'Debi teyidi şart', body:_debiKart});
   } else if(rec.debiDurum==='ok'){
     kartlar.push({title:'Su kapasitesi', body:'Kuyu debisi bu çalışma düzenini taşıyabilecek seviyede görünüyor.'});
   } else if(rec.debiDurum==='border'){
