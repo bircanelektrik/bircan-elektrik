@@ -182,15 +182,38 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')hideCallPopu
 /* ── SERVICES ── */
 var activeSvc=null;
 var services=[
-  {icon:'⚡',title:'Arıza Tespit & Acil Servis',full:'Anlık arıza tespiti, yedek parça teminati ve garanti belgeli onarım.',features:['Uzaktan teşhis','Saha müdahalesi','Yedek parça','Onarım raporu','Garanti']},
-  {icon:'📦',title:'Malzeme Tedariği',full:'Sertifikalı elektrik malzemeleri toptan ve perakende satışı.',features:['Kablo & kanallar','Sigorta & şalterler','Priz & aydınlatma','Toplu indirim','Hızlı teslimat']},
-  {icon:'🔌',title:'Altyapı & Tesisat',full:'TSE ve IEC standartlarına uygun yenileme, kuvvetli ve zayıf akım.',features:['Tesisat projesi','Kuvvetli akım','Zayıf akım','Topraklama','Keşif & hakediş']},
-  {icon:'📷',title:'Güvenlik & Kamera',full:'IP kamera, erişim kontrol ve network altyapısı kurulumu.',features:['IP kamera','Erişim kontrolü','Alarm sistemi','Network','Uzaktan izleme']},
-  {icon:'🖥️',title:'Endüstriyel Otomasyon',full:'PLC programlama, SCADA tasarımı ve HMI entegrasyonu.',features:['PLC programlama','SCADA tasarımı','HMI paneller','Sürücü sistemleri','Enerji izleme']},
-  {icon:'🏠',title:'Akıllı Ev & Bina',full:'Aydınlatma, ısıtma ve güvenlik sistemlerinin entegre kontrolü.',features:['Aydınlatma kontrolü','Isıtma & soğutma','Enerji yönetimi','Mobil uygulama','Ses sistemi']},
-  {icon:'⚙️',title:'Elektrik Panosu',full:'AG/OG pano imalatı, enerji analizi ve kompanzasyon sistemleri.',features:['Pano imalatı','Kompanzasyon','Harmonik filtre','Enerji analizi','Devreye alma']},
-  {icon:'📐',title:'Proje & Danışmanlık',full:'1 kV altı ve üstü projelendirme, güç analizi, kısa devre hesabı.',features:['1 kV altı proje','1 kV üstü proje','Güç analizi','Kısa devre','Mühendis imzası','Resmi onaylar']}
+  {icon:'⚡',meta:'Elektrik Sistemleri',title:'Anahtar Teslim Elektrik Sistemleri',desc:'Konut, villa, işletme ve endüstriyel yapılarda elektrik altyapısını anahtar teslim kuruyoruz.',tag:'Tek Noktadan Tüm Sistem',cta:'Ücretsiz keşif',full:'Konut, villa, işletme ve endüstriyel yapılarda elektrik altyapısını anahtar teslim kuruyoruz. Kullanılan tüm malzemeler, kendini kanıtlamış markalardan seçilmekte olup, sistem güvenliği ve uzun ömür esas alınmaktadır.',noteTitle:'Tercih edilen markalar',note:'Legrand, Siemens, Schneider Electric gibi şalt ekipmanları; Viko, Ovivo, Cata gibi montaj ve uygulama ürünleri.',features:['Anahtar teslim','Kuvvetli akım','Zayıf akım','Sistem güvenliği','Devreye alma']},
+  {icon:'🏭',meta:'Otomasyon & Kontrol',title:'Endüstriyel Otomasyon & Kontrol',desc:'Motor kontrolü, proses yönetimi ve otomasyon sistemlerini işletme ihtiyaçlarına göre kurguluyoruz.',tag:'Akıllı Kontrol Sistemleri',cta:'Proje talep et',full:'Motor kontrolü, proses yönetimi ve otomasyon sistemlerini işletme ihtiyaçlarına göre mühendislik temelli olarak kurguluyoruz.',features:['Tek faz motor yol verme','3 faz motor yol verme','Yıldız / Üçgen (Y/D) yol verme','Soft starter ile yol verme','Sürücü (inverter) ile kontrol','Direkt yol verme','PLC & otomasyon sistemleri']},
+  {icon:'⚙️',meta:'Pano Çözümleri',title:'Kumanda & Pano Sistemleri',desc:'Ana dağıtım, tali dağıtım ve özel amaçlı panoları güvenli şekilde tasarlıyor ve devreye alıyoruz.',tag:'Güvenli Enerji Dağıtımı',cta:'Proje talep et',full:'Ana dağıtım, tali dağıtım ve özel amaçlı panoları, standartlara uygun bileşen seçimi ile tasarlıyor ve güvenli şekilde devreye alıyoruz.',features:['Ana dağıtım panosu','Tali pano sistemleri','Sokak dağıtım kutuları (SDK)','Kompanzasyon panoları','Sayaç panoları','MCC panolar','Özel tasarım panolar']},
+  {icon:'🔍',meta:'Test & Ölçüm',title:'Test, Ölçüm & Arıza Analizi',desc:'İzolasyon, topraklama ve kaçak akım testleriyle sistemin gerçek durumunu ortaya çıkarıyoruz.',tag:'Gerçek Durum Analizi',cta:'Detayları incele',full:'İzolasyon, topraklama ve kaçak akım testlerini profesyonel ölçüm cihazları ile yaparak sistemin gerçek durumunu ortaya çıkarıyoruz.',features:['İzolasyon testi','Topraklama ölçümü','Kaçak akım testi','Arıza analizi','Profesyonel ölçüm']},
+  {icon:'☀️',meta:'Enerji Sistemleri',title:'Güneş Enerji Sistemleri',desc:'Tarımsal ve ticari alanlar için güneş enerji sistemleri kurulum ve entegrasyonu sağlıyoruz.',tag:'Kendi Enerjini Üret',cta:'Ücretsiz keşif',full:'Tarımsal ve ticari alanlar için güneş enerji sistemleri kurulum ve entegrasyonu.',features:['Tarımsal GES','Ticari GES','Kurulum','Enerji entegrasyonu','Saha uygulaması']},
+  {icon:'💧',meta:'Sulama & Enerji',title:'Tarımsal Sulama & Enerji Sistemleri',desc:'Bahçe sulama, pompa sistemleri ve enerji altyapısını birlikte değerlendiriyoruz.',tag:'Verimli Sulama Sistemleri',cta:'Ücretsiz keşif',full:'Bahçe sulama, pompa sistemleri ve enerji altyapısını birlikte değerlendirerek verimli ve sürdürülebilir çözümler sunuyoruz.',features:['Bahçe sulama otomasyonu','Don koruma sistemleri','Pompa kontrol sistemleri','Enerji entegrasyonu','Saha uygulamaları']},
+  {icon:'🎥',meta:'Güvenlik Sistemleri',title:'Güvenlik & Kamera Sistemleri',desc:'Ev ve iş yerleri için güvenlik kamera sistemleri, uzaktan izleme ve kayıt çözümleri sunuyoruz.',tag:'Her An Gözünüz Üzerinde',cta:'Detayları incele',full:'Ev ve iş yerleri için güvenlik kamera sistemleri, uzaktan izleme ve kayıt çözümleri sunuyoruz.',features:['Uzaktan izleme','Wi-Fi kamera sistemleri','Kablolu kamera sistemleri','IP kamera sistemleri','Diyafon sistemleri']},
+  {icon:'📐',meta:'Projelendirme',title:'Proje & Danışmanlık',desc:'1 kV altı ve üstü projelendirme, analiz ve resmi süreçleri mühendis sorumluluğunda yürütüyoruz.',tag:'Mühendis Onaylı Çözümler',cta:'Proje talep et',full:'1 kV altı ve üstü projelendirme, analiz ve tüm resmi süreçleri mühendis sorumluluğunda yürütüyoruz.',features:['1 kV altı & üstü proje','36 kV proje','Güç analizi','Kısa devre hesabı','Resmi süreç yönetimi','Onay & danışmanlık']}
 ];
+
+function renderServicesGrid(){
+  document.querySelectorAll('.svc-card').forEach(function(card,i){
+    var s=services[i];if(!s)return;
+    card.innerHTML=
+      '<span class="svc-icon">'+s.icon+'</span>'+
+      '<div class="svc-title">'+s.title+'</div>'+
+      '<div class="svc-desc">'+s.desc+'</div>'+
+      '<div class="svc-footer"><span class="svc-tag">'+s.tag+'</span><span class="svc-cta">'+s.cta+'</span></div>';
+  });
+}
+
+function renderServiceDetail(i){
+  var p=document.getElementById('detail');if(!p)return;
+  var s=services[i];if(!s)return;
+  p.classList.add('visible');
+  p.innerHTML=
+    '<div class="detail-kicker"><span class="detail-code">'+s.icon+'</span><span>'+s.meta+'</span></div>'+
+    '<h3>'+s.title+'</h3>'+
+    '<p>'+s.full+'</p>'+
+    (s.note?'<div class="detail-note"><div class="detail-note-label">'+s.noteTitle+'</div><p>'+s.note+'</p></div>':'')+
+    '<div class="features-wrap">'+s.features.map(function(f){return'<span class="feat-pill">'+f+'</span>';}).join('')+'</div>';
+}
 
 /* ── NAV SCROLL ── */
 (function(){
@@ -294,6 +317,7 @@ function mkIcon(emoji,bg,size){
 }
 
 function initHizmetHarita(){
+  try {
   var el=document.getElementById('hizmet-harita');
   if(!el||el._done)return;el._done=true;
   var map=L.map(el,{center:[DUKKAN.lat,DUKKAN.lng],zoom:8,scrollWheelZoom:false});
@@ -304,9 +328,11 @@ function initHizmetHarita(){
   [{n:'Kayseri',lat:38.7225,lng:35.4875,km:84},{n:'Develi',lat:38.3897,lng:35.4897,km:46},{n:'Niğde',lat:37.9667,lng:34.6833,km:72},{n:'Tomarza',lat:38.4483,lng:36.0836,km:76},{n:'Pınarbaşı',lat:38.725,lng:36.3833,km:112},{n:'Aksaray',lat:38.3687,lng:34.037,km:138},{n:'Adana',lat:37.0,lng:35.3213,km:148},{n:'Sivas',lat:39.7477,lng:37.0179,km:142}
   ].forEach(function(c){L.marker([c.lat,c.lng],{icon:dot}).addTo(map).bindTooltip('<strong>'+c.n+'</strong><br>~'+c.km+' km',{direction:'top',offset:[0,-5]});});
   setTimeout(function(){map.invalidateSize();map.fitBounds(L.circle([DUKKAN.lat,DUKKAN.lng],{radius:155000}).getBounds(),{padding:[20,20]});},300);
+  } catch(e){ console.warn('Hizmet haritası yüklenemedi:', e.message); }
 }
 
 function initUcretHarita(){
+  try {
   var el=document.getElementById('ucret-harita');
   if(!el||el._done)return;el._done=true;
   var map=L.map(el,{center:[DUKKAN.lat,DUKKAN.lng],zoom:10,scrollWheelZoom:false});
@@ -321,6 +347,8 @@ function initUcretHarita(){
   map.on('click',function(e){
     if(sel)map.removeLayer(sel);
     if(routeLayer)map.removeLayer(routeLayer);
+    /* Birikmiş eski GeoJSON layer'larını temizle */
+    map.eachLayer(function(layer){ if(layer instanceof L.GeoJSON) map.removeLayer(layer); });
     var lat=e.latlng.lat,lng=e.latlng.lng;
 
     // Önce kuş uçuşu ile ön kontrol
@@ -371,6 +399,7 @@ function initUcretHarita(){
     });
   });
   setTimeout(function(){map.invalidateSize();map.fitBounds(L.circle([DUKKAN.lat,DUKKAN.lng],{radius:57000}).getBounds(),{padding:[30,30]});},300);
+  } catch(e){ console.warn('Ücret haritası yüklenemedi:', e.message); }
 }
 
 function showUcret(km, fiyat, dk, src, fuelPrice) {
@@ -1159,16 +1188,81 @@ function mlzHesapla() {
 
 /* ── REFERANS PROJELERİ ── */
 var refData = [
-  { cat:'konut', tag:'Konut', title:'Villa Komple Elektrik Tesisatı', loc:'📍 Yahyalı, Kayseri', desc:'350 m² villanın sıfırdan elektrik altyapısı. Kuvvetli ve zayıf akım tesisatı, pano imalatı, aydınlatma otomasyonu.', specs:['350 m²','Komple tesisat','Pano imalatı','Aydınlatma otomasyon'] },
-  { cat:'konut', tag:'Konut', title:'Apartman Genel Tesisat Yenileme', loc:'📍 Develi, Kayseri', desc:'24 daireli apartmanın ortak alan ve daire içi elektrik tesisatının modernizasyonu. Yangın algılama entegrasyonu.', specs:['24 daire','Tesisat yenileme','Yangın algılama','Ortak alan'] },
-  { cat:'ticari', tag:'Ticari', title:'Mağaza Aydınlatma Projesi', loc:'📍 Kayseri Merkez', desc:'250 m² perakende mağaza için LED aydınlatma senaryosu, PIR sensör entegrasyonu ve vitrin spot aydınlatması.', specs:['250 m²','LED tasarım','PIR sensör','Vitrin spot'] },
-  { cat:'ticari', tag:'Ticari', title:'Otel Elektrik & Otomasyon', loc:'📍 Kayseri', desc:'60 odalı otel projesinde kat panoları, jeneratör bağlantısı, kartlı geçiş ve oda otomasyon sistemi.', specs:['60 oda','Kat panoları','Jeneratör','Kartlı geçiş'] },
-  { cat:'endustriyel', tag:'Endüstriyel', title:'Fabrika PLC & SCADA Sistemi', loc:'📍 Kayseri OSB', desc:'Üretim hattı otomasyon sistemi. Siemens S7-1200 PLC, HMI panel ve SCADA ile üretim izleme ve kontrol.', specs:['PLC S7-1200','SCADA','HMI panel','Üretim hattı'] },
-  { cat:'endustriyel', tag:'Endüstriyel', title:'Soğuk Hava Deposu Elektrik', loc:'📍 Develi, Kayseri', desc:'1500 m² soğuk hava deposu için kompresör kumanda panoları, enerji izleme ve alarm sistemi kurulumu.', specs:['1500 m²','Kompresör pano','Enerji izleme','Alarm sistemi'] },
-  { cat:'altyapi', tag:'Altyapı', title:'Tarımsal Sulama Otomasyon', loc:'📍 Yahyalı, Kayseri', desc:'120 dönüm tarımsal alanda pompa istasyonu otomasyon, frekans konvertör ve uzaktan kontrol sistemi.', specs:['120 dönüm','Pompa otomasyon','Frekans konvertör','Uzaktan kontrol'] },
-  { cat:'altyapi', tag:'Altyapı', title:'Trafo Merkezi & AG Dağıtım', loc:'📍 Tomarza, Kayseri', desc:'1000 kVA trafo merkezi AG pano imalatı, kompanzasyon sistemi ve enerji analizi.', specs:['1000 kVA','AG pano','Kompanzasyon','Enerji analizi'] },
-  { cat:'konut', tag:'Konut', title:'Akıllı Ev Sistemi Kurulumu', loc:'📍 Kayseri Merkez', desc:'KNX tabanlı akıllı ev sistemi: aydınlatma senaryoları, perde kontrolü, ısıtma otomasyonu ve mobil uygulama.', specs:['KNX','Aydınlatma senaryo','Perde kontrol','Mobil uygulama'] },
-  { cat:'ticari', tag:'Ticari', title:'Restaurant Komple Elektrik', loc:'📍 Yahyalı, Kayseri', desc:'180 m² restaurant projesi: mutfak güç hatları, salon aydınlatma, dış mekan IP65 armatürler ve güvenlik kamerası.', specs:['180 m²','Mutfak güç','IP65 dış mekan','Güvenlik kamera'] }
+  /* ── VİTRİN PROJELERİ ── */
+  {
+    cat:'altyapi', tag:'Altyapı / TOKİ', title:'TOKİ 3. Etap — Ataşehir Altyapı',
+    loc:'📍 Ataşehir, İstanbul',
+    desc:'Çok katlı blokların elektrik tesisatı, trafo köşkü yerleşimi. 700 m 3×185+95 ve 1000 m 3×95+50 kablo altyapısı. Otopark ve çevre aydınlatması dahil komple sistem kurulumu.',
+    specs:['Trafo köşkü','1700 m kablo altyapısı','Çevre aydınlatması','Komple tesisat']
+  },
+  {
+    cat:'endustriyel', tag:'Endüstriyel / Analiz', title:'Tekstil Fabrikası Enerji Dengeleme',
+    loc:'📍 Yahyalı, Kayseri',
+    desc:'Arızalanan cihazların tespiti; 3 fazlı sistemde dengesiz yük sonucu nötr hattına binen fazla yükün analizi. Üretimi durdurmadan tek 16 mm² ek nötr hattıyla en optimum ve düşük maliyetli çözüm sağlandı.',
+    specs:['Arıza tespiti','Faz dengeleme','Maliyet optimizasyonu','Sistem sürekliliği']
+  },
+  {
+    cat:'altyapi', tag:'Altyapı / Endüstriyel', title:'Kompanzasyon Panosu Optimizasyonu',
+    loc:'📍 Ömer Emine Akın Anadolu Lisesi, Yahyalı',
+    desc:'Reaktif ceza sınırını aşan kompanzasyon panosunun tespiti ve kontrolü. Tesisin ihtiyacına uygun en optimum mühendislik çözümü uygulandı; ceza ödemeleri tamamen sona erdi.',
+    specs:['Kompanzasyon','Reaktif ceza çözümü','Sistem kontrolü','Optimizasyon']
+  },
+  {
+    cat:'endustriyel', tag:'Endüstriyel / Otomasyon', title:'İkinci El Araç Lifti — Sıfırdan Otomasyon',
+    loc:'📍 Sanayi, Kayseri',
+    desc:'Panosu ve kumanda devresi tamamen sökülen ikinci el araç liftinin sıfırdan kumanda devresi çizimi. Sınır anahtarlarının doğru konumlandırılması, pano dizilimi ve liftin tam kapasite çalışır hale getirilmesi.',
+    specs:['Kumanda devresi','Pano dizilimi','Sınır anahtarı','Sistem devreye alma']
+  },
+  /* ── TEKNİK / AKILLI İŞLER ── */
+  {
+    cat:'altyapi', tag:'Altyapı / Güvenlik', title:'YİBO Güvenlik ve Enerji Sistemleri',
+    loc:'📍 Yahyalı, Kayseri',
+    desc:'Yangın kapılarının yanlış kullanımını engellemek için alarm sistemi kurulumu. Bilgisayar laboratuvarlarının enerjilendirmesi ve otomatik uzaktan kumandalı kapı montajı.',
+    specs:['Alarm sistemi','Laboratuvar enerjilendirme','Otomatik kapı','Güvenlik']
+  },
+  {
+    cat:'ticari', tag:'Ticari / Eğitim', title:'Fen Lisesi Kütüphanesi Dekoratif Aydınlatma',
+    loc:'📍 Kayseri',
+    desc:'Fen lisesi kütüphanesinin elektrik tadilatı ve baffle tavan ile entegre dekoratif aydınlatma uygulaması. Estetik ve verimli ışık dağılımı.',
+    specs:['Baffle tavan','Dekoratif aydınlatma','Elektrik tadilatı','Verimli dağılım']
+  },
+  {
+    cat:'konut', tag:'Konut / Off-Grid', title:'Yaylalarda Güneş Paneli Sistemleri',
+    loc:'📍 Yahyalı Yaylaları, Kayseri',
+    desc:'Karavanlar ve off-grid yapılar için güneş paneli sistemleri tasarımı ve kurulumu. Şebekeye bağımlılık olmadan bağımsız, güvenilir ve sürdürülebilir enerji.',
+    specs:['Güneş paneli','Off-grid sistem','Yenilenebilir enerji','Karavan kurulumu']
+  },
+  {
+    cat:'konut', tag:'Konut / Güvenlik', title:'YİBO Lojman Tesisat & Koruma Revizyonu',
+    loc:'📍 Yahyalı, Kayseri',
+    desc:'Lojman dairesinde tüm koruma elemanlarının (RCD, MCB) değişimi. Topraklama hattının standartlara uygun hale getirilmesi ile can güvenliği sağlandı.',
+    specs:['RCD/MCB değişimi','Topraklama kontrolü','Can güvenliği','Tesisat revizyonu']
+  },
+  /* ── SAHA İŞLERİ ── */
+  {
+    cat:'ticari', tag:'Ticari / Mağaza', title:'Kumsmall & Sivas Caddesi Mağaza Çözümleri',
+    loc:'📍 Kayseri Merkez',
+    desc:'Profilo ve Ergül Mobilya mağazalarında tadilat sürecinde aydınlatma altyapısı, uzaktan kumanda sistemleri kurulumu. Devam eden periyodik servis ve bakım hizmetleri.',
+    specs:['Aydınlatma altyapısı','Uzaktan kumanda','Servis & bakım','Tadilat']
+  },
+  {
+    cat:'ticari', tag:'Ticari / Sağlık', title:'Diş Kliniği Bekleme Salonu Aydınlatması',
+    loc:'📍 Kayseri',
+    desc:'Diş kliniği bekleme salonunda hastaları rahatlatacak, modern ve dekoratif aydınlatma çözümlerinin tasarımı ve uygulanması.',
+    specs:['Dekoratif aydınlatma','Sağlık tesisatı','Modern tasarım','Konforlu atmosfer']
+  },
+  {
+    cat:'konut', tag:'Konut / TOKİ', title:'Yahyalı TOKİ Saha Altyapı & Vinç Beslemesi',
+    loc:'📍 Yahyalı, Kayseri',
+    desc:'TOKİ konut projesinde saha elektrik altyapısı düzenlemesi, vinç güç beslemesi ve bağlantı aboneleri. Uygulama projeleri ve süreç takibi dahil komple hizmet.',
+    specs:['Vinç beslemesi','Saha altyapısı','Bağlantı abonesi','Süreç takibi']
+  },
+  {
+    cat:'konut', tag:'Konut / Ticari / Endüstriyel', title:'Sahadan Referanslar',
+    loc:'📍 Kayseri & Yahyalı',
+    desc:'Onlarca müstakil konut, villa, apartman, ticari alan ve endüstriyel işletmenin elektrik altyapısı, projelendirme ve abonelik süreçleri ile arıza müdahaleleri mühendislik disiplinimizle başarıyla gerçekleştirilmiştir.',
+    specs:['Konut & Villa','Abonelik & Proje','Arıza Müdahalesi','Bağlantı Hattı']
+  }
 ];
 
 var activeRefFilter = 'all';
@@ -1242,13 +1336,13 @@ function submitTeklif() {
 /* ── DOMContentLoaded ── */
 document.addEventListener('DOMContentLoaded',function(){
   /* Servis kartları */
+  renderServicesGrid();
   document.querySelectorAll('.svc-card').forEach(function(c,i){
     c.addEventListener('click',function(){
       var p=document.getElementById('detail');if(!p)return;
       if(activeSvc===i){activeSvc=null;p.classList.remove('visible');document.querySelectorAll('.svc-card').forEach(function(x){x.classList.remove('active');});return;}
       activeSvc=i;document.querySelectorAll('.svc-card').forEach(function(x){x.classList.remove('active');});c.classList.add('active');
-      var s=services[i];p.classList.add('visible');
-      p.innerHTML='<h3>'+s.icon+' '+s.title+'</h3><p>'+s.full+'</p><div class="features-wrap">'+s.features.map(function(f){return'<span class="feat-pill">'+f+'</span>';}).join('')+'</div>';
+      renderServiceDetail(i);
       setTimeout(function(){p.scrollIntoView({behavior:'smooth',block:'nearest'});},50);
     });
   });
