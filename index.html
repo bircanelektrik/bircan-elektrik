@@ -345,13 +345,14 @@
 
 <div class="section-divider"><hr><span>Teknik Odak</span><hr></div>
 <section id="teknik">
-  <h2>Teknik Rehber</h2>
-  <p>Bir kategori seçin, detaylı teknik rehbere ulaşın.</p>
+  <div class="teknik-kicker">Hesap ve Planlama Modülleri</div>
+  <h2>Teknik Odak</h2>
+  <p>Aydınlatma, koruma, sulama ve malzeme planlama için kullandığımız temel hesap modülleri burada yer alır. Bir başlık seçildiğinde ilgili araç seti aşağıda açılır.</p>
 <!-- KATEGORİ: AYDINLATMA -->
-  <button class="cat-btn" id="catbtn-aydinlatma" data-cat="aydinlatma">
-    <span class="cat-icon">💡</span>
-    <span style="flex:1;text-align:left;"><span style="display:block;font-weight:600;">Aydınlatma Rehberi</span><span class="cat-sub">Lümen hesabı · Kelvin seçici · Armatür ilhamı</span></span>
-    <span class="cat-arrow">▼</span>
+  <button class="cat-btn" id="catbtn-aydinlatma" data-cat="aydinlatma" aria-controls="cat-aydinlatma" aria-expanded="false">
+    <span class="cat-btn-top"><span class="cat-icon">💡</span><span class="cat-badge">3 Modül</span></span>
+    <span class="cat-btn-body"><span class="cat-title">Aydınlatma Rehberi</span><span class="cat-sub">Lümen hesabı, Kelvin seçimi ve armatür kararı.</span></span>
+    <span class="cat-btn-foot"><span class="cat-meta">Lümen · Kelvin · Armatür</span><span class="cat-arrow">▼</span></span>
   </button>
   <div class="cat-panel" id="cat-aydinlatma">
     <div class="cat-inner">
@@ -456,10 +457,10 @@
   </div>
 
   <!-- KATEGORİ: ŞALT & KORUMA -->
-  <button class="cat-btn" id="catbtn-salt" data-cat="salt">
-    <span class="cat-icon">⚡</span>
-    <span style="flex:1;text-align:left;"><span style="display:block;font-weight:600;">Şalt & Koruma Sistemleri</span><span class="cat-sub">MCB hesaplama · Kablo kesiti · Tesisat hesabı</span></span>
-    <span class="cat-arrow">▼</span>
+  <button class="cat-btn" id="catbtn-salt" data-cat="salt" aria-controls="cat-salt" aria-expanded="false">
+    <span class="cat-btn-top"><span class="cat-icon">⚡</span><span class="cat-badge">2 Modül</span></span>
+    <span class="cat-btn-body"><span class="cat-title">Şalt & Koruma</span><span class="cat-sub">MCB seçimi, gerilim düşümü ve kablo kesiti kontrolü.</span></span>
+    <span class="cat-btn-foot"><span class="cat-meta">MCB · Kablo · Gerilim</span><span class="cat-arrow">▼</span></span>
   </button>
   <div class="cat-panel" id="cat-salt">
     <div class="cat-inner">
@@ -712,10 +713,10 @@
   </div><!-- /cat-salt -->
 
   <!-- KATEGORİ: TARIMSAL SULAMA & KUYU ANALİZİ -->
-  <button class="cat-btn" id="catbtn-sulama" data-cat="sulama">
-    <span class="cat-icon">🌾</span>
-    <span style="flex:1;text-align:left;"><span style="display:block;font-weight:600;">Tarımsal Sulama &amp; Kuyu Analizi</span><span class="cat-sub">Sondaj kuyu ön çalışma · sulama senaryoları · pompa değerlendirmesi</span></span>
-    <span class="cat-arrow">▼</span>
+  <button class="cat-btn" id="catbtn-sulama" data-cat="sulama" aria-controls="cat-sulama" aria-expanded="false">
+    <span class="cat-btn-top"><span class="cat-icon">🌾</span><span class="cat-badge">Ön Analiz</span></span>
+    <span class="cat-btn-body"><span class="cat-title">Sulama & Kuyu Analizi</span><span class="cat-sub">Kuyu debisi, pompa ihtiyacı ve sulama senaryosu analizi.</span></span>
+    <span class="cat-btn-foot"><span class="cat-meta">Kuyu · Pompa · Senaryo</span><span class="cat-arrow">▼</span></span>
   </button>
   <div class="cat-panel" id="cat-sulama">
     <div class="cat-inner">
@@ -765,10 +766,10 @@
 
 
   <!-- KATEGORİ: MALZEME PLANLAMA -->
-  <button class="cat-btn" id="catbtn-malzeme" data-cat="malzeme">
-    <span class="cat-icon">🏗️</span>
-    <span style="flex:1;text-align:left;"><span style="display:block;font-weight:600;">Malzeme Planlama Aracı</span><span class="cat-sub">Konut ve bina için komple elektrik malzeme listesi</span></span>
-    <span class="cat-arrow">▼</span>
+  <button class="cat-btn" id="catbtn-malzeme" data-cat="malzeme" aria-controls="cat-malzeme" aria-expanded="false">
+    <span class="cat-btn-top"><span class="cat-icon">🏗️</span><span class="cat-badge">Listeleme</span></span>
+    <span class="cat-btn-body"><span class="cat-title">Malzeme Planlama</span><span class="cat-sub">Bina tipine göre kolon, pano ve ana malzeme listesi.</span></span>
+    <span class="cat-btn-foot"><span class="cat-meta">BOM · Kolon · Topraklama</span><span class="cat-arrow">▼</span></span>
   </button>
   <div class="cat-panel" id="cat-malzeme">
     <div class="cat-inner">
@@ -807,7 +808,7 @@
       <!-- S3: BESLEME HATTI -->
       <div class="mlz-step" id="mlz-s3" style="display:none;">
         <div class="mlz-step-header"><span class="mlz-step-num">3</span><div><div class="mlz-step-title">Besleme hattı bilgileri</div><div class="mlz-step-desc">Elektrik direğine mesafe ve kablo tercihleri.</div></div></div>
-        <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;">
+        <div class="mlz-field-grid">
           <div><label class="mlz-lbl">Direk mesafesi (m)</label><input type="number" id="mlz-direk" value="10" min="1" max="200" class="mlz-input-sm"></div>
           <div><label class="mlz-lbl">Dış hat tipi</label><div class="mlz-hat-btns"><button class="mlz-hat-btn active" data-hat="havai">🔌 Havai</button><button class="mlz-hat-btn" data-hat="yeralti">⚡ Yeraltı</button></div></div>
           <div><label class="mlz-lbl">Dış hat kablo malzemesi</label><div class="mlz-hat-btns"><button class="mlz-kolon-btn active" data-kolon="bakir">🟤 Bakır (NYY)</button><button class="mlz-kolon-btn" data-kolon="aluminyum">⚪ Alüminyum (NAYY)</button></div></div>
@@ -831,7 +832,7 @@
       <!-- S4b: TOPRAKLAMA -->
       <div class="mlz-step" id="mlz-s4b" style="display:none;">
         <div class="mlz-step-header"><span class="mlz-step-num">4b</span><div><div class="mlz-step-title">Topraklama sistemi</div><div class="mlz-step-desc">Topraklama yöntemi ve bina ölçülerini girin.</div></div></div>
-        <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;">
+        <div class="mlz-field-grid">
           <div>
             <label class="mlz-lbl">Topraklama yöntemi</label>
             <div class="mlz-toprak-btns"><button class="mlz-toprak-btn active" data-toprak="kazik">⚡ Kazık (Çubuk)</button><button class="mlz-toprak-btn" data-toprak="serit">📏 Galvaniz Şerit</button></div>
