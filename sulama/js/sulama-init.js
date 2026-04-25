@@ -13,6 +13,7 @@ function hesapla(){
   S.teslimNokta  = document.querySelector('#rb_teslimNokta .sel')?.dataset.val || 'direkt';
   S.boruTip      = document.querySelector('#rb_boruTip .sel')?.dataset.val || 'hdpe';
   S.trafoMesafe  = parseFloat(document.getElementById('trafoMesafe').value)||0;
+  S.panelGuc     = parseFloat(document.getElementById('panelGuc')?.value)||0;
   S.hatTip       = document.querySelector('#rb_hatTip .sel')?.dataset.val || 'yeralti';
   S.kabloMalzeme = document.querySelector('#rb_kabloMalzeme .sel')?.dataset.val || 'bakir';
   S.gunlukSu     = parseFloat(document.getElementById('gunlukSu').value)||0;
@@ -116,7 +117,7 @@ function kapatModal(){ const ov=document.getElementById('duzenleOverlay'); if(ov
 function yeniHesap(){
   ['kuyuDerinlik','statikSu','dinamikSu','kuyuDebi','araziDonum','uzakNokta','kotFarki','gunlukSu','basinc','hatSayisi','adSoyad',
    'spAralikX','spAralikY','spDebi','spBasinc','dmlSiraArasi','dmlDamlAralik','dmlDamlDebi','dmlLateralLen',
-   'dmlBitkiArasi','dmlToplamSira','dmlTarlaEn','dmlTarlaBoy','dmlAgacDamlaAdet','mevcutPompa','trafoMesafe','uretimTipi'
+   'dmlBitkiArasi','dmlToplamSira','dmlTarlaEn','dmlTarlaBoy','dmlAgacDamlaAdet','mevcutPompa','trafoMesafe','uretimTipi','panelGuc'
   ].forEach(function(k){ const el=document.getElementById(k); if(el) el.value=''; });
 
   const el2=document.getElementById('calismaSure');  if(el2) el2.value='8';
@@ -130,7 +131,7 @@ function yeniHesap(){
   S.araziDonum=0; S.uretimTipi=''; S.urunTip=''; S.uzakNokta=0; S.kotFarki=0;
   S.kuyuDerinlik=0; S.dinamikSu=0; S.statikSu=0; S.kuyuDebi=0;
   S.kuyuSayisi=1; S.kuyuMesafe=150;
-  S.trafoMesafe=0; S.hatTip='yeralti'; S.kabloMalzeme='bakir';
+  S.trafoMesafe=0; S.panelGuc=0; S.hatTip='yeralti'; S.kabloMalzeme='bakir';
   clearProductionLayoutState();
   S.spAralikX=0; S.spAralikY=0; S.spDebi=0; S.spBasinc=0;
   S.dmlSiraArasi=0; S.dmlDamlAralik=0; S.dmlDamlDebi=0; S.dmlLateralLen=0;

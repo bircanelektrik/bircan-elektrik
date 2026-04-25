@@ -27,7 +27,7 @@ const S = {
   dmlBitkiArasi:0, dmlToplamSira:0, dmlTarlaEn:0, dmlTarlaBoy:0, dmlAgacDamlaAdet:0, dmlLateralTip:'tek',
   advParamGirildi:false,
   // Enerji
-  sebekeDurum:'yok', sistemTercih:'solar', panelYer:'yer', ilSecim:'orta', trafoMesafe:0,
+  sebekeDurum:'yok', sistemTercih:'solar', panelYer:'yer', ilSecim:'orta', trafoMesafe:0, panelGuc:0,
   // Hedef (default artık 'guvenlik' – maliyeti baskın yapma kuralı)
   oncelik:'guvenlik', kullanci:'kendisi',
   // Internal

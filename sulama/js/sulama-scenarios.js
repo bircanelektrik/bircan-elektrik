@@ -130,10 +130,14 @@ function hesapSenaryo(cfg){
   const uzakRevised = uzak !== uzakRaw;
   const kotF = S.egimDurum==='egimli'?(S.kotFarki||0):0;
   const PSH  = GP[S.ilSecim]||5.2;
-  // Panel gücü: Yüksek Verimli → 600W monokristal premium, Maliyet → 460W ekonomik, diğer → 540W
-  const pW = (typeof isVerimliMode==='function'&&isVerimliMode()) ? 600
+  // Panel gücü: Kullanıcı girişi (S.panelGuc) varsa öncelikli kullanılır.
+  // Girilmemişse: Yüksek Verimli → 600W, Maliyet → 460W, diğer → 550W (piyasa standardı).
+  // NOT: 460W artık piyasada neredeyse yok; varsayılan 550W olarak güncellendi (Nisan 2026).
+  const _userPanelW = (typeof S.panelGuc==='number' && S.panelGuc >= 100 && S.panelGuc <= 800) ? S.panelGuc : 0;
+  const pW = _userPanelW > 0 ? _userPanelW
+            : (typeof isVerimliMode==='function'&&isVerimliMode()) ? 600
             : (typeof isMaliyetMode==='function'&&isMaliyetMode()) ? 460
-            : 540;
+            : 550;
 
   // Sistem başına debi – nKuyu ile bölüm
   const saatlikSis = gs / sSure;
@@ -1153,9 +1157,13 @@ function chkSebeke(){
   const currentSistemTercih = S.sistemTercih || 'solar';
   const hasGridLine = currentSistemTercih === 'hibrit' || currentSistemTercih === 'sebeke';
 
-  // Panel yeri: sadece şebeke modunda gizle
+  // Panel yeri ve panel güç girişi: sadece şebeke modunda gizle
   if(panelGrup){
     panelGrup.style.display = (currentSistemTercih === 'sebeke') ? 'none' : 'flex';
+  }
+  var panelGucGrup = document.getElementById('panelGucGrup');
+  if(panelGucGrup){
+    panelGucGrup.style.display = (currentSistemTercih === 'sebeke') ? 'none' : 'flex';
   }
   // Trafo mesafe alanı: şebeke bağlantısı varsa (veya hibrit/sebeke tercihinde) göster
   if(trafoGrup){
@@ -1289,6 +1297,15 @@ function onField(id){
     if(kd>0 && parseFloat(el.value)>=kd){ el.value=Math.max(0,kd-1); }
   }
   const v=parseFloat(el.value)||0; S[id]=v;
+  if(id==='panelGuc'){
+    const fn=document.getElementById('fn_panelGuc');
+    if(fn){
+      if(!v || v===0){ fn.className='field-note'; fn.textContent='Boş → 550 W varsayılan esas alınır.'; }
+      else if(v<200){ fn.className='field-note err'; fn.style.color=''; fn.textContent='⚠ Çok düşük – tipik panel gücü 400-700 W aralığında.'; }
+      else if(v>700){ fn.className='field-note'; fn.style.color='var(--or)'; fn.textContent='⚠ 700 W üzeri – girdiğinizden eminseniz devam edebilirsiniz.'; }
+      else { fn.className='field-note st-manual'; fn.style.color=''; fn.textContent='✓ '+v+' W panel gücü kullanılacak.'; }
+    }
+  }
   if(id==='dinamikSu'||id==='statikSu'||id==='kuyuDerinlik') validateKuyu();
   if(id==='kuyuMesafe'){
     const fn=document.getElementById('fn_kuyuMesafe');
