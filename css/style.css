@@ -224,8 +224,8 @@ footer a:hover{color:var(--primary)}
 #call-popup a[href^="tel"]{background:linear-gradient(180deg,rgba(31,35,40,0.82) 0%,rgba(18,20,23,0.92) 100%)!important;border:none!important;border-radius:var(--radius)!important;color:var(--on-surface)!important;transition:background .3s!important;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(255,255,255,0.04)!important}
 #call-popup a[href^="tel"]:hover{background:linear-gradient(180deg,rgba(39,44,50,0.92) 0%,rgba(22,25,28,0.96) 100%)!important}
 /* TEKNİK */
-#teknik{padding:5.2rem 4rem;background:linear-gradient(180deg,rgba(19,21,23,0.97) 0%,rgba(14,16,18,0.99) 100%);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;align-items:stretch;max-width:1520px;margin:0 auto}
-#teknik>*{grid-column:1/-1}
+#teknik{box-sizing:border-box;width:100%;max-width:none;padding:5.2rem max(3rem,calc((100vw - 1540px) / 2));background:linear-gradient(180deg,rgba(19,21,23,0.94) 0%,rgba(14,16,18,0.985) 100%);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;align-items:stretch;margin:0}
+#teknik>*:not(.section-bg){grid-column:1/-1}
 #teknik>.teknik-kicker{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--primary);margin-bottom:.45rem;opacity:.86}
 #teknik>h2{font-size:clamp(2.15rem,3.3vw,2.95rem)!important;line-height:1.04!important;margin-bottom:.7rem;max-width:760px}
 #teknik>p{font-size:14px;line-height:1.8;max-width:760px;margin-bottom:.35rem;color:var(--body-copy)}
