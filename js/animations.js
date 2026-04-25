@@ -215,7 +215,7 @@
   /* ─────────────────────────────────────────
      8. TEKNİK — başlık + kategori butonları
   ───────────────────────────────────────── */
-  gsap.from('#teknik > h2, #teknik > p', {
+  gsap.from('#teknik > .teknik-kicker, #teknik > h2, #teknik > p', {
     opacity: 0, y: 24, stagger: 0.15, duration: 1, ease: 'power3.out',
     scrollTrigger: { trigger: '#teknik', start: 'top 78%' }
   });

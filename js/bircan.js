@@ -7,8 +7,9 @@ function toggleCat(id,btn){
   var p=document.getElementById('cat-'+id);if(!p)return;
   var o=p.classList.contains('open');
   document.querySelectorAll('.cat-panel').forEach(function(x){x.classList.remove('open');});
-  document.querySelectorAll('.cat-btn').forEach(function(x){x.classList.remove('open');});
+  document.querySelectorAll('.cat-btn').forEach(function(x){x.classList.remove('open');x.setAttribute('aria-expanded','false');});
   if(!o){p.classList.add('open');btn.classList.add('open');
+    btn.setAttribute('aria-expanded','true');
     if(id==='aydinlatma')setTimeout(function(){setKelvin(3000);initLumen();},100);
     if(id==='salt')setTimeout(function(){initMCB();initGD();},100);}
 }
@@ -1366,7 +1367,7 @@ document.addEventListener('DOMContentLoaded',function(){
   document.querySelectorAll('.ref-filter .rfbtn').forEach(function(b) { b.addEventListener('click', function() { filterRef(this.getAttribute('data-ref-filter'), this); }); });
   /* Teklif formu */
   var tfBtn = document.getElementById('tf-submit'); if (tfBtn) tfBtn.addEventListener('click', submitTeklif);
-
+  /* Teknik odak varsayılan görünüm */
   /* ── MALZEME PLANLAMA ARACI v2 ── */
   // Bina tipi
   document.querySelectorAll('[data-bina]').forEach(function(b){
