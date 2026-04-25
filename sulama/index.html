@@ -404,6 +404,11 @@
         <div class="rb" data-val="cati">Çatı Montaj</div>
       </div>
     </div>
+    <div class="fg" id="panelGucGrup">
+      <label>Panel Hücre Gücü (W/panel) <div class="tip" style="display:inline-flex;margin-left:5px;vertical-align:middle"><div class="ti">?</div><div class="tb"><b>Panel Gücü</b>Kullanacağınız güneş panelinin tek panel gücü (Wp). Boş bırakırsanız <b>550 W</b> esas alınır (güncel piyasa standardı). 460 W, 545 W, 600 W gibi gerçek değerinizi girebilirsiniz.</div></div></label>
+      <input type="number" id="panelGuc" placeholder="Boş = 550 W (varsayılan)" min="100" max="800" step="5" oninput="onField('panelGuc')"/>
+      <div id="fn_panelGuc" class="fn"></div>
+    </div>
     <div class="fg">
       <label>İl / Bölge (Güneş Potansiyeli)</label>
       <select id="ilSecim">
