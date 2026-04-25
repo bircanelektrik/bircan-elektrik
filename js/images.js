@@ -222,6 +222,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* Arka plan görsel katmanı */
     var bg = document.createElement('div');
+    bg.className = 'section-bg';
     bg.style.cssText = [
       'position:absolute', 'inset:0', 'z-index:0',
       'background-image:url(' + url + ')',
