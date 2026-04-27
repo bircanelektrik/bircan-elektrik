@@ -773,115 +773,44 @@
   </button>
   <div class="cat-panel" id="cat-malzeme">
     <div class="cat-inner">
-
-      <!-- S1: BİNA TİPİ -->
-      <div class="mlz-step" id="mlz-s1">
-        <div class="mlz-step-header"><span class="mlz-step-num">1</span><div><div class="mlz-step-title">Bina tipiniz nedir?</div><div class="mlz-step-desc">Yapı türünüzü seçin.</div></div></div>
-        <div class="mlz-tip-select">
-          <button class="mlz-tip-btn" data-bina="mustakil">🏠 Müstakil Ev</button>
-          <button class="mlz-tip-btn" data-bina="villa">🏡 Villa (2-3 Kat)</button>
-          <button class="mlz-tip-btn" data-bina="apartman">🏢 Apartman / Bina</button>
+      <div class="sulama-entry">
+        <div class="sulama-entry__head">
+          <span class="sulama-entry__badge">Bağımsız Araç</span>
+          <h3 class="sulama-entry__title">Malzeme Planlama Aracı</h3>
+          <p class="sulama-entry__desc">Konut, villa ve apartman projeleri için ana malzeme listesi: ADP, daire panosu, kablo &amp; kolon, topraklama, diyafon ve kamera tesisatı dahil tahmini detaylı liste. PDF oluşturma ve WhatsApp ile teklif alma özelliğiyle.</p>
         </div>
-        <div id="mlz-villa-kat" style="display:none;margin-top:12px;">
-          <label class="mlz-lbl">Kat sayısı:</label>
-          <div class="mlz-hat-btns"><button class="mlz-kat-btn active" data-kat="2">2 Kat</button><button class="mlz-kat-btn" data-kat="3">3 Kat</button></div>
+        <div class="sulama-entry__grid">
+          <article class="sulama-entry__item">
+            <div class="sulama-entry__item-title">Bina tipi seçimi</div>
+            <p>Müstakil ev, villa (2-3 kat) ve apartman için ayrı hesaplama motorları.</p>
+          </article>
+          <article class="sulama-entry__item">
+            <div class="sulama-entry__item-title">ADP & Daire Panosu</div>
+            <p>Sigorta (MCB), RCD ve TMŞ seçimi otomatik hesaplanır.</p>
+          </article>
+          <article class="sulama-entry__item">
+            <div class="sulama-entry__item-title">Kablo & Kolon hesabı</div>
+            <p>NYY, NAYY, NYM kesit seçimi, besleme tipi ve iç kolon metrajı.</p>
+          </article>
+          <article class="sulama-entry__item">
+            <div class="sulama-entry__item-title">Topraklama sistemi</div>
+            <p>Kazık veya galvaniz şerit yöntemine göre malzeme listesi.</p>
+          </article>
+          <article class="sulama-entry__item">
+            <div class="sulama-entry__item-title">Diyafon & Kamera</div>
+            <p>Zil, sesli ahize veya kameralı panel için kablo ve ekipman listesi.</p>
+          </article>
+          <article class="sulama-entry__item">
+            <div class="sulama-entry__item-title">PDF & WhatsApp çıktısı</div>
+            <p>Tüm girdiler ve sonuçlarla birlikte PDF oluştur, WhatsApp'tan teklif al.</p>
+          </article>
         </div>
-        <div id="mlz-apt-detay" style="display:none;margin-top:12px;">
-          <label class="mlz-lbl">Kat sayısı:</label>
-          <input type="number" id="mlz-apt-kat" value="5" min="2" max="30" class="mlz-input-sm">
+        <div class="sulama-entry__actions">
+          <a class="sulama-entry__cta sulama-entry__cta--primary" href="/mpa/" target="_blank" rel="noopener">Aracı Aç</a>
+          <a class="sulama-entry__cta sulama-entry__cta--secondary" href="https://wa.me/905340140949?text=Merhaba%2C%20malzeme%20planlamas%C4%B1%20i%C3%A7in%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener">Uzman değerlendirmesi için bize ulaşın</a>
         </div>
+        <p class="sulama-entry__trust">Bu araç tahmini malzeme listesi oluşturur. Kesin malzeme ve fiyat için saha keşfi gereklidir.</p>
       </div>
-
-      <!-- S2: DAİRE TANIMLAMA (apartman) -->
-      <div class="mlz-step" id="mlz-s2" style="display:none;">
-        <div class="mlz-step-header"><span class="mlz-step-num">2</span><div><div class="mlz-step-title">Daire yapısını tanımlayın</div><div class="mlz-step-desc">Her daire tipinden kaç adet olduğunu belirtin. Farklı tip daireler için "Daire Tipi Ekle" butonunu kullanın.</div></div></div>
-        <div id="mlz-daire-listesi"></div>
-        <button id="mlz-daire-ekle" class="mlz-ekle-btn">+ Farklı Daire Tipi Ekle</button>
-      </div>
-
-      <!-- S2b: ODA KARTLARI -->
-      <div class="mlz-step" id="mlz-s2b" style="display:none;">
-        <div class="mlz-step-header"><span class="mlz-step-num">2</span><div><div class="mlz-step-title">Oda detaylarını ayarlayın</div><div class="mlz-step-desc">+/- ile değiştirin. Banyo/WC prizleri otomatik etanj (IP44) hesaplanır.</div></div></div>
-        <div id="mlz-oda-konteyner"></div>
-      </div>
-
-      <!-- S3: BESLEME HATTI -->
-      <div class="mlz-step" id="mlz-s3" style="display:none;">
-        <div class="mlz-step-header"><span class="mlz-step-num">3</span><div><div class="mlz-step-title">Besleme hattı bilgileri</div><div class="mlz-step-desc">Elektrik direğine mesafe ve kablo tercihleri.</div></div></div>
-        <div class="mlz-field-grid">
-          <div><label class="mlz-lbl">Direk mesafesi (m)</label><input type="number" id="mlz-direk" value="10" min="1" max="200" class="mlz-input-sm"></div>
-          <div><label class="mlz-lbl">Dış hat tipi</label><div class="mlz-hat-btns"><button class="mlz-hat-btn active" data-hat="havai">🔌 Havai</button><button class="mlz-hat-btn" data-hat="yeralti">⚡ Yeraltı</button></div></div>
-          <div><label class="mlz-lbl">Dış hat kablo malzemesi</label><div class="mlz-hat-btns"><button class="mlz-kolon-btn active" data-kolon="bakir">🟤 Bakır (NYY)</button><button class="mlz-kolon-btn" data-kolon="aluminyum">⚪ Alüminyum (NAYY)</button></div></div>
-        </div>
-        <div style="margin-top:8px;font-size:11px;color:var(--gold);">ℹ️ İç kolon hattı her zaman bakır (NYY) olarak hesaplanır.</div>
-      </div>
-
-      <!-- S4: GÜÇLÜ CİHAZLAR -->
-      <div class="mlz-step" id="mlz-s4" style="display:none;">
-        <div class="mlz-step-header"><span class="mlz-step-num">4</span><div><div class="mlz-step-title">Güçlü cihazlar (daire başına)</div><div class="mlz-step-desc">Fırın, bulaşık ve çamaşır makinesi zorunlu olarak seçilidir.</div></div></div>
-        <div class="mlz-cihaz-grid" id="mlz-cihaz-grid">
-          <label class="mlz-cihaz-item"><input type="checkbox" checked disabled data-watt="2500" data-name="Fırın / Ocak" data-zorunlu="1"> 🍳 Fırın / Ocak <span class="mlz-cihaz-w">2500W ✓</span></label>
-          <label class="mlz-cihaz-item"><input type="checkbox" checked disabled data-watt="1800" data-name="Bulaşık Mak." data-zorunlu="1"> 🍽️ Bulaşık Mak. <span class="mlz-cihaz-w">1800W ✓</span></label>
-          <label class="mlz-cihaz-item"><input type="checkbox" checked disabled data-watt="2500" data-name="Çamaşır Mak." data-zorunlu="1"> 👕 Çamaşır Mak. <span class="mlz-cihaz-w">2500W ✓</span></label>
-          <label class="mlz-cihaz-item"><input type="checkbox" data-watt="3500" data-name="Klima"> ❄️ Klima <span class="mlz-cihaz-w">3500W</span></label>
-          <label class="mlz-cihaz-item"><input type="checkbox" data-watt="4000" data-name="Şofben"> 🚿 Şofben <span class="mlz-cihaz-w">4000W</span></label>
-          <label class="mlz-cihaz-item"><input type="checkbox" data-watt="2500" data-name="Kombi"> 🔥 Kombi <span class="mlz-cihaz-w">2500W</span></label>
-        </div>
-      </div>
-
-      <!-- S4b: TOPRAKLAMA -->
-      <div class="mlz-step" id="mlz-s4b" style="display:none;">
-        <div class="mlz-step-header"><span class="mlz-step-num">4b</span><div><div class="mlz-step-title">Topraklama sistemi</div><div class="mlz-step-desc">Topraklama yöntemi ve bina ölçülerini girin.</div></div></div>
-        <div class="mlz-field-grid">
-          <div>
-            <label class="mlz-lbl">Topraklama yöntemi</label>
-            <div class="mlz-toprak-btns"><button class="mlz-toprak-btn active" data-toprak="kazik">⚡ Kazık (Çubuk)</button><button class="mlz-toprak-btn" data-toprak="serit">📏 Galvaniz Şerit</button></div>
-          </div>
-          <div id="mlz-kazik-adet">
-            <label class="mlz-lbl">Kazık adedi</label>
-            <input type="number" id="mlz-toprak-kazik" value="1" min="1" max="10" class="mlz-input-sm">
-          </div>
-          <div>
-            <label class="mlz-lbl">Bina eni (m)</label>
-            <input type="number" id="mlz-bina-a" value="10" min="3" max="100" class="mlz-input-sm">
-          </div>
-          <div>
-            <label class="mlz-lbl">Bina boyu (m)</label>
-            <input type="number" id="mlz-bina-b" value="10" min="3" max="100" class="mlz-input-sm">
-          </div>
-        </div>
-      </div>
-
-      <!-- S5: ASANSÖR (apartman) -->
-      <div class="mlz-step" id="mlz-s5" style="display:none;">
-        <div class="mlz-step-header"><span class="mlz-step-num">5</span><div><div class="mlz-step-title">Asansör var mı?</div><div class="mlz-step-desc">Asansör kuyu altyapısı ve besleme hesaba dahil edilir.</div></div></div>
-        <div class="mlz-asan-btns"><button class="mlz-asan-btn active" data-asan="yok">Yok</button><button class="mlz-asan-btn" data-asan="var">Var</button></div>
-      </div>
-
-      <!-- S6: DİYAFON -->
-      <div class="mlz-step" id="mlz-s6" style="display:none;">
-        <div class="mlz-step-header"><span class="mlz-step-num">6</span><div><div class="mlz-step-title">Kapı zili / diyafon</div><div class="mlz-step-desc">Kapınızda nasıl bir sistem olsun?</div></div></div>
-        <div class="mlz-diyafon-btns"><button class="mlz-diyafon-btn active" data-diyafon="zil">🔔 Basit Zil</button><button class="mlz-diyafon-btn" data-diyafon="ahize">📞 Sesli Ahize</button><button class="mlz-diyafon-btn" data-diyafon="kamera">📹 Kameralı Panel</button></div>
-      </div>
-
-      <!-- S7: KAMERA -->
-      <div class="mlz-step" id="mlz-s7" style="display:none;">
-        <div class="mlz-step-header"><span class="mlz-step-num">7</span><div><div class="mlz-step-title">Güvenlik kamerası</div><div class="mlz-step-desc">Kamera sistemi isterseniz adet ve kayıt süresini girin.</div></div></div>
-        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-          <div class="mlz-kam-btns"><button class="mlz-kam-btn active" data-kam="yok">Yok</button><button class="mlz-kam-btn" data-kam="var">Var</button></div>
-          <div id="mlz-kam-adet" style="display:none;">
-            <label class="mlz-lbl">Kamera adedi</label><input type="number" id="mlz-kamera-sayi" value="2" min="1" max="20" class="mlz-input-sm">
-          </div>
-          <div id="mlz-kam-gun" style="display:none;">
-            <label class="mlz-lbl">Kayıt süresi (gün)</label><input type="number" id="mlz-kamera-gun" value="15" min="1" max="90" class="mlz-input-sm">
-          </div>
-        </div>
-      </div>
-
-      <!-- HESAPLA -->
-      <div id="mlz-hesapla-wrap" style="display:none;margin-top:1.5rem;"><button id="mlz-hesapla-btn" class="mlz-hesapla">🧮 Malzeme Listemi Oluştur</button></div>
-      <div id="mlz-sonuc" style="display:none;margin-top:1.5rem;"></div>
-
     </div>
   </div>
 
