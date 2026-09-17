@@ -1,0 +1,74 @@
+/* sulama-forms.css --- Form bile---enleri: radio, tooltip, infobox, input, select, tabs */
+/* RADIO */
+.rbg{display:flex;gap:6px;flex-wrap:wrap}
+.rb{flex:1;min-width:68px;background:var(--dk3);border:1px solid var(--bdr);border-radius:7px;padding:7px 9px;cursor:pointer;text-align:center;font-size:11px;font-weight:600;color:var(--tx2);transition:all 0.18s;user-select:none}
+.rb:hover{border-color:var(--tx3);color:var(--tx)}
+.rb.sel{background:#1A1200;border-color:var(--gold);color:var(--gold)}
+
+/* TOOLTIP */
+.tip{position:relative;display:inline-flex;cursor:pointer}
+.ti{width:14px;height:14px;border-radius:50%;background:var(--dk4);border:1px solid var(--tx3);color:var(--tx3);font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.ti:hover,.tip:hover .ti{border-color:var(--gold);color:var(--gold)}
+.tb{display:none;position:absolute;bottom:calc(100%+7px);left:50%;transform:translateX(-50%);background:#0A0800;border:1px solid var(--gold);border-radius:8px;padding:10px 12px;min-width:200px;max-width:260px;font-size:11px;color:var(--tx2);line-height:1.6;z-index:9999;pointer-events:none;word-wrap:break-word}
+.tb::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--gold)}
+.tip:hover .tb{display:block}
+.tb b{color:var(--gold-l);display:block;margin-bottom:3px;font-size:11px}
+
+/* INFOBOXES */
+.box{border-radius:8px;padding:10px 13px;font-size:12px;display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;line-height:1.5}
+.box svg{flex-shrink:0;margin-top:1px}
+.box.warn{background:#140800;border:1px solid #5A3000;color:#D4841A}
+.box.info{background:#040F04;border:1px solid var(--grd);color:var(--gr)}
+.box.err{background:#140404;border:1px solid #6E1A1A;color:#D44A4A}
+.box.note{background:#0A0800;border:1px solid #3A2800;color:var(--tx2)}
+.box.tip2{background:#030B14;border:1px solid #1A3A5E;color:var(--cy)}
+
+/* D---NAM---K SU */
+.dkard{background:var(--dk3);border:1px solid #3A2800;border-radius:10px;padding:13px;margin-bottom:10px}
+.dtabs{display:flex;gap:6px;margin-bottom:10px}
+.dtab{flex:1;padding:6px;border:1px solid var(--bdr);border-radius:6px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;color:var(--tx3);background:var(--dk);transition:all 0.18s;text-transform:uppercase}
+.dtab.sel{background:#1A1200;border-color:var(--gold);color:var(--gold)}
+.dia{display:none}.dia.act{display:block}
+
+/* ---
+   YEN---: BASIN--- PANEL--- --- 3 PAR---A DA---ILIM
+   --- */
+.bpanel{background:#06040E;border:1px solid #3A2060;border-radius:10px;padding:14px;margin-top:10px}
+.bpanel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px}
+.bpanel-title{font-size:11px;font-weight:700;color:var(--pu-l);text-transform:uppercase;letter-spacing:0.5px;display:flex;align-items:center;gap:6px}
+.bpanel-stage{font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px}
+.bpanel-stage.pre{background:#1A0A00;border:1px solid var(--or);color:var(--or)}
+.bpanel-stage.final{background:#040C04;border:1px solid var(--gr);color:var(--gr)}
+
+/* 3 Par---a bas---n--- da---l---m--- --- yeni tasar---m */
+.press-table{background:#040210;border:1px solid #2A1A50;border-radius:8px;padding:10px 12px;margin-bottom:10px}
+.press-row{display:flex;justify-content:space-between;align-items:center;padding:7px 2px;border-bottom:1px dashed #1A1A2A;font-size:12px}
+.press-row:last-child{border-bottom:none;border-top:2px solid var(--gold);padding-top:10px;margin-top:3px}
+.press-row .press-label{color:var(--tx2);display:flex;align-items:center;gap:6px}
+.press-row .press-sub{font-size:10px;color:var(--tx3);margin-top:1px;display:block}
+.press-row .press-val{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--pu-l)}
+.press-row.add .press-val{color:var(--or)}
+.press-row.total .press-label{color:var(--gold);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0.3px}
+.press-row.total .press-val{color:var(--gold-l);font-size:22px}
+
+/* Bas---n--- yorum rozeti */
+.press-comment{padding:10px 12px;border-radius:7px;font-size:12px;font-weight:500;line-height:1.5;display:flex;gap:8px;align-items:flex-start;margin-top:8px}
+.press-comment.ok{background:#030C03;border:1px solid var(--grd);color:var(--gr)}
+.press-comment.warn{background:#100800;border:1px solid #7A4A00;color:var(--or)}
+.press-comment.bad{background:#100404;border:1px solid #8A2020;color:var(--re)}
+.press-comment .pc-icon{font-size:16px;flex-shrink:0}
+
+.apply-btn{border:1px solid #3A2060;color:var(--pu-l);border-radius:6px;padding:6px 13px;font-family:'Barlow',sans-serif;font-size:10px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:0.4px;transition:all 0.18s;display:inline-flex;align-items:center;gap:5px;background:transparent}
+.apply-btn:hover{background:#1A0A30}
+.apply-btn.done{border-color:var(--grd);color:var(--gr);background:#020A04}
+
+/* SU TAHM---N */
+.subox{background:#020810;border:1px solid #1A3A5E;border-radius:10px;padding:13px;margin-top:10px}
+.subox-head{font-size:10px;font-weight:700;color:var(--cy);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.su3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:8px}
+.sui{background:#030D14;border-radius:6px;padding:8px;text-align:center;border:1px solid #1A3A5E}
+.sui.cur{border-color:var(--cy)}
+.sul{font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.3px;margin-bottom:2px}
+.suv{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--cy)}
+.suv.cur{color:var(--gold)}
+
