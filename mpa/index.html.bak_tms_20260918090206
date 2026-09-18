@@ -626,15 +626,9 @@ var MLZ = {
      ile hesaplanır ve aşırı/anormal taban girişlerinde sonucun saçmalamaması
      için min/max ile sınırlanır (kablo_olcek_min/max).*/
   kablo_baz_alan:200, kablo_olcek_min:0.75, kablo_olcek_max:2.0,
-  /* Cizelge 9 (Elektrik Ic Tesisleri Yonetmeligi) -- yalitilmis bakir
-     iletkenlerin 25C ortamda surekli tasiyabilecekleri yuk akimlari.
-     nyy_kapasite -> 2.Grup (termoplastik kilifli, borulu -- ic kolon ve
-     yeralti NYY besleme buna tabi; saha/proje onayli ornekle dogrulandi:
-     3x35/16+16 NYY -> Iz=143A). nym_kapasite -> 3.Grup (havada acik
-     kilifli -- havai NYM besleme). */
-  nyy_kapasite:[{mm:0.75,a:13},{mm:1,a:16},{mm:1.5,a:20},{mm:2.5,a:27},{mm:4,a:36},{mm:6,a:47},{mm:10,a:65},{mm:16,a:87},{mm:25,a:115},{mm:35,a:143},{mm:50,a:178},{mm:70,a:220},{mm:95,a:265},{mm:120,a:310},{mm:150,a:355},{mm:185,a:405},{mm:240,a:480},{mm:300,a:555}],
+  nyy_kapasite:[{mm:6,a:34},{mm:10,a:46},{mm:16,a:61},{mm:25,a:80},{mm:35,a:99},{mm:50,a:119}],
   nayy_kapasite:[{mm:10,a:28},{mm:16,a:39},{mm:25,a:53},{mm:35,a:67},{mm:50,a:84},{mm:70,a:107}],
-  nym_kapasite:[{mm:0.75,a:16},{mm:1,a:20},{mm:1.5,a:25},{mm:2.5,a:34},{mm:4,a:45},{mm:6,a:57},{mm:10,a:78},{mm:16,a:104},{mm:25,a:137},{mm:35,a:168},{mm:50,a:210},{mm:70,a:260},{mm:95,a:310},{mm:120,a:365},{mm:150,a:415},{mm:185,a:475},{mm:240,a:560},{mm:300,a:645},{mm:400,a:770},{mm:500,a:880}],
+  nym_kapasite:[{mm:6,a:34},{mm:10,a:46},{mm:16,a:61},{mm:25,a:80},{mm:35,a:99}],
   aer_kapasite:[{mm:'3x16+10',a:63},{mm:'3x25+16',a:80},{mm:'3x50+25',a:125}],
   tms_std:[25,32,40,50,63,80,100,125,160,200],
   mcb_std:[6,10,16,20,25,32,40,50,63]
@@ -983,20 +977,9 @@ function mlzBeslemeSec(akim, hatTip, kolonMat, trifaze){
   }
   var k=mlzKesitSec(akim,'aluminyum'); return {label:'NAYY '+damar+'×'+k.mm+'mm² (yeraltı alüminyum)',mm:k.mm,a:k.a};
 }
-/* TMS artik hesaplanan bina akimina uste yuvarlanarak degil, ana besleme
-   kablosunun tasima kapasitesine (Iz) gore koruma koordinasyonuyla
-   seciliyor: In, Iz'yi asmayan en buyuk standart deger (Ib <= In <= Iz).
-   Saha/proje onayli ornek: 3x35/16+16 NYY (Iz=143A) -> In=125A. Cagri
-   yeri besleme kablosu belirlendikten SONRA (bkz. mlzHesapla). */
-function mlzTmsSec(kabloAkim, minAkim){
-  var secilen=MLZ.tms_std[0];
-  for(var i=0;i<MLZ.tms_std.length;i++){
-    if(MLZ.tms_std[i]<=kabloAkim) secilen=MLZ.tms_std[i]; else break;
-  }
-  if(minAkim!==undefined && secilen<minAkim){
-    for(var j=0;j<MLZ.tms_std.length;j++){if(MLZ.tms_std[j]>=minAkim){secilen=MLZ.tms_std[j];break;}}
-  }
-  return secilen;
+function mlzTmsSec(akim){
+  for(var i=0;i<MLZ.tms_std.length;i++){if(MLZ.tms_std[i]>=akim)return MLZ.tms_std[i];}
+  return MLZ.tms_std[MLZ.tms_std.length-1];
 }
 
 /* ── EŞ ZAMANLILIK ── */
@@ -1239,13 +1222,8 @@ function mlzHesapla(){
 
   var trifaze=topEszGuc>5000;
   var voltaj=trifaze?380:220;
-  /* Ana giris hatti akimi cosfi=0,9 kabulu (KCETAS baglanti hatti
-     projelerindeki pratikle ortussun diye) ve 400V nominal gerilimle
-     hesaplaniyor -- saha ornegi: 58.135 W / (1,732x400x0,9) = 93,3 A,
-     onayli projedeki degerle birebir. */
-  var MLZ_COSFI=0.9;
   var binaAkim;
-  if(trifaze){binaAkim=topEszGuc/(1.732*400*MLZ_COSFI);}else{binaAkim=topEszGuc/(220*MLZ_COSFI);}
+  if(trifaze){binaAkim=topEszGuc/(1.732*380);}else{binaAkim=topEszGuc/220;}
   binaAkim=Math.round(binaAkim*10)/10;
 
   /* Daire panosu boyutları artık trifaze belirlendiğine göre kesinleştirilir
@@ -1253,6 +1231,8 @@ function mlzHesapla(){
   daireSonuclar.forEach(function(d){
     d.panoMod = mlzPanoModHesapla(d.mcbs.length, trifaze);
   });
+
+  var tms=mlzTmsSec(binaAkim);
 
   // İç kolon
   var kolonDamar=trifaze?'4':'2';
@@ -1263,7 +1243,7 @@ function mlzHesapla(){
       var dAkim=trifaze?d.eszGuc/(1.732*380):d.eszGuc/220;
       dAkim=Math.round(dAkim*10)/10;
       var kKesit=mlzKesitSec(dAkim,'bakir');
-      if(kKesit.mm<MLZ.kolon_min) kKesit={mm:MLZ.kolon_min,a:47};
+      if(kKesit.mm<MLZ.kolon_min) kKesit={mm:MLZ.kolon_min,a:34};
       if(kKesit.mm>maxKolonKesit) maxKolonKesit=kKesit.mm;
       var ortaKat=Math.ceil(katSay/2);
       var kM=Math.round((ortaKat*MLZ.kat_h+MLZ.kolon_ek)*d.adet);
@@ -1273,7 +1253,7 @@ function mlzHesapla(){
     var dAkim=trifaze?topEszGuc/(1.732*380):topEszGuc/220;
     dAkim=Math.round(dAkim*10)/10;
     var kKesit=mlzKesitSec(dAkim,'bakir');
-    if(kKesit.mm<MLZ.kolon_min) kKesit={mm:MLZ.kolon_min,a:47};
+    if(kKesit.mm<MLZ.kolon_min) kKesit={mm:MLZ.kolon_min,a:34};
     if(kKesit.mm>maxKolonKesit) maxKolonKesit=kKesit.mm;
     var kM=MLZ.ic_kolon+(S.binaTip==='villa'?(S.katSay*MLZ.kat_h):0);
     kolonSonuclar.push({tip:'Kolon',adet:1,kesit:kKesit.mm,damar:kolonDamar,metre:Math.round(kM),akim:dAkim});
@@ -1291,7 +1271,6 @@ function mlzHesapla(){
   });
   var besMinAkim=Math.max(binaAkim, maxKolonAkimKap);
   var besleme=mlzBeslemeSec(besMinAkim, S.hatTip, S.kolonMat, trifaze);
-  var tms=mlzTmsSec(besleme.a, binaAkim);
   var besM=direkM+5;
 
   // Ortak alan
