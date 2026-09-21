@@ -135,11 +135,102 @@ body::before{
 
 /* ── BUTON GRUPLARI ── */
 .mlz-tip-select,.mlz-hat-btns,.mlz-kat-btns,.mlz-toprak-btns,
-.mlz-asan-btns,.mlz-diyafon-btns,.mlz-kam-btns,.mlz-kolon-btns,.mlz-net-btns{
+.mlz-asan-btns,.mlz-diyafon-btns,.mlz-kam-btns,.mlz-kolon-btns,.mlz-net-btns,.mlz-om-btns{
   display:flex;flex-wrap:wrap;gap:10px;width:100%;
 }
+/* Malzeme listesinde grup başlığı satırı */
+.mlz-grup-bas{display:block;font-size:10.5px;font-weight:800;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--gold);opacity:.85;padding:8px 0 2px;}
+/* Sonuç akordiyonları */
+.mlz-akr{background:var(--surface-mid);border-radius:12px;margin-bottom:10px;overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.04);}
+.mlz-akr-bas{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:none;border:none;cursor:pointer;padding:14px 16px;font-family:var(--font-body);
+  font-size:13.5px;font-weight:700;color:var(--gold);text-align:left;line-height:1.35;}
+.mlz-akr-bas:hover{background:rgba(212,175,55,0.07);}
+.mlz-akr-ok{transition:transform .22s;font-size:12px;opacity:.7;flex-shrink:0;}
+.mlz-akr.acik .mlz-akr-ok{transform:rotate(180deg);}
+.mlz-akr-ic{display:none;padding:0 12px 8px;}
+.mlz-akr.acik .mlz-akr-ic{display:block;}
+/* Senaryo kaydet / geri yükle paneli */
+.mlz-sen-btn{
+  flex:1 1 160px;min-height:42px;border:none;border-radius:var(--radius);
+  background:var(--surface-mid);color:var(--on-surface-variant);cursor:pointer;
+  font-family:var(--font-body);font-size:13px;font-weight:600;padding:10px 14px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.03);transition:background .2s;
+}
+.mlz-sen-btn:hover{background:rgba(212,175,55,0.16);color:var(--gold);}
+.mlz-sen-alan{
+  width:100%;min-height:200px;box-sizing:border-box;resize:vertical;
+  background:rgba(0,0,0,0.3);color:var(--on-surface-variant,#ddd);
+  border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 14px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:11.5px;line-height:1.55;white-space:pre;
+}
+.mlz-sen-alan:focus{outline:none;border-color:rgba(212,175,55,0.45);}
+.mlz-sen-kayit{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  background:var(--surface-mid);border-radius:9px;padding:9px 12px;margin-bottom:7px;
+}
+.mlz-sen-kayit-ad{font-size:12.5px;font-weight:600;color:var(--on-surface-variant,#ddd);}
+.mlz-sen-kayit-alt{font-size:11px;color:var(--gray);margin-top:2px;}
+.mlz-sen-kayit-btn{display:flex;gap:6px;}
+.mlz-sen-kayit-btn button{
+  border:none;border-radius:6px;padding:6px 11px;cursor:pointer;
+  font-family:var(--font-body);font-size:11.5px;font-weight:600;
+  background:rgba(212,175,55,0.14);color:var(--gold);
+}
+.mlz-sen-kayit-btn button.sil{background:rgba(255,90,90,0.14);color:#ff8f8f;}
+/* Yardım butonu (giriş alanı altında) */
+.mlz-yardim-btn{
+  display:inline-block;margin-top:6px;padding:4px 10px;border:none;border-radius:6px;
+  background:rgba(212,175,55,0.14);color:var(--gold);font-family:var(--font-body);
+  font-size:11px;font-weight:600;cursor:pointer;transition:background .2s;
+}
+.mlz-yardim-btn:hover{background:rgba(212,175,55,0.26);}
+/* Modal */
+.mlz-modal-ovl{
+  position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.72);
+  display:flex;align-items:center;justify-content:center;padding:16px;
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+}
+.mlz-modal{
+  background:var(--surface,#15161a);border-radius:14px;max-width:620px;width:100%;
+  max-height:86vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,0.6),inset 0 0 0 1px rgba(255,255,255,0.06);
+}
+.mlz-modal-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 18px;font-size:14px;font-weight:700;color:var(--gold);
+  border-bottom:1px solid rgba(255,255,255,0.07);position:sticky;top:0;
+  background:var(--surface,#15161a);
+}
+.mlz-modal-x{
+  background:none;border:none;color:var(--gray);font-size:16px;cursor:pointer;
+  padding:2px 6px;border-radius:6px;line-height:1;
+}
+.mlz-modal-x:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.mlz-modal-body{padding:14px 18px 18px;}
+.mlz-motor-satir{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  padding:11px 12px;border-radius:9px;background:var(--surface-mid);margin-bottom:9px;
+}
+.mlz-motor-bilgi{flex:1 1 220px;min-width:0;}
+.mlz-motor-ad{font-size:13px;font-weight:600;color:var(--on-surface-variant,#ddd);}
+.mlz-motor-alt{font-size:11px;color:var(--gray);margin-top:2px;}
+.mlz-motor-sec{display:flex;gap:7px;flex-shrink:0;}
+.mlz-motor-sec button{
+  border:none;border-radius:7px;padding:7px 12px;cursor:pointer;
+  font-family:var(--font-body);font-size:12px;font-weight:600;
+  background:rgba(212,175,55,0.14);color:var(--gold);transition:background .2s;
+}
+.mlz-motor-sec button:hover{background:rgba(212,175,55,0.3);}
+/* Ortak mahal / harici pano giriş blokları */
+.mlz-om-blok{background:var(--surface-mid);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.03);}
+.mlz-om-baslik{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:10px;}
+.mlz-om-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 16px;}
+.mlz-om-not{font-size:11px;color:var(--gray);margin-top:8px;line-height:1.5;}
 .mlz-tip-btn,.mlz-hat-btn,.mlz-kat-btn,.mlz-toprak-btn,
-.mlz-asan-btn,.mlz-diyafon-btn,.mlz-kam-btn,.mlz-kolon-btn,.mlz-net-btn{
+.mlz-asan-btn,.mlz-diyafon-btn,.mlz-kam-btn,.mlz-kolon-btn,.mlz-net-btn,.mlz-opano-btn{
   display:flex;align-items:center;justify-content:center;
   flex:1 1 180px;min-width:min(100%,180px);min-height:48px;
   background:var(--surface-mid);border:none;border-radius:var(--radius);
@@ -150,11 +241,11 @@ body::before{
   box-shadow:inset 0 0 0 1px rgba(255,255,255,0.03);
 }
 .mlz-tip-btn:hover,.mlz-hat-btn:hover,.mlz-kat-btn:hover,.mlz-toprak-btn:hover,
-.mlz-asan-btn:hover,.mlz-diyafon-btn:hover,.mlz-kam-btn:hover,.mlz-kolon-btn:hover,.mlz-net-btn:hover{
+.mlz-asan-btn:hover,.mlz-diyafon-btn:hover,.mlz-kam-btn:hover,.mlz-kolon-btn:hover,.mlz-net-btn:hover,.mlz-opano-btn:hover{
   background:var(--surface-high);transform:translateY(-1px);
 }
 .mlz-tip-btn.active,.mlz-hat-btn.active,.mlz-kat-btn.active,.mlz-toprak-btn.active,
-.mlz-asan-btn.active,.mlz-diyafon-btn.active,.mlz-kam-btn.active,.mlz-kolon-btn.active,.mlz-net-btn.active{
+.mlz-asan-btn.active,.mlz-diyafon-btn.active,.mlz-kam-btn.active,.mlz-kolon-btn.active,.mlz-net-btn.active,.mlz-opano-btn.active{
   background:rgba(196,112,62,0.12);color:var(--primary);
   box-shadow:inset 0 0 0 1px rgba(196,112,62,0.25);
   background-image:linear-gradient(180deg,rgba(210,165,111,0.12) 0%,rgba(210,165,111,0.06) 100%);
@@ -357,7 +448,7 @@ body::before{
 }
 @media (max-width:480px){
   .mlz-tip-btn,.mlz-hat-btn,.mlz-kat-btn,.mlz-toprak-btn,
-  .mlz-asan-btn,.mlz-diyafon-btn,.mlz-kam-btn,.mlz-kolon-btn,.mlz-net-btn{
+  .mlz-asan-btn,.mlz-diyafon-btn,.mlz-kam-btn,.mlz-kolon-btn,.mlz-net-btn,.mlz-opano-btn{
     flex-basis:100%;min-width:0;
   }
   .mlz-cihaz-w{margin-left:0}
@@ -436,6 +527,8 @@ body::before{
     </div></div>
     <div id="mlz-daire-listesi"></div>
     <button id="mlz-daire-ekle" class="mlz-ekle-btn">+ Farklı Daire Tipi Ekle</button>
+    <button id="mlz-ortak-hacim-ekle" class="mlz-ekle-btn">+ Bodrum / Ortak Hacim Ekle</button>
+    <div class="mlz-om-not">Bodrum, sığınak, kazan dairesi gibi hacimler daire tipi gibi eklenir ve odaları tek tek girilir. Malzemeleri normal hesaplanır; ancak konut olmadıkları için daire sayısına ve daire eş zamanlılık tablosuna girmezler — yükleri ortak mahal gibi tam (×1,00) alınır.</div>
   </div>
 
   <!-- S2b: ODA KARTLARI -->
@@ -461,7 +554,7 @@ body::before{
       <div>
         <label class="mlz-lbl">Dış hat tipi</label>
         <div class="mlz-hat-btns">
-          <button class="mlz-hat-btn active" data-hat="havai">🔌 Havai</button>
+          <button class="mlz-hat-btn active" data-hat="havai" id="mlz-hat-havai">🔌 Havai</button>
           <button class="mlz-hat-btn" data-hat="yeralti">⚡ Yeraltı</button>
         </div>
       </div>
@@ -474,6 +567,7 @@ body::before{
       </div>
     </div>
     <div style="margin-top:8px;font-size:11px;color:var(--gold);">ℹ️ İç kolon hattı her zaman bakır (NYY) olarak hesaplanır.</div>
+    <div id="mlz-hat-not" class="mlz-om-not" style="display:none;">Apartmanda şebeke bağlantısı yeraltından yapılır; havai seçeneği bu yüzden listede yok. Havai hat en fazla 10mm² kesitle çekilir — müstakil/villa senaryosunda gereken kesit bunu aşarsa hat otomatik yeraltına çevrilir.</div>
   </div>
 
   <!-- S4: GÜÇLÜ CİHAZLAR -->
@@ -516,6 +610,48 @@ body::before{
     <div class="mlz-asan-btns">
       <button class="mlz-asan-btn active" data-asan="yok">Yok</button>
       <button class="mlz-asan-btn" data-asan="var">Var</button>
+    </div>
+    <div class="mlz-om-grid" id="mlz-asan-detay" style="display:none;margin-top:12px;">
+      <div><label class="mlz-lbl">Kuyu armatürü (adet)</label><input type="number" id="mlz-asan-lamba" value="0" min="0" max="60" class="mlz-input-sm"></div>
+      <div><label class="mlz-lbl">Kuyu prizi (adet)</label><input type="number" id="mlz-asan-priz" value="0" min="0" max="60" class="mlz-input-sm"></div>
+      <div><label class="mlz-lbl">Light buton (adet)</label><input type="number" id="mlz-asan-buton" value="0" min="0" max="60" class="mlz-input-sm"></div>
+      <div>
+        <label class="mlz-lbl">Motor gücü (kW)</label>
+        <input type="number" id="mlz-asan-kw" value="0" min="0" max="60" step="0.1" class="mlz-input-sm">
+        <button type="button" class="mlz-yardim-btn" id="mlz-asan-kw-btn">📋 Kapasiteye göre seç</button>
+      </div>
+    </div>
+    <div class="mlz-om-not">Kuyu armatürü ve light buton kat sayısı kadar, kuyu prizi 3 katta bir + en alt ve en üst kat olmak üzere otomatik dolar; saha teyidi sonrası elle değiştirebilirsiniz. Darbeli akım anahtarı her asansörde 1 adettir. Motor gücü 0 bırakılırsa kat sayısından tahmin edilir.</div>
+  </div>
+
+  <!-- S5B: ORTAK MAHAL / BODRUM / ŞARJ PANOSU (apartman) -->
+  <div class="mlz-step" id="mlz-s5b" style="display:none;">
+    <div class="mlz-step-header"><span class="mlz-step-num">5b</span><div>
+      <div class="mlz-step-title">Ortak mahal ve harici panolar</div>
+      <div class="mlz-step-desc">Bu yükler bina eş zamanlı gücüne, kolon hattına ve giriş koruma elemanlarına dahil edilir. Daire içi hesaplar bundan etkilenmez.</div>
+    </div></div>
+
+    <div class="mlz-om-blok">
+      <div class="mlz-om-baslik">🏢 Ortak Mahal (zorunlu)</div>
+      <div class="mlz-om-btns" style="margin-bottom:12px;">
+        <button class="mlz-opano-btn active" data-opano="var">Ayrı ortak mahal panosu var</button>
+        <button class="mlz-opano-btn" data-opano="yok">Ayrı pano yok — ADP içinden</button>
+      </div>
+      <div class="mlz-om-grid">
+        <div><label class="mlz-lbl">Kat başına armatür</label><input type="number" id="mlz-om-lamba" value="2" min="0" max="50" class="mlz-input-sm"></div>
+        <div><label class="mlz-lbl">Kat başına priz</label><input type="number" id="mlz-om-priz" value="0" min="0" max="20" class="mlz-input-sm"></div>
+        <div><label class="mlz-lbl">Giriş / hol armatürü</label><input type="number" id="mlz-om-giris" value="2" min="0" max="50" class="mlz-input-sm"></div>
+        <div><label class="mlz-lbl">Hidrofor / pompa (kW)</label><input type="number" id="mlz-om-hidrofor" value="0" min="0" max="200" step="0.1" class="mlz-input-sm"></div>
+        <div><label class="mlz-lbl">Otopark + çevre ayd. (kW)</label><input type="number" id="mlz-om-otopark" value="0" min="0" max="200" step="0.1" class="mlz-input-sm"></div>
+        <div><label class="mlz-lbl">Diğer ortak yük (kW)</label><input type="number" id="mlz-om-diger" value="0" min="0" max="200" step="0.1" class="mlz-input-sm"></div>
+      </div>
+    </div>
+
+    <div class="mlz-om-blok">
+      <div class="mlz-om-baslik">🔌 Harici Panolar</div>
+      <div id="mlz-hpano-liste"></div>
+      <button class="mlz-ekle-btn" id="mlz-hpano-ekle">+ Harici Pano Ekle</button>
+      <div class="mlz-om-not">Şarj panosu, sulama panosu, otopark/çevre panosu, jeneratör panosu… Hazır bir şablon yoktur: her pano için adı, gücü, fazı, ADP'ye mesafesi, eş zamanlılığı ve kaçak akım koruma tipi girilir; besleme kablosu, koruma elemanları ve sayacı bu girdilerden yazılır.</div>
     </div>
   </div>
 
@@ -573,8 +709,43 @@ body::before{
   </div>
   <div id="mlz-sonuc" style="display:none;margin-top:1.5rem;"></div>
 
+  <!-- SENARYO KAYDET / GERİ YÜKLE -->
+  <div class="mlz-akr" id="mlz-senaryo" style="display:none;margin-top:1.5rem;">
+    <button type="button" class="mlz-akr-bas" onclick="mlzAkrAc(this)">
+      <span>💾 Senaryo kaydet / geri yükle</span><span class="mlz-akr-ok">▾</span>
+    </button>
+    <div class="mlz-akr-ic">
+    <div class="mlz-om-not" style="margin:0 0 12px;">Tüm girdileri ve hesap sonuçlarını metin olarak alır. Aynı metni yapıştırıp "Geri Yükle" dediğinde bütün alanlar aynen geri gelir — hesabı saklamak, göndermek ya da bir hatayı olduğu gibi paylaşmak için.</div>
+    <div class="mlz-om-blok">
+      <div class="mlz-om-baslik">📝 Not — bu senaryoda ne kontrol ediyorsun?</div>
+      <input type="text" id="mlz-sen-not" class="mlz-input-sm" style="width:100%;" placeholder="ör. Yahyalı 10 daireli bina — TMŞ ve kolon kesiti kontrolü">
+    </div>
+    <div class="mlz-om-btns" style="margin-bottom:10px;">
+      <button type="button" class="mlz-sen-btn" id="mlz-sen-uret">📄 Metni Üret</button>
+      <button type="button" class="mlz-sen-btn" id="mlz-sen-kopyala">📋 Kopyala</button>
+      <button type="button" class="mlz-sen-btn" id="mlz-sen-yukle">⬇️ Metinden Geri Yükle</button>
+      <button type="button" class="mlz-sen-btn" id="mlz-sen-kaydet">💾 Tarayıcıya Kaydet</button>
+    </div>
+    <textarea id="mlz-sen-metin" class="mlz-sen-alan" spellcheck="false" placeholder="Önce hesaplama yapıp &quot;Metni Üret&quot;e bas — ya da elindeki senaryo metnini buraya yapıştırıp &quot;Metinden Geri Yükle&quot;ye bas."></textarea>
+    <div id="mlz-sen-durum" class="mlz-om-not"></div>
+    <div class="mlz-om-baslik" style="margin-top:16px;">📚 Bu tarayıcıda kayıtlı senaryolar</div>
+    <div id="mlz-sen-liste"></div>
+    </div>
+  </div>
+
 </div>
 </main>
+
+<!-- ══════ ASANSÖR MOTOR GÜCÜ SEÇİM TABLOSU (modal) ══════ -->
+<div class="mlz-modal-ovl" id="mlz-modal-ovl" style="display:none;">
+  <div class="mlz-modal" id="mlz-modal">
+    <div class="mlz-modal-head">
+      <span>🛗 Asansör Motor Gücü — Kapasite Tablosu</span>
+      <button type="button" class="mlz-modal-x" id="mlz-modal-x">✕</button>
+    </div>
+    <div class="mlz-modal-body" id="mlz-modal-body"></div>
+  </div>
+</div>
 
 <!-- ══════ FOOTER ══════ -->
 <footer class="tool-foot">
@@ -590,12 +761,74 @@ var MLZ = {
   watt_priz:300, watt_lamba:100, mustakil_esik:3200,
   kablo_priz:8.70, kablo_lamba_faz:6.05, kablo_lamba_notr:2.84, kablo_mustakil:16.25,
   aydinlatma_linye:3.26, notr_orani:0.586, toprak_orani:0.722,
-  kolon_min:6, ic_kolon:10, kat_h:3.5, kolon_ek:5,
+  kolon_min:4, ic_kolon:10, kat_h:3.5, kolon_ek:5,
   max_priz_hat:7, max_lamba_hat:8,
   boru_k:1.2, buat_oda:1, emniyet:1.15,
   ortak_lamba_kat:2, ortak_giris:2, ortak_kablo_kat:12,
+  /* Asansör beslemesi alt sınırı 6mm²'de KALIR (motor kalkış akımı ve
+     yangına dayanıklı hattın mekanik dayanımı için); daire kolonu ve
+     harici pano 4mm²'ye iner. */
   asansor_kw_kat:1.35, asansor_min_kesit:6,
+  /* ── ORTAK MAHAL / BODRUM / ŞARJ PANOSU (Eylül 2026) ──
+     Bu yükler önceden bina eş zamanlı gücüne HİÇ girmiyordu: ortak alan
+     yalnızca aydınlatma malzemesi olarak listeleniyordu, TK şarj panosu
+     ise hiç yoktu. Eş zamanlı gücün (dolayısıyla ana besleme kablosunun
+     ve TMŞ'nin) düşük çıkmasının kök nedeni buydu. Daire tarafındaki
+     formüller DEĞİŞMEDİ — bu yükler daire eş zamanlılık tablosunun
+     (MLZ_ESZ) DIŞINDA, kendi katsayılarıyla toplama eklenir. */
+  ortak_esz:1.00,            // ortak mahal yükü tam alınır (aydınlatma + hidrofor aynı anda çalışabilir)
+  asansor_esz:1.00,          // asansör motoru tam güçle alınır
+  harici_hat_m:25,           // harici pano besleme hattı varsayılan mesafesi
+  /* Pano giriş şalteri (daire kolonu, ortak mahal, tali pano, harici pano,
+     asansör) hesaplanan akımdan bağımsız olarak sahada 32A'in altına
+     düşmez — kolon girişi standart olarak 32A seçilir. */
+  pano_giris_mcb_min:32,
+  /* Ortak mahal panosu ve bodrum/ortak hacim tali panoları DAİMA ÜÇ FAZLI
+     kurulur — hesaplanan akım küçük olsa bile. Sebebi: hatlar fazlara
+     dağıtılır (L1 priz, L2 aydınlatma, L3 yedek/diğer), böylece tek fazın
+     üstüne binmez ve pano ileride genişletilebilir. Giriş koruması 4P
+     MCB + 4P RCD, priz hatları tek bir 4P 30mA RCD altında toplanır —
+     her hat için ayrı 2P RCD konmaz. */
+  ortak_pano_trifaze:true,
+  /* ADP ve kolon hattı seviyesindeki şalterler ana besleme noktasına yakın
+     olduğundan yüksek kısa devre akımına maruz kalır: bu kademede 10kA
+     kesme kapasiteli tip kullanılır. Daire panosu içindeki 1P MCB'ler bu
+     işaretlemeyi almaz (standart konut tipi yeterlidir). */
+  adp_kesme_kap:'10kA',
+  /* TMŞ, hesaplanan kol akımının %27 üzerinde seçilir: anlık kalkış
+     akımlarında (asansör, hidrofor, şarj) şalterin boşuna atmaması için
+     saha uygulaması. Zincir: kol akımı → ×1,27 → en küçük standart TMŞ →
+     kablo bu TMŞ'yi taşıyacak şekilde seçilir (Iz ≥ In).
+     Doğrulama (onaylı proje): 93,3A × 1,27 = 118,5A → TMŞ 125A →
+     NYY 3×35/16+16 (Iz=143A). Projedeki değerle birebir. */
+  tms_emniyet:1.27,
+  ortak_priz_hat:7,          // ortak mahalde bir 16A priz hattına maks priz
+  ortak_lamba_hat:8,         // ortak mahalde bir 10A aydınlatma hattına maks devre
+  ortak_kolon_min:4,         // ortak mahal / ortak hacim kolon hattı min kesit (mm²)
+  harici_kolon_min:4,        // harici pano besleme hattı min kesit (mm²)
+  /* Buat ve sıva altı kasa için hassas formül gerekmiyor — mevcut sayıma
+     kaba bir yedek payı eklenir ve çıktıda alt/üst aralık gösterilir. */
+  buat_tolerans:1.10, buat_tolerans_alt:0.92,
+  /* Montaj/bağlantı sarf malzemeleri — nokta sayısına bağlı KABA katsayılar
+     (buat/kasa ile aynı hassasiyet seviyesi; kesin metraj değildir). */
+  sarf_wago_nokta:3, sarf_civata_m:2, sarf_somun_m:4, sarf_kanal_ek_m:3,
+  sarf_merdiven_k:1.2,
   kam_kablo:25, kam_kon:2, kam_buat:1,
+  /* Havai besleme hattı en fazla bu kesitle çekilir; üstü gerekiyorsa
+     hat yeraltına alınır (askı/direk donanımı daha büyük kesidi
+     taşımıyor). */
+  havai_maks_kesit:10,
+  /* Bina taban oturumu, kat başına daire sayısıyla orantılı bir alt
+     sınıra sahiptir: bir daire en az 50 m² oturum kaplar. 3 daireli bir
+     katta taban en az 150 m² olmalıdır. Bu sınırın altındaki girişlerde
+     kablo mesafe ölçeği alt sınırdan hesaplanır ve kullanıcı uyarılır. */
+  min_daire_oturum:50,
+  /* Diyafon/zil: her daireye KENDİ müstakil hattı çekilir; hat dairenin
+     bulunduğu kattan şaft boyunca giriş katına iner ve orada toplanır.
+     Bir dairenin hattı = kat yüksekliği × bulunduğu kat + giriş payı.
+     Önceden tek bir şaft hattı + daire başına sabit 4 m kabul ediliyordu;
+     bu 5 katlı binada gerçek metrajın yarısı kadar çıkıyordu. */
+  diyafon_giris_pay:2,
   /* zayif_baz: TV/uydu noktası başına RG6 metrajı. Sahada doğrulanmış
      referans: 5 katlı / 10 daireli bina, 15 TV noktası (3+1'de salon+mutfak,
      2+1'de mutfak) → toplam 270 m. 15×16.8 + 18 (şaft payı) = 270.
@@ -625,7 +858,20 @@ var MLZ = {
      alanın karekökü ile orantılı büyüdüğü için sqrt(taban_alanı/baz_alan)
      ile hesaplanır ve aşırı/anormal taban girişlerinde sonucun saçmalamaması
      için min/max ile sınırlanır (kablo_olcek_min/max).*/
-  kablo_baz_alan:200, kablo_olcek_min:0.75, kablo_olcek_max:2.0,
+  kablo_baz_alan:200, kablo_olcek_min:0.90, kablo_olcek_max:1.25,
+  /* ── MESAFE ÖLÇEĞİ PAYI ──
+     Daire içi metrajın BÜYÜK kısmı oda sayısına ve oda başına priz/armatür
+     sayısına bağlıdır; bunlar taban alanı büyüdü diye artmaz. Taban alanına
+     gerçekten bağlı olan tek kısım panodan odalara giden tevzi/linye
+     güzergahıdır ve toplam metrajın küçük bir payıdır.
+     Eskiden ölçek doğrudan sqrt(alan/baz) idi; bu, 13×15'ten 22×15'e
+     geçince metrajı %28 şişiriyordu — sahada böyle bir artış yok.
+     Yeni model: olcek = 1 + pay × (sqrt(alan/baz) − 1)
+     Saha beklentisiyle karşılaştırma (pay = 0,06):
+       195 m² → 5.970 m   (referans)
+       300 m² → 6.070 m   (beklenen ≈ 6.000)
+       600 m² → 6.230 m   (beklenen ≈ 6.200) */
+  mesafe_olcek_pay:0.06,
   /* Cizelge 9 (Elektrik Ic Tesisleri Yonetmeligi) -- yalitilmis bakir
      iletkenlerin 25C ortamda surekli tasiyabilecekleri yuk akimlari.
      nyy_kapasite -> 2.Grup (termoplastik kilifli, borulu -- ic kolon ve
@@ -633,10 +879,15 @@ var MLZ = {
      3x35/16+16 NYY -> Iz=143A). nym_kapasite -> 3.Grup (havada acik
      kilifli -- havai NYM besleme). */
   nyy_kapasite:[{mm:0.75,a:13},{mm:1,a:16},{mm:1.5,a:20},{mm:2.5,a:27},{mm:4,a:36},{mm:6,a:47},{mm:10,a:65},{mm:16,a:87},{mm:25,a:115},{mm:35,a:143},{mm:50,a:178},{mm:70,a:220},{mm:95,a:265},{mm:120,a:310},{mm:150,a:355},{mm:185,a:405},{mm:240,a:480},{mm:300,a:555}],
-  nayy_kapasite:[{mm:10,a:28},{mm:16,a:39},{mm:25,a:53},{mm:35,a:67},{mm:50,a:84},{mm:70,a:107}],
+  /* nayy_kapasite: yeraltı alüminyum. 95mm² ve üzeri kademeler, mevcut
+     tablodaki alüminyum/bakır oranı (~0,49) korunarak eklendi — alüminyum
+     70mm²'de tükendiği için program gereksiz yere bakıra kaçıyordu.
+     Bu üst kademeleri kendi tablonla bir kez teyit et. */
+  nayy_kapasite:[{mm:10,a:28},{mm:16,a:39},{mm:25,a:53},{mm:35,a:67},{mm:50,a:84},{mm:70,a:107},
+                 {mm:95,a:130},{mm:120,a:152},{mm:150,a:174},{mm:185,a:198},{mm:240,a:235},{mm:300,a:272}],
   nym_kapasite:[{mm:0.75,a:16},{mm:1,a:20},{mm:1.5,a:25},{mm:2.5,a:34},{mm:4,a:45},{mm:6,a:57},{mm:10,a:78},{mm:16,a:104},{mm:25,a:137},{mm:35,a:168},{mm:50,a:210},{mm:70,a:260},{mm:95,a:310},{mm:120,a:365},{mm:150,a:415},{mm:185,a:475},{mm:240,a:560},{mm:300,a:645},{mm:400,a:770},{mm:500,a:880}],
   aer_kapasite:[{mm:'3x16+10',a:63},{mm:'3x25+16',a:80},{mm:'3x50+25',a:125}],
-  tms_std:[25,32,40,50,63,80,100,125,160,200],
+  tms_std:[25,32,40,50,63,80,100,125,160,200,250,315,400,500,630],
   mcb_std:[6,10,16,20,25,32,40,50,63]
 };
 
@@ -659,6 +910,37 @@ var MLZ_CIHAZ_KATALOG = [
   {ad:'Kombi',watt:2500,icon:'🔥',zorunlu:false}
 ];
 
+/* ── ASANSÖR MOTOR GÜCÜ — KAPASİTE TABLOSU ──
+   Piyasada yaygın kabin kapasitesi ↔ motor gücü aralıkları. Kesin değer
+   asansör firmasının motor etiketinden alınır; bu tablo yalnızca seçim
+   yardımcısıdır. Seçilen güç, motor koruma şalterinin termik ayarını,
+   besleme sigortasını ve asansör kolon kesitini doğrudan belirler. */
+var MLZ_ASAN_MOTOR = [
+  {kapasite:'400 – 480 kg', kisi:'4–6 kişilik', alt:3,    ust:5.5},
+  {kapasite:'630 kg',       kisi:'8 kişilik',   alt:4.75, ust:7.5},
+  {kapasite:'800 – 1000 kg',kisi:'10–13 kişilik', alt:5.5, ust:11},
+  {kapasite:'1000 – 1600 kg ve üzeri', kisi:'yüksek kapasiteli / yük asansörü', alt:11, ust:24.5}
+];
+
+/* TV/uydu santrali (multiswitch) — RG6 hatları dallandırılmaz, her TV
+   noktası kendi müstakil hattıyla santrale gelir. Santral, gelen hat
+   sayısını karşılayan en küçük model olarak seçilir. */
+var MLZ_TV_SANTRAL = [
+  {ad:'5/8',   cikis:8},
+  {ad:'10/16', cikis:16},
+  {ad:'10/24', cikis:24},
+  {ad:'10/32', cikis:32},
+  {ad:'17/48', cikis:48}
+];
+function mlzTvSantralSec(nokta){
+  if(!nokta || nokta<1) return null;
+  for(var i=0;i<MLZ_TV_SANTRAL.length;i++){
+    if(MLZ_TV_SANTRAL[i].cikis>=nokta) return {ad:MLZ_TV_SANTRAL[i].ad,cikis:MLZ_TV_SANTRAL[i].cikis,adet:1};
+  }
+  var en=MLZ_TV_SANTRAL[MLZ_TV_SANTRAL.length-1];
+  return {ad:en.ad, cikis:en.cikis, adet:Math.ceil(nokta/en.cikis)};
+}
+
 var MLZ_ODA_VARS = {
   'Salon':{icon:'🛋️',priz:2,lamba:3,islak:false},
   'Mutfak':{icon:'🍳',priz:5,lamba:3,islak:false},
@@ -677,8 +959,30 @@ var MLZ_ODA_VARS = {
 var mlzState = {
   binaTip:'', katSay:1, hatTip:'havai', kolonMat:'bakir',
   daireTipleri:[], cihazlar:[], diyafon:'zil', internetAltyapi:'fiber_tek', kamera:0, kameraGun:15, asansor:false,
-  toprakYontem:'kazik', toprakKazik:1, binaA:10, binaB:20
+  toprakYontem:'kazik', toprakKazik:1, binaA:10, binaB:20,
+  /* Ortak mahal her binada ZORUNLUDUR (varsayılan değerlerle dolu gelir);
+     harici panolar opsiyoneldir ve serbest liste halinde girilir. */
+  /* ayriPano: ortak mahalin kendi tali panosu var mı? Yoksa ortak alan
+     hatları doğrudan ADP içinden beslenir; ayrı pano, besleme hattı ve
+     giriş koruması listeye girmez. */
+  ortak:{lambaKat:2, prizKat:0, girisLamba:2, hidroforKw:0, otoparkKw:0, digerKw:0, ayriPano:true},
+  /* Harici panolar serbest listedir — hazır şablon/ön tanımlı güç YOKTUR.
+     Her pano kendi adı, gücü, fazı, mesafesi, eş zamanlılığı ve kaçak akım
+     koruma tipiyle girilir; malzeme bu girdilerden türetilir. */
+  hariciPanolar:[],
+  asanGir:{lamba:0, priz:0, buton:0, kw:0}
 };
+
+/* Bodrum, sığınak, kazan dairesi gibi hacimler daireTipleri listesinde
+   ortakMi:true bayrağıyla taşınır: oda kartlarıyla aynı şekilde girilir ve
+   malzemeleri normal hesaplanır, ancak daire sayısına (topDaire) ve daire
+   eş zamanlılık tablosuna (MLZ_ESZ) GİRMEZ — yükü ortak mahal gibi tam
+   katsayıyla (MLZ.ortak_esz) alınır. */
+function mlzKonutMu(dt){ return !(dt && dt.ortakMi); }
+function mlzHtmlKacis(t){
+  return String(t===undefined||t===null?'':t)
+    .replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 
 /* ── ODA LİSTESİ ──
    Tipik oda dağılımı (saha/pazar pratiği):
@@ -790,12 +1094,26 @@ function mlzVillaKatlariOlustur(){
   mlzState.daireTipleri=arr;
 }
 
+/* Apartmanda şebeke bağlantısı yeraltından yapılır — havai besleme
+   seçeneği listeden kaldırılır ve hat tipi yeraltına sabitlenir. */
+function mlzHavaiGorunurluk(){
+  var apartman=(mlzState.binaTip==='apartman');
+  var hv=document.getElementById('mlz-hat-havai');
+  if(hv) hv.style.display=apartman?'none':'';
+  if(apartman && mlzState.hatTip==='havai'){
+    mlzState.hatTip='yeralti';
+    mlzBtnAktif('.mlz-hat-btn','hat','yeralti');
+  }
+  var not=document.getElementById('mlz-hat-not');
+  if(not) not.style.display=apartman?'block':'none';
+}
+
 /* ── BİNA TİPİ SEÇİMİ ── */
 function mlzBinaSec(tip, btn){
   mlzState.binaTip=tip;
   document.querySelectorAll('[data-bina]').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
-  mlzGizle(['mlz-villa-kat','mlz-apt-detay','mlz-s2','mlz-s5']);
+  mlzGizle(['mlz-villa-kat','mlz-apt-detay','mlz-s2','mlz-s5','mlz-s5b']);
   mlzState.daireTipleri=[];
 
   if(tip==='villa'){
@@ -808,7 +1126,9 @@ function mlzBinaSec(tip, btn){
   } else if(tip==='apartman'){
     document.getElementById('mlz-apt-detay').style.display='block';
     mlzState.katSay=parseInt(document.getElementById('mlz-apt-kat').value)||5;
-    mlzGoster(['mlz-s2','mlz-s5']);
+    mlzGoster(['mlz-s2','mlz-s5','mlz-s5b']);
+    mlzState.hariciPanolar=[];
+    mlzHPanoRender();
     mlzDaireEkle();
   } else {
     mlzState.katSay=1;
@@ -817,7 +1137,8 @@ function mlzBinaSec(tip, btn){
     mlzCihazRender();
     mlzGoster(['mlz-s2b']);
   }
-  mlzGoster(['mlz-s3','mlz-s4','mlz-s4b','mlz-s6','mlz-s6b','mlz-s7','mlz-hesapla-wrap']);
+  mlzGoster(['mlz-s3','mlz-s4','mlz-s4b','mlz-s6','mlz-s6b','mlz-s7','mlz-hesapla-wrap','mlz-senaryo']);
+  mlzHavaiGorunurluk();
   mlzGizle(['mlz-sonuc']);
 }
 
@@ -850,12 +1171,16 @@ function mlzOdaSil(gIdx, oIdx){
    istisnai durumlar için elle seçilebilir). Apartman/müstakilde her
    daire kendi mutfağına sahip olduğundan zorunlu her zaman aktiftir. */
 function mlzZorunluAktifMi(gi){
+  /* Bodrum/ortak hacimde mutfak yoktur — zorunlu cihaz üçlüsü işaretlenmez. */
+  var dt=mlzState.daireTipleri[gi];
+  if(dt && dt.ortakMi) return false;
   return mlzState.binaTip!=='villa' || gi===0;
 }
 
 function mlzCihazBlokHTML(dt, gi){
   var baslik='';
-  if(mlzState.binaTip==='apartman') baslik='<div style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--gold);">'+dt.tip+' Daire ('+dt.adet+' adet)</div>';
+  if(dt.ortakMi) baslik='<div style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--gold);">'+mlzHtmlKacis(dt.tip)+' (ortak hacim)</div>';
+  else if(mlzState.binaTip==='apartman') baslik='<div style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--gold);">'+dt.tip+' Daire ('+dt.adet+' adet)</div>';
   else if(mlzState.binaTip==='villa') baslik='<div style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--gold);">'+dt.tip+'</div>';
   var zorunluAktif=mlzZorunluAktifMi(gi);
   var grid='<div class="mlz-cihaz-grid">'+MLZ_CIHAZ_KATALOG.map(function(c){
@@ -894,14 +1219,430 @@ function mlzDtCihazlari(dt, zorunluAktif){
   return list;
 }
 
+
+function mlzAkrAc(btn){
+  var k=btn&&btn.parentNode; if(!k) return;
+  if(k.className.indexOf('acik')>=0) k.className=k.className.replace(/\s*acik/,'');
+  else k.className+=' acik';
+}
+
+/* ══════════════════════════════════════════
+   SENARYO KAYDET / GERİ YÜKLE
+   ──────────────────────────────────────────
+   Metin iki katmanlıdır:
+     • okunur kısım — girdiler ve hesap sonuçları, gözle kontrol için
+     • son satırdaki "#MPA1 {...}" — makine tarafı; geri yükleme YALNIZCA
+       bu satırdan yapılır, okunur kısmı serbestçe düzenleyebilirsin.
+   Böylece aynı metin hem arşiv, hem hata bildirimi, hem geri yükleme
+   verisi olarak kullanılabilir.
+   ══════════════════════════════════════════ */
+var MLZ_SEN_ANAHTAR='mlz_senaryolar_v1';
+
+function mlzSenDurum(msg, hata){
+  var el=document.getElementById('mlz-sen-durum'); if(!el) return;
+  el.innerHTML=msg||'';
+  el.style.color=hata?'#ff8f8f':'var(--gold)';
+}
+function mlzDegerAl(id, fb){
+  var e=document.getElementById(id); if(!e) return fb;
+  var v=parseFloat(e.value); return isNaN(v)?fb:v;
+}
+function mlzVir(v,b){ return Number(v).toFixed(b===undefined?2:b).replace('.',','); }
+
+/* Geri yükleme için gereken HER ŞEY — state + DOM'dan okunan alanlar. */
+function mlzSenPayload(){
+  var S=mlzState;
+  return {
+    v:1,
+    tarih:new Date().toISOString(),
+    not:(document.getElementById('mlz-sen-not')||{}).value||'',
+    s:{
+      binaTip:S.binaTip, katSay:S.katSay, hatTip:S.hatTip, kolonMat:S.kolonMat,
+      diyafon:S.diyafon, internetAltyapi:S.internetAltyapi,
+      kamera:S.kamera, kameraGun:S.kameraGun, asansor:S.asansor,
+      toprakYontem:S.toprakYontem, toprakKazik:S.toprakKazik,
+      binaA:S.binaA, binaB:S.binaB,
+      daireTipleri:S.daireTipleri, ortak:S.ortak,
+      hariciPanolar:S.hariciPanolar, asanGir:S.asanGir
+    },
+    d:{
+      direk:mlzDegerAl('mlz-direk',10),
+      binaA:mlzDegerAl('mlz-bina-a',10),
+      binaB:mlzDegerAl('mlz-bina-b',20),
+      aptKat:mlzDegerAl('mlz-apt-kat',5),
+      toprakKazik:mlzDegerAl('mlz-toprak-kazik',1),
+      kamSayi:mlzDegerAl('mlz-kamera-sayi',2),
+      kamGun:mlzDegerAl('mlz-kamera-gun',15)
+    }
+  };
+}
+
+function mlzSenMetin(){
+  var S=mlzState, p=mlzSenPayload(), d=window._mlzPdfData;
+  var L=[], tarih=new Date().toLocaleString('tr-TR');
+  var binaAd={mustakil:'Müstakil Ev',villa:'Villa',apartman:'Apartman'}[S.binaTip]||S.binaTip||'—';
+  L.push('═══════ MPA SENARYO · '+tarih+' ═══════');
+  if(p.not) L.push('NOT: '+p.not);
+  L.push('');
+  L.push('[GİRDİLER]');
+  L.push('Bina: '+binaAd+(S.binaTip!=='mustakil'?(', '+S.katSay+' kat'):'')+', taban '+p.d.binaA+'×'+p.d.binaB+' m');
+  L.push('Dış hat: '+p.d.direk+' m · '+(S.hatTip==='havai'?'Havai':'Yeraltı')+' · '+(S.kolonMat==='bakir'?'Bakır':'Alüminyum'));
+  L.push('Topraklama: '+(S.toprakYontem==='kazik'?('Kazık, '+p.d.toprakKazik+' adet'):'Galvaniz şerit'));
+  L.push('Diyafon: '+({zil:'Basit Zil',ahize:'Sesli Ahize',kamera:'Kameralı Panel'}[S.diyafon]||'—')+
+         ' · İnternet: '+({yok:'Fiber yok (VDSL/ADSL)',fiber_tek:'Sadece fiber',fiber_cat6:'Fiber + CAT6'}[S.internetAltyapi]||'—')+
+         ' · Kamera: '+(S.kamera>0?(S.kamera+' adet / '+S.kameraGun+' gün'):'Yok'));
+  (S.daireTipleri||[]).forEach(function(dt){
+    L.push('');
+    L.push((dt.ortakMi?'Ortak hacim: ':'Daire tipi: ')+dt.tip+' ×'+dt.adet);
+    (dt.odalar||[]).forEach(function(o){
+      L.push('   - '+o.ad+': '+o.priz+' priz, '+o.lamba+' lamba'+
+        (o.tv?(', '+o.tv+' TV'):'')+(o.data?(', '+o.data+' data'):'')+(o.islak?' [ıslak hacim]':''));
+    });
+    var cl=(dt.cihazlarListesi||[]).map(function(c){return c.ad;});
+    L.push('   Cihazlar: '+(cl.length?cl.join(', '):'—'));
+  });
+  L.push('');
+  if(S.binaTip==='apartman'){
+    var o=S.ortak||{};
+    L.push('Ortak mahal: '+(o.lambaKat||0)+' armatür/kat, '+(o.prizKat||0)+' priz/kat, '+(o.girisLamba||0)+' giriş armatürü');
+    L.push('   Motor yükleri: hidrofor '+(o.hidroforKw||0)+' kW, otopark/çevre '+(o.otoparkKw||0)+' kW, diğer '+(o.digerKw||0)+' kW');
+    (S.hariciPanolar||[]).forEach(function(hp,i){
+      L.push('Harici pano '+(i+1)+': '+hp.ad+' · '+hp.kw+' kW · '+(hp.faz==='mono'?'monofaze':'trifaze')+
+        ' · '+hp.mesafe+' m · eş zam. '+mlzVir(hp.esz)+' · RCD '+
+        ({'300':'300mA','30':'30mA Tip-A','30B':'30mA Tip-B'}[hp.rcd]||hp.rcd));
+    });
+    if(!(S.hariciPanolar||[]).length) L.push('Harici pano: Yok');
+    var ag=S.asanGir||{};
+    L.push('Asansör: '+(S.asansor?('Var · motor '+(ag.kw>0?(mlzVir(ag.kw,1)+' kW'):'otomatik')+
+      ' · kuyu '+(ag.lamba||0)+' armatür / '+(ag.priz||0)+' priz / '+(ag.buton||0)+' buton'):'Yok'));
+  }
+
+  if(d){
+    L.push('');
+    L.push('[ÇIKTILAR]');
+    L.push('Kurulu güç        : '+mlzVir(d.topKuruluGuc/1000)+' kW');
+    (d.eszDokum||[]).forEach(function(r){
+      L.push('  '+String(r[0]).replace(/<[^>]+>/g,'')+' = '+String(r[1]).replace(/<[^>]+>/g,''));
+    });
+    L.push('Sistem            : '+(d.trifaze?'3 Faz 400V':'Monofaze 220V'));
+    L.push('Ana besleme       : '+d.besleme.label+' · '+d.besM+' m');
+    if(d.otoMalzeme) L.push('  ! Ana besleme bakıra çevrildi — '+d.otoMalzeme.eskiLabel+' ('+d.otoMalzeme.eskiA+'A) yetersizdi');
+    L.push('');
+    L.push('Pano & koruma malzemeleri:');
+    (d.panoListe||[]).forEach(function(x){
+      L.push('  '+x.malzeme+' : '+x.adet+' adet'+(x.yer&&x.yer.length?('   ['+x.yer.join(', ')+']'):''));
+    });
+    L.push('');
+    L.push('Kolon / besleme kabloları:');
+    (d.kolonSonuclar||[]).forEach(function(k){ L.push('  NYY '+k.damar+'x'+k.kesit+'mm2 (iç kolon '+k.tip+') : '+k.metre+' m'); });
+    (d.ekKolonlar||[]).forEach(function(k){
+      L.push('  '+(k.yanmaz?'N2XH FE180 ':'NYY ')+k.damar+'x'+k.kesit+'mm2 ('+k.ad+') : '+k.metre+' m'+(k.akim>0?(' · '+mlzVir(k.akim,1)+'A'):''));
+    });
+    L.push('');
+    L.push('Daire içi toplam  : '+d.topPriz+' priz, '+d.topIslak+' etanj, '+d.topLamba+' armatür, '+
+      d.topAnahtar+' anahtar kademesi, '+d.topTV+' TV, '+d.topData+' data');
+    L.push('Boru/kanal        : '+d.topBoru+' m · Buat '+d.buatUst+' adet · Kasa '+d.kasaUst+' adet');
+  } else {
+    L.push('');
+    L.push('[ÇIKTILAR] — henüz hesaplama yapılmadı.');
+  }
+  L.push('');
+  L.push('----- geri yükleme verisi (bu satırı silme) -----');
+  L.push('#MPA1 '+JSON.stringify(p));
+  L.push('========================================');
+  return L.join('\n');
+}
+
+function mlzSenUret(){
+  var ta=document.getElementById('mlz-sen-metin'); if(!ta) return;
+  if(!mlzState.binaTip){ mlzSenDurum('Önce bina tipini seçin.',true); return; }
+  ta.value=mlzSenMetin();
+  mlzSenDurum(window._mlzPdfData
+    ? 'Metin üretildi. Kopyalayıp saklayabilir ya da olduğu gibi paylaşabilirsin.'
+    : 'Metin üretildi — çıktı bölümü boş, çünkü henüz hesaplama yapılmadı.');
+}
+
+function mlzSenKopyalaYedek(ta,bitti){
+  try{ ta.focus(); ta.select(); document.execCommand('copy'); bitti(); }
+  catch(e){ mlzSenDurum('Kopyalanamadı — metni elle seçip kopyalayın.',true); }
+}
+function mlzSenKopyala(){
+  var ta=document.getElementById('mlz-sen-metin'); if(!ta) return;
+  if(!ta.value) mlzSenUret();
+  if(!ta.value) return;
+  var bitti=function(){ mlzSenDurum('Panoya kopyalandı.'); };
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(ta.value).then(bitti,function(){ mlzSenKopyalaYedek(ta,bitti); });
+    } else { mlzSenKopyalaYedek(ta,bitti); }
+  }catch(e){ mlzSenKopyalaYedek(ta,bitti); }
+}
+
+/* Metindeki #MPA1 satırından durumu geri kurar. */
+function mlzSenYukle(){
+  var ta=document.getElementById('mlz-sen-metin'); if(!ta) return;
+  var m=/#MPA1\s+(\{[\s\S]*\})\s*$/m.exec(ta.value||'');
+  if(!m){ mlzSenDurum('Metinde "#MPA1 {...}" satırı bulunamadı — geri yükleme verisi eksik.',true); return; }
+  var p;
+  try{ p=JSON.parse(m[1]); }
+  catch(e){ mlzSenDurum('Geri yükleme verisi okunamadı (bozuk JSON).',true); return; }
+  if(!p||!p.s||!p.s.binaTip){ mlzSenDurum('Geri yükleme verisi eksik ya da tanınmıyor.',true); return; }
+  mlzDurumUygula(p);
+  mlzSenDurum('Senaryo geri yüklendi'+(p.not?(' — '+p.not):'')+'. Hesaplama yenilendi.');
+}
+
+function mlzBtnAktif(secici, dataAd, deger){
+  var list=document.querySelectorAll(secici);
+  for(var i=0;i<list.length;i++){
+    if(String(list[i].getAttribute('data-'+dataAd))===String(deger)) list[i].classList.add('active');
+    else list[i].classList.remove('active');
+  }
+}
+function mlzInpAyarla(id, deger){
+  var e=document.getElementById(id); if(e) e.value=deger;
+}
+
+function mlzDurumUygula(p){
+  var S=p.s, D=p.d||{};
+  /* 1) Durum */
+  mlzState.binaTip=S.binaTip;
+  mlzState.katSay=S.katSay||1;
+  mlzState.hatTip=S.hatTip||'havai';
+  mlzState.kolonMat=S.kolonMat||'bakir';
+  mlzState.diyafon=S.diyafon||'zil';
+  mlzState.internetAltyapi=S.internetAltyapi||'fiber_tek';
+  mlzState.kamera=S.kamera||0;
+  mlzState.kameraGun=S.kameraGun||15;
+  mlzState.asansor=!!S.asansor;
+  mlzState.toprakYontem=S.toprakYontem||'kazik';
+  mlzState.toprakKazik=S.toprakKazik||1;
+  mlzState.binaA=S.binaA||10; mlzState.binaB=S.binaB||20;
+  mlzState.daireTipleri=S.daireTipleri||[];
+  mlzState.ortak=S.ortak||{lambaKat:2,prizKat:0,girisLamba:2,hidroforKw:0,otoparkKw:0,digerKw:0};
+  mlzState.hariciPanolar=S.hariciPanolar||[];
+  mlzState.asanGir=S.asanGir||{lamba:0,priz:0,buton:0,kw:0};
+
+  /* 2) DOM girişleri */
+  mlzInpAyarla('mlz-direk',D.direk!==undefined?D.direk:10);
+  mlzInpAyarla('mlz-bina-a',D.binaA!==undefined?D.binaA:mlzState.binaA);
+  mlzInpAyarla('mlz-bina-b',D.binaB!==undefined?D.binaB:mlzState.binaB);
+  mlzInpAyarla('mlz-apt-kat',D.aptKat!==undefined?D.aptKat:mlzState.katSay);
+  mlzInpAyarla('mlz-toprak-kazik',D.toprakKazik!==undefined?D.toprakKazik:mlzState.toprakKazik);
+  mlzInpAyarla('mlz-kamera-sayi',D.kamSayi!==undefined?D.kamSayi:2);
+  mlzInpAyarla('mlz-kamera-gun',D.kamGun!==undefined?D.kamGun:15);
+  var o=mlzState.ortak;
+  mlzInpAyarla('mlz-om-lamba',o.lambaKat||0); mlzInpAyarla('mlz-om-priz',o.prizKat||0);
+  mlzInpAyarla('mlz-om-giris',o.girisLamba||0); mlzInpAyarla('mlz-om-hidrofor',o.hidroforKw||0);
+  mlzInpAyarla('mlz-om-otopark',o.otoparkKw||0); mlzInpAyarla('mlz-om-diger',o.digerKw||0);
+  var ag=mlzState.asanGir;
+  mlzInpAyarla('mlz-asan-lamba',ag.lamba||0); mlzInpAyarla('mlz-asan-priz',ag.priz||0);
+  mlzInpAyarla('mlz-asan-buton',ag.buton||0); mlzInpAyarla('mlz-asan-kw',ag.kw||0);
+  mlzInpAyarla('mlz-sen-not',p.not||'');
+
+  /* 3) Buton grupları */
+  mlzBtnAktif('[data-bina]','bina',S.binaTip);
+  mlzBtnAktif('.mlz-opano-btn','opano',(mlzState.ortak.ayriPano===false)?'yok':'var');
+  mlzBtnAktif('.mlz-hat-btn','hat',mlzState.hatTip);
+  mlzBtnAktif('.mlz-kolon-btn','kolon',mlzState.kolonMat);
+  mlzBtnAktif('.mlz-toprak-btn','toprak',mlzState.toprakYontem);
+  mlzBtnAktif('.mlz-asan-btn','asan',mlzState.asansor?'var':'yok');
+  mlzBtnAktif('.mlz-diyafon-btn','diyafon',mlzState.diyafon);
+  mlzBtnAktif('.mlz-net-btn','net',mlzState.internetAltyapi);
+  mlzBtnAktif('.mlz-kam-btn','kam',mlzState.kamera>0?'var':'yok');
+
+  /* 4) Adım görünürlüğü */
+  mlzGizle(['mlz-villa-kat','mlz-apt-detay','mlz-s2','mlz-s5','mlz-s5b','mlz-s2b']);
+  if(S.binaTip==='apartman'){
+    var ap=document.getElementById('mlz-apt-detay'); if(ap) ap.style.display='block';
+    mlzGoster(['mlz-s2','mlz-s5','mlz-s5b','mlz-s2b']);
+  } else if(S.binaTip==='villa'){
+    var vk=document.getElementById('mlz-villa-kat'); if(vk) vk.style.display='block';
+    mlzGoster(['mlz-s2b']);
+  } else {
+    mlzGoster(['mlz-s2b']);
+  }
+  mlzGoster(['mlz-s3','mlz-s4','mlz-s4b','mlz-s6','mlz-s6b','mlz-s7','mlz-hesapla-wrap','mlz-senaryo']);
+  var kz=document.getElementById('mlz-kazik-adet');
+  if(kz) kz.style.display=mlzState.toprakYontem==='kazik'?'block':'none';
+  var adet=document.getElementById('mlz-asan-detay');
+  if(adet) adet.style.display=mlzState.asansor?'grid':'none';
+  var ka=document.getElementById('mlz-kam-adet'), kg=document.getElementById('mlz-kam-gun');
+  if(ka) ka.style.display=mlzState.kamera>0?'block':'none';
+  if(kg) kg.style.display=mlzState.kamera>0?'block':'none';
+
+  /* 5) Listeler */
+  if(S.binaTip==='apartman') mlzDaireRender(); else { mlzOdaRender(); mlzCihazRender(); }
+  mlzHPanoRender();
+  mlzHavaiGorunurluk();
+
+  /* 6) Hesabı yenile */
+  try{ mlzHesapla(); }catch(e){ mlzSenDurum('Geri yüklendi ama hesaplama hata verdi: '+e.message,true); }
+}
+
+/* ── Tarayıcı kayıtları (yalnızca bu cihaz/tarayıcı) ── */
+function mlzSenKayitlariOku(){
+  try{
+    var ham=window.localStorage.getItem(MLZ_SEN_ANAHTAR);
+    var arr=ham?JSON.parse(ham):[];
+    return Object.prototype.toString.call(arr)==='[object Array]'?arr:[];
+  }catch(e){ return []; }
+}
+function mlzSenKayitlariYaz(arr){
+  try{ window.localStorage.setItem(MLZ_SEN_ANAHTAR,JSON.stringify(arr)); return true; }
+  catch(e){ return false; }
+}
+function mlzSenKaydet(){
+  if(!mlzState.binaTip){ mlzSenDurum('Önce bina tipini seçin.',true); return; }
+  var ta=document.getElementById('mlz-sen-metin');
+  if(ta && !ta.value) ta.value=mlzSenMetin();
+  var notEl=document.getElementById('mlz-sen-not');
+  var ad=(notEl&&notEl.value.trim())?notEl.value.trim():('Senaryo '+new Date().toLocaleString('tr-TR'));
+  var arr=mlzSenKayitlariOku();
+  arr.unshift({ad:ad, tarih:new Date().toISOString(), metin:(ta?ta.value:mlzSenMetin())});
+  if(arr.length>30) arr=arr.slice(0,30);
+  if(mlzSenKayitlariYaz(arr)){ mlzSenListeRender(); mlzSenDurum('"'+ad+'" bu tarayıcıya kaydedildi.'); }
+  else mlzSenDurum('Tarayıcıya kaydedilemedi (depolama kapalı olabilir). Metni kopyalayıp saklayın.',true);
+}
+function mlzSenKayitYukle(i){
+  var arr=mlzSenKayitlariOku(); if(!arr[i]) return;
+  var ta=document.getElementById('mlz-sen-metin');
+  if(ta) ta.value=arr[i].metin;
+  mlzSenYukle();
+}
+function mlzSenKayitSil(i){
+  var arr=mlzSenKayitlariOku(); if(!arr[i]) return;
+  arr.splice(i,1); mlzSenKayitlariYaz(arr); mlzSenListeRender();
+  mlzSenDurum('Kayıt silindi.');
+}
+function mlzSenListeRender(){
+  var el=document.getElementById('mlz-sen-liste'); if(!el) return;
+  var arr=mlzSenKayitlariOku();
+  if(!arr.length){ el.innerHTML='<div class="mlz-om-not" style="margin:0;">Henüz kayıt yok. "Tarayıcıya Kaydet" bu cihazda saklar; kalıcı arşiv için metni kopyalayıp kendi dosyanda tut.</div>'; return; }
+  el.innerHTML=arr.map(function(k,i){
+    var t=''; try{ t=new Date(k.tarih).toLocaleString('tr-TR'); }catch(e){}
+    return '<div class="mlz-sen-kayit"><div><div class="mlz-sen-kayit-ad">'+mlzHtmlKacis(k.ad)+'</div>'+
+      '<div class="mlz-sen-kayit-alt">'+t+'</div></div>'+
+      '<div class="mlz-sen-kayit-btn">'+
+      '<button type="button" onclick="mlzSenKayitYukle('+i+')">Geri yükle</button>'+
+      '<button type="button" class="sil" onclick="mlzSenKayitSil('+i+')">Sil</button>'+
+      '</div></div>';
+  }).join('');
+}
+
+/* ── ASANSÖR KUYU VARSAYILANLARI ──
+   Saha kuralı: kuyu armatürü ve light buton KAT SAYISI kadar; kuyu prizi
+   3 katta bir, artı en alt ve en üst katta birer adet; darbeli akım
+   anahtarı her asansörde daima 1 adet (bu yüzden ayrı girişi yoktur).
+   Alanlar asansör "Var" seçilince ve kat sayısı değişince otomatik dolar,
+   saha teyidi sonrası elle değiştirilebilir. */
+function mlzAsanKuyuPriz(katSay){ return 2+Math.floor((katSay||0)/3); }
+function mlzAsanVarsayilanDoldur(){
+  var k=mlzState.katSay||5;
+  [['mlz-asan-lamba','lamba',k],
+   ['mlz-asan-buton','buton',k],
+   ['mlz-asan-priz','priz',mlzAsanKuyuPriz(k)]].forEach(function(a){
+    var el=document.getElementById(a[0]); if(!el) return;
+    el.value=a[2];
+    if(mlzState.asanGir) mlzState.asanGir[a[1]]=a[2];
+  });
+}
+
+/* ── MOTOR GÜCÜ SEÇİM TABLOSU (modal) ── */
+function mlzKwYaz(v){ return String(v).replace('.',','); }
+function mlzMotorTabloAc(){
+  var body=document.getElementById('mlz-modal-body');
+  var ovl=document.getElementById('mlz-modal-ovl');
+  if(!body||!ovl) return;
+  body.innerHTML=MLZ_ASAN_MOTOR.map(function(m){
+    return '<div class="mlz-motor-satir">'+
+      '<div class="mlz-motor-bilgi">'+
+        '<div class="mlz-motor-ad">'+m.kapasite+'</div>'+
+        '<div class="mlz-motor-alt">'+m.kisi+' · genellikle '+mlzKwYaz(m.alt)+' – '+mlzKwYaz(m.ust)+' kW</div>'+
+      '</div>'+
+      '<div class="mlz-motor-sec">'+
+        '<button type="button" onclick="mlzMotorSec('+m.alt+')">'+mlzKwYaz(m.alt)+' kW</button>'+
+        '<button type="button" onclick="mlzMotorSec('+m.ust+')">'+mlzKwYaz(m.ust)+' kW</button>'+
+      '</div></div>';
+  }).join('')+
+  '<div class="mlz-om-not">Değerler yaygın piyasa aralıklarıdır; kesin güç asansör firmasının motor etiketinden alınmalıdır. Seçtiğiniz değer motor koruma şalterinin termik ayarını, besleme sigortasını ve asansör kolon kesitini doğrudan belirler.</div>';
+  ovl.style.display='flex';
+}
+function mlzMotorSec(kw){
+  var el=document.getElementById('mlz-asan-kw');
+  if(el) el.value=kw;
+  if(mlzState.asanGir) mlzState.asanGir.kw=kw;
+  mlzMotorTabloKapat();
+}
+function mlzMotorTabloKapat(){
+  var o=document.getElementById('mlz-modal-ovl');
+  if(o) o.style.display='none';
+}
+
+/* ── HARİCİ PANO YÖNETİMİ ── */
+function mlzHPanoEkle(){
+  mlzState.hariciPanolar.push({ad:'Yeni Pano', kw:0, faz:'tri', mesafe:25, esz:1, rcd:'300'});
+  mlzHPanoRender();
+}
+function mlzHPanoSil(i){ mlzState.hariciPanolar.splice(i,1); mlzHPanoRender(); }
+function mlzHPanoDegis(i, alan, val){
+  var p=mlzState.hariciPanolar[i]; if(!p) return;
+  if(alan==='ad'){ p.ad=(val&&val.trim())?val.trim():'Harici Pano'; }
+  else if(alan==='faz'||alan==='rcd'){ p[alan]=val; }
+  else { var v=parseFloat(val); p[alan]=isNaN(v)?0:v; }
+}
+function mlzHPanoRender(){
+  var el=document.getElementById('mlz-hpano-liste'); if(!el) return;
+  if(mlzState.hariciPanolar.length===0){
+    el.innerHTML='<div class="mlz-om-not" style="margin:0 0 10px;">Henüz harici pano eklenmedi.</div>';
+    return;
+  }
+  el.innerHTML=mlzState.hariciPanolar.map(function(p,i){
+    return '<div class="mlz-daire-blok"><div class="mlz-daire-head">'+
+      '<span style="font-weight:600;font-size:13px;">Harici Pano '+(i+1)+'</span>'+
+      '<button class="mlz-daire-sil" onclick="mlzHPanoSil('+i+')">✕</button></div>'+
+      '<div class="mlz-om-grid">'+
+      '<div><label class="mlz-lbl">Pano adı</label><input type="text" value="'+mlzHtmlKacis(p.ad)+'" class="mlz-input-sm" onchange="mlzHPanoDegis('+i+',\'ad\',this.value)"></div>'+
+      '<div><label class="mlz-lbl">Güç (kW)</label><input type="number" value="'+p.kw+'" min="0" max="500" step="0.1" class="mlz-input-sm" onchange="mlzHPanoDegis('+i+',\'kw\',this.value)"></div>'+
+      '<div><label class="mlz-lbl">Faz</label><select class="mlz-input-sm" onchange="mlzHPanoDegis('+i+',\'faz\',this.value)">'+
+        '<option value="mono"'+(p.faz==='mono'?' selected':'')+'>Monofaze</option>'+
+        '<option value="tri"'+(p.faz!=='mono'?' selected':'')+'>Trifaze</option></select></div>'+
+      '<div><label class="mlz-lbl">ADP mesafesi (m)</label><input type="number" value="'+p.mesafe+'" min="1" max="500" class="mlz-input-sm" onchange="mlzHPanoDegis('+i+',\'mesafe\',this.value)"></div>'+
+      '<div><label class="mlz-lbl">Eş zamanlılık</label><input type="number" value="'+p.esz+'" min="0.1" max="1" step="0.05" class="mlz-input-sm" onchange="mlzHPanoDegis('+i+',\'esz\',this.value)"></div>'+
+      '<div><label class="mlz-lbl">Kaçak akım koruma</label><select class="mlz-input-sm" onchange="mlzHPanoDegis('+i+',\'rcd\',this.value)">'+
+        '<option value="300"'+(p.rcd==='300'?' selected':'')+'>300mA (yangın koruma)</option>'+
+        '<option value="30"'+(p.rcd==='30'?' selected':'')+'>30mA Tip-A (can koruma)</option>'+
+        '<option value="30B"'+(p.rcd==='30B'?' selected':'')+'>30mA Tip-B (DC kaçaklı / şarj)</option>'+
+      '</select></div>'+
+      '</div></div>';
+  }).join('');
+}
+
 /* ── DAİRE YÖNETİMİ ── */
 function mlzDaireEkle(){
   mlzState.daireTipleri.push({tip:'3+1',adet:1,odalar:mlzOdaListesi(3),cihazSec:{}});
   mlzDaireRender();
 }
 
+/* Bodrum / ortak hacim: daire tipi gibi eklenir, odaları tek tek girilir. */
+function mlzOrtakHacimEkle(){
+  mlzState.daireTipleri.push({tip:'Bodrum', adet:1, ortakMi:true, cihazSec:{},
+    odalar:[
+      {ad:'Depo',priz:2,lamba:2,tv:0,data:0,islak:false},
+      {ad:'Kazan Dairesi',priz:2,lamba:2,tv:0,data:0,islak:true},
+      {ad:'Koridor',priz:1,lamba:2,tv:0,data:0,islak:false}
+    ]});
+  mlzDaireRender();
+}
+function mlzOrtakHacimAdDegis(idx, val){
+  var dt=mlzState.daireTipleri[idx]; if(!dt) return;
+  dt.tip=(val&&val.trim())?val.trim():'Bodrum';
+  mlzOdaRender(); mlzCihazRender();
+}
+
 function mlzDaireSil(idx){
-  if(mlzState.daireTipleri.length<=1) return;
+  var dt=mlzState.daireTipleri[idx]; if(!dt) return;
+  /* En az bir konut tipi kalmalı; ortak hacimler serbestçe silinebilir. */
+  if(mlzKonutMu(dt) && mlzState.daireTipleri.filter(mlzKonutMu).length<=1) return;
   mlzState.daireTipleri.splice(idx,1);
   mlzDaireRender();
   mlzOdaRender();
@@ -923,17 +1664,32 @@ function mlzDaireAdetDegis(idx, val){
 
 function mlzDaireRender(){
   var el=document.getElementById('mlz-daire-listesi'); if(!el) return;
+  var konutNo=0, hacimNo=0;
+  var konutSay=mlzState.daireTipleri.filter(mlzKonutMu).length;
   el.innerHTML=mlzState.daireTipleri.map(function(d,i){
+    if(d.ortakMi){
+      hacimNo++;
+      return '<div class="mlz-daire-blok" style="box-shadow:inset 0 0 0 1px rgba(212,175,55,0.25);"><div class="mlz-daire-head">'+
+        '<div>'+
+        '<span style="font-weight:600;font-size:13px;color:var(--gold);">Ortak Hacim '+hacimNo+'</span>'+
+        '<input type="text" value="'+mlzHtmlKacis(d.tip)+'" class="mlz-input-sm" style="width:150px;margin-left:8px;" onchange="mlzOrtakHacimAdDegis('+i+',this.value)">'+
+        '<label style="font-size:12px;color:var(--gray);margin-left:8px;">Adet:</label>'+
+        '<input type="number" value="'+d.adet+'" min="1" max="20" class="mlz-input-sm" style="width:60px;" onchange="mlzDaireAdetDegis('+i+',this.value)">'+
+        '</div>'+
+        '<button class="mlz-daire-sil" onclick="mlzDaireSil('+i+')">✕</button>'+
+        '</div></div>';
+    }
+    konutNo++;
     return '<div class="mlz-daire-blok"><div class="mlz-daire-head">'+
       '<div>'+
-      '<span style="font-weight:600;font-size:13px;">Daire Tipi '+(i+1)+'</span>'+
+      '<span style="font-weight:600;font-size:13px;">Daire Tipi '+konutNo+'</span>'+
       '<select onchange="mlzDaireTipDegis('+i+',this.value)">'+
       ['1+1','2+1','3+1','4+1','5+1'].map(function(t){return '<option value="'+t+'"'+(d.tip===t?' selected':'')+'>'+t+'</option>';}).join('')+
       '</select>'+
       '<label style="font-size:12px;color:var(--gray);margin-left:8px;">Adet:</label>'+
       '<input type="number" value="'+d.adet+'" min="1" max="50" class="mlz-input-sm" style="width:60px;" onchange="mlzDaireAdetDegis('+i+',this.value)">'+
       '</div>'+
-      (mlzState.daireTipleri.length>1?'<button class="mlz-daire-sil" onclick="mlzDaireSil('+i+')">✕</button>':'')+
+      (konutSay>1?'<button class="mlz-daire-sil" onclick="mlzDaireSil('+i+')">✕</button>':'')+
       '</div></div>';
   }).join('');
   mlzOdaRender();
@@ -947,7 +1703,8 @@ function mlzOdaRender(){
   var html='';
   mlzState.daireTipleri.forEach(function(d,gi){
     var baslik='';
-    if(mlzState.binaTip==='apartman') baslik='<div style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--gold);">'+d.tip+' Daire ('+d.adet+' adet)</div>';
+    if(d.ortakMi) baslik='<div style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--gold);">'+mlzHtmlKacis(d.tip)+' (ortak hacim'+(d.adet>1?', '+d.adet+' adet':'')+')</div>';
+    else if(mlzState.binaTip==='apartman') baslik='<div style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--gold);">'+d.tip+' Daire ('+d.adet+' adet)</div>';
     else if(mlzState.binaTip==='villa') baslik='<div style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--gold);">'+d.tip+'</div>';
     html+=baslik+'<div class="mlz-oda-grid">'+d.odalar.map(function(o,oi){return mlzOdaKartHTML(o,gi,oi);}).join('')+'</div>';
     html+='<button class="mlz-ekle-btn" style="margin:10px 0 4px;" onclick="mlzOdaEkle('+gi+')">+ Oda Ekle</button>';
@@ -956,11 +1713,44 @@ function mlzOdaRender(){
   el.innerHTML=html;
 }
 
+/* ── DAMAR / KESİT ETİKETİ ──
+   DÜZELTME: kolon ve besleme kablolarında koruma iletkeni (PE) sayılmıyordu.
+   Üç fazlı bir kolon 3 faz + nötr + toprak = 5 damardır (4 değil); tek fazlı
+   kolon ise faz + nötr + toprak = 3 damardır. Topraklama daireye ayrı
+   çekilmez, kolonun kendi PE damarıdır.
+   35mm² ve üzerinde nötr ile toprak indirgenmiş kesitle çekilir; bu durumda
+   piyasadaki gösterim 3×35/16+16 biçimindedir (saha/proje yazımı). */
+var MLZ_INDIRGENMIS={35:16,50:25,70:35,95:50,120:70,150:70,185:95,240:120,300:150};
+/* KOLON hattı — sayaçtan SONRAKİ hat: faz(lar) + nötr + TOPRAK.
+   Trifaze 5 damar, monofaze 3 damar. */
+function mlzDamarEtiket(mm, trifaze){
+  if(!trifaze) return '3×'+mm+'mm²';
+  if(MLZ_INDIRGENMIS[mm]) return '3×'+mm+'/'+MLZ_INDIRGENMIS[mm]+'+'+MLZ_INDIRGENMIS[mm];
+  return '5×'+mm+'mm²';
+}
+/* ANA BESLEME — şebekeden sayaca gelen hat: koruma iletkeni YOKTUR.
+   Türkiye'de topraklama sayaçtan sonra yapılır, bu yüzden ana besleme
+   hiçbir senaryoda 5 damar olamaz: trifaze 4 damar (3 faz + nötr),
+   monofaze 2 damar. 35mm² ve üzerinde nötr indirgenir → 3×35/16. */
+function mlzDamarEtiketBesleme(mm, trifaze){
+  if(!trifaze) return '2×'+mm+'mm²';
+  if(MLZ_INDIRGENMIS[mm]) return '3×'+mm+'/'+MLZ_INDIRGENMIS[mm];
+  return '4×'+mm+'mm²';
+}
+
 /* ── KABLO KESİT SEÇİCİ ── */
 function mlzKesitSec(akim, malzeme){
   var tablo=malzeme==='bakir'?MLZ.nyy_kapasite:MLZ.nayy_kapasite;
   for(var i=0;i<tablo.length;i++){if(tablo[i].a>=akim)return tablo[i];}
   return tablo[tablo.length-1];
+}
+/* Bir alt sınır kesitini, taşıma kapasitesiyle birlikte bakır tablosundan
+   döndürür — kapasite elle yazılmaz, tabloyla her zaman tutarlı kalır. */
+function mlzKesitMin(mm){
+  for(var i=0;i<MLZ.nyy_kapasite.length;i++){
+    if(MLZ.nyy_kapasite[i].mm===mm) return {mm:mm,a:MLZ.nyy_kapasite[i].a};
+  }
+  return {mm:mm,a:mlzKesitSec(0,'bakir').a};
 }
 function mlzNymSec(akim){
   for(var i=0;i<MLZ.nym_kapasite.length;i++){if(MLZ.nym_kapasite[i].a>=akim)return MLZ.nym_kapasite[i];}
@@ -971,17 +1761,16 @@ function mlzAerSec(akim){
   return MLZ.aer_kapasite[MLZ.aer_kapasite.length-1];
 }
 function mlzBeslemeSec(akim, hatTip, kolonMat, trifaze){
-  var damar=trifaze?'4':'2';
   if(hatTip==='havai' && kolonMat==='aluminyum'){
     var k=mlzAerSec(akim); return {label:'AER '+k.mm+' (havai alüminyum)',mm:k.mm,a:k.a};
   }
   if(hatTip==='havai' && kolonMat==='bakir'){
-    var k=mlzNymSec(akim); return {label:'NYM '+damar+'×'+k.mm+'mm² (havai bakır)',mm:k.mm,a:k.a};
+    var k=mlzNymSec(akim); return {label:'NYM '+mlzDamarEtiketBesleme(k.mm,trifaze)+' (havai bakır)',mm:k.mm,a:k.a};
   }
   if(hatTip==='yeralti' && kolonMat==='bakir'){
-    var k=mlzKesitSec(akim,'bakir'); return {label:'NYY '+damar+'×'+k.mm+'mm² (yeraltı bakır)',mm:k.mm,a:k.a};
+    var k=mlzKesitSec(akim,'bakir'); return {label:'NYY '+mlzDamarEtiketBesleme(k.mm,trifaze)+' (yeraltı bakır)',mm:k.mm,a:k.a};
   }
-  var k=mlzKesitSec(akim,'aluminyum'); return {label:'NAYY '+damar+'×'+k.mm+'mm² (yeraltı alüminyum)',mm:k.mm,a:k.a};
+  var k=mlzKesitSec(akim,'aluminyum'); return {label:'NAYY '+mlzDamarEtiketBesleme(k.mm,trifaze)+' (yeraltı alüminyum)',mm:k.mm,a:k.a};
 }
 /* TMS artik hesaplanan bina akimina uste yuvarlanarak degil, ana besleme
    kablosunun tasima kapasitesine (Iz) gore koruma koordinasyonuyla
@@ -997,6 +1786,18 @@ function mlzTmsSec(kabloAkim, minAkim){
     for(var j=0;j<MLZ.tms_std.length;j++){if(MLZ.tms_std[j]>=minAkim){secilen=MLZ.tms_std[j];break;}}
   }
   return secilen;
+}
+
+/* Daireler katlara eşit dağıtılır; artan daireler ÜST katlara konur
+   (metraj bu şekilde güvenli tarafta kalır). */
+function mlzDiyafonKabloM(topDaire, katSay, girisPay){
+  if(!katSay || katSay<1) katSay=1;
+  var temel=Math.floor(topDaire/katSay), artan=topDaire%katSay, toplam=0;
+  for(var k=1;k<=katSay;k++){
+    var adet=temel+((k>katSay-artan)?1:0);
+    toplam+=adet*(MLZ.kat_h*k+girisPay);
+  }
+  return Math.round(toplam);
 }
 
 /* ── EŞ ZAMANLILIK ── */
@@ -1022,8 +1823,13 @@ function mlzAnahtarKasaHesapla(n){
   return {kasa:uclu+(kalan>0?1:0), uclu:uclu, ikili:ikili, tekli:tekli};
 }
 
-/* Bir oda listesini (tek kat veya tek daire) tek bir agregasyona toplar. */
-function mlzOdaAgregasyonTopla(odalar){
+/* Bir oda listesini (tek kat veya tek daire) tek bir agregasyona toplar.
+   basitDevre=true YALNIZCA bodrum/ortak hacimler için kullanılır: oradaki
+   depo, kazan dairesi, sığınak gibi hacimler konut odası değildir, tek
+   aydınlatma devresiyle çalışır. Daire/villa tarafı bu bayrağı hiç
+   kullanmaz — konut formülü (WC/Banyo/Balkon 1, diğerleri 4 devre)
+   olduğu gibi durur. */
+function mlzOdaAgregasyonTopla(odalar, basitDevre){
   var a={tPriz:0,tIslakPriz:0,tLamba:0,tTV:0,tData:0,lambaDevreSay:0,islakDevreSay:0,
     anahtarKasaSay:0,anahtarUclu:0,anahtarIkili:0,anahtarTekli:0,odaSayisi:odalar.length};
   odalar.forEach(function(o){
@@ -1032,7 +1838,7 @@ function mlzOdaAgregasyonTopla(odalar){
     /* Aydınlatma devre sayısı: WC/Banyo/Balkon 1 devre (basit),
        diğer tüm odalar (Salon, Mutfak, Koridor, Yatak Odaları vb.) 3 merkezi
        + 1 gizli/indirekt ışık = 4 devre. (Bircan Elektrik saha uygulaması) */
-    var basitMi=/^(WC|Banyo|Balkon)/i.test(o.ad);
+    var basitMi=basitDevre||/^(WC|Banyo|Balkon)/i.test(o.ad);
     var devre=basitMi?1:4;
     a.lambaDevreSay+=devre;
     if(o.islak) a.islakDevreSay+=devre; // ıslak zemindeki buata giden tevzi hattı topraklı olmalı
@@ -1152,6 +1958,120 @@ function mlzDaireHesaplaTek(a, cihazlar, tip, adet, mesafeOlcek){
 }
 
 /* ══════════════════════════════════════════
+   ORTAK MAHAL / BODRUM / ŞARJ PANOSU YÜKLERİ
+   ──────────────────────────────────────────
+   Bu üç yük grubu daire eş zamanlılık tablosunun (MLZ_ESZ) DIŞINDADIR:
+   tablo yalnızca konut karakteristiğini modeller. Ortak mahal ve şarj
+   yükleri kendi katsayılarıyla (MLZ.ortak_esz / kullanıcı girişi) bina
+   toplamına EKLENİR. Daire hesapları bu fonksiyonlardan etkilenmez.
+   ══════════════════════════════════════════ */
+function mlzOrtakBos(){
+  return {lamba:0,priz:0,ayriPano:false,lambaGuc:0,prizGuc:0,ekGuc:0,
+    tesisatGuc:0,motorGuc:0,kuruluGuc:0,eszGuc:0,lambaHat:0,prizHat:0};
+}
+/* Ortak mahal = merdiven/kat/giriş aydınlatması, ortak prizler ve elle
+   girilen motor yükleri (hidrofor, otopark/çevre, diğer). Bodrum, sığınak
+   vb. hacimler buraya DAHİL DEĞİLDİR — onlar daire tipi gibi, kendi oda
+   listeleriyle girilir (daireTipleri içinde ortakMi:true). */
+function mlzOrtakHesapla(S, katSay){
+  var o=S.ortak||{};
+  var lamba=Math.round((o.lambaKat||0)*katSay+(o.girisLamba||0));
+  var priz=Math.round((o.prizKat||0)*katSay);
+  var lambaGuc=lamba*MLZ.watt_lamba;
+  var prizGuc=priz*MLZ.watt_priz;
+  var ekGuc=((o.hidroforKw||0)+(o.otoparkKw||0)+(o.digerKw||0))*1000;
+  /* Aydınlatma/priz yüküne daire tarafındakiyle aynı emniyet payı uygulanır;
+     motor/pompa gibi elle girilen kW değerleri zaten anma gücüdür, çarpılmaz. */
+  /* Ortak mahal yükü İKİYE ayrılır:
+       tesisatGuc — aydınlatma + priz: konut karakterindedir, dairelerle
+         aynı 0,60/0,40 kademesinden geçer ve tabloya "bir daire" olarak
+         katılır.
+       motorGuc   — hidrofor/pompa, otopark-çevre aydınlatması ve diğer
+         elle girilen kW: sürekli/eş zamanlı çalışan yüklerdir, HİÇBİR
+         katsayıya tabi değildir, tablo uygulandıktan SONRA doğrudan
+         toplama eklenir. */
+  var tesisat=Math.round((lambaGuc+prizGuc)*MLZ.emniyet);
+  return {
+    lamba:lamba, priz:priz, ayriPano:(o.ayriPano!==false),
+    lambaGuc:lambaGuc, prizGuc:prizGuc, ekGuc:ekGuc,
+    tesisatGuc:tesisat, motorGuc:Math.round(ekGuc),
+    kuruluGuc:tesisat+Math.round(ekGuc),
+    eszGuc:Math.round(mlzEszMustakil(tesisat)),
+    lambaHat:lamba>0?Math.ceil(lamba/MLZ.ortak_lamba_hat):0,
+    prizHat:priz>0?Math.ceil(priz/MLZ.ortak_priz_hat):0
+  };
+}
+
+/* ── HARİCİ PANOLAR ──
+   Hazır şablon YOKTUR: kullanıcının girdiği ad / güç / faz / mesafe /
+   eş zamanlılık / kaçak akım koruma tipinden malzeme türetilir. Bu yüzden
+   şarj panosu, sulama panosu, jeneratör panosu vb. hepsi aynı mekanizmayla
+   listelenir — robotta gömülü bir "22 kW şarj ünitesi" varsayımı yoktur.
+   Akım hesabında cosfi=1,0 kabul edilir (girilen kW anma/çekilen güçtür);
+   bina genelindeki 0,9 kabulü yalnızca konut karakteristiği içindir. */
+function mlzHariciHesapla(S){
+  var liste=(S.hariciPanolar||[]).filter(function(p){return p && p.kw>0;});
+  return liste.map(function(p){
+    var tri=(p.faz!=='mono');
+    var esz=(p.esz===undefined||isNaN(p.esz)||p.esz<=0)?1:p.esz;
+    var kurulu=Math.round(p.kw*1000);
+    var eszGuc=Math.round(kurulu*esz);
+    var akim=tri?eszGuc/(1.732*400):eszGuc/230;
+    akim=Math.round(akim*10)/10;
+    var kesit=mlzKesitSec(akim,'bakir');
+    if(kesit.mm<MLZ.harici_kolon_min) kesit=mlzKesitMin(MLZ.harici_kolon_min);
+    var rcdEtiket={'300':'40A 300mA','30':'40A 30mA Tip-A','30B':'40A 30mA Tip-B (DC kaçaklı)'}[p.rcd||'300'];
+    return {ad:p.ad||'Harici Pano', kw:p.kw, trifaze:tri, esz:esz,
+      kuruluGuc:kurulu, eszGuc:eszGuc, akim:akim,
+      mesafe:Math.max(1,Math.round(p.mesafe||MLZ.harici_hat_m)),
+      damar:tri?'5':'3', kesit:kesit.mm, kesitA:kesit.a,
+      mcb:mlzMcbSec(akim,MLZ.pano_giris_mcb_min), rcd:rcdEtiket};
+  });
+}
+/* ── PANO LİSTESİ GRUPLAMA ──
+   Aynı tür malzeme listede dağınık durmasın diye her kalem bir gruba
+   atanır; liste grup → kutup sayısı → akım sırasına göre dizilir.
+   Böylece bütün MCB'ler alt alta, bütün RCD'ler alt alta gelir. */
+var MLZ_PANO_GRUP_AD={
+  1:'Pano & Kofre', 2:'Sayaç', 3:'Ana Şalter',
+  4:'RCD — Kaçak Akım Röleleri', 5:'MCB — Otomatik Sigortalar',
+  6:'Motor Koruma & Sigorta', 7:'Diğer'
+};
+function mlzPanoGrup(m){
+  if(/^(ADP panosu|Kofre|Sıva altı daire panosu|Sıva altı tali pano|Sıva üstü pano)/.test(m)) return 1;
+  if(/^Sayaç/.test(m)) return 2;
+  if(/^TMŞ/.test(m)) return 3;
+  if(/RCD/.test(m)) return 4;
+  if(/MCB/.test(m)) return 5;
+  if(/^(Motor koruma|Besleme sigortası)/.test(m)) return 6;
+  return 7;
+}
+function mlzPanoSirala(liste){
+  liste.forEach(function(p){
+    p.grup=mlzPanoGrup(p.malzeme);
+    var kt=/^(\d)P/.exec(p.malzeme);
+    p.kutup=kt?parseInt(kt[1],10):0;
+    var am=/(\d+(?:[.,]\d+)?)A(?![-–\d])/.exec(p.malzeme);
+    p.amp=am?parseFloat(am[1].replace(',','.')):0;
+  });
+  liste.sort(function(a,b){
+    if(a.grup!==b.grup) return a.grup-b.grup;
+    if(a.kutup!==b.kutup) return b.kutup-a.kutup;
+    if(a.amp!==b.amp) return b.amp-a.amp;
+    return a.malzeme.localeCompare(b.malzeme,'tr');
+  });
+  return liste;
+}
+
+function mlzMcbSec(akim, min){
+  var v=null;
+  for(var i=0;i<MLZ.mcb_std.length;i++){if(MLZ.mcb_std[i]>=akim){v=MLZ.mcb_std[i];break;}}
+  if(v===null) v=MLZ.mcb_std[MLZ.mcb_std.length-1];
+  if(min!==undefined && v<min) v=min;
+  return v;
+}
+
+/* ══════════════════════════════════════════
    ANA HESAPLAMA MOTORU
    ══════════════════════════════════════════ */
 function mlzHesapla(){
@@ -1165,12 +2085,26 @@ function mlzHesapla(){
      sadece taban ALANINA (tA*tB) bağlıdır, eni/boy oranına değil. */
   var tA=parseInt(document.getElementById('mlz-bina-a').value)||10;
   var tB=parseInt(document.getElementById('mlz-bina-b').value)||10;
-  var mesafeOlcek=Math.sqrt((tA*tB)/MLZ.kablo_baz_alan);
+  var girilenAlan=tA*tB;
+  /* Kat başına daire sayısı taban oturumunun alt sınırını belirler:
+     bir daire en az MLZ.min_daire_oturum m² kaplar. Girilen taban bunun
+     altındaysa hesap alt sınırdan yapılır ve kullanıcı uyarılır. */
+  var tabanDaireKat=1;
+  if(S.binaTip==='apartman'){
+    var kSay=0;
+    S.daireTipleri.forEach(function(dt){ if(mlzKonutMu(dt)) kSay+=dt.adet; });
+    tabanDaireKat=Math.max(1,Math.ceil(kSay/Math.max(1,katSay)));
+  }
+  var minTaban=tabanDaireKat*MLZ.min_daire_oturum;
+  var kullanilanAlan=Math.max(girilenAlan,minTaban);
+  var tabanUyari=(girilenAlan<minTaban);
+  var mesafeHam=Math.sqrt(kullanilanAlan/MLZ.kablo_baz_alan);
+  var mesafeOlcek=1+MLZ.mesafe_olcek_pay*(mesafeHam-1);
   if(mesafeOlcek<MLZ.kablo_olcek_min) mesafeOlcek=MLZ.kablo_olcek_min;
   if(mesafeOlcek>MLZ.kablo_olcek_max) mesafeOlcek=MLZ.kablo_olcek_max;
 
   // Daire bazlı hesaplar
-  var topDaire=0, daireSonuclar=[], tumCihazlar=[];
+  var topDaire=0, daireSonuclar=[], ortakHacimSonuclar=[], tumCihazlar=[];
   if(S.binaTip==='villa'){
     /* Villa: her kat kendi oda listesini taşır ama tek konut/tek pano
        olarak hesaplanır — katların agregasyonu toplanıp TEK sefer
@@ -1194,51 +2128,92 @@ function mlzHesapla(){
     topDaire=1;
   } else {
     S.daireTipleri.forEach(function(dt){
-      // Cihazlar — artık her daire tipi kendi seçimini taşır
-      var cihazlar=mlzDtCihazlari(dt,true);
+      /* Cihazlar — her daire tipi kendi seçimini taşır. Bodrum/ortak hacimde
+         mutfak yoktur, zorunlu cihaz üçlüsü işaretlenmez. */
+      var konut=mlzKonutMu(dt);
+      var cihazlar=mlzDtCihazlari(dt,konut);
       dt.cihazlarListesi=cihazlar;
       tumCihazlar=tumCihazlar.concat(cihazlar);
-      var a=mlzOdaAgregasyonTopla(dt.odalar);
-      daireSonuclar.push(mlzDaireHesaplaTek(a, cihazlar, dt.tip, dt.adet, mesafeOlcek));
-      topDaire+=dt.adet;
+      var a=mlzOdaAgregasyonTopla(dt.odalar, !konut);
+      var sonuc=mlzDaireHesaplaTek(a, cihazlar, dt.tip, dt.adet, mesafeOlcek);
+      sonuc.ortakMi=!konut;
+      if(konut){ daireSonuclar.push(sonuc); topDaire+=dt.adet; }
+      else { ortakHacimSonuclar.push(sonuc); }
     });
   }
 
-  /* ── BİNA GENELİ EŞ ZAMANLI GÜÇ ──
-     İki kademeli hesaplanır (SMM/proje pratiği):
-       1) HER DAİRE için kurulu gücün ilk 8000 W'ı × 0,60, kalanı × 0,40
-          (mlzEszMustakil) → dairenin kendi eş zamanlı gücü.
-       2) Bu değerlerin daire adetleriyle çarpılıp toplanmış hali, TOPLAM
-          DAİRE SAYISINA göre tablodan gelen katsayıyla (MLZ_ESZ) bir kez
-          daha çarpılır.
-     Önceden 1. kademe atlanıyor, kurulu güç DOĞRUDAN tablo katsayısıyla
-     çarpılıyordu — bu eş zamanlı gücü belirgin şekilde yüksek gösteriyordu.
-     Doğrulama (saha projesi, 10 daireli bina):
+  /* ══ BİNA GENELİ EŞ ZAMANLI GÜÇ ══
+     ÜÇ AŞAMALI ZİNCİR (Burak'ın saha/SMM pratiği, Eylül 2026):
+
+     1. KADEME — her tüketim birimi için 0,60/0,40:
+        Kurulu gücün ilk 8000 W'ı ×0,60, kalanı ×0,40 (mlzEszMustakil).
+        Bu kademeden DAİRELER, ORTAK MAHAL TESİSATI (aydınlatma+priz) ve
+        BODRUM/ORTAK HACİMLER geçer — üçü de konut karakterli tesisattır.
+
+     2. KADEME — tablo katsayısı (MLZ_ESZ):
+        1. kademe toplamı, tüketim birimi sayısına göre tablodan gelen
+        katsayıyla çarpılır. Birim sayısı = daire adedi + ortak mahal (1
+        birim) + her ortak hacim adedi. Yani 10 daire + ortak alan = 11.
+
+     3. ÇARPANSIZ EKLER (tablodan SONRA, hiçbir katsayı uygulanmadan):
+        asansör motoru, hidrofor/pompa ve diğer ortak motor yükleri,
+        harici panolar (şarj panosu, sulama panosu vb.).
+        Bunlar sürekli/eş zamanlı çalışan yüklerdir; konut eş zamanlılık
+        tablosuna tabi tutulmazlar.
+
+     Doğrulama (saha projesi, 10 daireli bina — 1. ve 2. kademe):
        11.352 W daire → 8000×0,60 + 3352×0,40 = 6.141 W; ×5 = 30.705 W
        14.806 W daire → 8000×0,60 + 6806×0,40 = 7.522 W; ×5 = 37.610 W
        (30.705 + 37.610) × 0,43 = 29.375 W  ← projedeki değerle birebir. */
+
   var topKuruluGuc=0, topDaireEszGuc=0, topEszGuc=0;
   daireSonuclar.forEach(function(d){
     topKuruluGuc+=d.guc*d.adet;
     topDaireEszGuc+=d.eszGuc*d.adet;
   });
-  if(isBina){
-    var eszK=mlzEszKatsayi(topDaire);
-    topEszGuc=Math.round(topDaireEszGuc*eszK);
-  } else {
-    topEszGuc=daireSonuclar[0]?daireSonuclar[0].eszGuc:0;
-  }
 
-  // Asansör
+  // Asansör — çarpansız ek (3. aşama)
   var asansorGuc=0, asansorAkim=0;
   if(S.asansor && isBina){
-    asansorGuc=Math.round(katSay*MLZ.asansor_kw_kat*1000);
+    var asanKwGir=(S.asanGir&&S.asanGir.kw>0)?S.asanGir.kw:0;
+    asansorGuc=asanKwGir>0?Math.round(asanKwGir*1000):Math.round(katSay*MLZ.asansor_kw_kat*1000);
     asansorAkim=Math.round(asansorGuc/(1.732*380)*10)/10;
-    topEszGuc+=asansorGuc;
+  }
+
+  var ort=isBina?mlzOrtakHesapla(S,katSay):mlzOrtakBos();
+  var hpanolar=isBina?mlzHariciHesapla(S):[];
+
+  /* Bodrum/ortak hacimler: konut değildir (daire sayılmazlar) ama
+     tesisatları konut karakterlidir — 1. kademeden geçer ve tabloya
+     birer birim olarak katılırlar. */
+  var ortakHacimKurulu=0, ortakHacimEsz=0, ortakHacimAdet=0;
+  ortakHacimSonuclar.forEach(function(d){
+    ortakHacimKurulu+=d.guc*d.adet;
+    ortakHacimEsz+=Math.round(mlzEszMustakil(d.guc))*d.adet;
+    ortakHacimAdet+=d.adet;
+  });
+  var hpKurulu=0, hpEsz=0;
+  hpanolar.forEach(function(p){ hpKurulu+=p.kuruluGuc; hpEsz+=p.eszGuc; });
+
+  topKuruluGuc+=asansorGuc+ort.kuruluGuc+ortakHacimKurulu+hpKurulu;
+
+  /* 2. kademe: tabloya giren toplam ve birim sayısı */
+  var kademeliToplam=topDaireEszGuc+ort.eszGuc+ortakHacimEsz;
+  var eszBirimSayisi=topDaire+(ort.eszGuc>0?1:0)+ortakHacimAdet;
+  var eszK=1, tabloEsz=kademeliToplam;
+  /* 3. aşama: çarpansız ekler */
+  var carpansizEk=asansorGuc+ort.motorGuc+hpEsz;
+  if(isBina){
+    eszK=mlzEszKatsayi(eszBirimSayisi);
+    tabloEsz=Math.round(kademeliToplam*eszK);
+    topEszGuc=tabloEsz+carpansizEk;
+  } else {
+    tabloEsz=daireSonuclar[0]?daireSonuclar[0].eszGuc:0;
+    topEszGuc=tabloEsz;
   }
 
   var trifaze=topEszGuc>5000;
-  var voltaj=trifaze?380:220;
+  var voltaj=trifaze?400:220;
   /* Ana giris hatti akimi cosfi=0,9 kabulu (KCETAS baglanti hatti
      projelerindeki pratikle ortussun diye) ve 400V nominal gerilimle
      hesaplaniyor -- saha ornegi: 58.135 W / (1,732x400x0,9) = 93,3 A,
@@ -1250,20 +2225,22 @@ function mlzHesapla(){
 
   /* Daire panosu boyutları artık trifaze belirlendiğine göre kesinleştirilir
      (bkz. mlzDaireHesaplaTek içindeki not — RCD 2P/4P modül genişliği). */
+  /* Daireler bina ile aynı fazdan beslenir (üç fazlı binada 4P). */
+  var daireTri = trifaze;
   daireSonuclar.forEach(function(d){
-    d.panoMod = mlzPanoModHesapla(d.mcbs.length, trifaze);
+    d.panoMod = mlzPanoModHesapla(d.mcbs.length, daireTri);
   });
 
-  // İç kolon
-  var kolonDamar=trifaze?'4':'2';
+  // İç kolon — 3 faz + nötr + toprak (trifaze) ya da faz + nötr + toprak (mono)
+  var kolonDamar=daireTri?'5':'3';
   var kolonSonuclar=[];
   var maxKolonKesit=MLZ.kolon_min;
   if(isBina){
     daireSonuclar.forEach(function(d){
-      var dAkim=trifaze?d.eszGuc/(1.732*380):d.eszGuc/220;
+      var dAkim=daireTri?d.eszGuc/(1.732*380):d.eszGuc/220;
       dAkim=Math.round(dAkim*10)/10;
       var kKesit=mlzKesitSec(dAkim,'bakir');
-      if(kKesit.mm<MLZ.kolon_min) kKesit={mm:MLZ.kolon_min,a:47};
+      if(kKesit.mm<MLZ.kolon_min) kKesit=mlzKesitMin(MLZ.kolon_min);
       if(kKesit.mm>maxKolonKesit) maxKolonKesit=kKesit.mm;
       var ortaKat=Math.ceil(katSay/2);
       var kM=Math.round((ortaKat*MLZ.kat_h+MLZ.kolon_ek)*d.adet);
@@ -1273,7 +2250,7 @@ function mlzHesapla(){
     var dAkim=trifaze?topEszGuc/(1.732*380):topEszGuc/220;
     dAkim=Math.round(dAkim*10)/10;
     var kKesit=mlzKesitSec(dAkim,'bakir');
-    if(kKesit.mm<MLZ.kolon_min) kKesit={mm:MLZ.kolon_min,a:47};
+    if(kKesit.mm<MLZ.kolon_min) kKesit=mlzKesitMin(MLZ.kolon_min);
     if(kKesit.mm>maxKolonKesit) maxKolonKesit=kKesit.mm;
     var kM=MLZ.ic_kolon+(S.binaTip==='villa'?(S.katSay*MLZ.kat_h):0);
     kolonSonuclar.push({tip:'Kolon',adet:1,kesit:kKesit.mm,damar:kolonDamar,metre:Math.round(kM),akim:dAkim});
@@ -1289,56 +2266,145 @@ function mlzHesapla(){
       }
     }
   });
-  var besMinAkim=Math.max(binaAkim, maxKolonAkimKap);
+  /* ── KORUMA ZİNCİRİ: kol akımı → TMŞ → kablo ──
+     Sıra TMŞ'den kurulur, kablodan değil:
+       1) Kol akımı Ib = eş zamanlı güç / (√3 × 400 × cosφ)
+       2) TMŞ akımı = Ib × 1,27 (kalkış akımlarında atmasın diye emniyet payı)
+       3) TMŞ (In) = bu değeri karşılayan en küçük standart kademe
+       4) Kablo, seçilen TMŞ'yi taşıyacak şekilde seçilir (Iz ≥ In)
+     Böylece hem Ib ≤ In (yük altında atmaz) hem In ≤ Iz (kablo kendi
+     korumasından önce ısınmaz) sağlanır.
+     Onaylı proje ile doğrulama: Ib=93,3A → ×1,27 = 118,5A → TMŞ 125A →
+     NYY 3×35/16+16 bakır (Iz=143A). Projedeki seçimin aynısı. */
+  var tmsAkim=Math.round(binaAkim*MLZ.tms_emniyet*10)/10;
+  var tms=MLZ.tms_std[MLZ.tms_std.length-1];
+  for(var ti=0;ti<MLZ.tms_std.length;ti++){
+    if(MLZ.tms_std[ti]>=tmsAkim){tms=MLZ.tms_std[ti];break;}
+  }
+  var besMinAkim=Math.max(tms, maxKolonAkimKap);
   var besleme=mlzBeslemeSec(besMinAkim, S.hatTip, S.kolonMat, trifaze);
-  var tms=mlzTmsSec(besleme.a, binaAkim);
   var besM=direkM+5;
 
-  // Ortak alan
-  var ortakK15=0,ortakLamba=0,ortakAnahtar=0;
+  /* ── OTOMATİK DÜZELTMELER ──
+     Kesit seçimi kullanıcının değil programın işidir; "bir üst kesite
+     geçin" diye uyarı verilmez, gereken geçiş burada YAPILIR.
+       1) HAVAİ HAT SINIRI: havai besleme en fazla 10mm² ile yapılır;
+          gereken kesit bunu aşıyorsa hat otomatik YERALTINA çevrilir.
+       2) MALZEME TÜKENMESİ: alüminyum tablosundaki en büyük kesit bile
+          TMŞ'yi taşımıyorsa bakıra geçilir. Alüminyum kesit büyüdüğü
+          sürece (95, 120, 150…) bakıra KAÇILMAZ — kesit yükseltilir. */
+  var otoHat=null, otoMalzeme=null;
+  var besHat=S.hatTip, besMat=S.kolonMat;
+  if(besHat==='havai' && parseFloat(besleme.mm)>MLZ.havai_maks_kesit){
+    otoHat={eskiLabel:besleme.label, eskiMm:besleme.mm};
+    besHat='yeralti';
+    besleme=mlzBeslemeSec(besMinAkim, besHat, besMat, trifaze);
+  }
+  if(besMat==='aluminyum' && besleme.a<besMinAkim){
+    var bakirSec=mlzBeslemeSec(besMinAkim, besHat, 'bakir', trifaze);
+    if(bakirSec.a>=besleme.a){
+      otoMalzeme={eskiLabel:besleme.label, eskiA:besleme.a};
+      besMat='bakir'; besleme=bakirSec;
+    }
+  }
+
+  /* ── EK KOLON / BESLEME HATLARI (ortak mahal, ortak hacim, harici pano, asansör) ──
+     Daha önce kolon hattı hesabı SADECE daire bazlıydı; ortak mahal ve
+     şarj panosu besleme hatları listeye hiç girmiyordu. Asansör besleme
+     kolonu ise kuyu tesisat kablosuyla tek kalemde karışıyordu — artık
+     ikisi ayrı ve açıkça etiketli kalemler. */
+  var ekKolonlar=[], ortAkim=0;
   if(isBina){
-    ortakLamba=katSay*MLZ.ortak_lamba_kat+MLZ.ortak_giris;
-    ortakK15=katSay*MLZ.ortak_kablo_kat;
+    /* Ortak mahal panosu hidroforu/otopark aydınlatmasını da beslediği için
+       pano akımı tesisat + motor yükünün toplamından hesaplanır. */
+    var ortPanoGuc=ort.eszGuc+ort.motorGuc;
+    var ortTri=MLZ.ortak_pano_trifaze;   // ortak mahal panosu daima üç fazlı
+    if(ortPanoGuc>0 && ort.ayriPano){
+      ortAkim=ortTri?ortPanoGuc/(1.732*400*MLZ_COSFI):ortPanoGuc/(220*MLZ_COSFI);
+      ortAkim=Math.round(ortAkim*10)/10;
+      var ortKesit=mlzKesitSec(ortAkim,'bakir');
+      if(ortKesit.mm<MLZ.ortak_kolon_min) ortKesit=mlzKesitMin(MLZ.ortak_kolon_min);
+      ekKolonlar.push({ad:'Ortak mahal panosu', damar:ortTri?'5':'3', kesit:ortKesit.mm,
+        metre:Math.round(katSay*MLZ.kat_h+MLZ.kolon_ek), akim:ortAkim});
+    }
+    ortakHacimSonuclar.forEach(function(oh){
+      /* Tali pano üç fazlı olduğundan besleme hattı 5 damarlıdır. */
+      var ohTriK=MLZ.ortak_pano_trifaze;
+      var ohAkim=ohTriK?(oh.guc/(1.732*400*MLZ_COSFI)):(oh.guc/(220*MLZ_COSFI));
+      ohAkim=Math.round(ohAkim*10)/10;
+      var ohKesit=mlzKesitSec(ohAkim,'bakir');
+      if(ohKesit.mm<MLZ.ortak_kolon_min) ohKesit=mlzKesitMin(MLZ.ortak_kolon_min);
+      ekKolonlar.push({ad:oh.tip+' tali panosu', damar:ohTriK?'5':'3', kesit:ohKesit.mm,
+        metre:Math.round((MLZ.kat_h+MLZ.kolon_ek+10)*oh.adet), akim:ohAkim});
+    });
+    hpanolar.forEach(function(p){
+      ekKolonlar.push({ad:p.ad, damar:p.damar, kesit:p.kesit, metre:p.mesafe, akim:p.akim});
+    });
+    if(S.asansor){
+      var asKesit=mlzKesitSec(asansorAkim,'bakir');
+      if(asKesit.mm<MLZ.asansor_min_kesit) asKesit=mlzKesitMin(MLZ.asansor_min_kesit);
+      ekKolonlar.push({ad:'Asansör makine dairesi', damar:'5', kesit:asKesit.mm,
+        metre:Math.round(katSay*MLZ.kat_h+10), akim:asansorAkim, yanmaz:true});
+    }
+  }
+
+  /* Ortak alan metrajı artık kat sayısından değil, kullanıcının girdiği
+     kat başına armatür/priz sayısından türetilir (5b adımı). Varsayılan
+     değerler eski sabitlerle aynıdır (2 armatür/kat + 2 giriş), bu yüzden
+     dokunulmamış bir hesapta sonuç değişmez. */
+  var ortakK15=0,ortakLamba=0,ortakAnahtar=0,ortakPrizK=0;
+  if(isBina){
+    ortakLamba=ort.lamba;
+    ortakK15=Math.round(katSay*MLZ.ortak_kablo_kat);
+    ortakPrizK=Math.round(ort.priz*MLZ.kablo_priz*mesafeOlcek);
     ortakAnahtar=1;
   }
 
   // Asansör kuyu
   var asanKuyu={lamba:0,buton:0,priz:0,darbeli:0,kablo:0};
   if(S.asansor && isBina){
-    asanKuyu.lamba=katSay; asanKuyu.buton=katSay; asanKuyu.darbeli=1;
-    asanKuyu.priz=2+Math.floor(katSay/3);
+    /* Kuyu ekipman adetleri saha teyidine açıktır: kullanıcı 5. adımda
+       0'dan büyük bir değer girerse o değer kullanılır, girmezse kat
+       sayısından türetilen varsayılan hesap uygulanır. */
+    var ag=S.asanGir||{};
+    asanKuyu.lamba=(ag.lamba>0)?Math.round(ag.lamba):katSay;              // kat sayısı kadar
+    asanKuyu.buton=(ag.buton>0)?Math.round(ag.buton):katSay;              // kat sayısı kadar
+    asanKuyu.darbeli=1; // her asansörde 1 adet — saha kuralı, giriş alanı yok
+    asanKuyu.priz=(ag.priz>0)?Math.round(ag.priz):mlzAsanKuyuPriz(katSay); // 3 katta bir + en alt + en üst
+    /* Bu metraj SADECE kuyu içi aydınlatma/priz tesisatıdır. Asansör
+       besleme kolonu (N2XH FE180) ayrı bir kalem olarak ekKolonlar'dadır. */
     asanKuyu.kablo=Math.round(katSay*MLZ.kat_h+5);
   }
 
   // Diyafon
-  var diyMalz=[];
-  var saftKabloM=isBina?Math.round(katSay*MLZ.kat_h+5):5;
-  var daireyeKabloM=isBina?Math.round(topDaire*4):4;
+  /* Diyafon KABLOLARI "Kablolar" bölümünde listelenir (bütün kablolar tek
+     yerde toplansın diye); bu tabloda yalnızca cihazlar kalır. */
+  var diyMalz=[], diyKablolar=[];
+  /* Her daire kendi müstakil hattıyla, bulunduğu kattan giriş katına iner. */
+  var diyKabloM=isBina?mlzDiyafonKabloM(topDaire,katSay,MLZ.diyafon_giris_pay):8;
   if(S.diyafon==='zil'){
     diyMalz.push(
       {m:'Kapı zili',a:isBina?topDaire:1},
-      {m:'Zil butonu',a:isBina?topDaire:1},
-      {m:'NYM 2×0.75 kablo',a:(isBina?(topDaire*5+katSay*3):5)+' m'}
+      {m:'Zil butonu',a:isBina?topDaire:1}
     );
+    diyKablolar.push(['NYM 2×0.75mm² · zil hattı, daire başı müstakil',diyKabloM+' m']);
   } else if(S.diyafon==='ahize'){
     diyMalz.push(
       {m:'Dış panel / giriş ünitesi',a:1},
       {m:'Güç kaynağı / PSU',a:1},
       {m:'İç ünite ahize',a:isBina?topDaire:1},
-      {m:'Light buton (daire başı)',a:isBina?topDaire:1},
-      {m:'DT8 şaft kablo',a:saftKabloM+' m'},
-      {m:'DT8 şaftan daireye kablo',a:daireyeKabloM+' m'}
+      {m:'Light buton · daire başı',a:isBina?topDaire:1}
     );
+    diyKablolar.push(['DT8 kablo · diyafon, daire başı müstakil hat',diyKabloM+' m']);
   } else {
     diyMalz.push(
-      {m:'Dış panel (kameralı)',a:1},
+      {m:'Dış panel · kameralı',a:1},
       {m:'Güç kaynağı / PSU',a:1},
-      {m:'İç ünite monitor',a:isBina?topDaire:1},
-      {m:'Light buton (daire başı)',a:isBina?topDaire:1},
-      {m:'CAT6 şaft kablo (sinyal)',a:saftKabloM+' m'},
-      {m:'CAT6 şaftan daireye kablo',a:daireyeKabloM+' m'},
-      {m:'NYM 2×0.75 besleme kablosu',a:saftKabloM+' m'}
+      {m:'İç ünite monitör',a:isBina?topDaire:1},
+      {m:'Light buton · daire başı',a:isBina?topDaire:1}
     );
+    diyKablolar.push(['CAT6 kablo · diyafon sinyal, daire başı müstakil hat',diyKabloM+' m']);
+    diyKablolar.push(['NYM 2×0.75mm² · diyafon besleme, daire başı müstakil hat',diyKabloM+' m']);
   }
 
   // Kamera
@@ -1358,8 +2424,15 @@ function mlzHesapla(){
 
   /* ═══ SONUÇ HTML ═══ */
   var html='';
-  function tbl(baslik,rows){
-    var t='<div class="mlz-sonuc-grup"><div class="mlz-sonuc-baslik">'+baslik+'</div><table class="mlz-sonuc-tablo"><tbody>';
+  /* TEK KAYNAK: her tablo hem ekrana basılır hem raporBolumler'e yazılır.
+     PDF bu listeden üretilir — böylece ekran ile PDF arasında etiket ya da
+     bölüm farkı oluşamaz. opt.pdfHaric: PDF'e girmesin; opt.pdfBaslik:
+     ekranda başlık akordiyonda olduğu için PDF'te kullanılacak ad. */
+  var raporBolumler=[];
+  function tbl(baslik,rows,opt){
+    opt=opt||{};
+    if(!opt.pdfHaric) raporBolumler.push({baslik:(opt.pdfBaslik||baslik||''),rows:rows});
+    var t='<div class="mlz-sonuc-grup">'+(baslik?('<div class="mlz-sonuc-baslik">'+baslik+'</div>'):'')+'<table class="mlz-sonuc-tablo"><tbody>';
     rows.forEach(function(r){t+='<tr><td>'+r[0]+'</td><td style="text-align:right;font-weight:600;">'+r[1]+'</td></tr>';});
     return t+'</tbody></table></div>';
   }
@@ -1368,75 +2441,222 @@ function mlzHesapla(){
   html+='<div class="mlz-ozet-kutu">';
   html+='<div class="mlz-ozet-item"><div class="mlz-ozet-val">'+(topKuruluGuc/1000).toFixed(1)+'</div><div class="mlz-ozet-lbl">Kurulu Güç (kW)</div></div>';
   html+='<div class="mlz-ozet-item"><div class="mlz-ozet-val">'+(topEszGuc/1000).toFixed(1)+'</div><div class="mlz-ozet-lbl">Eş Zamanlı (kW)</div></div>';
-  html+='<div class="mlz-ozet-item"><div class="mlz-ozet-val">'+(trifaze?'3 Faz':'Mono')+'</div><div class="mlz-ozet-lbl">Sistem ('+voltaj+'V)</div></div>';
-  html+='<div class="mlz-ozet-item"><div class="mlz-ozet-val">'+binaAkim+'A</div><div class="mlz-ozet-lbl">Besleme Akımı</div></div>';
-  if(isBina) html+='<div class="mlz-ozet-item"><div class="mlz-ozet-val">'+topDaire+'</div><div class="mlz-ozet-lbl">Toplam Daire</div></div>';
-  html+='<div class="mlz-ozet-item"><div class="mlz-ozet-val">'+maxIcAkim+'A</div><div class="mlz-ozet-lbl">Max İç Tesisat</div></div>';
+  html+='<div class="mlz-ozet-item"><div class="mlz-ozet-val">'+binaAkim+'</div><div class="mlz-ozet-lbl">Besleme Akımı (A)</div></div>';
+  html+='<div class="mlz-ozet-item"><div class="mlz-ozet-val">'+tms+'</div><div class="mlz-ozet-lbl">TMŞ (A)</div></div>';
+  if(isBina) html+='<div class="mlz-ozet-item"><div class="mlz-ozet-val">'+topDaire+'</div><div class="mlz-ozet-lbl">Toplam Daire (adet)</div></div>';
+  html+='<!--OZETKABLO-->';
   html+='</div>';
+  /* Bundan sonrası akordiyon bölümlerine ayrılır. İşaretleyici biçimi:
+     @@B|<açık mı>|<başlık>@@ — başlık boşsa o parça akordiyon dışında,
+     her zaman görünür olarak basılır. */
+  html+='@@B|0|📐 Eş Zamanlılık Hesap Dökümü@@';
 
-  // ADP
-  var adpRows=[['Kofre','1 adet']];
-  adpRows.push(['TMŞ '+tms+'A','1 adet']);
-  adpRows.push(['Sayaç ('+(trifaze?'3 Faz':'Monofaze')+')',topDaire+' adet']);
-  if(isBina) adpRows.push(['Sayaç (Ortak Alan)','1 adet']);
-  if(S.asansor && isBina) adpRows.push(['Sayaç (Asansör)','1 adet']);
-  var ekSayac=(isBina?1:0)+((S.asansor&&isBina)?1:0);
-  if(ekSayac>0) adpRows.push(['Toplam Sayaç',(topDaire+ekSayac)+' adet']);
-  adpRows.push([(trifaze?'4P':'2P')+' RCD 40A 300mA (daire başı)',topDaire+' adet']);
-  daireSonuclar.forEach(function(d){
-    var dKolonAkim=trifaze?d.eszGuc/(1.732*380):d.eszGuc/220;
-    dKolonAkim=Math.round(dKolonAkim*10)/10;
-    var mcbA=MLZ.mcb_std.find(function(v){return v>=dKolonAkim;})||32;
-    if(mcbA<32) mcbA=32;
-    adpRows.push([(trifaze?'4P':'2P')+' MCB '+mcbA+'A — '+d.tip,d.adet+' adet']);
-  });
+  /* ── EŞ ZAMANLILIK HESAP DÖKÜMÜ ──
+     Zincirin her adımı ayrı satır: hangi birim hangi kademeden geçti,
+     tablo katsayısı hangi birim sayısından geldi, hangi yükler çarpansız
+     eklendi ve TMŞ nasıl seçildi. */
+  var eszDokum=[];
+  /* Türkçe ondalık ayracı: sayılar virgüllü gösterilir. */
+  function nvir(v,b){ return v.toFixed(b===undefined?2:b).replace('.',','); }
+  function kw(v){ return nvir(v/1000)+' kW'; }
   if(isBina){
-    adpRows.push(['Ortak alan '+(trifaze?'4P':'2P')+' RCD 40A 300mA','1 adet']);
-    adpRows.push(['Ortak alan MCB 10A','1 adet']);
+    daireSonuclar.forEach(function(d){
+      eszDokum.push([d.tip+' daire ×'+d.adet+' — kurulu '+kw(d.guc)+'/daire → kademeli (0,60/0,40) '+kw(d.eszGuc)+'/daire',
+        kw(d.eszGuc*d.adet)]);
+    });
+    if(ort.tesisatGuc>0) eszDokum.push(['Ortak mahal tesisatı — kurulu '+kw(ort.tesisatGuc)+' → kademeli', kw(ort.eszGuc)]);
+    ortakHacimSonuclar.forEach(function(oh){
+      eszDokum.push([oh.tip+(oh.adet>1?' ×'+oh.adet:'')+' — kurulu '+kw(oh.guc)+' → kademeli',
+        kw(Math.round(mlzEszMustakil(oh.guc))*oh.adet)]);
+    });
+    eszDokum.push(['<strong>1. kademe toplamı</strong>','<strong>'+kw(kademeliToplam)+'</strong>']);
+    eszDokum.push(['2. kademe — '+eszBirimSayisi+' birim (daire '+topDaire+
+      (ort.eszGuc>0?' + ortak mahal 1':'')+(ortakHacimAdet>0?' + ortak hacim '+ortakHacimAdet:'')+
+      ') → tablo katsayısı '+nvir(eszK), '<strong>'+kw(tabloEsz)+'</strong>']);
+    if(asansorGuc>0) eszDokum.push(['+ Asansör motoru (çarpansız)',kw(asansorGuc)]);
+    if(ort.motorGuc>0) eszDokum.push(['+ Hidrofor / otopark / diğer ortak motor yükü (çarpansız)',kw(ort.motorGuc)]);
+    hpanolar.forEach(function(p){
+      eszDokum.push(['+ '+p.ad+' (çarpansız'+(p.esz<1?(', eş zamanlılık '+nvir(p.esz)):'')+')',kw(p.eszGuc)]);
+    });
+    eszDokum.push(['<strong>Bina eş zamanlı gücü</strong>','<strong>'+kw(topEszGuc)+'</strong>']);
+    eszDokum.push(['Kol akımı = '+kw(topEszGuc)+' / ('+(trifaze?'√3 × 400V':'220V')+' × cosφ '+nvir(MLZ_COSFI)+')',nvir(binaAkim,1)+' A']);
+    eszDokum.push(['TMŞ akımı = kol akımı × '+nvir(MLZ.tms_emniyet)+' (kalkış payı)',nvir(tmsAkim,1)+' A']);
+    eszDokum.push(['<strong>Seçilen TMŞ</strong> (en küçük standart ≥ '+nvir(tmsAkim,1)+'A)','<strong>'+tms+' A</strong>']);
+    eszDokum.push(['Ana besleme kablosu (Iz ≥ TMŞ)',besleme.label+' — '+besleme.a+' A']);
+    eszDokum.push(['Taban oturumu → kablo mesafe ölçeği',
+      tA+'×'+tB+' m = '+girilenAlan+' m²'+(tabanUyari?(' → '+kullanilanAlan+' m² alt sınır'):'')+
+      ' · ölçek '+nvir(mesafeOlcek)]);
+    html+=tbl('',eszDokum,{pdfHaric:true});
   }
-  if(S.asansor && isBina){
-    adpRows.push(['Asansör 4P RCD 40A 300mA','1 adet']);
-    var asanMcb=MLZ.mcb_std.find(function(v){return v>=asansorAkim;})||32;
-    if(asanMcb<32) asanMcb=32;
-    adpRows.push(['Asansör 4P MCB '+asanMcb+'A','1 adet']);
-  }
-  html+=tbl('⚡ Ana Dağıtım Panosu (ADP)',adpRows);
 
-  // Daire panoları
+  /* ══ PANO & KORUMA MALZEMELERİ — BİRLEŞİK LİSTE ══
+     GENEL KURAL: aynı malzeme listede İKİ KEZ yazılmaz. ADP gövdesi, kolon
+     hattı koruma elemanları, ortak mahal/ortak hacim/harici pano/asansör
+     korumaları ve daire panosu içi kalemler TEK listede toplanır: her
+     malzeme bir satırdır, adetleri toplanır, hangi noktalarda kullanıldığı
+     aynı satırda not olarak gösterilir. Böylece "4P MCB 32A" hem daire
+     kolonunda hem ortak mahal girişinde geçtiğinde iki ayrı satır değil,
+     tek satır ve toplam adet çıkar. */
+  var panoHar={}, panoSira=[], panoListe=[];
+  function pano(malzeme, adet, yer){
+    adet=Math.round(adet||0);
+    if(adet<=0) return;
+    var k='#'+malzeme;
+    if(!panoHar[k]){ panoHar[k]={malzeme:malzeme, adet:0, yer:[]}; panoSira.push(k); }
+    panoHar[k].adet+=adet;
+    if(yer) panoHar[k].yer.push(yer+(adet>1?(' ×'+adet):''));
+  }
+
+  // — ADP gövdesi ve sayaçlar (sayaçlar da tipine göre tek satırda birleşir)
+  var ekSayac=(isBina?1:0)+hpanolar.length+((S.asansor&&isBina)?1:0);
+  /* Kofre ile ADP AYRI kalemlerdir: kofre muhafazadır, sayaç adedi ADP
+     panosunun ölçüsünü belirler ve ADP kofrenin ÜSTÜNE monte edilir. Sayaç adedi = daire + ortak alan + her harici pano + asansör. */
+  pano('ADP panosu — '+(topDaire+ekSayac)+' sayaçlı',1,'sayaç ve koruma elemanları');
+  pano('Kofre',1,'bina ana giriş');
+  pano('TMŞ '+tms+'A',1,'ana giriş');
+  pano('Sayaç ('+(daireTri?'3 Faz':'Monofaze')+')',topDaire,'daire');
+  if(isBina) pano('Sayaç ('+(MLZ.ortak_pano_trifaze?'3 Faz':'Monofaze')+')',1,'ortak alan');
+  hpanolar.forEach(function(p){ pano('Sayaç ('+(p.trifaze?'3 Faz':'Monofaze')+')',1,p.ad); });
+  if(S.asansor && isBina) pano('Sayaç (3 Faz)',1,'asansör');
+
+  // — daire kolonu koruması
+  pano((daireTri?'4P':'2P')+' RCD 40A 300mA',topDaire,'daire kolonu');
   daireSonuclar.forEach(function(d){
-    var pRows=[];
-    pRows.push(['Pano boyutu',d.panoMod+' modül']);
-    pRows.push([(trifaze?'4P':'2P')+' RCD 30mA 25A','1 adet']);
+    var dKolonAkim=daireTri?d.eszGuc/(1.732*380):d.eszGuc/220;
+    dKolonAkim=Math.round(dKolonAkim*10)/10;
+    var mcbA=mlzMcbSec(dKolonAkim,MLZ.pano_giris_mcb_min);
+    pano((daireTri?'4P':'2P')+' MCB '+mcbA+'A '+MLZ.adp_kesme_kap, d.adet, 'daire kolonu '+d.tip);
+  });
+
+  if(isBina){
+    // — ortak mahal panosu
+    /* Ortak mahal panosu üç fazlıdır: giriş 4P, hatlar fazlara dağıtılır
+       (L1 priz, L2 aydınlatma). Priz hatları tek bir 4P 30mA RCD altında
+       toplanır — hat başına ayrı RCD konmaz. */
+    var ortTriK=MLZ.ortak_pano_trifaze;
+    var ortYer=ort.ayriPano?'ortak mahal panosu':'ortak mahal (ADP içinden)';
+    if((ort.eszGuc+ort.motorGuc)>0 && ort.ayriPano){
+      pano((ortTriK?'4P':'2P')+' MCB '+mlzMcbSec(ortAkim,MLZ.pano_giris_mcb_min)+'A '+MLZ.adp_kesme_kap,1,'ortak mahal panosu girişi');
+      pano((ortTriK?'4P':'2P')+' RCD 40A 300mA',1,'ortak mahal panosu girişi');
+    }
+    if(ort.prizHat>0){
+      pano((ortTriK?'4P':'2P')+' RCD 40A 30mA',1,ortYer+' priz hatları');
+      pano('1P MCB 16A',ort.prizHat,ortYer+' priz hattı (L1)');
+    }
+    if(ort.lambaHat>0) pano('1P MCB 10A',ort.lambaHat,ortYer+' aydınlatma hattı (L2)');
+
+    // — bodrum / ortak hacimler (her biri kendi tali panosuyla)
+    /* Bodrum/ortak hacim tali panoları da üç fazlıdır: giriş 4P, priz
+       hatları TEK bir 4P 30mA RCD altında toplanıp fazlara dağıtılır
+       (L1 priz, L2 aydınlatma) — her hat için ayrı 2P RCD konmaz. */
+    var ohTri=MLZ.ortak_pano_trifaze;
+    ortakHacimSonuclar.forEach(function(oh){
+      var ohAkim=ohTri?(oh.guc/(1.732*400*MLZ_COSFI)):(oh.guc/(220*MLZ_COSFI));
+      ohAkim=Math.round(ohAkim*10)/10;
+      pano('Sıva altı tali pano '+mlzPanoModHesapla(oh.mcbs.length,ohTri)+' modül',oh.adet,oh.tip);
+      pano((ohTri?'4P':'2P')+' MCB '+mlzMcbSec(ohAkim,MLZ.pano_giris_mcb_min)+'A '+MLZ.adp_kesme_kap,oh.adet,oh.tip+' tali panosu girişi');
+      pano((ohTri?'4P':'2P')+' RCD 40A 300mA',oh.adet,oh.tip+' tali panosu girişi');
+      var ohPrizHat=Math.ceil((oh.priz+oh.islakPriz)/MLZ.ortak_priz_hat)||0;
+      var ohLambaHat=Math.ceil(oh.anahtarToplam/MLZ.ortak_lamba_hat)||0;
+      if(ohPrizHat>0){
+        pano((ohTri?'4P':'2P')+' RCD 40A 30mA',oh.adet,oh.tip+' priz hatları');
+        pano('1P MCB 16A',ohPrizHat*oh.adet,oh.tip+' priz hattı (L1)');
+      }
+      if(ohLambaHat>0) pano('1P MCB 10A',ohLambaHat*oh.adet,oh.tip+' aydınlatma hattı (L2)');
+    });
+
+    // — harici panolar (kalemler kullanıcı girdisinden türer, şablon yok)
+    hpanolar.forEach(function(p){
+      pano('Sıva üstü pano IP54',1,p.ad);
+      pano((p.trifaze?'4P':'2P')+' MCB '+p.mcb+'A '+MLZ.adp_kesme_kap,1,p.ad+' girişi');
+      pano((p.trifaze?'4P':'2P')+' RCD '+p.rcd,1,p.ad+' girişi');
+    });
+
+    // — asansör
+    if(S.asansor){
+      var asTermAlt=Math.max(1,Math.round(asansorAkim*0.85));
+      var asTermUst=Math.round(asansorAkim*1.25);
+      var asSigorta=mlzMcbSec(asansorAkim*1.6,20);
+      pano('4P MCB '+mlzMcbSec(asansorAkim,MLZ.pano_giris_mcb_min)+'A '+MLZ.adp_kesme_kap,1,'asansör panosu girişi');
+      pano('4P RCD 40A 300mA',1,'asansör panosu girişi');
+      pano('Motor koruma şalteri '+asTermAlt+'–'+asTermUst+'A',1,'asansör motoru');
+      pano('Besleme sigortası NH/gG '+asSigorta+'A + taşıyıcı',3,'asansör beslemesi');
+      pano('2P RCD 25A 30mA',1,'kuyu priz/aydınlatma hattı');
+      pano('1P MCB 16A',1,'kuyu priz hattı');
+      pano('1P MCB 10A',1,'kuyu aydınlatma hattı');
+    }
+  }
+
+  // — daire panoları (pano kutusu + iç koruma; tipler arası aynı kalem birleşir)
+  daireSonuclar.forEach(function(d){
+    pano('Sıva altı daire panosu '+d.panoMod+' modül',d.adet,d.tip);
+    /* Daire panosu girişindeki RCD, üstündeki kolon şalterinden KÜÇÜK
+       olamaz (25A RCD + 32A MCB hatalıydı): anma akımı kolon MCB'sine
+       göre seçilir. */
+    var dRcdA=mlzMcbSec(daireTri?d.eszGuc/(1.732*380):d.eszGuc/220, MLZ.pano_giris_mcb_min);
+    if(dRcdA<40) dRcdA=40;
+    pano((daireTri?'4P':'2P')+' RCD '+dRcdA+'A 30mA',d.adet,d.tip+' daire panosu girişi');
     var mcbGrup={};
     d.mcbs.forEach(function(m){
       var ampVal=parseInt(m.a);
       var key=(ampVal>25?'25A':m.a);
-      if(!mcbGrup[key]) mcbGrup[key]={a:key,adet:0,acl:[]};
-      mcbGrup[key].adet++;
-      if(mcbGrup[key].acl.indexOf(m.acl)===-1) mcbGrup[key].acl.push(m.acl);
+      mcbGrup[key]=(mcbGrup[key]||0)+1;
     });
     Object.keys(mcbGrup).forEach(function(k){
-      var g=mcbGrup[k];
-      var acl=g.acl.length<=2?g.acl.join(', '):(g.acl.slice(0,2).join(', ')+' vb.');
-      pRows.push(['1P MCB '+g.a+' — '+acl, g.adet+' adet']);
+      pano('1P MCB '+k, mcbGrup[k]*d.adet, d.tip+' daire panosu');
     });
-    html+=tbl('🏠 Daire Panosu — '+d.tip+' ('+d.adet+' adet)',pRows);
   });
+
+  panoSira.forEach(function(k){ panoListe.push(panoHar[k]); });
+  mlzPanoSirala(panoListe);
+  html+='@@B|1|⚡ Pano & Koruma Malzemeleri@@';
+  var panoRows=[], sonGrup=0;
+  panoListe.forEach(function(p){
+    if(p.grup!==sonGrup){
+      sonGrup=p.grup;
+      panoRows.push(['<span class="mlz-grup-bas">'+(MLZ_PANO_GRUP_AD[p.grup]||'Diğer')+'</span>','']);
+    }
+    var yer=p.yer.length
+      ? '<span style="display:block;font-size:11px;color:var(--gray);font-weight:400;margin-top:2px;">'+p.yer.join(' · ')+'</span>'
+      : '';
+    panoRows.push([p.malzeme+yer, p.adet+' adet']);
+  });
+  html+=tbl('',panoRows,{pdfBaslik:'PANO & KORUMA MALZEMELERI'});
+  html+='<div style="font-size:11px;color:var(--gray);padding:6px 12px;background:rgba(0,0,0,0.18);border-radius:6px;margin-bottom:12px;">ℹ️ Aynı malzeme listede yalnızca bir kez yer alır; adetler toplanmış, kullanım noktaları satır altında belirtilmiştir. Toplam sayaç: '+(topDaire+ekSayac)+' adet. ADP ve kolon hattı şalterleri '+MLZ.adp_kesme_kap+' kesme kapasitelidir; daire panosu içi 1P MCB\'ler standart konut tipidir.</div>';
 
   // Kablolar — besleme & kolon
   var kabloRows=[];
-  kabloRows.push([besleme.label, besM+' m']);
+  kabloRows.push([besleme.label+' — ana besleme', besM+' m · gereken '+besMinAkim.toFixed(1)+'A / taşıma '+besleme.a+'A']);
   kolonSonuclar.forEach(function(k){
     kabloRows.push(['NYY '+k.damar+'×'+k.kesit+'mm² (iç kolon — '+k.tip+')',k.metre+' m']);
   });
-  html+=tbl('🔌 Kablolar — Besleme & Kolon',kabloRows);
+  ekKolonlar.forEach(function(k){
+    var etiket=k.yanmaz
+      ? ('N2XH FE180 '+k.damar+'×'+k.kesit+'mm² (yangına dayanıklı) — '+k.ad+' besleme kolonu')
+      : ('NYY '+k.damar+'×'+k.kesit+'mm² — '+k.ad+' besleme hattı');
+    kabloRows.push([etiket, k.metre+' m'+(k.akim>0?(' · '+k.akim+'A'):'')]);
+  });
+  html+='@@B|0|🔌 Kablolar@@';
+  html+=tbl('Ana besleme & kolon hatları',kabloRows);
+  if(otoHat){
+    html+='<div style="font-size:11px;color:var(--gray);padding:6px 12px;background:rgba(0,0,0,0.18);border-radius:6px;margin-bottom:12px;">ℹ️ Dış hat <strong>yeraltına çevrildi</strong>: gereken kesit '+otoHat.eskiMm+'mm², havai hat sınırı '+MLZ.havai_maks_kesit+'mm². Listeye '+besleme.label+' yazıldı.</div>';
+  }
+  if(otoMalzeme){
+    html+='<div style="font-size:11px;color:var(--gray);padding:6px 12px;background:rgba(0,0,0,0.18);border-radius:6px;margin-bottom:12px;">ℹ️ Ana besleme <strong>bakıra çevrildi</strong>: alüminyum tablosunda '+tms+'A TMŞ\'yi taşıyan kesit yok (en büyüğü '+otoMalzeme.eskiA+'A). Listeye '+besleme.label+' — '+besleme.a+'A yazıldı.</div>';
+  }
+  if(besleme.a<tms){
+    html+='<div class="mlz-uyari">⛔ <strong>Bu akımda uygun kablo bulunamadı:</strong> TMŞ '+tms+'A, tablodaki en büyük kesitin taşıma kapasitesi '+besleme.a+'A. Besleme paralel kablo ya da bara ile çözülmelidir.</div>';
+  }
 
   // Kablolar — daire içi (tek damarlı, renk kodlu tesisat teli)
   var dicRows=[];
   var topK15=0,topK25=0,topK4=0,topBoru=0,topBuat=0,topPriz=0,topIslak=0,topLamba=0,topAnahtar=0,topTV=0,topData=0;
   var topKirmizi15=0,topMavi15=0,topKirmizi25=0,topMavi25=0,topSariyesil25=0,topKahve25=0,topSiyah25=0,topMavi4=0,topSariyesil4=0;
   var topAnahtarKasa=0,topAnahtarUclu=0,topAnahtarIkili=0,topAnahtarTekli=0,topMustakilPriz=0;
-  daireSonuclar.forEach(function(d){
+  /* Bodrum/ortak hacimler konut sayılmaz ama MALZEMELERİ normal hesaplanır —
+     metraj/sayım toplamlarına daireler gibi katılırlar. */
+  var tumIcSonuclar=daireSonuclar.concat(ortakHacimSonuclar);
+  tumIcSonuclar.forEach(function(d){
     topK15+=d.k15*d.adet; topK25+=d.k25*d.adet; topK4+=d.k4*d.adet;
     topBoru+=d.boru*d.adet; topBuat+=d.buat*d.adet;
     topPriz+=d.priz*d.adet; topIslak+=d.islakPriz*d.adet;
@@ -1451,20 +2671,20 @@ function mlzHesapla(){
     topMavi4+=d.mavi4*d.adet; topSariyesil4+=d.sariyesil4*d.adet;
   });
   if(topK15>0){
-    dicRows.push(['🔴 NYA 1.5mm² Kırmızı (aydınlatma sortisi — faz)',topKirmizi15+' m']);
-    dicRows.push(['🔵 NYA 1.5mm² Mavi (aydınlatma sortisi — nötr)',topMavi15+' m']);
+    dicRows.push(['🔴 NYA 1.5mm² Kırmızı · aydınlatma faz',topKirmizi15+' m']);
+    dicRows.push(['🔵 NYA 1.5mm² Mavi · aydınlatma nötr',topMavi15+' m']);
   }
   if(topK25>0){
-    dicRows.push(['🔴 NYA 2.5mm² Kırmızı (priz — faz)',topKirmizi25+' m']);
-    dicRows.push(['🔵 NYA 2.5mm² Mavi (priz + linye + müstakil — ortak nötr)',topMavi25+' m']);
-    dicRows.push(['🟡 NYA 2.5mm² Sarı-Yeşil (priz + müstakil — toprak)',topSariyesil25+' m']);
-    if(topSiyah25>0) dicRows.push(['⚫ NYA 2.5mm² Siyah (aydınlatma linyesi — faz)',topSiyah25+' m']);
-    if(topKahve25>0) dicRows.push(['🟤 NYA 2.5mm² Kahve (müstakil priz &lt;3200W — faz)',topKahve25+' m']);
+    dicRows.push(['🔴 NYA 2.5mm² Kırmızı · priz faz',topKirmizi25+' m']);
+    dicRows.push(['🔵 NYA 2.5mm² Mavi · nötr',topMavi25+' m']);
+    dicRows.push(['🟡 NYA 2.5mm² Sarı-Yeşil · toprak',topSariyesil25+' m']);
+    if(topSiyah25>0) dicRows.push(['⚫ NYA 2.5mm² Siyah · linye faz',topSiyah25+' m']);
+    if(topKahve25>0) dicRows.push(['🟤 NYA 2.5mm² Kahve · müstakil priz faz',topKahve25+' m']);
   }
   if(topK4>0){
-    dicRows.push(['🟤 NYA 4mm² Kahve (müstakil priz ≥3200W — faz)',topK4+' m']);
-    dicRows.push(['🔵 NYA 4mm² Mavi (müstakil priz ≥3200W — nötr)',topMavi4+' m']);
-    dicRows.push(['🟡 NYA 4mm² Sarı-Yeşil (müstakil priz ≥3200W — toprak)',topSariyesil4+' m']);
+    dicRows.push(['🟤 NYA 4mm² Kahve · büyük cihaz faz',topK4+' m']);
+    dicRows.push(['🔵 NYA 4mm² Mavi · büyük cihaz nötr',topMavi4+' m']);
+    dicRows.push(['🟡 NYA 4mm² Sarı-Yeşil · büyük cihaz toprak',topSariyesil4+' m']);
   }
   /* Zayıf akım — TV (RG6): taban uzunluk 18m daire içi + 7m kendi kutusuna
      geçiş = 25m (her nokta için, kata bakılmaksızın), artı binada TEK bir
@@ -1513,58 +2733,165 @@ function mlzHesapla(){
   if(S.binaTip==='villa') katEk=Math.round(S.katSay*MLZ.kat_h);
   else if(isBina) katEk=Math.round(katSay*MLZ.kat_h);
   var tvMetraj=topTV>0?Math.round(topTV*MLZ.zayif_baz+katEk):0;
-  if(tvMetraj>0) dicRows.push(['RG6 kablo (TV/Uydu) — buat yok, müstakil',tvMetraj+' m']);
-  if(fiberMetraj>0) dicRows.push(['🔆 Fiber optik kablo (telekom kutusu → daire ONT)',fiberMetraj+' m']);
+  if(tvMetraj>0) dicRows.push(['RG6 kablo · TV / uydu',tvMetraj+' m']);
+  if(fiberMetraj>0) dicRows.push(['Fiber optik kablo · telekom kutusu → daire',fiberMetraj+' m']);
   if(dataMetraj>0){
     var dataAciklama=cat6OmurgaVarMi
-      ? 'CAT6 kablo (telekom kutusu → daire + daire içi dağıtım)'
-      : 'CAT6 kablo (Data, daire içi — ONT/modem sonrası) — omurga fiber, sonlandırma telekom tarafından';
+      ? 'CAT6 kablo · omurga + daire içi'
+      : 'CAT6 kablo · daire içi dağıtım';
     dicRows.push([dataAciklama,dataMetraj+' m']);
   }
-  html+=tbl('🔌 Kablolar — Daire İçi (toplam ×'+topDaire+' daire)',dicRows);
+  var ohAdet=0; ortakHacimSonuclar.forEach(function(o){ohAdet+=o.adet;});
+  html+=tbl('Daire içi tesisat — toplam ×'+topDaire+' daire'+(ohAdet>0?' + '+ohAdet+' ortak hacim':''),dicRows);
+  if(tabanUyari){
+    html+='<div class="mlz-uyari">📐 <strong>Taban oturumu küçük girilmiş:</strong> '+tabanDaireKat+' daire/kat için en az '+minTaban+' m² gerekir ('+MLZ.min_daire_oturum+' m² × daire), siz '+girilenAlan+' m² girdiniz. Kablo metrajı '+kullanilanAlan+' m² üzerinden hesaplandı — bina ölçüsünü 3. adımdan düzeltin.</div>';
+  }
+  /* Diyafon/zil hattı daire İÇİ tesisat değildir: şaftta iner ve giriş
+     katında ortak alanda toplanır — bu yüzden ortak alan kabloları
+     başlığı altında listelenir. */
+  var oakRows=[];
+  if(isBina){
+    oakRows.push(['NYM 3×1.5mm² · ortak alan aydınlatma',ortakK15+' m']);
+    if(ortakPrizK>0) oakRows.push(['NYM 3×2.5mm² · ortak alan priz hattı',ortakPrizK+' m']);
+  }
+  diyKablolar.forEach(function(r){ oakRows.push(r); });
+  if(oakRows.length>0) html+=tbl('Ortak alan kabloları',oakRows);
 
+  /* ── ÖZET KUTUSU KABLO KUTUCUKLARI ──
+     Renk ayrımı yapılmadan kesit bazında toplam. Kolon ve tali pano
+     besleme hatları TEK kalemde toplanır; asansörün yangına dayanıklı
+     N2XH FE180 hattı farklı bir malzeme olduğundan bu toplama GİRMEZ,
+     kendi kutucuğunda gösterilir. */
+  var oz15=topKirmizi15+topMavi15;
+  var oz25=topKirmizi25+topMavi25+topSariyesil25+topKahve25+topSiyah25;
+  var oz4=topK4+topMavi4+topSariyesil4;
+  var ozKolon=0, ozYanmaz=0;
+  kolonSonuclar.forEach(function(k){ ozKolon+=k.metre; });
+  ekKolonlar.forEach(function(k){ if(k.yanmaz) ozYanmaz+=k.metre; else ozKolon+=k.metre; });
+  var ozKablo='';
+  function ozKutu(deger,etiket){
+    return '<div class="mlz-ozet-item"><div class="mlz-ozet-val">'+deger+
+      '</div><div class="mlz-ozet-lbl">'+etiket+'</div></div>';
+  }
+  /* Her kablo kutucuğunda BÜYÜK sayı metrajdır, kablo cinsi ve kesiti
+     etikette yazar — böylece hepsi aynı okuma düzeninde kalır. */
+  /* Kablo cinsi SEÇİLEN kablodan okunur (otomatik hat/malzeme geçişi
+     olmuşsa kullanıcının ilk seçimi değil, listeye yazılan kablo geçerli).
+     Damar etiketi ana besleme sürümüdür — PE yok. */
+  var ozBesTip=(besleme.label.split(' ')[0]||'NYY');
+  var ozBesKesit=(ozBesTip==='AER')?besleme.mm:mlzDamarEtiketBesleme(besleme.mm,trifaze);
+  if(oz15>0) ozKablo+=ozKutu(oz15,'NYA 1.5mm² (m)');
+  if(oz25>0) ozKablo+=ozKutu(oz25,'NYA 2.5mm² (m)');
+  if(oz4>0) ozKablo+=ozKutu(oz4,'NYA 4mm² (m)');
+  ozKablo+=ozKutu(besM,'Ana Besleme '+ozBesTip+' '+ozBesKesit+' (m)');
+  if(ozKolon>0) ozKablo+=ozKutu(ozKolon,'NYY Kolon + Tali Pano (m)');
+  if(ozYanmaz>0) ozKablo+=ozKutu(ozYanmaz,'Asansör N2XH FE180 5×6 (m)');
+  html=html.replace('<!--OZETKABLO-->',ozKablo);
+
+  html+='@@B|0|🏢 Ortak Alan · Ortak Hacim · Harici Pano · Asansör@@';
   // Ortak alan
   if(isBina){
     var ortRows=[
-      ['NYM 3×1.5mm² (ortak alan aydınlatma)',ortakK15+' m'],
-      ['Lamba noktası (merdiven+giriş)',ortakLamba+' adet'],
-      ['Dakik anahtar (zaman rölesi)',ortakAnahtar+' adet']
+      ['Lamba noktası · merdiven + kat',ort.lamba+' adet'],
+      ['Merdiven otomatiği · zaman rölesi',ortakAnahtar+' adet']
     ];
+    if(ort.priz>0){
+      ortRows.push(['Ortak alan prizi',ort.priz+' adet']);
+    }
+    if(ort.ekGuc>0) ortRows.push(['Motor yükü · hidrofor + otopark + diğer',(ort.ekGuc/1000).toFixed(1)+' kW']);
+    ortRows.push(['Pano / faz dağılımı', ort.ayriPano
+      ? 'Ayrı ortak mahal panosu · üç fazlı — L1 priz · L2 aydınlatma · L3 yedek'
+      : 'Ayrı pano yok — hatlar ADP içinden, üç faza dağıtılmış']);
+    ortRows.push(['Ortak mahal tesisat / motor yükü',(ort.tesisatGuc/1000).toFixed(1)+' / '+(ort.motorGuc/1000).toFixed(1)+' kW']);
     html+=tbl('🏢 Ortak Alan Tesisatı',ortRows);
+  }
+
+  /* Bodrum/ortak hacimler — malzemeleri yukarıdaki daire içi toplamlarında,
+     burada yalnızca hacim bazında özet ve kendi tali panosu gösterilir. */
+  ortakHacimSonuclar.forEach(function(oh){
+    var ohRows=[
+      ['Priz · normal / etanj',oh.priz+' / '+oh.islakPriz+' adet'],
+      ['Aydınlatma sortisi · nokta',oh.lamba+' adet'],
+      ['Anahtar kademesi',oh.anahtarToplam+' adet'],
+      ['Tali pano boyutu',mlzPanoModHesapla(oh.mcbs.length,MLZ.ortak_pano_trifaze)+' modül'],
+      ['Faz dağılımı','L1 priz · L2 aydınlatma · L3 yedek'],
+      ['Kurulu güç',(oh.guc*oh.adet/1000).toFixed(1)+' kW']
+    ];
+    html+=tbl('🅱️ '+oh.tip+' (ortak hacim'+(oh.adet>1?' ×'+oh.adet:'')+')',ohRows);
+  });
+
+  // Harici panolar
+  if(hpanolar.length>0){
+    var hpRows=[];
+    hpanolar.forEach(function(p){
+      hpRows.push([p.ad+' — güç / faz',p.kw+' kW / '+(p.trifaze?'trifaze':'monofaze')]);
+      hpRows.push([p.ad+' — akım (eş zamanlılık '+p.esz.toFixed(2)+')',p.akim+' A']);
+      hpRows.push([p.ad+' — besleme kablosu NYY '+p.damar+'×'+p.kesit+'mm²',p.mesafe+' m']);
+    });
+    html+=tbl('🔌 Harici Panolar',hpRows);
+    html+='<div style="font-size:11px;color:var(--gray);padding:6px 12px;background:rgba(0,0,0,0.18);border-radius:6px;margin-bottom:12px;">ℹ️ Harici pano kalemleri girdiğiniz güç, faz, mesafe ve koruma tipinden türetilir; panonun kendi iç dağıtımı (ör. şarj ünitesi başına çıkışlar) pano imalatçısının kapsamındadır. Ortak sayaçtan besleniyorsa ADP\'deki ayrı sayaç satırı düşülür.</div>';
   }
 
   // Asansör
   if(S.asansor && isBina){
     var asRows=[];
-    asRows.push(['HFFR '+MLZ.asansor_min_kesit+'mm² 5P (besleme)',asanKuyu.kablo+' m']);
-    asRows.push(['Kuyu aydınlatma noktası',asanKuyu.lamba+' adet']);
+    asRows.push(['NHXMH 3×2.5mm² · kuyu tesisatı',asanKuyu.kablo+' m']);
+    asRows.push(['Kuyu armatürü',asanKuyu.lamba+' adet']);
     asRows.push(['Light buton',asanKuyu.buton+' adet']);
-    asRows.push(['Darbeli akım anahtarı','1 adet']);
-    asRows.push(['Priz (kuyu)',asanKuyu.priz+' adet']);
+    asRows.push(['Darbeli akım anahtarı',asanKuyu.darbeli+' adet']);
+    asRows.push(['Kuyu prizi',asanKuyu.priz+' adet']);
     asRows.push(['Asansör motor gücü',(asansorGuc/1000).toFixed(1)+' kW / '+asansorAkim+'A']);
     html+=tbl('🛗 Asansör Kuyu Tesisatı',asRows);
-    html+='<div style="font-size:11px;color:var(--gray);padding:6px 12px;background:rgba(0,0,0,0.18);border-radius:6px;margin-bottom:12px;">ℹ️ Asansör kumanda panosu ve asansör malzemeleri ilgili firma tarafından temin edilir, burada listelenmez.</div>';
+    html+='<div style="font-size:11px;color:var(--gray);padding:6px 12px;background:rgba(0,0,0,0.18);border-radius:6px;margin-bottom:12px;">ℹ️ Asansör besleme kolonu (N2XH FE180) "Kablolar" bölümünde, motor koruma şalteri ve besleme sigortası "Pano &amp; Koruma Malzemeleri" bölümünde listelenir. Asansör kumanda panosu ve mekanik malzemeler ilgili firma tarafından temin edilir.</div>';
   }
 
+  html+='@@B|0|📦 Diğer Malzemeler@@';
   // Borulama
-  if(isBina) topBoru+=Math.round(ortakK15*MLZ.boru_k);
-  html+=tbl('🔧 Borulama & Buat',[['Boru / kanal',topBoru+' m'],['Buat',topBuat+' adet']]);
+  if(isBina) topBoru+=Math.round(ortakK15*MLZ.boru_k+ortakPrizK*MLZ.boru_k);
+  /* Buat ve sıva altı kasa için hassas formül gerekmiyor (saha kararı):
+     sayım değerine kaba bir yedek payı eklenip alt/üst aralık gösterilir. */
+  var buatAlt=Math.round(topBuat*MLZ.buat_tolerans_alt);
+  var buatUst=Math.round(topBuat*MLZ.buat_tolerans);
+  html+=tbl('🔧 Borulama & Buat',[
+    ['Boru / kanal',topBoru+' m'],
+    ['Buat',buatUst+' adet · tolerans '+buatAlt+'–'+buatUst]
+  ]);
+  html+='<div style="font-size:11px;color:var(--gray);padding:6px 12px;background:rgba(0,0,0,0.18);border-radius:6px;margin-bottom:12px;">ℹ️ Boru, spiral, ek/rakor, dirsek ve kanal kalemleri şu an tek satırda toplanmıştır; ayrıştırma ayrı bir çalışma kapsamındadır.</div>';
+
+  /* ── MONTAJ & BAĞLANTI SARF MALZEMELERİ ──
+     Bu kategori robotta hiç hesaplanmıyordu. Toplam nokta sayısına ve şaft
+     güzergahına bağlı KABA katsayılarla türetilir — hassasiyeti buat/kasa
+     seviyesindedir, kesin metraj değildir. */
+  var toplamNokta=topPriz+topIslak+topLamba+topAnahtar+topMustakilPriz+ortakLamba+ort.priz;
+  var sarfMerdivenM=isBina?Math.round(katSay*MLZ.kat_h*MLZ.sarf_merdiven_k):0;
+  var sarfRows=[['Wago / hızlı klemens',Math.ceil(toplamNokta*MLZ.sarf_wago_nokta)+' adet']];
+  if(sarfMerdivenM>0){
+    sarfRows.push(['Kablo merdiveni / tava · şaft',sarfMerdivenM+' m']);
+    sarfRows.push(['Tava civatası + pul seti',Math.ceil(sarfMerdivenM*MLZ.sarf_civata_m)+' adet']);
+    sarfRows.push(['M8 somun / civata',Math.ceil(sarfMerdivenM*MLZ.sarf_somun_m)+' adet']);
+  }
+  sarfRows.push(['Kanal ek elemanı · köşe / dirsek',Math.ceil((ortakK15+sarfMerdivenM)/MLZ.sarf_kanal_ek_m)+' adet']);
+  sarfRows.push(['İzole bant / spiral sarf',Math.ceil(toplamNokta/25)+' paket']);
+  html+=tbl('🔩 Montaj & Bağlantı Sarf Malzemeleri',sarfRows);
+  html+='<div style="font-size:11px;color:var(--gray);padding:6px 12px;background:rgba(0,0,0,0.18);border-radius:6px;margin-bottom:12px;">ℹ️ Sarf malzemeleri nokta sayısına bağlı kaba katsayılarla hesaplanır (buat/kasa ile aynı hassasiyet). Kesin adet sahada belirlenir.</div>';
 
   // Priz & anahtar
   var paRows=[['Normal priz',topPriz+' adet']];
-  if(topIslak>0) paRows.push(['Etanj priz (IP44 — ıslak hacim)',topIslak+' adet']);
-  paRows.push(['Anahtar (aydınlatma kumanda kademesi — toplam)',topAnahtar+' adet']);
-  if(topAnahtarUclu>0) paRows.push(['— Üçlü anahtar (3 kademeli)',topAnahtarUclu+' adet']);
-  if(topAnahtarIkili>0) paRows.push(['— İkili anahtar (2 kademeli)',topAnahtarIkili+' adet']);
-  if(topAnahtarTekli>0) paRows.push(['— Tekli anahtar (1 kademeli)',topAnahtarTekli+' adet']);
-  paRows.push(['Aydınlatma noktası (armatür)',topLamba+' adet']);
+  if(topIslak>0) paRows.push(['Etanj priz IP44',topIslak+' adet']);
+  paRows.push(['Anahtar · toplam kademe',topAnahtar+' adet']);
+  if(topAnahtarUclu>0) paRows.push(['Üçlü anahtar',topAnahtarUclu+' adet']);
+  if(topAnahtarIkili>0) paRows.push(['İkili anahtar',topAnahtarIkili+' adet']);
+  if(topAnahtarTekli>0) paRows.push(['Tekli anahtar',topAnahtarTekli+' adet']);
+  paRows.push(['Aydınlatma sortisi · nokta',topLamba+' adet']);
   if(topTV>0) paRows.push(['TV/Uydu prizi',topTV+' adet']);
   if(topData>0) paRows.push(['Data prizi (RJ45)',topData+' adet']);
-  if(topMustakilPriz>0) paRows.push(['Müstakil priz (topraklı — Fırın/Bulaşık/Çamaşır vb. cihaz başına)',topMustakilPriz+' adet']);
+  if(topMustakilPriz>0) paRows.push(['Müstakil priz · cihaz başına',topMustakilPriz+' adet']);
   var topKasa=topPriz+topIslak+topAnahtarKasa+topMustakilPriz;
-  paRows.push(['Anahtar/Priz kasası (sıva altı)',topKasa+' adet']);
+  var kasaAlt=Math.round(topKasa*MLZ.buat_tolerans_alt);
+  var kasaUst=Math.round(topKasa*MLZ.buat_tolerans);
+  paRows.push(['Sıva altı kasa',kasaUst+' adet · tolerans '+kasaAlt+'–'+kasaUst]);
   html+=tbl('🔲 Priz & Anahtar',paRows);
-  html+='<div style="font-size:11px;color:var(--gold);padding:6px 12px;background:rgba(0,0,0,0.18);border-radius:6px;margin-bottom:12px;">ℹ️ Piyasada 4\'lü anahtar bulunmadığından 4 devreli odalarda 3\'lü + tekli, gerekirse ikili anahtar ile ayrı kasalara bölünmüştür.</div>';
+  html+='<div style="font-size:11px;color:var(--gold);padding:6px 12px;background:rgba(0,0,0,0.18);border-radius:6px;margin-bottom:12px;">ℹ️ Aydınlatma sortisi = tavan/duvardaki aydınlatma çıkış noktası; armatür, tij ve rozet buna dahil değildir (proje/müteahhit tercihine bağlıdır). Piyasada 4\'lü anahtar bulunmadığından 4 devreli odalarda 3\'lü + tekli, gerekirse ikili anahtar ile ayrı kasalara bölünmüştür.</div>';
 
   // Topraklama (tA/tB fonksiyon başında, mesafeOlcek hesabı için okundu)
   var toprakRows=[];
@@ -1574,23 +2901,32 @@ function mlzHesapla(){
   if(S.toprakYontem==='kazik'){
     var kazikAdet=parseInt(document.getElementById('mlz-toprak-kazik').value)||1;
     var toprakKabloM=cevre + (kazikAdet*8) + katEkToprak;
-    toprakRows.push(['Topraklama çubuğu (bakır kaplı, 1.5m)',kazikAdet+' adet']);
-    toprakRows.push(['Topraklama kablosu NYA 1×16mm² (sarı-yeşil)',toprakKabloM+' m']);
+    toprakRows.push(['Topraklama çubuğu · bakır kaplı 1.5 m',kazikAdet+' adet']);
+    toprakRows.push(['NYA 1×16mm² Sarı-Yeşil · topraklama',toprakKabloM+' m']);
     toprakRows.push(['Topraklama klemensi',kazikAdet+' adet']);
   } else {
     var seritM=cevre+6;
     var baglKabloM=Math.round(cevre*0.2)+katEkToprak+8;
     toprakRows.push(['Galvaniz şerit 40×4mm',seritM+' m']);
-    toprakRows.push(['Bağlantı kablosu NYA 1×16mm² (sarı-yeşil)',baglKabloM+' m']);
+    toprakRows.push(['NYA 1×16mm² Sarı-Yeşil · bağlantı',baglKabloM+' m']);
     toprakRows.push(['Şerit bağlantı klemensi','4 adet']);
   }
-  toprakRows.push(['Eşpotansiyel bara (pano içi)',topDaire+' adet']);
-  if(isBina) toprakRows.push(['Ana topraklama barası (ADP)','1 adet']);
+  var espotAdet=topDaire+ortakHacimAdet;
+  toprakRows.push(['Eşpotansiyel bara · pano başına (ıslak hacim)',espotAdet+' adet']);
+  if(isBina) toprakRows.push(['Ana topraklama barası','1 adet']);
   html+=tbl('🛡️ Topraklama Sistemi',toprakRows);
 
   // Diyafon
+  var tvSantral=mlzTvSantralSec(topTV);
+  if(tvSantral){
+    html+=tbl('📺 TV / Uydu',[
+      ['TV santrali '+tvSantral.ad+' ('+tvSantral.cikis+' çıkış)',tvSantral.adet+' adet']
+    ]);
+  }
+
   var diyRows=diyMalz.map(function(d){return [d.m,d.a+(typeof d.a==='number'?' adet':'')];});
   html+=tbl('🔔 Diyafon / Zil',diyRows);
+  html+='<div style="font-size:11px;color:var(--gray);padding:6px 12px;background:rgba(0,0,0,0.18);border-radius:6px;margin-bottom:12px;">ℹ️ Diyafon/zil kabloları "Kablolar → Ortak alan kabloları" başlığı altında listelenir. Her daireye kendi müstakil hattı çekilir; hat dairenin bulunduğu kattan şaft boyunca giriş katına iner ve orada toplanır.</div>';
 
   // Kamera
   if(kamMalz.length>0){
@@ -1599,6 +2935,7 @@ function mlzHesapla(){
   }
 
   // Uyarılar
+  html+='@@B|0|@@';
   html+='<div class="mlz-uyari">🖼️ <strong>Çerçeveler:</strong> Montaj için gerekli tekli, ikili, üçlü ve dörtlü çerçeveler son aşamada priz/anahtar yerleşimine göre listeye eklenecektir.</div>';
   html+='<div class="mlz-uyari">⚠️ <strong>Bu malzeme listesi tahminidir</strong> ve genel mühendislik katsayılarına dayanır. Kesin malzeme listesi için sahada keşif gereklidir.<br>📞 Detaylı planlama: <a href="tel:+905340140949">0534 014 09 49</a></div>';
   html+='<div class="mlz-yasal"><strong>⚖️ Yasal Bilgilendirme</strong><br>Bu hesaplama aracı, T.S.E. (Türk Standartları Enstitüsü) Elektrik İç Tesisleri Yönetmeliği ve KCETAŞ bölgesel kabul kriterleri esas alınarak hazırlanmıştır. Araç yalnızca bilgilendirme amaçlıdır; kesin proje ve uygulama için yetkili elektrik mühendisi onayı gereklidir. Hesaplama sonuçlarının kullanımından doğabilecek her türlü sorumluluk kullanıcıya aittir. <strong>Bircan Elektrik Mühendislik</strong> bu aracın çıktılarına dayalı olarak gerçekleştirilen uygulamalardan hukuki sorumluluk kabul etmez.</div>';
@@ -1617,7 +2954,12 @@ function mlzHesapla(){
   waMsg+='Dış hat: '+direkM+' m, '+(S.hatTip==='havai'?'Havai':'Yeraltı')+', '+(S.kolonMat==='bakir'?'Bakır':'Alüminyum')+'\n';
   waMsg+='Topraklama: '+(S.toprakYontem==='kazik'?'Kazık':'Galvaniz Şerit')+', bina '+tA+'×'+tB+' m\n';
   waMsg+='Diyafon: '+({zil:'Basit Zil',ahize:'Sesli Ahize',kamera:'Kameralı Panel'}[S.diyafon])+'\n';
-  waMsg+='Asansör: '+(S.asansor?'Var':'Yok')+'\n';
+  waMsg+='Asansör: '+(S.asansor?'Var':'Yok')+(S.asansor?(' ('+(asansorGuc/1000).toFixed(1)+' kW)'):'')+'\n';
+  if(isBina){
+    waMsg+='Ortak mahal: '+ort.lamba+' armatür, '+ort.priz+' priz'+(ort.ekGuc>0?(', ek yük '+(ort.ekGuc/1000).toFixed(1)+' kW'):'')+'\n';
+    if(ortakHacimSonuclar.length>0) waMsg+='Ortak hacimler: '+ortakHacimSonuclar.map(function(o){return o.tip+(o.adet>1?' ×'+o.adet:'');}).join(', ')+'\n';
+    waMsg+='Harici panolar: '+(hpanolar.length?hpanolar.map(function(p){return p.ad+' '+p.kw+'kW '+(p.trifaze?'3F':'1F')+' '+p.mesafe+'m';}).join(' | '):'Yok')+'\n';
+  }
   waMsg+='Kamera: '+(S.kamera>0?S.kamera+' adet, '+S.kameraGun+' gün kayıt':'Yok')+'\n';
 
   // Daire & oda detayları
@@ -1641,36 +2983,33 @@ function mlzHesapla(){
   waMsg+='━━━━━━━━━━━━━━━━━━━━━━━\n';
   waMsg+='Kurulu güç: '+(topKuruluGuc/1000).toFixed(1)+' kW\n';
   waMsg+='Eş zamanlı: '+(topEszGuc/1000).toFixed(1)+' kW\n';
-  waMsg+='Sistem: '+(trifaze?'3 Faz 380V':'Monofaze 220V')+'\n';
+  waMsg+='Sistem: '+(trifaze?'3 Faz 400V':'Monofaze 220V')+'\n';
   waMsg+='Besleme akımı: '+binaAkim+'A\n';
-  waMsg+='Bina tipi: '+S.binaTip+' ('+topDaire+' daire)\n\n';
-
-  waMsg+='⚡ *ADP (Ana Dağıtım Panosu)*\n';
-  waMsg+='Kofre: 1 adet\n';
-  waMsg+='TMŞ: '+tms+'A\n';
-  waMsg+='Sayaç: '+(topDaire+((isBina?1:0)+((S.asansor&&isBina)?1:0)))+' adet (daire '+topDaire+(isBina?', ortak alan 1':'')+((S.asansor&&isBina)?', asansör 1':'')+')\n';
-  waMsg+='RCD 300mA: '+topDaire+' adet\n';
-  daireSonuclar.forEach(function(d){
-    var dKolonAkim=trifaze?d.eszGuc/(1.732*380):d.eszGuc/220;
-    var mcbA=MLZ.mcb_std.find(function(v){return v>=dKolonAkim;})||32;
-    if(mcbA<32) mcbA=32;
-    waMsg+='MCB '+mcbA+'A ('+d.tip+'): '+d.adet+' adet\n';
-  });
+  waMsg+='Bina tipi: '+S.binaTip+' ('+topDaire+' daire)\n';
+  if(isBina){
+    waMsg+='\n📐 *Eş Zamanlılık Dökümü*\n';
+    eszDokum.forEach(function(r){
+      waMsg+=String(r[0]).replace(/<[^>]+>/g,'')+': '+String(r[1]).replace(/<[^>]+>/g,'')+'\n';
+    });
+  }
   waMsg+='\n';
 
-  waMsg+='🏠 *Daire Panosu*\n';
-  daireSonuclar.forEach(function(d){
-    waMsg+=d.tip+' ('+d.adet+' adet): '+d.panoMod+' modül\n';
-    waMsg+=(trifaze?'4P':'2P')+' RCD 30mA 25A: 1 adet\n';
-    var mcbGrup={};
-    d.mcbs.forEach(function(m){var k=parseInt(m.a)>25?'25A':m.a;if(!mcbGrup[k])mcbGrup[k]=0;mcbGrup[k]++;});
-    Object.keys(mcbGrup).forEach(function(k){waMsg+='1P MCB '+k+': '+mcbGrup[k]+' adet\n';});
+  waMsg+='⚡ *Pano & Koruma Malzemeleri*\n';
+  var waGrup=0;
+  panoListe.forEach(function(p){
+    if(p.grup!==waGrup){ waGrup=p.grup; waMsg+='— '+(MLZ_PANO_GRUP_AD[p.grup]||'Diğer')+' —\n'; }
+    waMsg+=p.malzeme+': '+p.adet+' adet'+(p.yer.length?(' ('+p.yer.join(', ')+')'):'')+'\n';
   });
+  waMsg+='Toplam sayaç: '+(topDaire+ekSayac)+' adet\n';
   waMsg+='\n';
 
   waMsg+='🔌 *Kablolar*\n';
   waMsg+=besleme.label+': '+besM+' m\n';
   kolonSonuclar.forEach(function(k){waMsg+='NYY '+k.damar+'×'+k.kesit+'mm² (kolon '+k.tip+'): '+k.metre+' m\n';});
+  ekKolonlar.forEach(function(k){
+    waMsg+=(k.yanmaz?('N2XH FE180 '+k.damar+'×'+k.kesit+'mm²'):('NYY '+k.damar+'×'+k.kesit+'mm²'))+' ('+k.ad+'): '+k.metre+' m\n';
+  });
+  if(otoMalzeme) waMsg+='ℹ️ Ana besleme bakıra çevrildi ('+otoMalzeme.eskiLabel+' yetersizdi)\n';
   if(topK15>0){
     waMsg+='1.5mm² Kırmızı (aydınlatma sorti-faz): '+topKirmizi15+' m\n';
     waMsg+='1.5mm² Mavi (aydınlatma sorti-nötr): '+topMavi15+' m\n';
@@ -1690,6 +3029,7 @@ function mlzHesapla(){
   if(tvMetraj>0) waMsg+='RG6 (TV): '+tvMetraj+' m\n';
   if(fiberMetraj>0) waMsg+='Fiber optik kablo (telekom kutusu → daire): '+fiberMetraj+' m\n';
   if(dataMetraj>0) waMsg+='CAT6 ('+(cat6OmurgaVarMi?'omurga + daire içi':'daire içi')+'): '+dataMetraj+' m\n';
+  diyKablolar.forEach(function(r){ waMsg+=r[0]+': '+r[1]+'\n'; });
   waMsg+='\n';
 
   waMsg+='🔲 *Priz & Anahtar*\n';
@@ -1699,12 +3039,38 @@ function mlzHesapla(){
   if(topAnahtarUclu>0) waMsg+='  - Üçlü anahtar: '+topAnahtarUclu+' adet\n';
   if(topAnahtarIkili>0) waMsg+='  - İkili anahtar: '+topAnahtarIkili+' adet\n';
   if(topAnahtarTekli>0) waMsg+='  - Tekli anahtar: '+topAnahtarTekli+' adet\n';
-  waMsg+='Aydınlatma: '+topLamba+' adet\n';
+  waMsg+='Aydınlatma sortisi: '+topLamba+' adet\n';
   if(topTV>0) waMsg+='TV prizi: '+topTV+' adet\n';
   if(topData>0) waMsg+='Data prizi: '+topData+' adet\n';
   if(topMustakilPriz>0) waMsg+='Müstakil priz (cihaz başına): '+topMustakilPriz+' adet\n';
-  waMsg+='Anahtar/Priz kasası: '+topKasa+' adet\n';
+  waMsg+='Anahtar/Priz kasası: '+kasaUst+' adet (tolerans '+kasaAlt+'–'+kasaUst+')\n';
+  waMsg+='Buat: '+buatUst+' adet (tolerans '+buatAlt+'–'+buatUst+')\n';
+  waMsg+='Boru / kanal: '+topBoru+' m\n';
   waMsg+='\n';
+  waMsg+='🔩 *Montaj & Sarf Malzemeleri*\n';
+  sarfRows.forEach(function(r){waMsg+=r[0]+': '+r[1]+'\n';});
+  waMsg+='\n';
+  if(isBina){
+    waMsg+='🏢 *Ortak Alan*\n';
+    waMsg+='Armatür: '+ort.lamba+' adet, priz: '+ort.priz+' adet\n';
+    waMsg+='NYM 3×1.5mm²: '+ortakK15+' m'+(ortakPrizK>0?(', NYM 3×2.5mm²: '+ortakPrizK+' m'):'')+'\n';
+    waMsg+='Merdiven otomatiği: '+ortakAnahtar+' adet\n';
+    waMsg+='\n';
+  }
+  if(ortakHacimSonuclar.length>0){
+    waMsg+='🅱️ *Ortak Hacimler*\n';
+    ortakHacimSonuclar.forEach(function(o){
+      waMsg+=o.tip+(o.adet>1?' ×'+o.adet:'')+': '+(o.priz+o.islakPriz)+' priz, '+o.lamba+' armatür, '+(o.guc*o.adet/1000).toFixed(1)+' kW\n';
+    });
+    waMsg+='\n';
+  }
+  if(hpanolar.length>0){
+    waMsg+='🔌 *Harici Panolar*\n';
+    hpanolar.forEach(function(p){
+      waMsg+=p.ad+': '+p.kw+' kW '+(p.trifaze?'trifaze':'monofaze')+', '+p.akim+'A, NYY '+p.damar+'×'+p.kesit+'mm² '+p.mesafe+' m, RCD '+p.rcd+'\n';
+    });
+    waMsg+='\n';
+  }
 
   waMsg+='🛡️ *Topraklama*\n';
   if(S.toprakYontem==='kazik'){
@@ -1721,9 +3087,10 @@ function mlzHesapla(){
     waMsg+='Galvaniz şerit 40×4mm: '+wSerit+' m\n';
     waMsg+='NYA 1×16mm² (bağlantı): '+(Math.round(wSerit*0.2)+katEkToprak+8)+' m\n';
   }
-  waMsg+='Eşpotansiyel bara: '+topDaire+' adet\n';
+  waMsg+='Eşpotansiyel bara (pano başına): '+espotAdet+' adet\n';
   waMsg+='\n';
 
+  if(tvSantral) waMsg+='📺 TV santrali '+tvSantral.ad+' ('+tvSantral.cikis+' çıkış): '+tvSantral.adet+' adet\n\n';
   waMsg+='🔔 *Diyafon*\n';
   diyMalz.forEach(function(d){waMsg+=d.m+': '+d.a+(typeof d.a==='number'?' adet':'')+'\n';});
   waMsg+='\n';
@@ -1736,8 +3103,9 @@ function mlzHesapla(){
 
   if(S.asansor && isBina){
     waMsg+='🛗 *Asansör Kuyu*\n';
-    waMsg+='HFFR '+MLZ.asansor_min_kesit+'mm² 5P: '+asanKuyu.kablo+' m\n';
-    waMsg+='Kuyu lamba: '+asanKuyu.lamba+', buton: '+asanKuyu.buton+', priz: '+asanKuyu.priz+'\n\n';
+    waMsg+='NHXMH 3×2.5mm² (kuyu tesisatı): '+asanKuyu.kablo+' m\n';
+    waMsg+='Kuyu lamba: '+asanKuyu.lamba+', buton: '+asanKuyu.buton+', priz: '+asanKuyu.priz+', darbeli: '+asanKuyu.darbeli+'\n';
+    waMsg+='ℹ️ Besleme kolonu ve motor koruma kalemleri ilgili bölümlerde\n\n';
   }
 
   waMsg+='⚠️ _Bu liste tahminidir. Keşif için arayın: 0534 014 09 49_';
@@ -1761,14 +3129,42 @@ function mlzHesapla(){
     topAnahtarIkili: topAnahtarIkili, topAnahtarTekli: topAnahtarTekli,
     topMustakilPriz: topMustakilPriz,
     tA: tA, tB: tB, katEkToprak: katEkToprak,
-    diyMalz: diyMalz, kamMalz: kamMalz,
+    diyMalz: diyMalz, diyKablolar: diyKablolar, kamMalz: kamMalz, tvSantral: tvSantral,
     asanKuyu: asanKuyu, asansorGuc: asansorGuc||0, asansorAkim: asansorAkim||0,
     tms: tms,
     ortakK15: ortakK15, ortakLamba: ortakLamba, ortakAnahtar: ortakAnahtar,
-    topBoru: topBoru, topBuat: topBuat
+    ortakPrizK: ortakPrizK,
+    topBoru: topBoru, topBuat: topBuat,
+    daireTri: daireTri, ort: ort, hpanolar: hpanolar,
+    ortakHacimSonuclar: ortakHacimSonuclar, ortakHacimEsz: ortakHacimEsz, hpEsz: hpEsz,
+    eszDokum: eszDokum, tmsAkim: tmsAkim, carpansizEk: carpansizEk,
+    ekKolonlar: ekKolonlar, panoListe: panoListe, ekSayac: ekSayac, otoMalzeme: otoMalzeme,
+    bolumler: raporBolumler,
+    sarfRows: sarfRows, besMinAkim: besMinAkim,
+    buatAlt: buatAlt, buatUst: buatUst, kasaAlt: kasaAlt, kasaUst: kasaUst,
   };
 
   html+='<button class="mlz-teklif-btn" onclick="mlzWaPDF()">📄 PDF Oluştur &amp; WhatsApp&#39;ta Gönder</button>';
+
+  /* İşaretleyicileri akordiyonlara çevir. İçeriği boş kalan bölüm
+     (ör. müstakil evde eş zamanlılık dökümü) hiç basılmaz. */
+  (function(){
+    var parcalar=html.split('@@B|');
+    var yeni=parcalar.shift();
+    parcalar.forEach(function(parca){
+      var kes=parca.indexOf('@@');
+      if(kes<0){ yeni+=parca; return; }
+      var bas=parca.slice(0,kes).split('|');
+      var ic=parca.slice(kes+2);
+      if(!bas[1]){ yeni+=ic; return; }
+      if(!ic.replace(/\s/g,'')) return;
+      yeni+='<div class="mlz-akr'+(bas[0]==='1'?' acik':'')+'">'+
+        '<button type="button" class="mlz-akr-bas" onclick="mlzAkrAc(this)">'+
+        '<span>'+bas[1]+'</span><span class="mlz-akr-ok">▾</span></button>'+
+        '<div class="mlz-akr-ic">'+ic+'</div></div>';
+    });
+    html=yeni;
+  })();
 
   var el=document.getElementById('mlz-sonuc');
   if(el){el.innerHTML=html;el.style.display='block';el.scrollIntoView({behavior:'smooth',block:'start'});}
@@ -1792,7 +3188,9 @@ function mlzWaPDF(){
       .replace(/ş/g,'s').replace(/Ş/g,'S')
       .replace(/ü/g,'u').replace(/Ü/g,'U')
       .replace(/—/g,'-').replace(/–/g,'-')
-      .replace(/×/g,'x');
+      .replace(/×/g,'x').replace(/²/g,'2').replace(/√/g,'v')
+      .replace(/[\u2600-\u27BF\uD800-\uDFFF\uFE0F\u2190-\u21FF\u2B00-\u2BFF]/g,'')
+      .replace(/\s{2,}/g,' ').trim();
   }
   var doc=new window.jspdf.jsPDF({orientation:'p',unit:'mm',format:'a4'});
   var sayfa=1, topMarj=15, solMarj=14, sagMarj=196, genislik=182;
@@ -1824,13 +3222,16 @@ function mlzWaPDF(){
   doc.text('Bu liste tahmindir. Kesin malzeme icin sahadaki kesif sart.',solMarj,31);
   y=45;
 
+  /* Bolum basligi — koyu zemin + altin yazi (oda tablosu basligiyla ayni
+     duzen). Grup basliklari (altBaslik) acik bej zeminle bunun bir alt
+     kademesidir; boylece bolum > grup > malzeme hiyerarsisi net okunur. */
   function baslik(txt){
     yKontrol(12);
-    doc.setFillColor(altin[0],altin[1],altin[2]);
+    doc.setFillColor(koyu[0],koyu[1],koyu[2]);
     doc.rect(solMarj,y,genislik,7,'F');
     doc.setFontSize(9.5);doc.setFont('helvetica','bold');
-    doc.setTextColor(30,20,10);
-    doc.text(tr(txt),solMarj+2,y+5);
+    doc.setTextColor(altin[0],altin[1],altin[2]);
+    doc.text(tr(txt).toUpperCase(),solMarj+2,y+5);
     y+=10;
   }
 
@@ -1843,16 +3244,47 @@ function mlzWaPDF(){
     var satirH=Math.max(6, sagLines.length*5.5);
     yKontrol(satirH+2);
     if(zemin){doc.setFillColor(acik[0],acik[1],acik[2]);doc.rect(solMarj,y,genislik,satirH,'F');}
-    // Sol metin — max 95mm ile kisalt
+    // Sol metin — tasarsa alt satira devam eder (eskiden kirpiliyordu)
     doc.setFont('helvetica','normal');doc.setTextColor(gri[0],gri[1],gri[2]);
-    var solStr=tr(String(sol));
-    var solLines=doc.splitTextToSize(solStr, 95);
-    doc.text(solLines[0],solMarj+2,y+4.3); // sadece ilk satir, sol kisim dar
+    var solLines=doc.splitTextToSize(tr(String(sol)), 95);
+    if(solLines.length*5>satirH){ satirH=solLines.length*5+1;
+      if(zemin){doc.setFillColor(acik[0],acik[1],acik[2]);doc.rect(solMarj,y,genislik,satirH,'F');} }
+    solLines.forEach(function(ln,i){ doc.text(ln,solMarj+2,y+4.3+(i*5)); });
     // Sag metin — saga yasli, cok satirli
     doc.setFont('helvetica','bold');doc.setTextColor(koyu[0],koyu[1],koyu[2]);
     sagLines.forEach(function(ln,i){
       doc.text(ln,sagMarj-2,y+4.3+(i*5),{align:'right'});
     });
+    y+=satirH;
+  }
+
+  /* Grup basligi — malzeme satirlariyla karismasin diye kendi zemini ve
+     rengiyle basilir (ornek: "RCD - Kacak Akim Roleleri"). */
+  function altBaslik(txt){
+    yKontrol(10);
+    doc.setFillColor(236,229,217);
+    doc.rect(solMarj,y,genislik,6.6,'F');
+    doc.setFontSize(8);doc.setFont('helvetica','bold');
+    doc.setTextColor(altin[0]-40,altin[1]-50,altin[2]-30);
+    doc.text(tr(txt).toUpperCase(),solMarj+2.5,y+4.6);
+    y+=8.2;
+  }
+  /* Malzeme satiri: malzeme adi ustte koyu, kullanim yeri altta kucuk ve
+     italik gri — boylece bilgi satiri malzeme satirindan ayrilir. */
+  function satirNot(sol,not,sag,zemin){
+    doc.setFontSize(9);doc.setFont('helvetica','normal');
+    var solLines=doc.splitTextToSize(tr(String(sol)),98);
+    doc.setFontSize(7.2);doc.setFont('helvetica','italic');
+    var notLines=not?doc.splitTextToSize(tr(String(not)),112):[];
+    var satirH=Math.max(6.5, solLines.length*4.8+notLines.length*3.4+2.4);
+    yKontrol(satirH+2);
+    if(zemin){doc.setFillColor(acik[0],acik[1],acik[2]);doc.rect(solMarj,y,genislik,satirH,'F');}
+    doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(koyu[0],koyu[1],koyu[2]);
+    solLines.forEach(function(ln,i){ doc.text(ln,solMarj+2,y+4.4+i*4.8); });
+    doc.setFontSize(7.2);doc.setFont('helvetica','italic');doc.setTextColor(150,148,144);
+    notLines.forEach(function(ln,i){ doc.text(ln,solMarj+4,y+4.2+solLines.length*4.8+i*3.4); });
+    doc.setFontSize(9);doc.setFont('helvetica','bold');doc.setTextColor(koyu[0],koyu[1],koyu[2]);
+    doc.text(tr(String(sag)),sagMarj-2,y+4.4,{align:'right'});
     y+=satirH;
   }
 
@@ -1868,7 +3300,12 @@ function mlzWaPDF(){
   satir('Hat tipi',(S.hatTip==='havai'?'Havai':'Yeralti')+' / '+(S.kolonMat==='bakir'?'Bakir':'Aluminyum'),true);
   satir('Topraklama',(S.toprakYontem==='kazik'?'Kazik (Cubuk)':'Galvaniz Serit')+', bina '+d.tA+'x'+d.tB+' m',false);
   satir('Diyafon',({zil:'Basit Zil',ahize:'Sesli Ahize',kamera:'Kamerali Panel'}[S.diyafon]),true);
-  satir('Asansor',(S.asansor?'Var':'Yok'),false);
+  satir('Asansor',(S.asansor?'Var':'Yok')+(S.asansor?(' ('+(d.asansorGuc/1000).toFixed(1)+' kW)'):''),false);
+  if(d.isBina){
+    satir('Ortak mahal',d.ort.lamba+' armatur, '+d.ort.priz+' priz'+(d.ort.ekGuc>0?(', ek yuk '+(d.ort.ekGuc/1000).toFixed(1)+' kW'):''),true);
+    if(d.ortakHacimSonuclar.length>0) satir('Ortak hacimler',d.ortakHacimSonuclar.map(function(o){return o.tip+(o.adet>1?' x'+o.adet:'');}).join(', '),false);
+    satir('Harici panolar',(d.hpanolar.length?d.hpanolar.map(function(p){return p.ad+' '+p.kw+'kW';}).join(', '):'Yok'),true);
+  }
   satir('Kamera',(S.kamera>0?S.kamera+' adet, '+S.kameraGun+' gun kayit':'Yok'),true);
   bolum();
 
@@ -1877,7 +3314,9 @@ function mlzWaPDF(){
     yKontrol(16);
     // Alt baslik
     doc.setFontSize(9);doc.setFont('helvetica','bold');doc.setTextColor(altin[0],altin[1],altin[2]);
-    var baslikTxt=d.isBina?'Daire Tipi '+(di+1)+' ('+dt.tip+', '+dt.adet+' adet) - Oda Listesi':'Oda Listesi';
+    var baslikTxt = dt.ortakMi
+      ? ('Ortak Hacim: '+dt.tip+(dt.adet>1?(' x'+dt.adet):'')+' - Oda Listesi')
+      : (d.isBina?('Daire Tipi '+(di+1)+' ('+dt.tip+', '+dt.adet+' adet) - Oda Listesi'):'Oda Listesi');
     doc.text(tr(baslikTxt),solMarj,y+4);y+=8;
     if(dt.cihazlarListesi && dt.cihazlarListesi.length){
       var cihazTxt=dt.cihazlarListesi.map(function(c){return c.ad+' ('+c.watt+'W)';}).join(', ');
@@ -1920,176 +3359,50 @@ function mlzWaPDF(){
   baslik('GENEL HESAP SONUCLARI');
   satir('Kurulu guc',(d.topKuruluGuc/1000).toFixed(1)+' kW',false);
   satir('Es zamanli guc',(d.topEszGuc/1000).toFixed(1)+' kW',true);
-  satir('Sistem',(d.trifaze?'3 Faz 380V':'Monofaze 220V'),false);
+  satir('Sistem',(d.trifaze?'3 Faz 400V':'Monofaze 220V'),false);
   satir('Besleme akimi',d.binaAkim+'A',true);
   if(d.isBina) satir('Toplam daire',d.topDaire+' adet',false);
+  satir('TMS',d.tms+' A',false);
+  if(d.ekSayac>0) satir('Toplam sayac',(d.topDaire+d.ekSayac)+' adet',true);
   bolum();
 
-  // ── ADP ──
-  yKontrol(14);
-  baslik('ANA DAGITIM PANOSU (ADP)');
-  satir('Kofre','1 adet',false);
-  if(d.tms>50) satir('TMS '+d.tms+'A','1 adet',true);
-  satir('Sayac ('+(d.trifaze?'3 Faz':'Monofaze')+')',d.topDaire+' adet',d.tms<=50);
-  if(d.isBina) satir('Sayac (Ortak Alan)','1 adet',false);
-  if(S.asansor && d.isBina) satir('Sayac (Asansor)','1 adet',true);
-  if(((d.isBina?1:0)+((S.asansor&&d.isBina)?1:0))>0) satir('Toplam Sayac',(d.topDaire+((d.isBina?1:0)+((S.asansor&&d.isBina)?1:0)))+' adet',false);
-  satir((d.trifaze?'4P':'2P')+' RCD 40A 300mA (daire basi)',d.topDaire+' adet',true);
-  d.daireSonuclar.forEach(function(ds,i){
-    var dKolonAkim=d.trifaze?ds.eszGuc/(1.732*380):ds.eszGuc/220;
-    var mcbA=MLZ.mcb_std.find(function(v){return v>=dKolonAkim;})||32;
-    if(mcbA<32)mcbA=32;
-    satir((d.trifaze?'4P':'2P')+' MCB '+mcbA+'A — '+ds.tip,ds.adet+' adet',i%2===0);
-  });
-  if(d.isBina){
-    satir('Ortak alan RCD 40A 300mA','1 adet',true);
-    satir('Ortak alan MCB 10A','1 adet',false);
-  }
-  if(S.asansor && d.isBina){
-    satir('Asansor 4P RCD 40A 300mA','1 adet',true);
-    var asanMcb=MLZ.mcb_std.find(function(v){return v>=d.asansorAkim;})||32;
-    if(asanMcb<32)asanMcb=32;
-    satir('Asansor 4P MCB '+asanMcb+'A','1 adet',false);
-  }
-  bolum();
+  /* Eş zamanlılık hesap dökümü PDF'e GİRMEZ — yalnızca web sitesinde
+     gösterilir (iç kontrol amaçlıdır, teklif ekine konmaz). */
 
-  // ── DAİRE PANOLARI ──
-  yKontrol(14);
-  baslik('DAIRE PANOLARI');
-  d.daireSonuclar.forEach(function(ds){
-    yKontrol(8);
-    doc.setFontSize(8.5);doc.setFont('helvetica','bolditalic');doc.setTextColor(altin[0],altin[1],altin[2]);
-    doc.text(tr('Daire: '+ds.tip+' ('+ds.adet+' adet)'),solMarj+1,y+3.5);y+=6;
-    satir('Pano boyutu',ds.panoMod+' modul',false);
-    satir((d.trifaze?'4P':'2P')+' RCD 30mA 25A','1 adet',true);
-    var mcbGrup={};
-    ds.mcbs.forEach(function(m){var k=parseInt(m.a)>25?'25A':m.a;if(!mcbGrup[k]){mcbGrup[k]={adet:0,acl:[]};}mcbGrup[k].adet++;if(mcbGrup[k].acl.indexOf(m.acl)===-1)mcbGrup[k].acl.push(m.acl);});
-    Object.keys(mcbGrup).forEach(function(k,i){
-      var g=mcbGrup[k];
-      var acl=g.acl.length<=2?g.acl.join(', '):(g.acl.slice(0,2).join(', ')+' vb.');
-      satir('1P MCB '+k+' — '+acl,g.adet+' adet',i%2!==0);
+  /* ══ MALZEME BOLUMLERI — TEK KAYNAKTAN ══
+     Bu bolumler artik PDF icin ayrica yazilmaz: ekranda uretilen tablolar
+     (raporBolumler) oldugu gibi basilir. Boylece ekran ile PDF arasinda
+     etiket, sira ya da bolum farki olusamaz. */
+  function pdfTemiz(t){
+    return String(t===undefined||t===null?'':t)
+      .replace(/<[^>]*>/g,'')
+      .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
+      .replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&nbsp;/g,' ');
+  }
+  function pdfSatirAyir(ham){
+    var str=String(ham===undefined||ham===null?'':ham);
+    var g=/class="mlz-grup-bas"[^>]*>([\s\S]*?)<\/span>/.exec(str);
+    if(g) return {grup:pdfTemiz(g[1])};
+    var n=/<span[^>]*>([\s\S]*?)<\/span>/.exec(str);
+    return {
+      ad:pdfTemiz(str.replace(/<span[\s\S]*?<\/span>/g,'')),
+      not:n?pdfTemiz(n[1]):''
+    };
+  }
+
+  (d.bolumler||[]).forEach(function(b){
+    if(!b.rows || !b.rows.length) return;
+    if(b.baslik){ yKontrol(14); baslik(b.baslik); }
+    var sira=0;
+    b.rows.forEach(function(r){
+      var p=pdfSatirAyir(r[0]);
+      if(p.grup!==undefined){ altBaslik(p.grup); sira=0; return; }
+      var sag=pdfTemiz(r[1]);
+      if(p.not) satirNot(p.ad,p.not,sag,sira++%2===0);
+      else satir(p.ad,sag,sira++%2===0);
     });
-    bolum(2);
-  });
-
-  // ── KABLOLAR ──
-  yKontrol(14);
-  baslik('KABLOLAR — BESLEME & KOLON');
-  satir(d.besleme.label,d.besM+' m',false);
-  d.kolonSonuclar.forEach(function(k,i){
-    satir('NYY '+k.damar+'x'+k.kesit+'mm2 (ic kolon — '+k.tip+')',k.metre+' m',i%2!==0);
-  });
-  bolum();
-
-  yKontrol(14);
-  baslik('KABLOLAR — DAIRE ICI (toplam x'+d.topDaire+' daire)');
-  var kr=0;
-  if(d.topK15>0){
-    satir('1.5mm2 Kirmizi (aydinlatma sorti - faz)',d.topKirmizi15+' m',kr++%2===0);
-    satir('1.5mm2 Mavi (aydinlatma sorti - notr)',d.topMavi15+' m',kr++%2===0);
-  }
-  if(d.topK25>0){
-    satir('2.5mm2 Kirmizi (priz - faz)',d.topKirmizi25+' m',kr++%2===0);
-    satir('2.5mm2 Mavi (priz+linye+mustakil - notr)',d.topMavi25+' m',kr++%2===0);
-    satir('2.5mm2 Sari-Yesil (priz+mustakil - toprak)',d.topSariyesil25+' m',kr++%2===0);
-    if(d.topSiyah25>0) satir('2.5mm2 Siyah (aydinlatma linyesi - faz)',d.topSiyah25+' m',kr++%2===0);
-    if(d.topKahve25>0) satir('2.5mm2 Kahve (mustakil <3200W - faz)',d.topKahve25+' m',kr++%2===0);
-  }
-  if(d.topK4>0){
-    satir('4mm2 Kahve (mustakil >=3200W - faz)',d.topK4+' m',kr++%2===0);
-    satir('4mm2 Mavi (mustakil >=3200W - notr)',d.topMavi4+' m',kr++%2===0);
-    satir('4mm2 Sari-Yesil (mustakil >=3200W - toprak)',d.topSariyesil4+' m',kr++%2===0);
-  }
-  if(d.tvMetraj>0){satir('RG6 (TV/Uydu)',d.tvMetraj+' m',kr++%2===0);}
-  if(d.fiberMetraj>0){satir('Fiber optik kablo (telekom - daire)',d.fiberMetraj+' m',kr++%2===0);}
-  if(d.dataMetraj>0){satir('CAT6 ('+(d.cat6OmurgaVarMi?'omurga + daire ici':'daire ici')+')',d.dataMetraj+' m',kr++%2===0);}
-  bolum();
-
-  if(d.isBina){
-    yKontrol(14);
-    baslik('ORTAK ALAN TESISATI');
-    satir('NYM 3x1.5mm2 (ortak alan aydinlatma)',d.ortakK15+' m',false);
-    satir('Lamba noktasi (merdiven+giris)',d.ortakLamba+' adet',true);
-    satir('Dakik anahtar (zaman rolesi)',d.ortakAnahtar+' adet',false);
     bolum();
-  }
-
-  if(S.asansor && d.isBina){
-    yKontrol(14);
-    baslik('ASANSOR KUYU TESISATI');
-    satir('HFFR '+MLZ.asansor_min_kesit+'mm2 5P (besleme)',d.asanKuyu.kablo+' m',false);
-    satir('Kuyu aydinlatma noktasi',d.asanKuyu.lamba+' adet',true);
-    satir('Light buton',d.asanKuyu.buton+' adet',false);
-    satir('Darbeli akım anahtari','1 adet',true);
-    satir('Priz (kuyu)',d.asanKuyu.priz+' adet',false);
-    satir('Asansor motor gucu',(d.asansorGuc/1000).toFixed(1)+' kW / '+d.asansorAkim+'A',true);
-    bolum();
-  }
-
-  // ── BORULAMA ──
-  yKontrol(14);
-  baslik('BORULAMA & BUAT');
-  satir('Boru / kanal',d.topBoru+' m',false);
-  satir('Buat',d.topBuat+' adet',true);
-  bolum();
-
-  // ── PRİZ & ANAHTAR ──
-  yKontrol(14);
-  baslik('PRIZ & ANAHTAR');
-  var pr=0;
-  satir('Normal priz',d.topPriz+' adet',pr++%2===0);
-  if(d.topIslak>0) satir('Etanj priz (IP44 - islak hacim)',d.topIslak+' adet',pr++%2===0);
-  satir('Anahtar (toplam kademe)',d.topAnahtar+' adet',pr++%2===0);
-  if(d.topAnahtarUclu>0) satir('- Uclu anahtar (3 kademeli)',d.topAnahtarUclu+' adet',pr++%2===0);
-  if(d.topAnahtarIkili>0) satir('- Ikili anahtar (2 kademeli)',d.topAnahtarIkili+' adet',pr++%2===0);
-  if(d.topAnahtarTekli>0) satir('- Tekli anahtar (1 kademeli)',d.topAnahtarTekli+' adet',pr++%2===0);
-  satir('Aydinlatma noktasi',d.topLamba+' adet',pr++%2===0);
-  if(d.topTV>0) satir('TV/Uydu prizi',d.topTV+' adet',pr++%2===0);
-  if(d.topData>0) satir('Data prizi (RJ45)',d.topData+' adet',pr++%2===0);
-  if(d.topMustakilPriz>0) satir('Mustakil priz (topragli - cihaz basina)',d.topMustakilPriz+' adet',pr++%2===0);
-  satir('Anahtar/Priz kasasi (siva alti)',d.topKasa+' adet',pr++%2===0);
-  bolum();
-
-  // ── TOPRAKLAMA ──
-  yKontrol(14);
-  baslik('TOPRAKLAMA SISTEMI');
-  if(S.toprakYontem==='kazik'){
-    var kAdet=parseInt(document.getElementById('mlz-toprak-kazik').value)||1;
-    var kM=(2*(d.tA+d.tB))+(kAdet*8)+d.katEkToprak;
-    satir('Topraklama cubrugu (bakir kapli, 1.5m)',kAdet+' adet',false);
-    satir('NYA 1x16mm2 (sari-yesil)',kM+' m',true);
-    satir('Topraklama klemensi',kAdet+' adet',false);
-  } else {
-    var sM=2*(d.tA+d.tB)+6;
-    var bM=Math.round(sM*0.2)+d.katEkToprak+8;
-    satir('Galvaniz serit 40x4mm',sM+' m',false);
-    satir('NYA 1x16mm2 (sari-yesil)',bM+' m',true);
-    satir('Serit baglanti klemensi','4 adet',false);
-  }
-  satir('Espotansiyel bara (pano ici)',d.topDaire+' adet',true);
-  if(d.isBina) satir('Ana topraklama barasi (ADP)','1 adet',false);
-  bolum();
-
-  // ── DİYAFON ──
-  yKontrol(14);
-  baslik('DIYAFON / ZIL');
-  d.diyMalz.forEach(function(dm,i){
-    satir(dm.m,dm.a+(typeof dm.a==='number'?' adet':''),i%2===0);
   });
-  bolum();
-
-  // ── KAMERA ──
-  if(d.kamMalz.length>0){
-    yKontrol(14);
-    baslik('GUVENLIK KAMERASI');
-    d.kamMalz.forEach(function(km,i){
-      satir(km.m,km.a+(typeof km.a==='number'?' adet':''),i%2===0);
-    });
-    yKontrol(6);
-    doc.setFontSize(8);doc.setFont('helvetica','italic');doc.setTextColor(150,130,100);
-    doc.text('Not: Kayit cihazi (NVR) ve harddisk bu listeye dahil degildir.',solMarj,y+3.5);y+=7;
-    bolum();
-  }
 
   // ── UYARI ──
   yKontrol(20);
@@ -2154,7 +3467,11 @@ document.addEventListener('DOMContentLoaded',function(){
   });
   // Apartman kat sayısı
   var aptKat=document.getElementById('mlz-apt-kat');
-  if(aptKat) aptKat.addEventListener('change',function(){mlzState.katSay=parseInt(this.value)||5;});
+  if(aptKat) aptKat.addEventListener('change',function(){
+    mlzState.katSay=parseInt(this.value)||5;
+    /* Kuyu armatürü / buton / priz kat sayısından türediği için yenilenir. */
+    if(mlzState.asansor) mlzAsanVarsayilanDoldur();
+  });
   // Daire ekle
   var daireEkle=document.getElementById('mlz-daire-ekle');
   if(daireEkle) daireEkle.addEventListener('click',mlzDaireEkle);
@@ -2193,6 +3510,9 @@ document.addEventListener('DOMContentLoaded',function(){
     b.addEventListener('click',function(){
       document.querySelectorAll('.mlz-asan-btn').forEach(function(x){x.classList.remove('active');});
       this.classList.add('active'); mlzState.asansor=this.dataset.asan==='var';
+      var ad=document.getElementById('mlz-asan-detay');
+      if(ad) ad.style.display=mlzState.asansor?'grid':'none';
+      if(mlzState.asansor) mlzAsanVarsayilanDoldur();
     });
   });
   // Diyafon
@@ -2229,6 +3549,42 @@ document.addEventListener('DOMContentLoaded',function(){
   if(kamSayi) kamSayi.addEventListener('change',function(){mlzState.kamera=parseInt(this.value)||0;});
   var kamGun=document.getElementById('mlz-kamera-gun');
   if(kamGun) kamGun.addEventListener('change',function(){mlzState.kameraGun=parseInt(this.value)||15;});
+  /* ── ORTAK MAHAL / BODRUM / ŞARJ / DAİRE FAZI ── */
+  function mlzNum(id,fb){var e=document.getElementById(id);if(!e)return fb;var v=parseFloat(e.value);return isNaN(v)?fb:v;}
+  function mlzBagla(id,fn){var e=document.getElementById(id);if(e)e.addEventListener('change',fn);}
+  mlzBagla('mlz-om-lamba',function(){mlzState.ortak.lambaKat=mlzNum('mlz-om-lamba',2);});
+  mlzBagla('mlz-om-priz',function(){mlzState.ortak.prizKat=mlzNum('mlz-om-priz',0);});
+  mlzBagla('mlz-om-giris',function(){mlzState.ortak.girisLamba=mlzNum('mlz-om-giris',2);});
+  mlzBagla('mlz-om-hidrofor',function(){mlzState.ortak.hidroforKw=mlzNum('mlz-om-hidrofor',0);});
+  mlzBagla('mlz-om-otopark',function(){mlzState.ortak.otoparkKw=mlzNum('mlz-om-otopark',0);});
+  mlzBagla('mlz-om-diger',function(){mlzState.ortak.digerKw=mlzNum('mlz-om-diger',0);});
+  mlzBagla('mlz-asan-lamba',function(){mlzState.asanGir.lamba=mlzNum('mlz-asan-lamba',0);});
+  mlzBagla('mlz-asan-priz',function(){mlzState.asanGir.priz=mlzNum('mlz-asan-priz',0);});
+  mlzBagla('mlz-asan-buton',function(){mlzState.asanGir.buton=mlzNum('mlz-asan-buton',0);});
+  mlzBagla('mlz-asan-kw',function(){mlzState.asanGir.kw=mlzNum('mlz-asan-kw',0);});
+  [['mlz-sen-uret',mlzSenUret],['mlz-sen-kopyala',mlzSenKopyala],
+   ['mlz-sen-yukle',mlzSenYukle],['mlz-sen-kaydet',mlzSenKaydet]].forEach(function(a){
+    var b=document.getElementById(a[0]); if(b) b.addEventListener('click',a[1]);
+  });
+  mlzSenListeRender();
+  var kwBtn=document.getElementById('mlz-asan-kw-btn');
+  if(kwBtn) kwBtn.addEventListener('click',mlzMotorTabloAc);
+  var modalX=document.getElementById('mlz-modal-x');
+  if(modalX) modalX.addEventListener('click',mlzMotorTabloKapat);
+  var modalOvl=document.getElementById('mlz-modal-ovl');
+  if(modalOvl) modalOvl.addEventListener('click',function(e){ if(e.target===this) mlzMotorTabloKapat(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'||e.keyCode===27) mlzMotorTabloKapat(); });
+  document.querySelectorAll('.mlz-opano-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.mlz-opano-btn').forEach(function(x){x.classList.remove('active');});
+      this.classList.add('active');
+      mlzState.ortak.ayriPano=this.dataset.opano==='var';
+    });
+  });
+  var hpEkle=document.getElementById('mlz-hpano-ekle');
+  if(hpEkle) hpEkle.addEventListener('click',mlzHPanoEkle);
+  var ohEkle=document.getElementById('mlz-ortak-hacim-ekle');
+  if(ohEkle) ohEkle.addEventListener('click',mlzOrtakHacimEkle);
   // Hesapla
   var mlzBtn=document.getElementById('mlz-hesapla-btn');
   if(mlzBtn) mlzBtn.addEventListener('click',mlzHesapla);
