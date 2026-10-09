@@ -1,0 +1,1171 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Bircan Elektrik Mühendislik — Ana Sayfa</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&amp;family=Cinzel:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0e1012}
+a{color:#e5c38f}a:hover{color:#f1d7ad}
+.bp *{box-sizing:border-box}
+.bp h1,.bp h2,.bp h3,.bp h4,.bp p{margin:0}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+.cinzel{font-family:'Cinzel',Georgia,serif}
+.wrap{width:100%;max-width:1280px;margin:0 auto;padding:0 40px}
+.wrap-w{width:100%;max-width:1440px;margin:0 auto;padding:0 40px}
+.kick{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#d2a56f;font-weight:600}
+.h2{font-size:clamp(32px,3.8vw,50px);line-height:1.04;letter-spacing:-.03em;font-weight:800}
+.lead{font-size:16px;line-height:1.8;color:#c9cdd1;max-width:720px}
+.sdiv{display:flex;align-items:center;gap:28px;padding:0 64px;margin:0}
+.sdiv hr{flex:1;height:1px;border:0;margin:0;background:linear-gradient(90deg,transparent,rgba(210,165,111,.32),transparent);transform-origin:left;animation:hrIn 1.2s cubic-bezier(.3,.7,.2,1) both}
+.sdiv span{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#b7a28c;white-space:nowrap;padding:9px 16px;border-radius:99px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)}
+@keyframes hrIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:12px;font:600 14px/1 'Archivo',sans-serif;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:background .25s,border-color .25s,color .25s,transform .25s,box-shadow .25s}
+.btn:hover{transform:translateY(-1px)}
+.btn-gold{background:linear-gradient(135deg,#e3be87 0%,#c88b57 48%,#8c5b36 100%);color:#1d140a;box-shadow:0 10px 26px rgba(140,91,54,.25)}.btn-gold:hover{color:#1d140a;box-shadow:0 14px 32px rgba(140,91,54,.35)}
+.btn-line{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.16);color:#ece9e4}.btn-line:hover{border-color:rgba(210,165,111,.6);color:#e5c38f;background:rgba(210,165,111,.06)}
+.navl{position:relative;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:rgba(232,230,227,.66);text-decoration:none;padding:10px 10px 13px;transition:color .3s}
+.navl::after{content:'';position:absolute;left:12px;right:12px;bottom:6px;height:1px;background:linear-gradient(90deg,transparent,#e5c38f,transparent);transform:scaleX(0);transition:transform .32s}
+.navl:hover{color:#ece9e4}.navl:hover::after{transform:scaleX(1)}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:72px;align-items:center}
+.why-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:72px;align-items:start}
+.qa-grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:48px;align-items:start}
+.form-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:56px;align-items:start}
+.only-m{display:none}
+.in{opacity:0;animation:inUp .9s cubic-bezier(.2,.7,.2,1) forwards}
+.in1{animation-delay:.15s}.in2{animation-delay:.35s}.in3{animation-delay:.55s}.in4{animation-delay:.75s}
+@keyframes inUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.inR{opacity:0;animation:inR .9s cubic-bezier(.2,.7,.2,1) .55s forwards}
+@keyframes inR{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+.badge{display:inline-flex;align-items:center;gap:10px;color:rgba(232,230,227,.74);font-size:11px;letter-spacing:.22em;text-transform:uppercase;padding:10px 16px;border-radius:99px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07)}
+.dot{width:7px;height:7px;border-radius:50%;background:#e5c38f;animation:pulse 2.8s infinite}
+.hcta{display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:14px;border-radius:12px;text-decoration:none;font-size:15px;font-weight:600;transition:background .25s,border-color .25s,transform .25s,box-shadow .25s;cursor:pointer;font-family:'Archivo',sans-serif}
+.hcta:hover{transform:translateY(-1px)}
+.hcta-wa{background:rgba(37,211,102,.14);color:#4ade80;border:1px solid rgba(37,211,102,.32);font-weight:700;font-size:16px;min-height:64px}
+.hcta-wa:hover{background:rgba(37,211,102,.22);color:#4ade80;box-shadow:0 8px 24px rgba(37,211,102,.16)}
+.hcta-n{background:rgba(255,255,255,.06);color:#ece9e4;border:1px solid rgba(255,255,255,.16)}
+.hcta-n:hover{background:rgba(255,255,255,.11);color:#fff}
+.hcta-g{background:rgba(210,165,111,.1);color:#e5c38f;border:1px solid rgba(210,165,111,.32)}
+.hcta-g:hover{background:rgba(210,165,111,.18);color:#f1d7ad}
+.hcta-s{background:rgba(255,255,255,.04);color:rgba(232,230,227,.72);border:1px solid rgba(255,255,255,.1);font-size:13px;font-weight:500;min-height:46px}
+.hcta-s:hover{background:rgba(255,255,255,.09);color:#ece9e4}
+.services-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:1px;padding:14px 1px 10px;background:linear-gradient(180deg,rgba(210,165,111,.18),rgba(210,165,111,.05));border-radius:14px;box-shadow:0 26px 58px rgba(0,0,0,.28)}
+.svc-card{background:linear-gradient(180deg,rgba(31,35,40,.95) 0%,rgba(18,20,23,.98) 100%);padding:26px 20px 22px;min-height:300px;display:flex;flex-direction:column;cursor:pointer;transition:background .35s,box-shadow .35s,transform .35s,opacity .35s;position:relative;overflow:hidden;border:0;text-align:left;font:inherit;color:inherit}
+.svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#e3be87,#c88b57,#8c5b36);transform:scaleX(0);transform-origin:left;transition:transform .45s ease}
+.svc-card:hover::before,.svc-card.active::before{transform:scaleX(1)}
+.services-grid:hover .svc-card{transform:translateY(8px);opacity:.82}
+.services-grid .svc-card:hover{transform:translateY(-10px);opacity:1;z-index:3;background:linear-gradient(180deg,rgba(39,44,50,.98) 0%,rgba(22,25,28,1) 100%);box-shadow:0 18px 34px rgba(0,0,0,.32),inset 0 0 0 1px rgba(255,255,255,.06)}
+.svc-card.active{background:linear-gradient(180deg,rgba(210,165,111,.16) 0%,rgba(28,23,19,.95) 100%)}
+.svc-icon{width:50px;height:50px;border-radius:14px;margin-bottom:18px;display:inline-flex;align-items:center;justify-content:center;background:rgba(210,165,111,.09);color:#d8c7b5;box-shadow:inset 0 0 0 1px rgba(229,195,143,.14);transition:color .3s,background .3s}
+.svc-card.active .svc-icon,.svc-card:hover .svc-icon{color:#e5c38f;background:rgba(210,165,111,.16)}
+.svc-title{font-size:15px;font-weight:700;margin-bottom:10px;color:#ece9e4;line-height:1.35;min-height:3.9em}
+.svc-card.active .svc-title{color:#e5c38f}
+.svc-desc{font-size:12.5px;color:rgba(232,230,227,.74);line-height:1.7;flex:1}
+.svc-tag{display:inline-flex;font-size:11.5px;padding:6px 11px;border-radius:99px;background:rgba(210,165,111,.1);color:#d2a56f;font-weight:600;box-shadow:inset 0 0 0 1px rgba(229,195,143,.12);line-height:1.3}
+.svc-cta{font-size:12px;color:#d4cec6;font-weight:600;display:inline-flex;gap:6px;align-items:center}
+.feat-pill{background:rgba(210,165,111,.12);border-radius:99px;padding:8px 14px;font-size:12px;color:#ece9e4;box-shadow:inset 0 0 0 1px rgba(229,195,143,.14)}
+.tool{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:18px;min-height:330px;padding:26px;border:1px solid rgba(210,165,111,.18);border-radius:20px;text-align:left;overflow:hidden;background:linear-gradient(180deg,#1f2328 0%,#121417 100%);cursor:pointer;font:inherit;color:#ece9e4;transition:transform .3s,border-color .3s,box-shadow .3s}
+.tool:hover{transform:translateY(-4px);border-color:rgba(210,165,111,.5);box-shadow:0 24px 50px rgba(0,0,0,.35)}
+.tool.open{border-color:#d2a56f;box-shadow:0 0 0 1px #d2a56f,0 24px 50px rgba(0,0,0,.35)}
+.tool-ic{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:rgba(210,165,111,.12);color:#e5c38f;box-shadow:inset 0 0 0 1px rgba(229,195,143,.18)}
+.tool-badge{padding:6px 11px;border-radius:99px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#d2a56f;white-space:nowrap}
+.tool-arrow{transition:transform .3s}
+.tool.open .tool-arrow{transform:rotate(180deg)}
+.entry-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:18px}
+.tab{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:46px;padding:10px 14px;background:transparent;border:0;border-left:2px solid rgba(22,24,26,.12);font:600 14.5px/1.3 'Archivo',sans-serif;color:#43474b;text-align:left;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.tab:hover{background:rgba(22,24,26,.04);color:#16181a}
+.tab.is-on{border-left-color:#86562b;background:#e5dfd4;color:#16181a}
+.lvl{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:2px;font-weight:500}
+.lvl-1{background:rgba(47,106,60,.12);color:#2f6a3c}
+.lvl-2{background:rgba(134,86,43,.14);color:#86562b}
+.lvl-3{background:#16181a;color:#efebe4}
+.mod{background:#f7f4ef;border:1px solid rgba(22,24,26,.14);padding:28px;display:flex;flex-direction:column;gap:20px}
+.qa{border-top:1px solid rgba(22,24,26,.14)}
+.qa-btn{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;width:100%;padding:20px 0;background:transparent;border:0;cursor:pointer;text-align:left;font:700 19px/1.35 'Archivo',sans-serif;color:#16181a;letter-spacing:-.01em}
+.qa-btn:hover{color:#86562b}
+.qa-ic{flex:0 0 28px;height:28px;border:1px solid rgba(22,24,26,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .3s,background .3s}
+.qa.is-open .qa-ic{transform:rotate(45deg);background:#16181a;color:#efebe4;border-color:#16181a}
+.pop{animation:qaIn .35s ease both}
+@keyframes qaIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.pick{min-height:46px;padding:0 14px;border:1px solid rgba(22,24,26,.22);background:#fbfaf7;font:600 15px/1 'IBM Plex Mono',monospace;color:#16181a;cursor:pointer;border-radius:2px;transition:background .2s,color .2s}
+.pick:hover{border-color:#16181a}
+.pick.is-on{background:#16181a;color:#efebe4;border-color:#16181a}
+.cond{height:3px;flex:1;border-radius:2px}
+.cond-kes{background:#16181a}.cond-gec{background:#9aa0a5}
+.cond-yok{background:repeating-linear-gradient(90deg,rgba(22,24,26,.18) 0 6px,transparent 6px 12px)}
+.seg{min-height:44px;padding:0 16px;border:1px solid rgba(236,233,228,.3);background:transparent;font:600 14px/1 'Archivo',sans-serif;color:#ece9e4;cursor:pointer}
+.seg.is-on{background:#d2a56f;color:#17110a;border-color:#d2a56f}
+.step{background:transparent;border:0;padding:18px 0 0;text-align:left;cursor:pointer;color:#8f959b;font:inherit;display:flex;flex-direction:column;gap:8px;border-top:2px solid rgba(236,233,228,.12);transition:color .3s,border-color .3s}
+.step:hover{color:#ece9e4}
+.step.is-done{border-top-color:rgba(210,165,111,.5);color:#b9bdc1}
+.step.is-on{border-top-color:#d2a56f;color:#ece9e4}
+.steps6{display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
+.rfbtn{min-height:40px;padding:0 18px;border:0;box-shadow:inset 0 0 0 1px rgba(210,165,111,.2);background:transparent;color:rgba(232,230,227,.72);font:500 10.5px/1 'Archivo',sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:99px;transition:all .3s}
+.rfbtn:hover{background:rgba(210,165,111,.1);color:#d2a56f}
+.rfbtn.active{background:linear-gradient(135deg,#e3be87 0%,#c88b57 48%,#8c5b36 100%);color:#1d140a;font-weight:700}
+.ref-card{background:#1c2024;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:background .3s}
+.ref-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;z-index:2;background:linear-gradient(90deg,#e3be87,#c88b57,#8c5b36);transform:scaleX(0);transform-origin:left;transition:transform .45s ease}
+.ref-card:hover{background:#23282d}.ref-card:hover::before{transform:scaleX(1)}
+.ref-img{height:190px;position:relative;overflow:hidden;background:repeating-linear-gradient(135deg,#1a1e22 0 14px,#16191c 14px 28px);filter:grayscale(1) brightness(.7);transition:filter 1.2s ease}
+.ref-card:hover .ref-img{filter:grayscale(0) brightness(1)}
+.spec{font-size:11px;padding:3px 10px;background:#23282d;color:#d4cec6;border-radius:99px;letter-spacing:.04em}
+.ph{position:relative;background:repeating-linear-gradient(135deg,#1a1e22 0 14px,#181b1f 14px 28px);border:1px dashed rgba(210,165,111,.35);display:flex;padding:14px}
+.rev{background:#1c2024;border:1px solid rgba(232,230,227,.08);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0}
+.inp{width:100%;min-height:50px;padding:12px 14px;background:#0e1012;border:1px solid rgba(236,233,228,.16);border-radius:10px;color:#ece9e4;font:400 15px/1.4 'Archivo',sans-serif}
+.inp:focus{outline:none;border-color:#d2a56f}
+.lbl{display:block;font-size:13px;font-weight:600;color:#c9cdd1;margin:0 0 7px}
+.chip{font-size:12px;padding:6px 12px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(232,230,227,.8)}
+.mbar{display:none}
+.flow{stroke-dasharray:5 15;animation:flow 1.4s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-40}}
+.draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.4s cubic-bezier(.6,.1,.2,1) forwards}
+.d2{animation-delay:.5s}.d3{animation-delay:1s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.pulse{animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+.blink{animation:blink 1.2s steps(2) infinite}
+@keyframes blink{50%{opacity:.2}}
+@media (prefers-reduced-motion: reduce){.flow,.draw,.pulse,.blink,.rv,.in,.inR,.pop,.sdiv hr{animation:none!important;opacity:1!important;stroke-dashoffset:0!important;transform:none!important}}
+@media (max-width:1280px){.services-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:1080px){
+.only-d{display:none!important}.only-m{display:flex!important}
+.hero-grid,.why-grid,.form-grid{grid-template-columns:minmax(0,1fr);gap:40px}
+.qa-grid{grid-template-columns:minmax(0,1fr);gap:24px}
+.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+.why-sticky,.tabs{position:static!important}
+}
+@media (max-width:760px){
+.wrap,.wrap-w{padding:0 20px}.sdiv{padding:0 20px}
+.g2,.g3,.g4{grid-template-columns:minmax(0,1fr)}
+.services-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.steps6{grid-template-columns:repeat(3,minmax(0,1fr))}
+.sec{padding-top:72px!important;padding-bottom:72px!important}
+.mbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:60;background:#0e1012;border-top:1px solid rgba(210,165,111,.35)}
+.hide-m{display:none!important}
+}
+</style>
+</helmet>
+<div class="bp" style="font-family: 'Archivo', system-ui, sans-serif; color: #ece9e4; background: #0e1012; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; min-height: 100vh">
+
+<!-- NAV -->
+<header style="position: sticky; top: 0; z-index: 50; background: rgba(18,20,23,.97); border-bottom: 1px solid rgba(255,255,255,.05)">
+<div class="wrap-w" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 80px">
+<a href="#hero" aria-label="Bircan Elektrik Mühendislik — ana sayfa" style="display: flex; align-items: center; gap: 12px; text-decoration: none">
+<svg width="64" height="52" viewBox="34 87 420 341" aria-hidden="true"><defs><linearGradient id="lgNav" x1="0" y1="0" x2=".5" y2="1"><stop offset="0" stop-color="#f1d7ad"></stop><stop offset=".55" stop-color="#d2a56f"></stop><stop offset="1" stop-color="#9a6a3c"></stop></linearGradient></defs><path fill="url(#lgNav)" fill-rule="evenodd" d="M120.0 423.0C122.0 421.0 122.0 419.7 122.0 346.7L122.0 272.4L125.3 271.2C134.8 267.8 141.4 257.8 141.4 247.0C141.3 232.1 130.6 221.4 116.0 221.6C107.9 221.6 101.8 224.4 96.2 230.4C91.6 235.4 90.0 240.0 90.0 248.1C90.0 258.2 97.2 268.5 106.2 271.2L110.0 272.3L110.0 282.2C110.0 287.6 110.3 307.0 110.6 325.1C111.0 348.8 110.8 358.1 110.1 357.9C109.5 357.7 103.1 352.1 96.0 345.5L83.0 333.6L83.0 315.8C83.0 298.7 82.9 298.1 80.8 296.6C77.8 294.5 76.4 294.6 74.0 297.0C72.1 298.9 72.0 300.3 72.0 318.7L72.0 338.3L76.3 342.4C78.7 344.7 87.2 352.6 95.3 360.0L110.0 373.4L110.0 393.7L110.0 414.0L76.0 414.0C43.3 414.0 41.9 414.1 40.0 416.0C38.9 417.1 38.0 418.7 38.0 419.5C38.0 420.3 38.9 421.9 40.0 423.0C41.9 424.9 43.3 425.0 80.0 425.0C116.7 425.0 118.1 424.9 120.0 423.0ZM178.4 423.4C179.7 422.2 180.0 419.4 180.0 409.7L179.9 397.5L204.7 373.4L229.5 349.3L229.8 304.7C230.0 280.2 229.7 258.7 229.2 256.8C228.1 252.4 224.0 250.8 221.0 253.5C219.0 255.3 219.0 256.4 219.0 299.8L219.0 344.4L200.4 362.4C190.1 372.4 181.3 380.6 180.9 380.8C179.9 381.2 179.7 339.7 180.6 332.9C181.2 328.8 181.6 328.3 185.4 326.7C187.7 325.8 191.2 323.4 193.2 321.5C205.8 309.3 202.6 288.4 187.0 280.5C176.8 275.3 166.5 276.5 158.0 283.7C147.0 293.1 146.0 309.2 155.6 319.9C158.2 322.8 161.9 325.6 164.5 326.7L169.0 328.5L169.0 374.5C169.0 414.6 169.2 420.8 170.6 422.8C172.4 425.4 176.2 425.7 178.4 423.4ZM305.8 423.4L308.0 421.9L308.0 314.9C308.0 245.4 308.3 208.0 309.0 208.0C309.5 208.0 323.7 214.4 340.5 222.2L371.0 236.3L371.0 329.1L371.0 421.9L373.2 423.4C375.1 424.8 380.5 425.0 411.3 425.0C434.1 425.0 447.8 424.6 449.1 424.0C450.4 423.3 451.0 421.9 451.0 419.5C451.0 417.1 450.4 415.7 449.1 415.0C447.8 414.4 435.1 414.0 414.6 414.0L382.0 414.0L382.0 322.9C382.0 266.0 381.6 231.2 381.0 230.1C380.5 229.1 378.4 227.6 376.3 226.7C374.2 225.9 368.9 223.5 364.5 221.5C360.1 219.4 347.8 213.8 337.2 208.9C326.6 204.0 315.7 198.9 313.0 197.5L308.0 195.0L308.0 144.6C308.0 100.1 307.8 94.0 306.4 92.6C303.5 89.6 304.8 89.1 248.0 115.3C236.7 120.5 218.7 128.8 208.0 133.7C173.1 149.8 171.2 150.8 170.1 152.9C169.4 154.2 169.0 166.7 169.0 189.9C169.0 220.3 169.2 225.1 170.6 226.4C172.5 228.3 176.4 228.5 177.8 226.7C178.6 225.8 179.0 215.3 179.0 195.4C179.1 179.0 179.4 164.0 179.7 162.1C180.3 158.4 175.9 160.7 224.8 137.9C237.7 131.9 248.3 127.0 248.5 127.0C248.8 127.0 265.2 119.5 286.6 109.5C290.5 107.7 294.6 105.9 295.9 105.5L298.1 104.8L298.0 147.4C297.9 170.8 297.6 190.0 297.2 190.0C296.8 190.0 288.9 186.6 279.7 182.5C270.4 178.4 262.1 175.0 261.1 175.0C260.1 175.0 258.4 176.0 257.2 177.3L255.0 179.6L255.3 300.2C255.5 417.2 255.6 420.9 257.4 422.9C259.2 424.9 260.2 425.0 281.4 425.0C299.8 425.0 303.9 424.7 305.8 423.4ZM267.0 301.0C267.0 193.7 267.1 188.0 268.8 189.0C269.7 189.5 276.6 192.8 284.1 196.4L297.8 202.8L297.9 304.1C297.9 359.9 297.7 407.4 297.4 409.8L296.8 414.0L281.9 414.0L267.0 414.0L267.0 301.0ZM168.2 316.3C160.8 312.7 157.8 302.5 162.2 296.1C165.9 290.6 169.3 288.6 175.0 288.6C180.4 288.6 183.7 290.4 187.4 295.4C190.2 299.2 190.2 307.9 187.4 311.7C183.1 317.5 174.7 319.6 168.2 316.3ZM108.2 260.0C98.0 253.7 98.7 238.7 109.5 233.9C115.8 231.1 121.1 232.1 126.0 237.0C131.2 242.2 132.0 247.3 128.8 253.7C124.9 261.5 115.5 264.4 108.2 260.0Z"></path></svg>
+<span class="cinzel" style="display: flex; flex-direction: column; line-height: 1.02; color: #d9b07a">
+<span style="font-size: 21px; font-weight: 600; letter-spacing: .05em">BİRCAN</span>
+<span style="font-size: 14.5px; font-weight: 600; letter-spacing: .06em">ELEKTRİK</span>
+<span style="font-size: 10.5px; font-weight: 600; letter-spacing: .2em; margin-top: 2px">MÜHENDİSLİK</span>
+</span>
+</a>
+<nav class="only-d" aria-label="Ana menü" style="display: flex; align-items: center">
+<a class="navl" href="/hakkimizda/">Hakkımızda</a>
+<a class="navl" href="#hizmetler">Hizmetler</a>
+<a class="navl" href="#teknik">Teknik</a>
+<a class="navl" href="#rehber">Rehber</a>
+<a class="navl" href="#yorumlar">Yorumlar</a>
+<a class="navl" href="#hizmet-alani">Hizmet Alanı</a>
+<a class="navl" href="#referanslar">Referanslar</a>
+<a class="navl" href="#teklif">İletişim</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 10px">
+<button type="button" class="btn btn-gold hide-m" onClick="{{openCall}}" style="min-height: 44px; padding: 0 22px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700">Hemen Ara</button>
+<button type="button" class="only-m" onClick="{{toggleMenu}}" aria-label="Menüyü aç/kapat" style="width: 48px; height: 48px; align-items: center; justify-content: center; background: transparent; border: 1px solid rgba(236,233,228,.2); border-radius: 10px; color: #ece9e4; cursor: pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18"></path><path d="M3 12h18"></path><path d="M3 18h12"></path></svg>
+</button>
+</div>
+</div>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<div style="border-top: 1px solid rgba(236,233,228,.08); background: #0e1012; padding: 12px 20px 24px; display: flex; flex-direction: column">
+<a class="navl" href="/hakkimizda/" style="font-size: 15px; padding: 14px 0">Hakkımızda</a>
+<a class="navl" href="#hizmetler" onClick="{{closeMenu}}" style="font-size: 15px; padding: 14px 0">Hizmetler</a>
+<a class="navl" href="#teknik" onClick="{{closeMenu}}" style="font-size: 15px; padding: 14px 0">Teknik</a>
+<a class="navl" href="#rehber" onClick="{{closeMenu}}" style="font-size: 15px; padding: 14px 0">Rehber</a>
+<a class="navl" href="#yorumlar" onClick="{{closeMenu}}" style="font-size: 15px; padding: 14px 0">Yorumlar</a>
+<a class="navl" href="#hizmet-alani" onClick="{{closeMenu}}" style="font-size: 15px; padding: 14px 0">Hizmet Alanı</a>
+<a class="navl" href="#referanslar" onClick="{{closeMenu}}" style="font-size: 15px; padding: 14px 0">Referanslar</a>
+<a class="navl" href="#teklif" onClick="{{closeMenu}}" style="font-size: 15px; padding: 14px 0">İletişim</a>
+<a class="btn btn-gold" href="#teklif" onClick="{{closeMenu}}" style="margin-top: 16px">Teklif Al</a>
+</div>
+</sc-if>
+</header>
+
+<!-- HERO -->
+<section id="hero" style="position: relative; overflow: hidden; padding: 96px 0 104px; background: #0f1113">
+<div aria-hidden="true" style="position: absolute; inset: 0; background-image: linear-gradient(rgba(236,233,228,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236,233,228,.03) 1px, transparent 1px); background-size: 48px 48px"></div>
+<div aria-hidden="true" style="position: absolute; top: 40px; right: -40px; width: 760px; opacity: .26">
+<svg viewBox="0 0 560 600" width="100%" style="display: block; font-family: 'IBM Plex Mono', monospace">
+<g fill="none" stroke="rgba(236,233,228,.7)" stroke-width="1.6">
+<path class="draw" pathLength="1" d="M280 44 V70"></path>
+<rect class="draw" pathLength="1" x="250" y="70" width="60" height="36"></rect>
+<path class="draw" pathLength="1" d="M280 106 V140"></path>
+<path d="M275 137 L285 147 M285 137 L275 147 M280 178 L271 146" stroke="#d2a56f" stroke-width="2"></path>
+<path class="draw d2" pathLength="1" d="M280 178 V240"></path>
+<path class="draw d2" pathLength="1" d="M60 240 H500" stroke="#d2a56f" stroke-width="4"></path>
+<path class="draw d3" pathLength="1" d="M110 240 V298 M110 330 V476 M220 240 V298 M220 330 V476 M340 240 V298 M340 330 V476 M450 240 V298 M450 330 V476"></path>
+<path d="M105 295 L115 305 M115 295 L105 305 M110 330 L102 302 M215 295 L225 305 M225 295 L215 305 M220 330 L212 302 M335 295 L345 305 M345 295 L335 305 M340 330 L332 302 M445 295 L455 305 M455 295 L445 305 M450 330 L442 302" stroke-width="1.8"></path>
+<circle cx="110" cy="490" r="14"></circle><circle cx="220" cy="490" r="14"></circle><circle cx="340" cy="490" r="14"></circle><circle cx="450" cy="490" r="14"></circle>
+<path d="M110 504 V560 M220 504 V560 M340 504 V560 M450 504 V560" stroke-dasharray="3 4" stroke="#d2a56f"></path>
+<path d="M60 560 H500" stroke="#d2a56f" stroke-width="2.4"></path>
+<path d="M60 560 V574 M48 574 H72 M53 580 H67 M58 586 H62" stroke="#d2a56f" stroke-width="2"></path>
+</g>
+<g fill="none" stroke="#f1d7ad" stroke-width="2.4" stroke-linecap="round"><path class="flow" d="M280 44 V240"></path><path class="flow" d="M280 240 H110 V476"></path><path class="flow" d="M280 240 H220 V476"></path><path class="flow" d="M280 240 H340 V476"></path><path class="flow" d="M280 240 H450 V476"></path></g>
+<g font-size="12.5" fill="#d2a56f"><text x="280" y="30" text-anchor="middle">0,4 kV · 3F+N</text><text x="300" y="160">TMŞ · Icu ≥ Ik</text><text x="118" y="318">B10</text><text x="228" y="318">C16</text><text x="348" y="318">K25</text><text x="458" y="318">C20</text><text x="84" y="584">PE · RA</text></g>
+</svg>
+</div>
+<div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(90deg, #0f1113 30%, rgba(15,17,19,.55) 65%, rgba(15,17,19,.35) 100%)"></div>
+<div class="wrap-w hero-grid" style="position: relative">
+<div style="display: flex; flex-direction: column; gap: 30px; align-items: flex-start">
+<div class="badge in in1"><span class="dot"></span>Aktif · 7/24 Teknik Destek</div>
+<h1 class="in in2" style="font-size: clamp(48px, 6.6vw, 96px); line-height: .96; letter-spacing: -.04em; font-weight: 900; color: #ece9e4">Taahhütten<br>Otomasyona.<br><span style="color: #d2a56f">Güvenli, Ölçülü, Kalıcı.</span></h1>
+<p class="in in3" style="font-size: 17px; line-height: 1.75; color: #c9cdd1; max-width: 560px">Yetkili elektrikçi ve mühendis kadromuzla planlamadan devreye almaya tüm süreci yönetiyoruz.</p>
+<div class="in in4" style="display: flex; flex-wrap: wrap; gap: 8px">
+<span class="chip">Yetkili Elektrikçi</span><span class="chip">SMM Elektrik Mühendisi</span><span class="chip">1 kV altı &amp; üstü proje</span><span class="chip">Yahyalı · Kayseri</span>
+</div>
+</div>
+<div class="inR" style="display: flex; flex-direction: column; gap: 12px; padding: 22px; border-radius: 20px; background: rgba(20,22,25,.94); border: 1px solid rgba(255,255,255,.07)">
+<a class="hcta hcta-wa" href="https://wa.me/905340140949?text=Merhaba%2C%20proje%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5z"></path></svg>
+<span style="display: flex; flex-direction: column; line-height: 1.2">Projenizden Bahsedin<span style="font-size: 12px; font-weight: 500; opacity: .8">WhatsApp'tan hızlı cevap</span></span></a>
+<a class="hcta hcta-n" href="#teklif"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6M16 13H8M16 17H8"></path></svg>Detaylı Teklif Formu</a>
+<a class="hcta hcta-g" href="#teknik" onClick="{{openMalzeme}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"></rect><rect x="9" y="2" width="6" height="4" rx="1"></rect><path d="M9 12h6M9 16h4"></path></svg>Malzemenizi Listeleyin</a>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px">
+<a class="hcta hcta-s" href="https://maps.app.goo.gl/YwRZJt1DQknako1u6" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11 22 2l-9 19-2-8z"></path></svg>Yol Tarifi</a>
+<a class="hcta hcta-s" href="https://www.instagram.com/bircanelektrik/" target="_blank" rel="noopener" style="letter-spacing: .1em; text-transform: uppercase; font-size: 12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle></svg>Instagram</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- HAKKIMIZDA -->
+<div class="sdiv" style="padding-top: 56px"><hr><span>Hakkımızda</span><hr></div>
+<section id="hakkimizda" class="sec" style="padding: 56px 0 96px">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 14px; max-width: 800px">
+<span class="kick">Kurumsal</span>
+<h2 class="h2">Vizyonumuz &amp; Neden Bircan Elektrik Mühendislik</h2>
+<p class="lead">Kayseri ve çevresinde güvenilir bir elektrik mühendislik markası olmayı hedefliyoruz.</p>
+</div>
+<div class="g3 rv" style="gap: 14px">
+<article class="entry-item" style="padding: 26px; display: flex; flex-direction: column; gap: 10px"><span class="mono" style="font-size: 12px; color: #d2a56f">01</span><h3 style="font-size: 20px; font-weight: 700">Vizyonumuz</h3><p style="color: #c9cdd1; font-size: 15px">Proje, uygulama ve servis tek çatı altında.</p></article>
+<article class="entry-item" style="padding: 26px; display: flex; flex-direction: column; gap: 10px"><span class="mono" style="font-size: 12px; color: #d2a56f">02</span><h3 style="font-size: 20px; font-weight: 700">Temel İlkelerimiz</h3><p style="color: #c9cdd1; font-size: 15px">Kaliteli işçilik, doğru mühendislik ve sürdürülebilir büyüme.</p></article>
+<article class="entry-item" style="padding: 26px; display: flex; flex-direction: column; gap: 10px"><span class="mono" style="font-size: 12px; color: #d2a56f">03</span><h3 style="font-size: 20px; font-weight: 700">Neden Biz</h3><p style="color: #c9cdd1; font-size: 15px">Veriye dayalı tasarım, projeye sadık uygulama ve uzun ömürlü sonuçlar.</p></article>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span class="kick" style="font-size: 12px">Karar sıramız</span>
+<div style="border: 1px solid rgba(210,165,111,.28); border-radius: 14px; overflow: hidden; background: rgba(255,255,255,.02)">
+<div class="g3">
+<div style="padding: 22px 24px; border-right: 1px solid rgba(255,255,255,.07); display: flex; flex-direction: column; gap: 6px"><span style="display: flex; align-items: baseline; gap: 10px"><span class="mono" style="font-size: 12px; color: #d2a56f">1</span><strong style="font-size: 19px">Güvenlik</strong></span><span style="font-size: 14px; color: #c9cdd1">Çarpılma, yangın ve ekipman hasarı riskini önler.</span></div>
+<div style="padding: 22px 24px; border-right: 1px solid rgba(255,255,255,.07); display: flex; flex-direction: column; gap: 6px"><span style="display: flex; align-items: baseline; gap: 10px"><span class="mono" style="font-size: 12px; color: #d2a56f">2</span><strong style="font-size: 19px">Süreklilik</strong></span><span style="font-size: 14px; color: #c9cdd1">Kesintiyi, arıza duruşunu ve üretim kaybını önler.</span></div>
+<div style="padding: 22px 24px; display: flex; flex-direction: column; gap: 6px"><span style="display: flex; align-items: baseline; gap: 10px"><span class="mono" style="font-size: 12px; color: #d2a56f">3</span><strong style="font-size: 19px">Verimlilik</strong></span><span style="font-size: 14px; color: #c9cdd1">Enerji kaybını, ısınmayı ve gereksiz malzemeyi önler.</span></div>
+</div>
+<div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 22px 24px; border-top: 1px solid rgba(210,165,111,.4); background: rgba(210,165,111,.09)">
+<span style="display: flex; align-items: baseline; gap: 10px"><span class="mono" style="font-size: 12px; color: #d2a56f">1 + 2 + 3 →</span><strong style="font-size: 22px; color: #e5c38f">Maliyet</strong></span>
+<span style="font-size: 15px; color: #ece9e4; flex: 1; min-width: 260px">İlk üçü doğru yapıldığında arıza, enerji kaybı ve yeniden iş yapma maliyeti azalır.</span>
+</div>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px"><a class="btn btn-gold" href="/hakkimizda/">Devamını Okuyun</a></div>
+</div>
+</section>
+
+<!-- NEDEN BİRCAN -->
+<div class="sdiv"><hr><span>Neden Biz</span><hr></div>
+<section id="neden-biz" class="sec" style="padding: 56px 0 112px">
+<div class="wrap why-grid">
+<div class="why-sticky" style="position: sticky; top: 110px; display: flex; flex-direction: column; gap: 22px">
+<span class="kick">Neden Bircan Elektrik?</span>
+<h2 class="h2">Projeyi ve uygulamayı aynı ekip yapıyor.</h2>
+<p class="lead" style="font-size: 16px">Yetkili elektrikçi ile imza yetkili elektrik mühendisi birlikte çalışıyor. Projeyi çizen sahayı, sahada çalışan projeyi biliyor.</p>
+<div style="border-left: 2px solid #d2a56f; padding: 4px 0 4px 20px"><p style="font-size: 17px; line-height: 1.6; font-weight: 600; color: #ece9e4">Bir işin bugünkü fiyatına değil, yıllar içindeki işleyişine bakıyoruz.</p></div>
+</div>
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column">
+<li class="rv" style="display: grid; grid-template-columns: 72px minmax(0,1fr); gap: 20px; padding: 28px 0; border-top: 1px solid rgba(236,233,228,.12)"><span style="font-size: 42px; font-weight: 900; color: #d2a56f; line-height: 1; letter-spacing: -.03em">01</span><div style="display: flex; flex-direction: column; gap: 8px"><h3 style="font-size: 22px; font-weight: 700">İhtiyacı yerinde dinliyoruz.</h3><p style="color: #c9cdd1">Kullanılacak ve ileride eklenecek cihazları birlikte netleştiriyoruz.</p></div></li>
+<li class="rv" style="display: grid; grid-template-columns: 72px minmax(0,1fr); gap: 20px; padding: 28px 0; border-top: 1px solid rgba(236,233,228,.12)"><span style="font-size: 42px; font-weight: 900; color: #d2a56f; line-height: 1; letter-spacing: -.03em">02</span><div style="display: flex; flex-direction: column; gap: 8px"><h3 style="font-size: 22px; font-weight: 700">Projeyi hesapla çiziyoruz.</h3><p style="color: #c9cdd1">Kesit, gerilim düşümü, kısa devre ve koruma tahminle değil, hesapla belirlenir.</p></div></li>
+<li class="rv" style="display: grid; grid-template-columns: 72px minmax(0,1fr); gap: 20px; padding: 28px 0; border-top: 1px solid rgba(236,233,228,.12)"><span style="font-size: 42px; font-weight: 900; color: #d2a56f; line-height: 1; letter-spacing: -.03em">03</span><div style="display: flex; flex-direction: column; gap: 8px"><h3 style="font-size: 22px; font-weight: 700">Malzemeyi gerekçesiyle seçiyoruz.</h3><p style="color: #c9cdd1">Ucuz olduğu için değil, devreye uygun olduğu için.</p></div></li>
+<li class="rv" style="display: grid; grid-template-columns: 72px minmax(0,1fr); gap: 20px; padding: 28px 0; border-top: 1px solid rgba(236,233,228,.12)"><span style="font-size: 42px; font-weight: 900; color: #d2a56f; line-height: 1; letter-spacing: -.03em">04</span><div style="display: flex; flex-direction: column; gap: 8px"><h3 style="font-size: 22px; font-weight: 700">Uygulamayı projeye sadık yapıyoruz.</h3><p style="color: #c9cdd1">Kablo, bağlantı ve pano yerleşimi projede nasılsa sahada da öyle.</p></div></li>
+<li class="rv" style="display: grid; grid-template-columns: 72px minmax(0,1fr); gap: 20px; padding: 28px 0; border-top: 1px solid rgba(236,233,228,.12)"><span style="font-size: 42px; font-weight: 900; color: #d2a56f; line-height: 1; letter-spacing: -.03em">05</span><div style="display: flex; flex-direction: column; gap: 8px"><h3 style="font-size: 22px; font-weight: 700">Talep edilirse ölçüp raporluyoruz.</h3><p style="color: #c9cdd1">İzolasyon, topraklama ve kaçak akım ölçümü ile raporlama ayrı bir hizmettir.</p></div></li>
+<li class="rv" style="display: grid; grid-template-columns: 72px minmax(0,1fr); gap: 20px; padding: 28px 0; border-top: 1px solid rgba(236,233,228,.12); border-bottom: 1px solid rgba(236,233,228,.12)"><span style="font-size: 42px; font-weight: 900; color: #d2a56f; line-height: 1; letter-spacing: -.03em">06</span><div style="display: flex; flex-direction: column; gap: 8px"><h3 style="font-size: 22px; font-weight: 700">Teslimden sonra da ulaşılabiliyoruz.</h3><p style="color: #c9cdd1">Arıza, bakım ya da ekleme için sistemi kuran ekip aynı telefonda.</p></div></li>
+</ol>
+</div>
+</section>
+
+<!-- MALİYET -->
+<section id="maliyet" class="sec" style="padding: 104px 0; background: #121518; border-top: 1px solid rgba(236,233,228,.06); border-bottom: 1px solid rgba(236,233,228,.06)">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 56px">
+<div class="g2" style="gap: 64px; align-items: start">
+<div style="display: flex; flex-direction: column; gap: 14px"><span class="kick">Doğru iş, doğru maliyet</span><h2 class="h2">Ucuz tesisat neden pahalıya gelir?</h2></div>
+<div style="display: flex; flex-direction: column; gap: 16px; color: #c9cdd1; font-size: 16.5px; padding-top: 28px">
+<p>Yanlış ürün, yetersiz kesit ya da eksik koruma ilk yatırımda küçük bir fark gibi görünür.</p>
+<p>Bedeli sonradan <span style="color: #ece9e4">arıza, enerji kaybı, ekipman hasarı ve güvenlik riski</span> olarak ödenir.</p>
+<p style="color: #ece9e4; font-weight: 600">Bu yüzden maliyeti satın alma fiyatıyla değil, sistemin ömrü boyunca hesaplıyoruz.</p>
+</div>
+</div>
+<div class="g2 rv" style="gap: 0; border: 1px solid rgba(236,233,228,.12); border-radius: 16px; overflow: hidden; background: #0f1113">
+<div style="padding: 40px; display: flex; flex-direction: column; gap: 18px; border-right: 1px solid rgba(236,233,228,.12)">
+<h3 style="font-size: clamp(30px, 3.4vw, 46px); font-weight: 900; letter-spacing: -.03em; line-height: 1">İyi proje<br><span style="color: #d2a56f">kendini öder.</span></h3>
+<p style="color: #c9cdd1; font-size: 16px">Doğru proje gereksiz malzemeyi, yanlış ürünü ve sonradan revizyonu önler.</p>
+<p style="color: #ece9e4; font-size: 16px">Baştan doğru planlamak, sonradan düzeltmekten ucuzdur.</p>
+<ul style="list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+<li style="display: flex; gap: 12px"><span class="mono" style="color: #d2a56f">↓</span>Gereksiz kesit ve malzeme azalır</li>
+<li style="display: flex; gap: 12px"><span class="mono" style="color: #d2a56f">↓</span>Sökülüp yeniden yapılan iş azalır</li>
+<li style="display: flex; gap: 12px"><span class="mono" style="color: #d2a56f">↓</span>Reaktif ceza ve enerji kaybı riski düşer</li>
+<li style="display: flex; gap: 12px"><span class="mono" style="color: #d2a56f">↓</span>Plansız arıza riski düşer</li>
+</ul>
+</div>
+<figure style="margin: 0; padding: 32px 32px 24px; display: flex; flex-direction: column; gap: 14px">
+<figcaption class="mono" style="font-size: 12px; letter-spacing: .08em; color: #8f959b; text-transform: uppercase">Toplam sahip olma maliyeti · temsili</figcaption>
+<svg viewBox="0 0 520 280" width="100%" role="img" aria-label="Temsili grafik: yalnızca ilk fiyata göre kurulan sistemin maliyeti arızalarla basamak basamak artar; doğru projelendirilmiş sistem biraz yüksek başlar ve düz devam eder." style="font-family: 'IBM Plex Mono', monospace">
+<g stroke="rgba(236,233,228,.12)"><path d="M50 40 H500 M50 100 H500 M50 160 H500 M50 220 H500"></path></g>
+<path d="M50 20 V240 H505" stroke="rgba(236,233,228,.4)" fill="none"></path>
+<path d="M50 206 H140 V176 H230 V150 H300 V112 H390 V84 H450 V52 H500" fill="none" stroke="#e2725b" stroke-width="2.6"></path>
+<path class="draw" pathLength="1" d="M50 190 L500 150" fill="none" stroke="#d2a56f" stroke-width="3"></path>
+<circle cx="140" cy="182" r="5" fill="#ece9e4"></circle>
+<text x="146" y="200" font-size="12" fill="#ece9e4">başabaş</text>
+<text x="146" y="167" font-size="11" fill="#e2725b">arıza</text><text x="236" y="141" font-size="11" fill="#e2725b">kayıp</text><text x="306" y="103" font-size="11" fill="#e2725b">revizyon</text><text x="396" y="75" font-size="11" fill="#e2725b">hasar</text>
+<text x="500" y="44" text-anchor="end" font-size="12.5" fill="#e2725b">Yalnızca ilk fiyata göre</text>
+<text x="500" y="172" text-anchor="end" font-size="12.5" fill="#d2a56f">Doğru projelendirilmiş</text>
+<text x="56" y="258" font-size="11.5" fill="#8f959b">kurulum</text><text x="500" y="258" text-anchor="end" font-size="11.5" fill="#8f959b">yıllar →</text>
+<text x="40" y="30" text-anchor="end" font-size="11.5" fill="#8f959b">₺</text>
+</svg>
+<p class="mono" style="font-size: 12px; color: #8f959b">Grafik yaklaşımı anlatır; gerçek değerler projeye göre hesaplanır.</p>
+</figure>
+</div>
+</div>
+</section>
+
+<!-- HİZMETLER (mevcut yapı + dock animasyonu) -->
+<div class="sdiv"><hr><span>Hizmetler</span><hr></div>
+<section id="hizmetler" class="sec" style="padding: 56px 0 104px; background: linear-gradient(180deg, rgba(19,21,23,.97) 0%, rgba(14,16,18,.99) 100%)">
+<div class="wrap-w" style="display: flex; flex-direction: column; gap: 14px">
+<span class="kick">Çözüm Portföyü</span>
+<h2 class="h2">Mühendislik Temelli Elektrik Çözümleri</h2>
+<p class="lead" style="margin-bottom: 30px">Standartlara uygun tasarım, uygulama ve devreye alma. Kapsamı görmek için bir başlığa tıklayın.</p>
+<div class="services-grid" id="grid">
+<sc-for list="{{services}}" as="s" hint-placeholder-count="8">
+<button type="button" class="svc-card {{s.cls}}" onClick="{{s.pick}}" aria-expanded="{{s.expanded}}">
+<span class="svc-icon">
+<sc-if value="{{s.i0}}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"></path></svg></sc-if>
+<sc-if value="{{s.i1}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1"></rect><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"></path></svg></sc-if>
+<sc-if value="{{s.i2}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="1"></rect><path d="M8 7v4M12 7v4M16 7v4M8 15h8"></path></svg></sc-if>
+<sc-if value="{{s.i3}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 17a8 8 0 1 1 16 0"></path><path d="M12 17l4-6"></path><path d="M4 21h16"></path></svg></sc-if>
+<sc-if value="{{s.i4}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"></path></svg></sc-if>
+<sc-if value="{{s.i5}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"></path></svg></sc-if>
+<sc-if value="{{s.i6}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h12v10H3z"></path><path d="m15 10 6-3v10l-6-3"></path></svg></sc-if>
+<sc-if value="{{s.i7}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V4l16 16z"></path><path d="M8 16v-4l4 4z"></path></svg></sc-if>
+</span>
+<span class="svc-title">{{s.title}}</span>
+<span class="svc-desc">{{s.desc}}</span>
+<span style="margin-top: 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px"><span class="svc-tag">{{s.tag}}</span><span class="svc-cta">{{s.cta}} <span style="color: #d2a56f; font-size: 15px; line-height: 1">›</span></span></span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{svcOpen}}" hint-placeholder-val="{{ false }}">
+<div class="pop" style="margin-top: 8px; padding: 44px; border-radius: 16px; background: linear-gradient(180deg, rgba(29,33,37,.95) 0%, rgba(15,17,19,.98) 100%); box-shadow: 0 34px 72px rgba(0,0,0,.34), inset 0 0 0 1px rgba(255,255,255,.05); display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; align-items: center; gap: 10px; font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; color: #d2a56f"><span class="mono" style="min-width: 44px; height: 34px; padding: 0 12px; border-radius: 10px; background: rgba(210,165,111,.12); display: inline-flex; align-items: center; justify-content: center; font-size: 13px; letter-spacing: 0">{{svc.code}}</span>{{svc.meta}}</div>
+<h3 style="font-size: clamp(28px, 2.8vw, 38px); font-weight: 800; letter-spacing: -.035em; line-height: 1.05">{{svc.title}}</h3>
+<p style="color: rgba(232,230,227,.82); font-size: 15.5px; line-height: 1.8; max-width: 900px">{{svc.full}}</p>
+<sc-if value="{{svc.hasNote}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 16px 18px; border-radius: 14px; background: linear-gradient(180deg, rgba(210,165,111,.12) 0%, rgba(31,25,19,.72) 100%); box-shadow: inset 0 0 0 1px rgba(229,195,143,.14); max-width: 900px"><div style="font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; color: #d2a56f; margin-bottom: 6px">{{svc.noteTitle}}</div><p style="font-size: 14px; color: #ece9e4">{{svc.note}}</p></div>
+</sc-if>
+<div style="display: flex; flex-wrap: wrap; gap: 8px"><sc-for list="{{svc.features}}" as="f" hint-placeholder-count="5"><span class="feat-pill">{{f}}</span></sc-for></div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; padding-top: 8px"><a class="btn btn-gold" href="{{svc.wa}}" target="_blank" rel="noopener">{{svc.waLabel}}</a><a class="btn btn-line" href="#teklif">Teklif Formu</a></div>
+</div>
+</sc-if>
+</div>
+</section>
+
+<!-- TEKNİK ODAK -->
+<div class="sdiv" style="padding-top: 8px"><hr><span>Teknik Odak</span><hr></div>
+<section id="teknik" class="sec" style="padding: 56px 0 112px; position: relative; overflow: hidden">
+<div aria-hidden="true" style="position: absolute; inset: 0; background-image: linear-gradient(rgba(210,165,111,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(210,165,111,.05) 1px, transparent 1px); background-size: 64px 64px"></div>
+<div class="wrap-w" style="position: relative; display: flex; flex-direction: column; gap: 32px">
+<div style="display: grid; grid-template-columns: minmax(0,1fr); gap: 48px; max-width: 860px">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<span class="kick">Hesap ve Planlama Modülleri</span>
+<h2 style="font-size: clamp(40px, 5vw, 68px); line-height: .98; letter-spacing: -.04em; font-weight: 900">Teknik Odak</h2>
+<p class="lead" style="font-size: 17px">Kendi işlerimizde kullandığımız hesap modülleri herkese açık. Ön hesabınızı yapın, sonucu bize gönderin.</p>
+</div>
+</div>
+<div class="g4" style="gap: 16px">
+<sc-for list="{{tools}}" as="t" hint-placeholder-count="4">
+<button type="button" class="tool {{t.cls}}" onClick="{{t.pick}}" aria-expanded="{{t.expanded}}" id="{{t.btnId}}">
+<span style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px">
+<span class="tool-ic">
+<sc-if value="{{t.isAyd}}" hint-placeholder-val="{{ true }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9 18h6M10 21h4"></path><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"></path></svg></sc-if>
+<sc-if value="{{t.isSalt}}" hint-placeholder-val="{{ false }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"></path></svg></sc-if>
+<sc-if value="{{t.isSul}}" hint-placeholder-val="{{ false }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"></path><path d="M9 14a3 3 0 0 0 3 3"></path></svg></sc-if>
+<sc-if value="{{t.isMlz}}" hint-placeholder-val="{{ false }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"></rect><rect x="9" y="2" width="6" height="4" rx="1"></rect><path d="M9 11h6M9 15h6M9 19h3"></path></svg></sc-if>
+</span>
+<span class="tool-badge">{{t.badge}}</span>
+</span>
+<span style="height: 70px; display: flex; align-items: center">
+<sc-if value="{{t.isAyd}}" hint-placeholder-val="{{ true }}"><span style="display: flex; flex-direction: column; gap: 6px; width: 100%"><span style="height: 12px; border-radius: 6px; background: linear-gradient(90deg, #ff8a2b, #ffb35c, #ffe2b8, #fff6ec, #e6efff, #bcd4ff)"></span><span class="mono" style="display: flex; justify-content: space-between; font-size: 11px; color: #8f959b"><span>1000K</span><span>4000K</span><span>7000K</span></span></span></sc-if>
+<sc-if value="{{t.isSalt}}" hint-placeholder-val="{{ false }}"><span class="mono" style="display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 6px; width: 100%; font-size: 12px"><span style="padding: 8px; border: 1px solid rgba(210,165,111,.35); border-radius: 8px; text-align: center; color: #e5c38f">C16</span><span style="padding: 8px; border: 1px solid rgba(255,255,255,.12); border-radius: 8px; text-align: center">2,5 mm²</span><span style="padding: 8px; border: 1px solid rgba(255,255,255,.12); border-radius: 8px; text-align: center">ΔU %</span></span></sc-if>
+<sc-if value="{{t.isSul}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 200 64" width="100%" height="64" aria-hidden="true"><path d="M6 58 H196 M6 4 V58" stroke="rgba(236,233,228,.25)" fill="none"></path><path d="M8 10 C70 12 130 26 192 56" stroke="#d2a56f" stroke-width="2" fill="none"></path><path d="M8 52 C70 46 130 30 192 14" stroke="rgba(236,233,228,.5)" stroke-width="1.6" fill="none" stroke-dasharray="3 3"></path><circle class="pulse" cx="118" cy="30" r="4" fill="#e5c38f"></circle></svg></sc-if>
+<sc-if value="{{t.isMlz}}" hint-placeholder-val="{{ false }}"><span style="display: flex; flex-direction: column; gap: 6px; width: 100%; font-size: 12px; color: #c9cdd1"><span style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,.12); padding-bottom: 4px"><span>ADP + daire panosu</span><span style="color: #d2a56f">✓</span></span><span style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,.12); padding-bottom: 4px"><span>Kolon · NYY / NYM</span><span style="color: #d2a56f">✓</span></span><span style="display: flex; justify-content: space-between"><span>Topraklama</span><span style="color: #d2a56f">✓</span></span></span></sc-if>
+</span>
+<span style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 22px; font-weight: 800; letter-spacing: -.02em">{{t.title}}</span><span style="font-size: 14px; color: rgba(232,230,227,.78); line-height: 1.6">{{t.sub}}</span></span>
+<span style="display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.08)"><span style="font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; color: #d2a56f">{{t.meta}}</span><span class="tool-arrow" style="color: #d2a56f">▼</span></span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{toolOpen}}" hint-placeholder-val="{{ true }}">
+<div class="pop" id="{{tool.panelId}}" style="padding: 36px; border-radius: 22px; background: linear-gradient(180deg, #1b1e22 0%, #111316 100%); border: 1px solid rgba(210,165,111,.3); display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: flex-start">
+<div style="display: flex; flex-direction: column; gap: 10px; max-width: 760px">
+<span style="align-self: flex-start; font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: #1d140a; background: #d2a56f; padding: 5px 11px; border-radius: 99px; font-weight: 700">{{tool.pBadge}}</span>
+<h3 style="font-size: 30px; font-weight: 800; letter-spacing: -.03em">{{tool.pTitle}}</h3>
+<p style="color: #c9cdd1; font-size: 15.5px; line-height: 1.75">{{tool.pDesc}}</p>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap"><a class="btn btn-gold" href="{{tool.href}}" target="_blank" rel="noopener" style="min-height: 54px; padding: 0 28px; font-size: 15px">Aracı Aç ↗</a><a class="btn btn-line" href="{{tool.wa}}" target="_blank" rel="noopener" style="min-height: 54px">Uzman değerlendirmesi için bize ulaşın</a></div>
+</div>
+<div class="g3" style="gap: 12px"><sc-for list="{{tool.items}}" as="it" hint-placeholder-count="3"><article class="entry-item"><div style="font-weight: 700; font-size: 15px; margin-bottom: 6px">{{it.t}}</div><p style="font-size: 13.5px; color: rgba(232,230,227,.74); line-height: 1.6">{{it.d}}</p></article></sc-for></div>
+<sc-if value="{{tool.hasTrust}}" hint-placeholder-val="{{ false }}"><p style="font-size: 12.5px; color: #8f959b">{{tool.trust}}</p></sc-if>
+</div>
+</sc-if>
+</div>
+</section>
+
+<!-- 4 ÖLÇÜT -->
+<div class="sdiv"><hr><span>Tasarım Ölçütleri</span><hr></div>
+<section id="ilkeler" class="sec" style="padding: 56px 0 104px">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 14px"><span class="kick">İyi bir elektrik sistemi</span><h2 class="h2">Güvenilir, sürekli, verimli ve bakımı kolay.</h2></div>
+<p class="lead" style="max-width: 420px; font-size: 15.5px">Her projeyi bu dört başlıkla tasarlıyoruz.</p>
+</div>
+<div class="g2 rv" style="border: 1px solid rgba(236,233,228,.12); border-radius: 16px; overflow: hidden; background: #121518">
+<article style="padding: 36px; display: flex; flex-direction: column; gap: 18px; border-right: 1px solid rgba(236,233,228,.12); border-bottom: 1px solid rgba(236,233,228,.12)">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px">
+<div><div class="mono" style="font-size: 13px; color: #d2a56f">01</div><h3 style="font-size: 30px; font-weight: 800; letter-spacing: -.02em; margin-top: 6px">Güvenilir</h3></div>
+<svg width="190" height="96" viewBox="0 0 190 96" fill="none" aria-hidden="true"><path d="M10 6 V86 H184" stroke="rgba(236,233,228,.3)"></path><path d="M14 12 C40 14 56 26 70 46 C84 66 120 74 180 78" stroke="#d2a56f" stroke-width="2"></path><path d="M112 10 V86" stroke="rgba(226,114,91,.8)" stroke-dasharray="3 3"></path><circle class="pulse" cx="112" cy="70" r="5" fill="#e2725b"></circle><text x="108" y="22" font-family="IBM Plex Mono, monospace" font-size="11" fill="#8f959b">arıza → kes</text></svg>
+</div>
+<p style="color: #c9cdd1; font-size: 15.5px">Her koruma elemanı kablo, cihaz ve insana göre seçilir; arızada yalnızca ilgili devre açar.</p>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="chip mono" style="font-size: 12px">Seçicilik</span><span class="chip mono" style="font-size: 12px">Icu ≥ Ik</span><span class="chip mono" style="font-size: 12px">RCD koordinasyonu</span></div>
+</article>
+<article style="padding: 36px; display: flex; flex-direction: column; gap: 18px; border-bottom: 1px solid rgba(236,233,228,.12)">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px">
+<div><div class="mono" style="font-size: 13px; color: #d2a56f">02</div><h3 style="font-size: 30px; font-weight: 800; letter-spacing: -.02em; margin-top: 6px">Sürekli</h3></div>
+<svg width="190" height="96" viewBox="0 0 190 96" fill="none" aria-hidden="true"><path d="M6 48 H184" stroke="rgba(236,233,228,.2)"></path><path class="flow" d="M6 48 C18 18 30 18 42 48 S66 78 78 48 S102 18 114 48 S138 78 150 48 S174 18 186 48" stroke="#d2a56f" stroke-width="2" style="stroke-dasharray: 8 4"></path><path d="M70 84 H120" stroke="rgba(236,233,228,.35)" stroke-dasharray="2 3"></path><text x="70" y="94" font-family="IBM Plex Mono, monospace" font-size="10" fill="#8f959b">yedek besleme</text></svg>
+</div>
+<p style="color: #c9cdd1; font-size: 15.5px">Bir devredeki arıza bütün binayı karanlıkta bırakmaz. Kritik yükler ayrılır, fazlar dengelenir.</p>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="chip mono" style="font-size: 12px">Faz dengesi</span><span class="chip mono" style="font-size: 12px">Yedekleme</span><span class="chip mono" style="font-size: 12px">Kritik yük ayrımı</span></div>
+</article>
+<article style="padding: 36px; display: flex; flex-direction: column; gap: 18px; border-right: 1px solid rgba(236,233,228,.12)">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px">
+<div><div class="mono" style="font-size: 13px; color: #d2a56f">03</div><h3 style="font-size: 30px; font-weight: 800; letter-spacing: -.02em; margin-top: 6px">Kaliteli ve Verimli</h3></div>
+<svg width="190" height="96" viewBox="0 0 190 96" fill="none" aria-hidden="true"><circle cx="60" cy="48" r="40" stroke="rgba(236,233,228,.35)"></circle><circle cx="44" cy="38" r="11" stroke="#d2a56f" stroke-width="2"></circle><circle cx="76" cy="38" r="11" stroke="#d2a56f" stroke-width="2"></circle><circle cx="44" cy="62" r="11" stroke="#d2a56f" stroke-width="2"></circle><circle cx="76" cy="62" r="11" stroke="rgba(236,233,228,.5)" stroke-width="2"></circle><text x="112" y="40" font-family="IBM Plex Mono, monospace" font-size="11" fill="#d2a56f">doğru kesit</text><text x="112" y="56" font-family="IBM Plex Mono, monospace" font-size="11" fill="#8f959b">doğru koruma</text><text x="112" y="72" font-family="IBM Plex Mono, monospace" font-size="11" fill="#8f959b">düşük kayıp</text></svg>
+</div>
+<p style="color: #c9cdd1; font-size: 15.5px">Malzeme, devrenin gerçek çalışma koşuluna göre seçilir; ısınma ve enerji kaybı azalır.</p>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="chip mono" style="font-size: 12px">Kesit hesabı</span><span class="chip mono" style="font-size: 12px">ΔU kontrolü</span><span class="chip mono" style="font-size: 12px">Belgeli ürün</span></div>
+</article>
+<article style="padding: 36px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px">
+<div><div class="mono" style="font-size: 13px; color: #d2a56f">04</div><h3 style="font-size: 30px; font-weight: 800; letter-spacing: -.02em; margin-top: 6px">Yenilenebilir ve Ekonomik</h3></div>
+<svg width="190" height="96" viewBox="0 0 190 96" fill="none" aria-hidden="true"><path d="M10 70 H180" stroke="rgba(236,233,228,.35)" stroke-width="2"></path><rect x="22" y="36" width="22" height="34" rx="2" stroke="rgba(236,233,228,.5)"></rect><rect x="50" y="36" width="22" height="34" rx="2" stroke="rgba(236,233,228,.5)"></rect><rect class="pulse" x="78" y="18" width="22" height="34" rx="2" stroke="#d2a56f" stroke-width="2"></rect><rect x="106" y="36" width="22" height="34" rx="2" stroke="rgba(236,233,228,.5)"></rect><rect x="134" y="36" width="22" height="34" rx="2" stroke="rgba(236,233,228,.5)"></rect><path d="M89 12 V4 M84 8 L89 3 L94 8" stroke="#d2a56f" stroke-width="1.6"></path><text x="22" y="88" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#8f959b">modül değiştir, devam et</text></svg>
+</div>
+<p style="color: #c9cdd1; font-size: 15.5px">Standart ürün, etiketli pano ve yedek boşluk: arıza parça değişimiyle hızlı ve ucuz giderilir.</p>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="chip mono" style="font-size: 12px">Modüler pano</span><span class="chip mono" style="font-size: 12px">Etiketleme</span><span class="chip mono" style="font-size: 12px">Standart yedek parça</span></div>
+</article>
+</div>
+</div>
+</section>
+
+<!-- TEKNİK REHBER -->
+<section id="rehber" class="sec" style="padding: 112px 0; background-color: #efebe4; background-image: linear-gradient(rgba(22,24,26,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(22,24,26,.045) 1px, transparent 1px); background-size: 32px 32px; color: #16181a">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 48px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 14px; max-width: 780px">
+<span class="kick" style="color: #86562b">Teknik Rehber · Temelden profesyonele</span>
+<h2 class="h2" style="color: #16181a">Elektrikte doğru sistem nasıl kurulur?</h2>
+<p style="font-size: 17px; color: #43474b; max-width: 680px">Projeden topraklamaya 13 başlık; her cevabın altında sahada nasıl uyguladığımız.</p>
+</div>
+<div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap"><span class="lvl lvl-1">Temel</span><span style="color: #6b7075">→</span><span class="lvl lvl-2">Orta</span><span style="color: #6b7075">→</span><span class="lvl lvl-3">İleri</span></div>
+</div>
+<div class="qa-grid">
+<div class="tabs" role="tablist" aria-label="Konular" style="display: flex; flex-direction: column; gap: 18px; position: sticky; top: 100px">
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span class="mono" style="font-size: 11.5px; letter-spacing: .14em; color: #6b7075; padding: 0 0 6px 16px">{{g.label}}</span>
+<sc-for list="{{g.items}}" as="t" hint-placeholder-count="4">
+<button type="button" role="tab" class="tab {{t.cls}}" aria-selected="{{t.sel}}" onClick="{{t.pick}}"><span style="display: flex; gap: 10px; align-items: baseline"><span class="mono" style="font-size: 12px; color: #6b7075">{{t.num}}</span>{{t.name}}</span></button>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 30px; min-width: 0">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; gap: 10px; align-items: center"><span class="lvl {{topic.lvlCls}}">{{topic.level}}</span><span class="mono" style="font-size: 12px; color: #6b7075">Konu {{topic.num}} / 13</span></div>
+<h3 style="font-size: clamp(28px, 3vw, 40px); font-weight: 800; letter-spacing: -.025em; line-height: 1.08">{{topic.headline}}</h3>
+</div>
+
+<sc-if value="{{m.proje}}" hint-placeholder-val="{{ true }}">
+<div class="mod">
+<span class="mono" style="font-size: 12px; letter-spacing: .08em; color: #6b7075">BİR PROJEDE HESAPLANANLAR</span>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 8px">
+<sc-for list="{{projeItems}}" as="p" hint-placeholder-count="10"><div style="background: #efebe4; border: 1px solid rgba(22,24,26,.12); padding: 14px 12px; display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; color: #86562b">{{p.n}}</span><span style="font-size: 14px; font-weight: 700; line-height: 1.25">{{p.t}}</span></div></sc-for>
+</div>
+<p style="font-size: 14.5px; color: #43474b">Bunlar sahaya çıkmadan çözülür; çözülmeyen her başlık sahada sorun olarak döner.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{m.katman}}" hint-placeholder-val="{{ false }}">
+<div class="mod">
+<span class="mono" style="font-size: 12px; letter-spacing: .08em; color: #6b7075">KORUMA KATMANLARI</span>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: grid; grid-template-columns: 40px 170px minmax(0,1fr) 150px; gap: 14px; align-items: center; padding: 14px 16px; background: #fbfaf7; border: 1px solid rgba(22,24,26,.12)"><span class="mono" style="color: #86562b">04</span><strong>Aşırı gerilim</strong><span style="font-size: 14px; color: #43474b">Parafudr (SPD) — yıldırım ve şebeke darbeleri</span><span class="mono" style="font-size: 12px">cihazları korur</span></div>
+<div style="display: grid; grid-template-columns: 40px 170px minmax(0,1fr) 150px; gap: 14px; align-items: center; padding: 14px 16px; background: #fbfaf7; border: 1px solid rgba(22,24,26,.12)"><span class="mono" style="color: #86562b">03</span><strong>Kaçak akım</strong><span style="font-size: 14px; color: #43474b">RCD 30 mA — gövdeye ve insana kaçan akım</span><span class="mono" style="font-size: 12px">insanı korur</span></div>
+<div style="display: grid; grid-template-columns: 40px 170px minmax(0,1fr) 150px; gap: 14px; align-items: center; padding: 14px 16px; background: #fbfaf7; border: 1px solid rgba(22,24,26,.12)"><span class="mono" style="color: #86562b">02</span><strong>Kısa devre</strong><span style="font-size: 14px; color: #43474b">MCB manyetik açma / eriyen sigorta</span><span class="mono" style="font-size: 12px">yangını önler</span></div>
+<div style="display: grid; grid-template-columns: 40px 170px minmax(0,1fr) 150px; gap: 14px; align-items: center; padding: 14px 16px; background: #fbfaf7; border: 1px solid rgba(22,24,26,.12)"><span class="mono" style="color: #86562b">01</span><strong>Aşırı yük</strong><span style="font-size: 14px; color: #43474b">MCB termik açma — uzun süreli fazla akım</span><span class="mono" style="font-size: 12px">kabloyu korur</span></div>
+<div style="display: grid; grid-template-columns: 40px 170px minmax(0,1fr) 150px; gap: 14px; align-items: center; padding: 16px; background: #16181a; color: #efebe4"><span class="mono" style="color: #d2a56f">00</span><strong>Temel</strong><span style="font-size: 14px; color: #c9cdd1">Topraklama + eşpotansiyel bağlantı</span><span class="mono" style="font-size: 12px; color: #d2a56f">hepsini çalıştırır</span></div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{m.urun}}" hint-placeholder-val="{{ false }}">
+<div class="mod">
+<span class="mono" style="font-size: 12px; letter-spacing: .08em; color: #6b7075">ETİKETTE İKİSİ DE “C16”</span>
+<div style="display: grid; grid-template-columns: 1.1fr 1fr 1fr; border: 1px solid rgba(22,24,26,.15); font-size: 14.5px">
+<div style="padding: 12px 14px; background: #e5dfd4"></div><div style="padding: 12px 14px; background: #e5dfd4; font-weight: 700">Ürün X · C16</div><div style="padding: 12px 14px; background: #16181a; color: #efebe4; font-weight: 700">Ürün Y · C16</div>
+<div style="padding: 12px 14px; border-top: 1px solid rgba(22,24,26,.12)">Kesme kapasitesi</div><div style="padding: 12px 14px; border-top: 1px solid rgba(22,24,26,.12); color: #a8361f">4,5 kA</div><div style="padding: 12px 14px; border-top: 1px solid rgba(22,24,26,.12); font-weight: 600">10 kA</div>
+<div style="padding: 12px 14px; border-top: 1px solid rgba(22,24,26,.12)">Standart / belge</div><div style="padding: 12px 14px; border-top: 1px solid rgba(22,24,26,.12); color: #a8361f">belirsiz</div><div style="padding: 12px 14px; border-top: 1px solid rgba(22,24,26,.12); font-weight: 600">EN 60898-1 test belgeli</div>
+<div style="padding: 12px 14px; border-top: 1px solid rgba(22,24,26,.12)">Enerji sınırlama sınıfı</div><div style="padding: 12px 14px; border-top: 1px solid rgba(22,24,26,.12); color: #a8361f">belirtilmemiş</div><div style="padding: 12px 14px; border-top: 1px solid rgba(22,24,26,.12); font-weight: 600">3</div>
+<div style="padding: 12px 14px; border-top: 1px solid rgba(22,24,26,.12)">Klemens</div><div style="padding: 12px 14px; border-top: 1px solid rgba(22,24,26,.12); color: #a8361f">tork değeri yok</div><div style="padding: 12px 14px; border-top: 1px solid rgba(22,24,26,.12); font-weight: 600">kafes klemens, tork belirtilmiş</div>
+</div>
+<p style="font-size: 14.5px; color: #43474b">Fark ilk gün görünmez; ilk kısa devrede ortaya çıkar.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{m.maliyet}}" hint-placeholder-val="{{ false }}">
+<div class="mod">
+<span class="mono" style="font-size: 12px; letter-spacing: .08em; color: #6b7075">AYNI DEĞİŞİKLİĞİN MALİYETİ · AŞAMAYA GÖRE (TEMSİLİ)</span>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: grid; grid-template-columns: 200px minmax(0,1fr); gap: 16px; align-items: center"><span style="font-weight: 700">Proje aşamasında</span><div style="height: 18px; background: #e3ddd2"><div style="height: 100%; width: 4%; background: #2f6a3c"></div></div></div>
+<div style="display: grid; grid-template-columns: 200px minmax(0,1fr); gap: 16px; align-items: center"><span style="font-weight: 700">Uygulama sırasında</span><div style="height: 18px; background: #e3ddd2"><div style="height: 100%; width: 18%; background: #86562b"></div></div></div>
+<div style="display: grid; grid-template-columns: 200px minmax(0,1fr); gap: 16px; align-items: center"><span style="font-weight: 700">Sıva ve boyadan sonra</span><div style="height: 18px; background: #e3ddd2"><div style="height: 100%; width: 46%; background: #b0662f"></div></div></div>
+<div style="display: grid; grid-template-columns: 200px minmax(0,1fr); gap: 16px; align-items: center"><span style="font-weight: 700">İşletmede arıza olarak</span><div style="height: 18px; background: #e3ddd2"><div style="height: 100%; width: 100%; background: #a8361f"></div></div></div>
+</div>
+<p style="font-size: 14.5px; color: #43474b">Kâğıtta bir çizgi dakikalar sürer; sıvadan sonra kırma ve tamir, işletmede üretim kaybıdır.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{m.kesit}}" hint-placeholder-val="{{ false }}">
+<div class="mod">
+<span class="mono" style="font-size: 12px; letter-spacing: .08em; color: #6b7075">KOORDİNASYON · Ib ≤ In ≤ Iz · ÖRNEK: 2,5 mm² Cu PRİZ HATTI</span>
+<div style="display: flex; flex-direction: column; gap: 26px; padding: 10px 0">
+<div style="display: flex; flex-direction: column; gap: 10px"><div style="display: flex; justify-content: space-between"><strong>C16 sigorta</strong><span class="mono" style="color: #2f6a3c; font-weight: 600">✓ uygun</span></div>
+<div style="position: relative; height: 34px; border-bottom: 2px solid #16181a">
+<div style="position: absolute; left: 40%; bottom: 0; height: 28px; width: 2px; background: #6b7075"></div><span class="mono" style="position: absolute; left: 40%; top: -4px; transform: translateX(-50%); font-size: 12px; background: #f7f4ef; padding: 0 4px">Ib 12 A</span>
+<div style="position: absolute; left: 53%; bottom: 0; height: 28px; width: 3px; background: #2f6a3c"></div><span class="mono" style="position: absolute; left: 53%; top: 14px; transform: translateX(-50%); font-size: 12px; background: #f7f4ef; padding: 0 4px; color: #2f6a3c">In 16 A</span>
+<div style="position: absolute; left: 80%; bottom: 0; height: 28px; width: 2px; background: #16181a"></div><span class="mono" style="position: absolute; left: 80%; top: -4px; transform: translateX(-50%); font-size: 12px; background: #f7f4ef; padding: 0 4px">Iz ≈ 24 A</span>
+</div></div>
+<div style="display: flex; flex-direction: column; gap: 10px"><div style="display: flex; justify-content: space-between"><strong>Aynı hatta C25 sigorta</strong><span class="mono" style="color: #a8361f; font-weight: 600">✕ In &gt; Iz</span></div>
+<div style="position: relative; height: 34px; border-bottom: 2px solid #16181a">
+<div style="position: absolute; left: 40%; bottom: 0; height: 28px; width: 2px; background: #6b7075"></div><span class="mono" style="position: absolute; left: 40%; top: -4px; transform: translateX(-50%); font-size: 12px; background: #f7f4ef; padding: 0 4px">Ib 12 A</span>
+<div style="position: absolute; left: 80%; bottom: 0; height: 28px; width: 2px; background: #16181a"></div><span class="mono" style="position: absolute; left: 76%; top: -4px; transform: translateX(-50%); font-size: 12px; background: #f7f4ef; padding: 0 4px">Iz ≈ 24 A</span>
+<div style="position: absolute; left: 83%; bottom: 0; height: 28px; width: 3px; background: #a8361f"></div><span class="mono" style="position: absolute; left: 88%; top: 14px; transform: translateX(-50%); font-size: 12px; background: #f7f4ef; padding: 0 4px; color: #a8361f">In 25 A</span>
+</div></div>
+</div>
+<p style="font-size: 14.5px; color: #43474b">İkinci durumda kablo aşırı ısınırken sigorta açmaz. Iz, döşeme şekli ve gruplamaya göre düzeltilir.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{m.kutup}}" hint-placeholder-val="{{ false }}">
+<div class="mod">
+<div style="display: flex; flex-wrap: wrap; gap: 8px" role="group" aria-label="Kutup sayısı seçin"><sc-for list="{{poles}}" as="p" hint-placeholder-count="5"><button type="button" class="pick {{p.cls}}" onClick="{{p.pick}}" aria-pressed="{{p.sel}}" style="min-width: 72px">{{p.name}}</button></sc-for></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px; align-items: center">
+<div style="display: flex; flex-direction: column; gap: 16px; padding: 8px 0">
+<sc-for list="{{poleRows}}" as="r" hint-placeholder-count="4">
+<div style="display: flex; align-items: center; gap: 12px">
+<span class="mono" style="width: 26px; font-size: 13px; font-weight: 600">{{r.label}}</span>
+<div class="cond {{r.cls}}"></div>
+<sc-if value="{{r.kes}}" hint-placeholder-val="{{ true }}"><div style="width: 46px; height: 26px; border: 2px solid #16181a; background: #efebe4; display: flex; align-items: center; justify-content: center"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><path d="M2 12 L22 2" stroke="#86562b" stroke-width="2.2"></path></svg></div></sc-if>
+<sc-if value="{{r.notKes}}" hint-placeholder-val="{{ false }}"><div style="width: 46px; height: 26px; display: flex; align-items: center"><div class="cond {{r.cls}}"></div></div></sc-if>
+<div class="cond {{r.cls}}"></div>
+<span class="mono" style="width: 76px; font-size: 12px; color: #6b7075">{{r.note}}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 26px; font-weight: 800; letter-spacing: -.02em">{{pole.name}} <span style="font-size: 15px; font-weight: 500; color: #6b7075">· {{pole.sub}}</span></span>
+<p style="font-size: 15.5px; font-weight: 600">{{pole.note}}</p>
+<p style="font-size: 15px; color: #43474b"><span class="mono" style="font-size: 12px; color: #86562b; letter-spacing: .08em">NEREDE · </span>{{pole.where}}</p>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{m.tip}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div class="mod">
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); gap: 6px" role="group" aria-label="Sigorta tipi seçin"><sc-for list="{{fuses}}" as="f" hint-placeholder-count="7"><button type="button" class="pick {{f.cls}}" onClick="{{f.pick}}" aria-pressed="{{f.sel}}" style="min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: 'Archivo', sans-serif"><span style="font-size: 22px; font-weight: 800; line-height: 1">{{f.code}}</span><span class="mono" style="font-size: 11px; opacity: .75">{{f.kind}}</span></button></sc-for></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; letter-spacing: .1em; color: #86562b">AÇMA EŞİĞİ</span><span style="font-size: 24px; font-weight: 800">{{fuse.trip}}</span><span style="font-size: 14px; color: #43474b">{{fuse.name}}</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; letter-spacing: .1em; color: #86562b">NEREDE KULLANILIR?</span><span style="font-size: 15px">{{fuse.where}}</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; letter-spacing: .1em; color: #86562b">NEDEN TERCİH EDİLİR?</span><span style="font-size: 15px">{{fuse.why}}</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; letter-spacing: .1em; color: #a8361f">YANLIŞ SEÇİLİRSE?</span><span style="font-size: 15px">{{fuse.wrong}}</span></div>
+</div>
+</div>
+<div class="mod" style="display: grid; grid-template-columns: 200px minmax(0,1fr); gap: 32px; align-items: center">
+<div style="width: 200px; background: #fbfaf7; border: 2px solid #16181a; padding: 16px 14px; display: flex; flex-direction: column; gap: 10px; align-items: center; font-family: 'IBM Plex Mono', monospace">
+<div style="display: flex; justify-content: space-between; width: 100%; font-size: 12px"><span>①</span><span style="font-size: 26px; font-weight: 700; font-family: 'Archivo', sans-serif">C16</span><span></span></div>
+<div style="width: 46px; height: 74px; background: #16181a; border-radius: 3px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 6px 0; color: #efebe4; font-size: 12px"><span>I</span><span style="width: 30px; height: 26px; background: #d2a56f"></span><span>O</span></div>
+<div style="display: flex; gap: 10px; align-items: center; font-size: 12px"><span style="border: 1.5px solid #16181a; padding: 1px 6px">6000</span><span>②</span><span style="border: 1.5px solid #16181a; padding: 1px 6px">3</span><span>③</span></div>
+<div style="font-size: 11.5px; text-align: center; line-height: 1.5">230/400V~ ④<br>EN 60898-1 ⑤</div>
+</div>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+<li><strong>① C16</strong> — Açma karakteristiği <strong>C</strong>, anma akımı <strong>16 A</strong>.</li>
+<li><strong>② 6000</strong> (çerçeve içinde) — Kısa devre kesme kapasitesi: <strong>6 kA</strong>. Pano noktasındaki kısa devre akımından küçük olamaz.</li>
+<li><strong>③ 3</strong> (kare içinde) — Enerji sınırlama sınıfı. Sınıf 3, kısa devrede kabloya geçen enerjiyi en çok sınırlayan sınıftır.</li>
+<li><strong>④ 230/400V~</strong> — Anma gerilimi ve akım türü.</li>
+<li><strong>⑤ EN 60898-1</strong> — Konut ve benzeri kullanım standardı. Endüstriyel cihazlarda IEC 60947-2 ve Icu / Ics değerlerine bakılır.</li>
+</ol>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{m.rcd}}" hint-placeholder-val="{{ false }}">
+<div class="mod">
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center" role="group" aria-label="RCD tipi seçin"><span class="mono" style="font-size: 12px; color: #6b7075; margin-right: 6px">TİP</span><sc-for list="{{rcds}}" as="r" hint-placeholder-count="4"><button type="button" class="pick {{r.cls}}" onClick="{{r.pick}}" aria-pressed="{{r.sel}}" style="min-width: 64px">{{r.code}}</button></sc-for></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; letter-spacing: .1em; color: #86562b">ALGILADIĞI</span><span style="font-size: 15px">{{rcd.detects}}</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; letter-spacing: .1em; color: #86562b">NEREDE</span><span style="font-size: 15px">{{rcd.where}}</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; letter-spacing: .1em; color: #86562b">NOT</span><span style="font-size: 15px">{{rcd.note}}</span></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px">
+<div style="padding: 14px 16px; background: #16181a; color: #efebe4"><strong style="font-size: 20px">30 mA</strong><div style="font-size: 13.5px; color: #c9cdd1">Hayat koruması · priz, ıslak hacim, dış mekân</div></div>
+<div style="padding: 14px 16px; background: #e5dfd4"><strong style="font-size: 20px">300 mA</strong><div style="font-size: 13.5px; color: #43474b">Yangın koruması · ana girişte, insanı korumaz</div></div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{m.grup}}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px">
+<figure class="mod" style="margin: 0; border-color: rgba(168,54,31,.4); gap: 14px">
+<svg viewBox="0 0 300 150" width="100%" role="img" aria-label="Sıkıştırılmış kablo demeti kesiti"><circle cx="150" cy="75" r="62" fill="none" stroke="#a8361f" stroke-dasharray="4 4"></circle><g fill="#e3ddd2" stroke="#16181a" stroke-width="1.6"><circle cx="150" cy="75" r="15"></circle><circle cx="120" cy="75" r="15"></circle><circle cx="180" cy="75" r="15"></circle><circle cx="135" cy="49" r="15"></circle><circle cx="165" cy="49" r="15"></circle><circle cx="135" cy="101" r="15"></circle><circle cx="165" cy="101" r="15"></circle><circle cx="105" cy="49" r="15"></circle><circle cx="195" cy="101" r="15"></circle></g><g fill="#a8361f" opacity=".55"><circle class="pulse" cx="150" cy="75" r="7"></circle><circle class="pulse" cx="135" cy="49" r="5"></circle><circle class="pulse" cx="165" cy="101" r="5"></circle></g></svg>
+<figcaption style="display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; color: #a8361f; letter-spacing: .08em">✕ SIK DEMET · 9 DEVRE</span><span style="font-size: 15px">Kablolar birbirini ısıtır. Taşıma kapasitesi yaklaşık <strong>yarıya</strong> düşer (k ≈ 0,50).</span></figcaption>
+</figure>
+<figure class="mod" style="margin: 0; gap: 14px">
+<svg viewBox="0 0 300 150" width="100%" role="img" aria-label="Kablo tavasında aralıklı tek sıra döşenmiş kablolar"><path d="M14 98 H286 M14 98 V84 M286 98 V84" stroke="#16181a" stroke-width="2.4" fill="none"></path><g fill="#e3ddd2" stroke="#16181a" stroke-width="1.6"><circle cx="42" cy="82" r="14"></circle><circle cx="100" cy="82" r="14"></circle><circle cx="158" cy="82" r="14"></circle><circle cx="216" cy="82" r="14"></circle><circle cx="262" cy="82" r="14"></circle></g><path d="M56 60 H86" stroke="#86562b" stroke-width="1.4"></path><text x="71" y="54" text-anchor="middle" font-size="11.5" fill="#86562b" font-family="IBM Plex Mono, monospace">≥ D</text></svg>
+<figcaption style="display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; color: #2f6a3c; letter-spacing: .08em">✓ TAVADA ARALIKLI · TEK SIRA</span><span style="font-size: 15px">Isı dağılır; kablo projede hesaplanan akımı sahada da taşır (k ≈ 1).</span></figcaption>
+</figure>
+<p class="mono" style="grid-column: 1 / -1; font-size: 12px; color: #6b7075">Kaynak: IEC 60364-5-52 gruplama düzeltme faktörleri.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{m.kisa}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div class="mod">
+<div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px"><span class="mono" style="font-size: 12px; letter-spacing: .08em; color: #6b7075">ÖRNEK · PANO GİRİŞİNDE HESAPLANAN Ik = 8 kA</span><span class="mono" style="font-size: 12px">Koşul: Icn / Icu ≥ Ik</span></div>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: grid; grid-template-columns: 110px minmax(0,1fr) 96px; gap: 14px; align-items: center"><strong>4,5 kA</strong><div style="height: 14px; background: #e3ddd2; position: relative"><div style="position: absolute; inset: 0 auto 0 0; width: 45%; background: #a8361f"></div><div style="position: absolute; top: -6px; bottom: -6px; left: 80%; width: 2px; background: #16181a"></div></div><span class="mono" style="font-size: 12.5px; color: #a8361f; font-weight: 600">✕ yetersiz</span></div>
+<div style="display: grid; grid-template-columns: 110px minmax(0,1fr) 96px; gap: 14px; align-items: center"><strong>6 kA</strong><div style="height: 14px; background: #e3ddd2; position: relative"><div style="position: absolute; inset: 0 auto 0 0; width: 60%; background: #a8361f"></div><div style="position: absolute; top: -6px; bottom: -6px; left: 80%; width: 2px; background: #16181a"></div></div><span class="mono" style="font-size: 12.5px; color: #a8361f; font-weight: 600">✕ yetersiz</span></div>
+<div style="display: grid; grid-template-columns: 110px minmax(0,1fr) 96px; gap: 14px; align-items: center"><strong>10 kA</strong><div style="height: 14px; background: #e3ddd2; position: relative"><div style="position: absolute; inset: 0 auto 0 0; width: 100%; background: #16181a"></div><div style="position: absolute; top: -6px; bottom: -6px; left: 80%; width: 2px; background: #d2a56f"></div></div><span class="mono" style="font-size: 12.5px; color: #2f6a3c; font-weight: 600">✓ uygun</span></div>
+</div>
+<p style="font-size: 14.5px; color: #43474b">Üçü de “32 A”; fark, kısa devreyi kesip kesemeyeceğinde.</p>
+</div>
+<div class="mod">
+<span class="mono" style="font-size: 12px; letter-spacing: .08em; color: #6b7075">SEÇİCİLİK · ARIZA YALNIZCA KENDİ DEVRESİNİ AÇAR</span>
+<div style="display: flex; flex-direction: column; align-items: center">
+<div style="padding: 12px 20px; background: #16181a; color: #efebe4; font-weight: 700">Ana şalter 63 A <span class="mono" style="font-size: 12px; color: #d2a56f">· kapalı kalır</span></div>
+<div style="width: 2px; height: 22px; background: #16181a"></div>
+<div style="width: 70%; height: 2px; background: #16181a"></div>
+<div style="width: 70%; display: grid; grid-template-columns: repeat(3, minmax(0,1fr))">
+<div style="display: flex; flex-direction: column; align-items: center"><div style="width: 2px; height: 22px; background: #16181a"></div><div style="padding: 10px 14px; border: 1px solid #16181a; background: #fbfaf7; font-weight: 600">B10 <span class="mono" style="font-size: 12px">· kapalı</span></div></div>
+<div style="display: flex; flex-direction: column; align-items: center"><div style="width: 2px; height: 22px; background: #a8361f"></div><div style="padding: 10px 14px; border: 2px solid #a8361f; background: #fbfaf7; font-weight: 700; color: #a8361f">C16 <span class="mono blink" style="font-size: 12px">· AÇTI</span></div><span class="mono" style="font-size: 12px; color: #a8361f; margin-top: 6px">arıza</span></div>
+<div style="display: flex; flex-direction: column; align-items: center"><div style="width: 2px; height: 22px; background: #16181a"></div><div style="padding: 10px 14px; border: 1px solid #16181a; background: #fbfaf7; font-weight: 600">C20 <span class="mono" style="font-size: 12px">· kapalı</span></div></div>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{m.toprak}}" hint-placeholder-val="{{ false }}">
+<div style="background: #16181a; color: #ece9e4; padding: 28px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; align-items: center">
+<p style="font-size: 20px; font-weight: 800; letter-spacing: -.02em">Topraklama sadece “birkaç kazık çakmak” değildir.</p>
+<div style="display: flex; flex-wrap: wrap" role="group" aria-label="Senaryo"><button type="button" class="seg {{earthOkCls}}" onClick="{{setEarthOk}}">Doğru sistem</button><button type="button" class="seg {{earthRcdCls}}" onClick="{{setEarthRcd}}" style="border-left: 0">Topraklama yok, RCD var</button><button type="button" class="seg {{earthNoneCls}}" onClick="{{setEarthNone}}" style="border-left: 0">Topraklama ve RCD yok</button></div>
+</div>
+<sc-if value="{{earthOk}}" hint-placeholder-val="{{ true }}">
+<svg viewBox="0 0 760 260" width="100%" role="img" aria-label="Doğru sistemde arıza akımı koruma iletkeninden akar ve RCD devreyi keser" style="font-family: 'IBM Plex Mono', monospace">
+<g fill="none" stroke="rgba(236,233,228,.5)" stroke-width="1.8"><rect x="30" y="40" width="110" height="70"></rect><path d="M140 60 H300 M140 90 H300"></path><rect x="300" y="44" width="70" height="62" stroke="#d2a56f"></rect><path d="M370 60 H520 M370 90 H520"></path><rect x="520" y="36" width="130" height="84"></rect><path d="M600 120 V190 H85 V110" stroke="#d2a56f" stroke-width="2.4"></path><path d="M85 190 V214 M70 214 H100 M75 220 H95 M81 226 H89" stroke="#d2a56f" stroke-width="2"></path></g>
+<path class="flow" d="M520 70 L560 70 L590 118 L600 190 L85 190 L85 110" fill="none" stroke="#f1d7ad" stroke-width="2.6"></path>
+<path d="M560 60 l12 14 -9 2 12 16" stroke="#e2725b" stroke-width="2.4" fill="none"></path>
+<g font-size="12" fill="#ece9e4"><text x="40" y="80">KAYNAK</text><text x="40" y="98" font-size="11.5" fill="#8f959b">L · N</text><text x="335" y="72" text-anchor="middle" fill="#d2a56f">RCD</text><text x="335" y="92" text-anchor="middle" font-size="11.5" fill="#d2a56f">AÇTI</text><text x="585" y="56" text-anchor="middle">CİHAZ</text><text x="585" y="138" font-size="11.5" fill="#8f959b" text-anchor="middle">gövde arızası</text><text x="300" y="182" fill="#d2a56f">PE · arıza akımı kimse dokunmadan dönüyor, RCD açıyor</text></g>
+<g transform="translate(680 120)" stroke="#ece9e4" stroke-width="2" fill="none"><circle cx="20" cy="10" r="9"></circle><path d="M20 19 V58 M20 30 L2 46 M20 30 L38 46 M20 58 L6 86 M20 58 L34 86"></path></g>
+<text x="700" y="232" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#d2a56f">güvende</text>
+</svg>
+</sc-if>
+<sc-if value="{{earthRcd}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 760 270" width="100%" role="img" aria-label="Topraklama yoksa RCD gövde arızasını fark etmez; biri dokunduğunda akım insan üzerinden toprağa akar ve RCD ancak o anda devreyi keser" style="font-family: 'IBM Plex Mono', monospace">
+<g fill="none" stroke="rgba(236,233,228,.5)" stroke-width="1.8"><rect x="30" y="40" width="110" height="70"></rect><path d="M140 60 H300 M140 90 H300"></path><rect x="300" y="44" width="70" height="62" stroke="#d2a56f" stroke-width="2.4"></rect><path d="M370 60 H520 M370 90 H520"></path><rect x="520" y="36" width="130" height="84" stroke="#e2725b"></rect><path d="M600 120 V150" stroke-dasharray="4 5"></path></g>
+<path d="M560 60 l12 14 -9 2 12 16" stroke="#e2725b" stroke-width="2.4" fill="none"></path>
+<path class="flow" d="M650 84 L700 120 L700 178 L700 232" fill="none" stroke="#f0a35b" stroke-width="2.6"></path>
+<g font-size="13" fill="#ece9e4"><text x="40" y="80">KAYNAK</text><text x="40" y="99" font-size="13" fill="#8f959b">L · N</text><text x="335" y="72" text-anchor="middle" fill="#d2a56f">RCD</text><text x="335" y="93" text-anchor="middle" font-size="13" fill="#d2a56f">AÇTI</text><text x="585" y="56" text-anchor="middle">CİHAZ</text><text x="585" y="140" font-size="13" fill="#e2725b" text-anchor="middle">gövde gerilimde</text><text x="560" y="170" font-size="13" fill="#8f959b">PE yok</text><text x="40" y="250" font-size="12.5" fill="#f0a35b">RCD ancak akım insan üzerinden toprağa akınca keser: koruma var, çarpılma yaşanır.</text></g>
+<g transform="translate(680 120)" stroke="#f0a35b" stroke-width="2" fill="none"><circle cx="20" cy="10" r="9"></circle><path d="M20 19 V58 M20 30 L-12 6 M20 30 L38 46 M20 58 L6 86 M20 58 L34 86"></path></g>
+</svg>
+</sc-if>
+<sc-if value="{{earthNone}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 760 260" width="100%" role="img" aria-label="Topraklama eksikse arızalı cihazın gövdesi gerilim altında kalır ve akım dokunan kişinin üzerinden akar" style="font-family: 'IBM Plex Mono', monospace">
+<g fill="none" stroke="rgba(236,233,228,.5)" stroke-width="1.8"><rect x="30" y="40" width="110" height="70"></rect><path d="M140 60 H300 M140 90 H300"></path><rect x="300" y="44" width="70" height="62"></rect><path d="M370 60 H520 M370 90 H520"></path><rect x="520" y="36" width="130" height="84" stroke="#e2725b"></rect><path d="M600 120 V150" stroke-dasharray="4 5"></path></g>
+<path d="M560 60 l12 14 -9 2 12 16" stroke="#e2725b" stroke-width="2.4" fill="none"></path>
+<path class="flow" d="M650 84 L700 120 L700 178 L700 230" fill="none" stroke="#e2725b" stroke-width="2.6"></path>
+<g font-size="12" fill="#ece9e4"><text x="40" y="80">KAYNAK</text><text x="40" y="98" font-size="11.5" fill="#8f959b">L · N</text><text x="335" y="72" text-anchor="middle" fill="#8f959b">RCD</text><text x="335" y="92" text-anchor="middle" font-size="11.5" fill="#e2725b">YOK</text><text x="585" y="56" text-anchor="middle">CİHAZ</text><text x="585" y="138" font-size="11.5" fill="#e2725b" text-anchor="middle">gövde gerilimde</text><text x="560" y="170" font-size="12" fill="#8f959b">PE yok</text><text x="40" y="250" font-size="12.5" fill="#e2725b">Akımın tek yolu dokunan insan; devreyi kesen hiçbir şey yok.</text></g>
+<g transform="translate(680 120)" stroke="#e2725b" stroke-width="2" fill="none"><circle cx="20" cy="10" r="9"></circle><path d="M20 19 V58 M20 30 L-12 6 M20 30 L38 46 M20 58 L6 86 M20 58 L34 86"></path></g>
+<text class="blink" x="700" y="252" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#e2725b">TEHLİKE</text>
+</svg>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{m.ttip}}" hint-placeholder-val="{{ false }}">
+<div class="mod">
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px">
+<div style="background: #fbfaf7; border: 1px solid rgba(22,24,26,.12); padding: 16px; display: flex; flex-direction: column; gap: 10px"><svg width="100%" height="56" viewBox="0 0 160 56" aria-hidden="true"><rect x="10" y="8" width="140" height="26" fill="#e3ddd2" stroke="#16181a"></rect><path d="M16 30 H144" stroke="#86562b" stroke-width="3"></path></svg><strong>Temel topraklaması</strong><span style="font-size: 13.5px; color: #43474b">Yeni binalarda, beton dökülmeden temele yerleştirilen şerit. Kararlı ve uzun ömürlü.</span></div>
+<div style="background: #fbfaf7; border: 1px solid rgba(22,24,26,.12); padding: 16px; display: flex; flex-direction: column; gap: 10px"><svg width="100%" height="56" viewBox="0 0 160 56" aria-hidden="true"><path d="M10 14 H150" stroke="#16181a"></path><path d="M50 14 V52 M110 14 V52" stroke="#86562b" stroke-width="3"></path><path d="M50 8 H110" stroke="#86562b" stroke-dasharray="3 3"></path></svg><strong>Kazık (çubuk)</strong><span style="font-size: 13.5px; color: #43474b">Mevcut binalarda toprağa çakılan elektrotlar. Sayı ve mesafe ölçüme göre belirlenir.</span></div>
+<div style="background: #fbfaf7; border: 1px solid rgba(22,24,26,.12); padding: 16px; display: flex; flex-direction: column; gap: 10px"><svg width="100%" height="56" viewBox="0 0 160 56" aria-hidden="true"><rect x="40" y="10" width="80" height="30" fill="none" stroke="#16181a"></rect><rect x="28" y="4" width="104" height="44" fill="none" stroke="#86562b" stroke-width="3" stroke-dasharray="6 3"></rect></svg><strong>Şerit / ring</strong><span style="font-size: 13.5px; color: #43474b">Bina çevresine gömülen galvaniz şerit. Geniş alanlı tesislerde potansiyeli dengeler.</span></div>
+<div style="background: #fbfaf7; border: 1px solid rgba(22,24,26,.12); padding: 16px; display: flex; flex-direction: column; gap: 10px"><svg width="100%" height="56" viewBox="0 0 160 56" aria-hidden="true"><rect x="60" y="20" width="40" height="12" fill="#86562b"></rect><path d="M20 10 L64 22 M20 46 L64 30 M140 10 L96 22 M140 46 L96 30" stroke="#16181a"></path></svg><strong>Eşpotansiyel bara</strong><span style="font-size: 13.5px; color: #43474b">Su, gaz boruları ve metal yapıların aynı potansiyele bağlandığı nokta.</span></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1px; background: rgba(22,24,26,.15); border: 1px solid rgba(22,24,26,.15)">
+<div style="background: #16181a; color: #efebe4; padding: 16px"><div style="font-weight: 800; font-size: 18px">TT</div><div style="font-size: 13.5px; color: #c9cdd1">Tesis kendi elektroduna bağlı. RCD belirleyici; koşul: RA × IΔn ≤ 50 V.</div></div>
+<div style="background: #16181a; color: #efebe4; padding: 16px"><div style="font-weight: 800; font-size: 18px">TN-S</div><div style="font-size: 13.5px; color: #c9cdd1">N ve PE kaynaktan itibaren ayrı. Koşul: Zs × Ia ≤ U0.</div></div>
+<div style="background: #16181a; color: #efebe4; padding: 16px"><div style="font-weight: 800; font-size: 18px">TN-C-S</div><div style="font-size: 13.5px; color: #c9cdd1">Bir noktaya kadar ortak PEN, sonra ayrı N ve PE. Ayrım noktası doğru kurulmalı.</div></div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{m.bakim}}" hint-placeholder-val="{{ false }}">
+<div class="mod">
+<span class="mono" style="font-size: 12px; letter-spacing: .08em; color: #6b7075">ÖRNEK BAKIM TAKVİMİ</span>
+<div style="display: flex; flex-direction: column; border-top: 1px solid rgba(22,24,26,.15)">
+<div style="display: grid; grid-template-columns: minmax(0,1.4fr) minmax(0,1fr) 130px; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(22,24,26,.12); font-size: 14.5px"><strong>RCD test butonu</strong><span>üretici önerisine göre, birkaç ayda bir</span><span class="mono" style="font-size: 12px">kullanıcı</span></div>
+<div style="display: grid; grid-template-columns: minmax(0,1.4fr) minmax(0,1fr) 130px; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(22,24,26,.12); font-size: 14.5px"><strong>Topraklama ölçümü</strong><span>işyerlerinde yılda bir (yasal)</span><span class="mono" style="font-size: 12px">yetkili</span></div>
+<div style="display: grid; grid-template-columns: minmax(0,1.4fr) minmax(0,1fr) 130px; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(22,24,26,.12); font-size: 14.5px"><strong>Pano bağlantı sıkılığı ve ısınma kontrolü</strong><span>yılda bir</span><span class="mono" style="font-size: 12px">yetkili</span></div>
+<div style="display: grid; grid-template-columns: minmax(0,1.4fr) minmax(0,1fr) 130px; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(22,24,26,.12); font-size: 14.5px"><strong>Kompanzasyon / reaktif takibi</strong><span>her fatura döneminde</span><span class="mono" style="font-size: 12px">işletme + yetkili</span></div>
+<div style="display: grid; grid-template-columns: minmax(0,1.4fr) minmax(0,1fr) 130px; gap: 14px; padding: 12px 0; font-size: 14.5px"><strong>İzolasyon ölçümü</strong><span>revizyonda ve şüpheli arızada</span><span class="mono" style="font-size: 12px">yetkili</span></div>
+</div>
+</div>
+</sc-if>
+
+<div>
+<sc-for list="{{qs}}" as="q" hint-placeholder-count="4">
+<div class="qa {{q.cls}}">
+<button type="button" class="qa-btn" onClick="{{q.toggle}}" aria-expanded="{{q.open}}"><span>{{q.q}}</span><span class="qa-ic" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6"></path></svg></span></button>
+<sc-if value="{{q.open}}" hint-placeholder-val="{{ false }}">
+<div class="pop" style="display: flex; flex-direction: column; gap: 14px; max-width: 780px; padding-bottom: 24px">
+<p style="font-size: 16px; color: #43474b; line-height: 1.75">{{q.a}}</p>
+<p style="font-size: 15px; color: #16181a; background: #e5dfd4; padding: 14px 16px; border-left: 3px solid #86562b"><span class="mono" style="font-size: 12px; letter-spacing: .1em; color: #86562b; display: block; margin-bottom: 4px">SAHADA</span>{{q.b}}</p>
+</div>
+</sc-if>
+</div>
+</sc-for>
+<div style="border-top: 1px solid rgba(22,24,26,.14)"></div>
+</div>
+
+<div style="display: flex; justify-content: flex-end"><button type="button" class="btn" onClick="{{nextTopic}}" style="background: #16181a; color: #ece9e4">Sonraki konu →</button></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- SÜREÇ -->
+<div class="sdiv" style="padding-top: 72px"><hr><span>Çalışma Süreci</span><hr></div>
+<section id="surec" class="sec" style="padding: 56px 0 104px">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 44px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 14px"><span class="kick">Kurulum ve uygulama</span><h2 class="h2">Bir işi nasıl yürütüyoruz?</h2></div>
+<p class="lead" style="max-width: 420px; font-size: 15.5px">Keşiften devreye almaya altı adım; her adımın bir çıktısı var.</p>
+</div>
+<div style="position: relative; height: 2px; background: rgba(236,233,228,.1)"><div style="position: absolute; inset: 0 auto 0 0; width: {{progress}}%; background: #d2a56f; transition: width .6s cubic-bezier(.6,.1,.2,1)"></div></div>
+<div class="steps6" style="gap: 14px"><sc-for list="{{steps}}" as="st" hint-placeholder-count="6"><button type="button" class="step {{st.cls}}" onClick="{{st.pick}}"><span class="mono" style="font-size: 12px">{{st.num}}</span><span style="font-size: 18px; font-weight: 700">{{st.title}}</span></button></sc-for></div>
+<div class="pop" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; padding: 40px; border: 1px solid rgba(236,233,228,.12); border-radius: 16px; background: #121518">
+<div style="display: flex; flex-direction: column; gap: 14px"><span class="mono" style="font-size: 12px; color: #d2a56f; letter-spacing: .1em">AŞAMA {{step.num}} / 06</span><h3 style="font-size: 36px; font-weight: 800; letter-spacing: -.025em; line-height: 1.05">{{step.title}}</h3><p style="font-size: 16.5px; color: #c9cdd1">{{step.desc}}</p></div>
+<div style="display: flex; flex-direction: column; gap: 14px; justify-content: center"><span class="mono" style="font-size: 12px; color: #8f959b; letter-spacing: .1em">KONTROL EDİLENLER</span><div style="display: flex; flex-wrap: wrap; gap: 8px"><sc-for list="{{step.checks}}" as="c" hint-placeholder-count="4"><span class="chip">{{c}}</span></sc-for></div><div style="display: flex; gap: 12px; align-items: center; padding-top: 10px; border-top: 1px solid rgba(236,233,228,.1)"><span class="mono" style="font-size: 12px; color: #d2a56f; letter-spacing: .1em">ÇIKTI</span><span style="font-weight: 600">{{step.out}}</span></div></div>
+</div>
+</div>
+</section>
+
+<!-- İŞLETME -->
+<section id="isletme" class="sec" style="padding: 104px 0; background: #121518; border-top: 1px solid rgba(236,233,228,.06); border-bottom: 1px solid rgba(236,233,228,.06)">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 44px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 14px"><span class="kick">Bakım ve servis hizmeti</span><h2 class="h2">Teslimden sonra: bakım ve servis.</h2></div>
+<p class="lead" style="max-width: 440px; font-size: 15.5px">Periyodik bakım, arıza servisi ve verimlilik çalışması ayrı, ücretli hizmetlerdir. Kapsamı işletmeye göre birlikte belirleriz.</p>
+</div>
+<div class="g4 rv" style="gap: 1px; background: rgba(236,233,228,.1); border: 1px solid rgba(236,233,228,.1); border-radius: 16px; overflow: hidden">
+<div style="background: #121518; padding: 26px; display: flex; flex-direction: column; gap: 8px; min-height: 160px"><span class="mono" style="font-size: 12px; color: #d2a56f">Bakım</span><span style="font-size: 15.5px; color: #c9cdd1">Periyodik ölçüm arızayı oluşmadan gösterir. İşyerlerinde yasal zorunluluktur.</span></div>
+<div style="background: #121518; padding: 26px; display: flex; flex-direction: column; gap: 8px"><span class="mono" style="font-size: 12px; color: #d2a56f">Arıza</span><span style="font-size: 15.5px; color: #c9cdd1">Etiketli tesisatta arıza hızlı bulunur. 7/24 arıza servisi.</span></div>
+<div style="background: #121518; padding: 26px; display: flex; flex-direction: column; gap: 8px"><span class="mono" style="font-size: 12px; color: #d2a56f">Enerji verimliliği</span><span style="font-size: 15.5px; color: #c9cdd1">Kompanzasyon, faz dengesi ve kayıp analizi.</span></div>
+<div style="background: #121518; padding: 26px; display: flex; flex-direction: column; gap: 8px"><span class="mono" style="font-size: 12px; color: #d2a56f">Genişleme</span><span style="font-size: 15.5px; color: #c9cdd1">Yedek hat ve pano boşluğu baştan ucuz, sonradan pahalı.</span></div>
+<div style="background: #121518; padding: 26px; display: flex; flex-direction: column; gap: 8px; min-height: 160px"><span class="mono" style="font-size: 12px; color: #d2a56f">Yedekleme</span><span style="font-size: 15.5px; color: #c9cdd1">Jeneratör, UPS ve kritik yük ayrımı.</span></div>
+<div style="background: #121518; padding: 26px; display: flex; flex-direction: column; gap: 8px"><span class="mono" style="font-size: 12px; color: #d2a56f">Koruma</span><span style="font-size: 15.5px; color: #c9cdd1">Seçicilikle yalnızca arızalı devre açar.</span></div>
+<div style="background: #121518; padding: 26px; display: flex; flex-direction: column; gap: 8px"><span class="mono" style="font-size: 12px; color: #d2a56f">Ekipman ömrü</span><span style="font-size: 15.5px; color: #c9cdd1">Dengeli yük ve doğru gerilim cihaz ömrünü uzatır.</span></div>
+<div style="background: #121518; padding: 26px; display: flex; flex-direction: column; gap: 8px"><span class="mono" style="font-size: 12px; color: #d2a56f">Gelecekteki yükler</span><span style="font-size: 15.5px; color: #c9cdd1">Isı pompası, şarj istasyonu, GES için yer ve güç payı.</span></div>
+</div>
+</div>
+</section>
+
+<!-- YORUMLAR -->
+<div class="sdiv" style="padding-top: 72px"><hr><span>Müşteri Yorumları</span><hr></div>
+<section id="yorumlar" class="sec" style="padding: 56px 0 96px">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 8px"><h2 class="h2">Müşterilerimiz Ne Diyor?</h2><div style="display: flex; align-items: center; gap: 10px"><span style="color: #d2a56f; letter-spacing: 2px">★★★★★</span><span style="color: #8f959b; font-size: 14px">Google yorumlarından</span></div></div>
+<a class="btn btn-line" href="https://maps.app.goo.gl/YwRZJt1DQknako1u6" target="_blank" rel="noopener" style="border-radius: 99px">Yorum Yap</a>
+</div>
+<div class="g4 rv" style="gap: 14px">
+<div class="rev"><div style="display: flex; align-items: center; gap: 10px"><div class="av" style="background: #1a73e8">EK</div><div><div style="font-weight: 600; font-size: 14px">Eda Kırılmaz</div><div style="font-size: 12px; color: #8f959b"><span style="color: #d2a56f">★★★★★</span> · 3 ay önce</div></div></div><p style="font-size: 13.5px; color: #c9cdd1; line-height: 1.7">İlgili, bilgili, deneyimli ve hızlı çalışma koşullarıyla tüm elektrik işlemlerimizi yaptırdığımız ve tavsiye ettiğimiz mühendis Burak Bey. Güvenle tercih edebilirsiniz.</p></div>
+<div class="rev"><div style="display: flex; align-items: center; gap: 10px"><div class="av" style="background: #b8963e">GC</div><div><div style="font-weight: 600; font-size: 14px">Gizem Culha</div><div style="font-size: 12px; color: #8f959b"><span style="color: #d2a56f">★★★★★</span> · 2 ay önce</div></div></div><p style="font-size: 13.5px; color: #c9cdd1; line-height: 1.7">Elinize sağlık çok memnun kaldık, kusursuz mükemmel iş çıkarıyorsunuz.</p></div>
+<div class="rev"><div style="display: flex; align-items: center; gap: 10px"><div class="av" style="background: #3a3f45">AT</div><div><div style="font-weight: 600; font-size: 14px">Ahmet Torba</div><div style="font-size: 12px; color: #8f959b"><span style="color: #d2a56f">★★★★★</span> · 3 ay önce</div></div></div><p style="font-size: 13.5px; color: #c9cdd1; line-height: 1.7">Usta başı çok tecrübeli ve yetenekli, tuttuğunu koparan cinsten. Memleketimizin insanı, elektrik onun işi.</p></div>
+<div class="rev"><div style="display: flex; align-items: center; gap: 10px"><div class="av" style="background: #2d6a4f">BA</div><div><div style="font-weight: 600; font-size: 14px">Bugateg Ayas</div><div style="font-size: 12px; color: #8f959b"><span style="color: #d2a56f">★★★★★</span> · 3 ay önce</div></div></div><p style="font-size: 13.5px; color: #c9cdd1; line-height: 1.7">İşinin ehli ustadır. "İş kaliteli olsun, gözüm arkada kalmasın" diyen ve kaliteyi ön planda tutanlar gözü kapalı tercih edebilir!</p></div>
+<div class="rev"><div style="display: flex; align-items: center; gap: 10px"><div class="av" style="background: #7b2d8b">AŞ</div><div><div style="font-weight: 600; font-size: 14px">Abdullah Şen</div><div style="font-size: 12px; color: #8f959b"><span style="color: #d2a56f">★★★★★</span> · 3 ay önce</div></div></div><p style="font-size: 13.5px; color: #c9cdd1; line-height: 1.7">Gayet başarılı ve tecrübeli, işinin hakkını vererek çalışıyorlar. Ellerine sağlık.</p></div>
+<div class="rev"><div style="display: flex; align-items: center; gap: 10px"><div class="av" style="background: #c0392b">FT</div><div><div style="font-weight: 600; font-size: 14px">Fatih Furkan Tutar</div><div style="font-size: 12px; color: #8f959b"><span style="color: #d2a56f">★★★★★</span> · 3 ay önce</div></div></div><p style="font-size: 13.5px; color: #c9cdd1; line-height: 1.7">Gayet güzel ve tecrübeliler, güler yüz tatlı dil, iş teslimi zamanında ve kaliteli. Herkese tavsiye ederim.</p></div>
+<div class="rev"><div style="display: flex; align-items: center; gap: 10px"><div class="av" style="background: #e67e22">KA</div><div><div style="font-weight: 600; font-size: 14px">Kadir Aydoğdu</div><div style="font-size: 12px; color: #8f959b"><span style="color: #d2a56f">★★★★★</span> · 3 ay önce</div></div></div><p style="font-size: 20px; color: #d2a56f; letter-spacing: 3px">★★★★★</p></div>
+<div class="rev"><div style="display: flex; align-items: center; gap: 10px"><div class="av" style="background: #1a73e8">MÇ</div><div><div style="font-weight: 600; font-size: 14px">Medine Çukadar</div><div style="font-size: 12px; color: #8f959b"><span style="color: #d2a56f">★★★★★</span> · 2 hafta önce</div></div></div><p style="font-size: 20px; color: #d2a56f; letter-spacing: 3px">★★★★★</p></div>
+</div>
+<div style="background: #141618; border: 1px solid rgba(210,165,111,.2); border-radius: 14px; padding: 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px">
+<div><div class="kick" style="margin-bottom: 6px">Deneyiminizi Paylaşın</div><div style="font-weight: 700; font-size: 22px; margin-bottom: 4px">Bizi Google'da Puanlayın</div><div style="font-size: 14px; color: #8f959b">Yorumunuz başkalarına da yol gösterir.</div></div>
+<div style="display: flex; flex-direction: column; gap: 8px; min-width: 240px"><a href="https://g.page/r/CRIgIs0Q5QMOEBM/review" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: #fff; color: #0f0f0f; border-radius: 12px; min-height: 52px; font-size: 14px; font-weight: 700; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"></path><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"></path><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"></path></svg>Google'da Yorum Yap</a></div>
+</div>
+</div>
+</section>
+
+<!-- HİZMET ALANI -->
+<div class="sdiv"><hr><span>Hizmet Alanı &amp; Servis Ücreti</span><hr></div>
+<section id="hizmet-alani" class="sec" style="padding: 56px 0 96px">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 22px">
+<h2 class="h2">Hizmet Verdiğimiz Bölgeler</h2>
+<p class="lead" style="font-size: 15.5px">Yahyalı merkezli, 150 km yarıçapında hizmet veriyoruz.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="background: #ece9e4; color: #141618; border-radius: 99px; padding: 7px 16px; font-size: 13px; font-weight: 700">Yahyalı — Merkez</span><span class="chip">Develi</span><span class="chip">Kayseri Merkez</span><span class="chip">Niğde</span><span class="chip">Tomarza</span><span class="chip">Pınarbaşı</span><span class="chip">Aksaray</span><span style="background: rgba(210,165,111,.15); color: #d2a56f; border: 1px solid rgba(210,165,111,.3); border-radius: 99px; padding: 6px 16px; font-size: 13px">+ 150 km yarıçap</span>
+</div>
+<div class="ph" style="height: 440px; border-radius: 12px; align-items: flex-end"><span class="mono" style="font-size: 12px; color: #d2a56f">HARİTA · mevcut Leaflet modülü (#hizmet-harita) — yeni temaya uyarlanacak</span></div>
+<div style="display: flex; align-items: center; gap: 16px; margin-top: 18px"><div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(210,165,111,.12); display: flex; align-items: center; justify-content: center; color: #e5c38f"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20 10 4M20 20 14 4M12 6v2M12 11v2M12 16v2"></path></svg></div><div><div style="font-weight: 700; font-size: 18px">Yol Maliyeti Hesapla</div><div style="font-size: 13.5px; color: #8f959b">Yol mesafesine göre yakıt ve km maliyeti.</div></div></div>
+<div style="padding: 14px 18px; border-radius: 12px; background: rgba(210,165,111,.08); border: 1px solid rgba(210,165,111,.2); font-size: 14px; color: #d4cec6">Haritada bir noktaya <strong style="color: #ece9e4">tıklayın</strong>; yol mesafesi ve tahmini maliyet gösterilir.</div>
+<div class="ph" style="height: 400px; border-radius: 12px; align-items: flex-end"><span class="mono" style="font-size: 12px; color: #d2a56f">YOL MALİYETİ HARİTASI · mevcut (#ucret-harita + #ucret-sonuc)</span></div>
+</div>
+</section>
+
+<!-- REFERANSLAR -->
+<div class="sdiv"><hr><span>Referanslar</span><hr></div>
+<section id="referanslar" class="sec" style="padding: 56px 0 96px">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 22px">
+<h2 class="h2">Tamamlanan Projeler</h2>
+<p class="lead" style="font-size: 15.5px">Konut, ticari ve endüstriyel işlerimizden bazıları.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 10px" role="group" aria-label="Proje filtresi"><sc-for list="{{refFilters}}" as="rf" hint-placeholder-count="5"><button type="button" class="rfbtn {{rf.cls}}" onClick="{{rf.pick}}" aria-pressed="{{rf.sel}}">{{rf.name}}</button></sc-for></div>
+<div class="g3" style="gap: 1px; background: rgba(210,165,111,.14); border-radius: 14px; overflow: hidden">
+<sc-for list="{{refs}}" as="r" hint-placeholder-count="6">
+<article class="ref-card pop">
+<div class="ref-img"><span class="mono" style="position: absolute; left: 12px; bottom: 12px; font-size: 11.5px; color: #e5c38f; background: rgba(14,16,18,.85); padding: 5px 8px">{{r.photo}}</span></div>
+<div style="padding: 20px 20px 8px; display: flex; justify-content: space-between; gap: 12px; min-height: 76px"><span style="font-size: 15px; font-weight: 600; line-height: 1.3">{{r.title}}</span><span style="font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: #d2a56f; background: rgba(196,112,62,.12); padding: 3px 9px; border-radius: 99px; height: fit-content; white-space: nowrap">{{r.tag}}</span></div>
+<div style="padding: 0 20px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1"><span style="font-size: 12px; color: rgba(232,230,227,.66)">{{r.loc}}</span><p style="font-size: 13.5px; color: rgba(232,230,227,.78); line-height: 1.65; flex: 1">{{r.desc}}</p><div style="display: flex; flex-wrap: wrap; gap: 5px"><sc-for list="{{r.specs}}" as="sp" hint-placeholder-count="4"><span class="spec">{{sp}}</span></sc-for></div></div>
+</article>
+</sc-for>
+</div>
+</div>
+</section>
+
+<!-- TEKLİF -->
+<div class="sdiv" style="padding-top: 72px"><hr><span>Teklif &amp; İletişim</span><hr></div>
+<section id="teklif" class="sec" style="padding: 56px 0 104px">
+<div class="wrap form-grid">
+<div id="ekip" style="display: flex; flex-direction: column; gap: 18px">
+<h2 class="h2">Teklif ve İletişim</h2>
+<p class="lead" style="font-size: 15.5px">Arayın ya da formu doldurun. Yahyalı ve yakın çevrede keşif ücretsizdir.</p>
+<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px">
+<article class="contact-person-card" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 18px 20px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 14px"><div style="display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 700; font-size: 19px; letter-spacing: -.01em">Cuma Bircan</span><span style="font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #d2a56f">Yetkili Elektrikçi · Kurucu</span></div><a class="btn btn-line" href="tel:+905378754414" style="border-radius: 99px">0537 875 44 14</a></article>
+<article class="contact-person-card" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 18px 20px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 14px"><div style="display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 700; font-size: 19px; letter-spacing: -.01em">Burak Bircan</span><span style="font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #d2a56f">Elektrik-Elektronik Mühendisi · SMM</span></div><a class="btn btn-line" href="tel:+905340140949" style="border-radius: 99px">0534 014 09 49</a></article>
+<a href="mailto:bircannelektrik@gmail.com" style="display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 18px 20px; text-decoration: none; color: #ece9e4"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d2a56f" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg><div><div style="font-size: 12px; color: #8f959b">E-posta</div><div style="font-size: 14.5px; font-weight: 600">bircannelektrik@gmail.com</div></div></a>
+<a href="https://maps.app.goo.gl/YwRZJt1DQknako1u6" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 18px 20px; text-decoration: none; color: #ece9e4"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d2a56f" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg><div><div style="font-size: 12px; color: #8f959b">Adres</div><div style="font-size: 14.5px; font-weight: 600">Gazibeyli, Yahya Efendi Sk. No:2/C, Yahyalı/Kayseri</div></div></a>
+</div>
+</div>
+<form onSubmit="{{noSubmit}}" style="background: #141618; border: 1px solid rgba(255,255,255,.07); border-radius: 18px; padding: 34px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<div style="grid-column: 1 / -1; font-size: 15px; font-weight: 700">Teklif Bilgileri</div>
+<div><label class="lbl" for="tf-name">Ad Soyad *</label><input class="inp" id="tf-name" type="text" placeholder="Adınız Soyadınız" autocomplete="name"></div>
+<div><label class="lbl" for="tf-phone">Telefon *</label><input class="inp" id="tf-phone" type="tel" placeholder="05XX XXX XX XX" autocomplete="tel"></div>
+<div><label class="lbl" for="tf-email">E-posta</label><input class="inp" id="tf-email" type="email" placeholder="ornek@mail.com" autocomplete="email"></div>
+<div><label class="lbl" for="tf-location">Konum / İlçe *</label><input class="inp" id="tf-location" type="text" placeholder="Yahyalı, Develi, Kayseri..."></div>
+<div style="grid-column: 1 / -1"><label class="lbl" for="tf-service">Hizmet Tipi *</label><select class="inp" id="tf-service"><option value="">Seçiniz...</option><option value="anahtar-teslim">Anahtar Teslim Elektrik Sistemleri</option><option value="otomasyon">Endüstriyel Otomasyon &amp; Kontrol</option><option value="pano">Kumanda &amp; Pano Sistemleri</option><option value="olcum">Test, Ölçüm &amp; Arıza Analizi</option><option value="ges">Güneş Enerji Sistemleri</option><option value="sulama">Tarımsal Sulama &amp; Enerji Sistemleri</option><option value="zayif-akim">Güvenlik &amp; Kamera Sistemleri</option><option value="proje">Proje &amp; Danışmanlık</option><option value="diger">Diğer</option></select></div>
+<div style="grid-column: 1 / -1"><label class="lbl" for="tf-detail">Proje Detayı</label><textarea class="inp" id="tf-detail" rows="4" placeholder="Projenizi kısaca açıklayın: alan büyüklüğü, ihtiyaçlar, özel istekler..." style="resize: vertical"></textarea></div>
+<button type="submit" class="btn btn-gold" id="tf-submit" style="grid-column: 1 / -1; width: 100%; min-height: 56px; font-size: 15px">WhatsApp ile Gönder</button>
+<p style="grid-column: 1 / -1; font-size: 12px; color: #8f959b; text-align: center">Formu göndermek sizi WhatsApp'a yönlendirir. Verileriniz sunucuya kaydedilmez.</p>
+</form>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer style="border-top: 1px solid rgba(210,165,111,.25); background: #0b0d0f; padding: 56px 0 88px">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 36px">
+<div class="g4" style="gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: center; gap: 10px"><svg width="50" height="41" viewBox="34 87 420 341" aria-hidden="true"><path fill="#d9b07a" fill-rule="evenodd" d="M120.0 423.0C122.0 421.0 122.0 419.7 122.0 346.7L122.0 272.4L125.3 271.2C134.8 267.8 141.4 257.8 141.4 247.0C141.3 232.1 130.6 221.4 116.0 221.6C107.9 221.6 101.8 224.4 96.2 230.4C91.6 235.4 90.0 240.0 90.0 248.1C90.0 258.2 97.2 268.5 106.2 271.2L110.0 272.3L110.0 282.2C110.0 287.6 110.3 307.0 110.6 325.1C111.0 348.8 110.8 358.1 110.1 357.9C109.5 357.7 103.1 352.1 96.0 345.5L83.0 333.6L83.0 315.8C83.0 298.7 82.9 298.1 80.8 296.6C77.8 294.5 76.4 294.6 74.0 297.0C72.1 298.9 72.0 300.3 72.0 318.7L72.0 338.3L76.3 342.4C78.7 344.7 87.2 352.6 95.3 360.0L110.0 373.4L110.0 393.7L110.0 414.0L76.0 414.0C43.3 414.0 41.9 414.1 40.0 416.0C38.9 417.1 38.0 418.7 38.0 419.5C38.0 420.3 38.9 421.9 40.0 423.0C41.9 424.9 43.3 425.0 80.0 425.0C116.7 425.0 118.1 424.9 120.0 423.0ZM178.4 423.4C179.7 422.2 180.0 419.4 180.0 409.7L179.9 397.5L204.7 373.4L229.5 349.3L229.8 304.7C230.0 280.2 229.7 258.7 229.2 256.8C228.1 252.4 224.0 250.8 221.0 253.5C219.0 255.3 219.0 256.4 219.0 299.8L219.0 344.4L200.4 362.4C190.1 372.4 181.3 380.6 180.9 380.8C179.9 381.2 179.7 339.7 180.6 332.9C181.2 328.8 181.6 328.3 185.4 326.7C187.7 325.8 191.2 323.4 193.2 321.5C205.8 309.3 202.6 288.4 187.0 280.5C176.8 275.3 166.5 276.5 158.0 283.7C147.0 293.1 146.0 309.2 155.6 319.9C158.2 322.8 161.9 325.6 164.5 326.7L169.0 328.5L169.0 374.5C169.0 414.6 169.2 420.8 170.6 422.8C172.4 425.4 176.2 425.7 178.4 423.4ZM305.8 423.4L308.0 421.9L308.0 314.9C308.0 245.4 308.3 208.0 309.0 208.0C309.5 208.0 323.7 214.4 340.5 222.2L371.0 236.3L371.0 329.1L371.0 421.9L373.2 423.4C375.1 424.8 380.5 425.0 411.3 425.0C434.1 425.0 447.8 424.6 449.1 424.0C450.4 423.3 451.0 421.9 451.0 419.5C451.0 417.1 450.4 415.7 449.1 415.0C447.8 414.4 435.1 414.0 414.6 414.0L382.0 414.0L382.0 322.9C382.0 266.0 381.6 231.2 381.0 230.1C380.5 229.1 378.4 227.6 376.3 226.7C374.2 225.9 368.9 223.5 364.5 221.5C360.1 219.4 347.8 213.8 337.2 208.9C326.6 204.0 315.7 198.9 313.0 197.5L308.0 195.0L308.0 144.6C308.0 100.1 307.8 94.0 306.4 92.6C303.5 89.6 304.8 89.1 248.0 115.3C236.7 120.5 218.7 128.8 208.0 133.7C173.1 149.8 171.2 150.8 170.1 152.9C169.4 154.2 169.0 166.7 169.0 189.9C169.0 220.3 169.2 225.1 170.6 226.4C172.5 228.3 176.4 228.5 177.8 226.7C178.6 225.8 179.0 215.3 179.0 195.4C179.1 179.0 179.4 164.0 179.7 162.1C180.3 158.4 175.9 160.7 224.8 137.9C237.7 131.9 248.3 127.0 248.5 127.0C248.8 127.0 265.2 119.5 286.6 109.5C290.5 107.7 294.6 105.9 295.9 105.5L298.1 104.8L298.0 147.4C297.9 170.8 297.6 190.0 297.2 190.0C296.8 190.0 288.9 186.6 279.7 182.5C270.4 178.4 262.1 175.0 261.1 175.0C260.1 175.0 258.4 176.0 257.2 177.3L255.0 179.6L255.3 300.2C255.5 417.2 255.6 420.9 257.4 422.9C259.2 424.9 260.2 425.0 281.4 425.0C299.8 425.0 303.9 424.7 305.8 423.4ZM267.0 301.0C267.0 193.7 267.1 188.0 268.8 189.0C269.7 189.5 276.6 192.8 284.1 196.4L297.8 202.8L297.9 304.1C297.9 359.9 297.7 407.4 297.4 409.8L296.8 414.0L281.9 414.0L267.0 414.0L267.0 301.0ZM168.2 316.3C160.8 312.7 157.8 302.5 162.2 296.1C165.9 290.6 169.3 288.6 175.0 288.6C180.4 288.6 183.7 290.4 187.4 295.4C190.2 299.2 190.2 307.9 187.4 311.7C183.1 317.5 174.7 319.6 168.2 316.3ZM108.2 260.0C98.0 253.7 98.7 238.7 109.5 233.9C115.8 231.1 121.1 232.1 126.0 237.0C131.2 242.2 132.0 247.3 128.8 253.7C124.9 261.5 115.5 264.4 108.2 260.0Z"></path></svg><span class="cinzel" style="color: #d9b07a; font-weight: 600; letter-spacing: .05em; line-height: 1.1">BİRCAN<br><span style="font-size: 12px">ELEKTRİK</span></span></div>
+<p style="font-size: 13.5px; color: #8f959b">Yahyalı ve Kayseri'de elektrik projelendirme, taahhüt, pano, otomasyon, topraklama ve GES uygulamaları.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; font-size: 14px"><span class="kick" style="font-size: 11.5px; margin-bottom: 6px">Hizmetler</span><a href="#hizmetler" style="color: #c9cdd1; text-decoration: none; min-height: 30px">Proje &amp; Danışmanlık</a><a href="#hizmetler" style="color: #c9cdd1; text-decoration: none; min-height: 30px">Anahtar Teslim Elektrik</a><a href="#hizmetler" style="color: #c9cdd1; text-decoration: none; min-height: 30px">Pano &amp; Otomasyon</a><a href="#hizmetler" style="color: #c9cdd1; text-decoration: none; min-height: 30px">Test, Ölçüm &amp; Topraklama</a></div>
+<div style="display: flex; flex-direction: column; gap: 6px; font-size: 14px"><span class="kick" style="font-size: 11.5px; margin-bottom: 6px">Araçlar</span><a href="/salt/" style="color: #c9cdd1; text-decoration: none; min-height: 30px">Şalt &amp; Koruma</a><a href="/mpa/" style="color: #c9cdd1; text-decoration: none; min-height: 30px">Malzeme Planlama</a><a href="/aydinlatma/" style="color: #c9cdd1; text-decoration: none; min-height: 30px">Aydınlatma</a><a href="/sulama/" style="color: #c9cdd1; text-decoration: none; min-height: 30px">Sulama &amp; Kuyu</a></div>
+<div style="display: flex; flex-direction: column; gap: 6px; font-size: 14px"><span class="kick" style="font-size: 11.5px; margin-bottom: 6px">İletişim</span><a href="tel:+905340140949" style="color: #c9cdd1; text-decoration: none; min-height: 30px">0534 014 09 49</a><a href="tel:+905378754414" style="color: #c9cdd1; text-decoration: none; min-height: 30px">0537 875 44 14</a><a href="https://www.instagram.com/bircanelektrik/" target="_blank" rel="noopener" style="color: #c9cdd1; text-decoration: none; min-height: 30px">Instagram</a><span style="color: #8f959b">7/24 teknik destek</span></div>
+</div>
+<div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 12.5px; color: #8f959b; padding-top: 20px; border-top: 1px solid rgba(236,233,228,.08)"><span>© 2026 Bircan Elektrik Mühendislik · Yahyalı, Kayseri</span><a href="mailto:bircannelektrik@gmail.com" style="color: #8f959b">bircannelektrik@gmail.com</a></div>
+</div>
+</footer>
+
+<div class="mbar" role="navigation" aria-label="Hızlı iletişim">
+<a href="tel:+905340140949" style="display: flex; align-items: center; justify-content: center; min-height: 62px; color: #ece9e4; text-decoration: none; font-size: 12px; font-weight: 600; border-right: 1px solid rgba(236,233,228,.1)">Ara</a>
+<a href="https://wa.me/905340140949?text=Merhaba%2C%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; min-height: 62px; color: #4ade80; text-decoration: none; font-size: 12px; font-weight: 600; border-right: 1px solid rgba(236,233,228,.1)">WhatsApp</a>
+<a href="#teklif" style="display: flex; align-items: center; justify-content: center; min-height: 62px; background: #d2a56f; color: #1d140a; text-decoration: none; font-size: 12px; font-weight: 700">Teklif Al</a>
+</div>
+
+<sc-if value="{{callOpen}}" hint-placeholder-val="{{ false }}">
+<div style="position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; padding: 20px">
+<button type="button" aria-label="Kapat" onClick="{{closeCall}}" style="position: absolute; inset: 0; background: rgba(0,0,0,.6); border: 0; cursor: pointer"></button>
+<div role="dialog" aria-modal="true" aria-label="Hemen iletişime geçin" class="pop" style="position: relative; width: min(420px, 100%); background: #1c2024; border: 1px solid rgba(210,165,111,.3); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px"><span style="font-size: 18px; font-weight: 700">Hemen İletişime Geçin</span><button type="button" onClick="{{closeCall}}" aria-label="Kapat" style="width: 44px; height: 44px; background: transparent; border: 0; color: #c9cdd1; cursor: pointer; font-size: 18px">✕</button></div>
+<a href="tel:+905340140949" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: #141618; border-radius: 12px; text-decoration: none; color: #ece9e4"><span><span style="display: block; font-size: 12px; opacity: .6">Burak Bircan — Mühendis</span><span style="font-size: 16px; font-weight: 600">0534 014 09 49</span></span></a>
+<a href="tel:+905378754414" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: #141618; border-radius: 12px; text-decoration: none; color: #ece9e4"><span><span style="display: block; font-size: 12px; opacity: .6">Cuma Bircan — Yetkili Elektrikçi</span><span style="font-size: 16px; font-weight: 600">0537 875 44 14</span></span></a>
+<a href="https://wa.me/905340140949?text=Merhaba%2C%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; min-height: 52px; background: rgba(37,211,102,.12); color: #4ade80; border: 1px solid rgba(37,211,102,.28); border-radius: 12px; text-decoration: none; font-size: 14px; font-weight: 600">WhatsApp ile Yaz</a>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":19600}}'>
+class Component extends DCLogic {
+  constructor(...args) {
+    super(...args);
+    this.state = Object.assign(this.defaults(), this.state || {});
+  }
+  defaults() {
+    return { menu: false, call: false, svc: 4, tool: "malzeme", topic: 0, openQ: "0-0", pole: "1PN", fuse: "B", rcd: "A", earth: "ok", step: 0, auto: true, ref: "all" };
+  }
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      if (this.state.auto) this.setState({ step: ((this.state.step || 0) + 1) % 6 });
+    }, 4200);
+  }
+  componentWillUnmount() { if (this.timer) clearInterval(this.timer); }
+
+  data() {
+    const WA = "https://wa.me/905340140949?text=";
+    const services = [
+      { icon: 0, meta: "Elektrik Sistemleri", title: "Anahtar Teslim Elektrik Sistemleri", desc: "Konut, villa, işletme ve endüstriyel yapılarda elektrik altyapısını anahtar teslim kuruyoruz.", tag: "Tek Noktadan Tüm Sistem", cta: "Ücretsiz keşif", full: "Konut, villa, işletme ve endüstriyel yapılarda elektrik altyapısını anahtar teslim kuruyoruz. Malzemeyi güvenlik ve uzun ömür esasıyla, kendini kanıtlamış markalardan seçiyoruz.", noteTitle: "Tercih edilen markalar", note: "Legrand, Siemens, Schneider Electric gibi şalt ekipmanları; Viko, Ovivo, Cata gibi montaj ve uygulama ürünleri.", features: ["Anahtar teslim", "Kuvvetli akım", "Zayıf akım", "Sistem güvenliği", "Devreye alma"], waLabel: "Keşif Talep Et", wa: WA + "Merhaba%2C%20anahtar%20teslim%20elektrik%20i%C3%A7in%20ke%C5%9Fif%20talep%20ediyorum." },
+      { icon: 1, meta: "Otomasyon & Kontrol", title: "Endüstriyel Otomasyon & Kontrol", desc: "Motor kontrolü, proses yönetimi ve otomasyon sistemlerini işletme ihtiyaçlarına göre kurguluyoruz.", tag: "Akıllı Kontrol Sistemleri", cta: "Proje talep et", full: "Motor kontrolü, proses yönetimi ve otomasyonu işletmenin ihtiyacına göre kurguluyoruz.", features: ["Tek faz motor yol verme", "3 faz motor yol verme", "Yıldız / Üçgen (Y/D) yol verme", "Soft starter ile yol verme", "Sürücü (inverter) ile kontrol", "Direkt yol verme", "PLC & otomasyon sistemleri"], waLabel: "Mühendislik Desteği Alın", wa: WA + "Merhaba%2C%20otomasyon%20projesi%20i%C3%A7in%20destek%20almak%20istiyorum." },
+      { icon: 2, meta: "Pano Çözümleri", title: "Kumanda & Pano Sistemleri", desc: "Ana dağıtım, tali dağıtım ve özel amaçlı panoları güvenli şekilde tasarlıyor ve devreye alıyoruz.", tag: "Güvenli Enerji Dağıtımı", cta: "Proje talep et", full: "Ana dağıtım, tali dağıtım ve özel amaçlı panoları, standartlara uygun bileşen seçimi ile tasarlıyor ve güvenli şekilde devreye alıyoruz.", features: ["Ana dağıtım panosu", "Tali pano sistemleri", "Sokak dağıtım kutuları (SDK)", "Kompanzasyon panoları", "Sayaç panoları", "MCC panolar", "Özel tasarım panolar"], waLabel: "Pano Projesi Konuşalım", wa: WA + "Merhaba%2C%20pano%20projesi%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum." },
+      { icon: 3, meta: "Test & Ölçüm", title: "Test, Ölçüm & Arıza Analizi", desc: "İzolasyon, topraklama ve kaçak akım testleriyle sistemin gerçek durumunu ortaya çıkarıyoruz.", tag: "Gerçek Durum Analizi", cta: "Detayları incele", full: "İzolasyon, topraklama ve kaçak akım testleriyle sistemin gerçek durumunu ortaya çıkarıyoruz.", features: ["İzolasyon testi", "Topraklama ölçümü", "Kaçak akım testi", "Arıza analizi", "Profesyonel ölçüm"], waLabel: "Ölçüm Talep Et", wa: WA + "Merhaba%2C%20topraklama%20ve%20%C3%B6l%C3%A7%C3%BCm%20talep%20ediyorum." },
+      { icon: 4, meta: "Enerji Sistemleri", title: "Güneş Enerji Sistemleri", desc: "Tarımsal ve ticari alanlar için güneş enerji sistemleri kurulum ve entegrasyonu sağlıyoruz.", tag: "Kendi Enerjini Üret", cta: "Ücretsiz keşif", full: "Tarımsal ve ticari alanlar için güneş enerji sistemleri kurulum ve entegrasyonu.", features: ["Tarımsal GES", "Ticari GES", "Kurulum", "Enerji entegrasyonu", "Saha uygulaması"], waLabel: "GES İçin Keşif İsteyin", wa: WA + "Merhaba%2C%20GES%20i%C3%A7in%20bilgi%20almak%20istiyorum." },
+      { icon: 5, meta: "Sulama & Enerji", title: "Tarımsal Sulama & Enerji Sistemleri", desc: "Bahçe sulama, pompa sistemleri ve enerji altyapısını birlikte değerlendiriyoruz.", tag: "Verimli Sulama Sistemleri", cta: "Ücretsiz keşif", full: "Bahçe sulama, pompa sistemleri ve enerji altyapısını birlikte değerlendiriyoruz.", features: ["Bahçe sulama otomasyonu", "Don koruma sistemleri", "Pompa kontrol sistemleri", "Enerji entegrasyonu", "Saha uygulamaları"], waLabel: "Sulama Analizi İsteyin", wa: WA + "Merhaba%2C%20tar%C4%B1msal%20sulama%20i%C3%A7in%20bilgi%20almak%20istiyorum." },
+      { icon: 6, meta: "Güvenlik Sistemleri", title: "Güvenlik & Kamera Sistemleri", desc: "Ev ve iş yerleri için güvenlik kamera sistemleri, uzaktan izleme ve kayıt çözümleri sunuyoruz.", tag: "Her An Gözünüz Üzerinde", cta: "Detayları incele", full: "Ev ve iş yerleri için güvenlik kamera sistemleri, uzaktan izleme ve kayıt çözümleri sunuyoruz.", features: ["Uzaktan izleme", "Wi-Fi kamera sistemleri", "Kablolu kamera sistemleri", "IP kamera sistemleri", "Diyafon sistemleri"], waLabel: "Keşif Talep Et", wa: WA + "Merhaba%2C%20kamera%20sistemi%20i%C3%A7in%20bilgi%20almak%20istiyorum." },
+      { icon: 7, meta: "Projelendirme", title: "Proje & Danışmanlık", desc: "1 kV altı ve üstü projelendirme, analiz ve resmi süreçleri mühendis sorumluluğunda yürütüyoruz.", tag: "Mühendis Onaylı Çözümler", cta: "Proje talep et", full: "1 kV altı ve üstü projelendirme, analiz ve tüm resmi süreçleri mühendis sorumluluğunda yürütüyoruz.", features: ["1 kV altı & üstü proje", "36 kV proje", "Güç analizi", "Kısa devre hesabı", "Resmi süreç yönetimi", "Onay & danışmanlık"], waLabel: "Projenizi İnceleyelim", wa: WA + "Merhaba%2C%20elektrik%20projesi%20i%C3%A7in%20destek%20almak%20istiyorum." }
+    ];
+    const tools = [
+      { id: "aydinlatma", badge: "3 Modül", title: "Aydınlatma Rehberi", sub: "Lümen hesabı, Kelvin seçimi ve armatür kararı.", meta: "Lümen · Kelvin · Armatür", href: "/aydinlatma/", pBadge: "Bağımsız Araç", pTitle: "Aydınlatma Hesaplayıcı", pDesc: "Oda tipine göre lümen ihtiyacı, Kelvin seçimi ve armatür önerileri.", items: [{ t: "Lümen hesaplayıcı", d: "Oda alanı, oda tipi ve LED verimine göre gereken lümen ve watt miktarı." }, { t: "Kelvin seçici", d: "1000K–7000K arası ışık rengini kaydırarak mekana uygun tonu görün." }, { t: "Armatür & ilham", d: "Wall washing, gizli LED, mutfak ve dış mekan aydınlatma teknikleri." }], wa: WA + "Merhaba%2C%20ayd%C4%B1nlatma%20projesi%20i%C3%A7in%20bilgi%20almak%20istiyorum.", trust: "" },
+      { id: "salt", badge: "2 Modül", title: "Şalt & Koruma", sub: "MCB seçimi, gerilim düşümü ve kablo kesiti kontrolü.", meta: "MCB · Kablo · Gerilim", href: "/salt/", pBadge: "Bağımsız Araç", pTitle: "Şalt & Koruma Hesaplayıcı", pDesc: "MCB (sigorta) ve RCD seçimini otomatik hesaplayın, kablo kesiti ile gerilim düşümünü kontrol edin.", items: [{ t: "MCB hesaplama", d: "Toplam güç, faz tipi ve cosφ'ye göre önerilen sigorta ve RCD değeri." }, { t: "Kablo & gerilim düşümü", d: "Akım, hat uzunluğu ve kesite göre gerilim düşümü yüzdesi ve uygunluk kontrolü." }, { t: "Referans tablolar", d: "Kesit seçim tablosu, RCD hassasiyet değerleri ve borulama standartları." }], wa: WA + "Merhaba%2C%20%C5%9Falt%20ve%20koruma%20tasar%C4%B1m%C4%B1%20i%C3%A7in%20bilgi%20almak%20istiyorum.", trust: "" },
+      { id: "sulama", badge: "Ön Analiz", title: "Sulama & Kuyu Analizi", sub: "Kuyu debisi, pompa ihtiyacı ve sulama senaryosu analizi.", meta: "Kuyu · Pompa · Senaryo", href: "/sulama/", pBadge: "Yeni Mühendislik Aracı", pTitle: "Tarımsal Sulama Asistanı", pDesc: "Arazi, kuyu ve ürün bilginize göre sulama senaryosu, su ve pompa ihtiyacı ile ana malzeme ön değerlendirmesi.", items: [{ t: "Günlük su ihtiyacı", d: "Ürün tipi, arazi büyüklüğü ve sulama yöntemine göre pik dönem su ihtiyacı." }, { t: "Pompa / basınç değerlendirmesi", d: "Kuyu verisi, basma yüksekliği ve yüzey basıncı birlikte." }, { t: "Tek kuyu / çok kuyu senaryoları", d: "Tek pompa, paralel kuyu, depolu ve zonlu kurgu karşılaştırması." }, { t: "Boru hattı mantığı", d: "Mesafe, kot farkı ve hat kaybına göre ana hat." }, { t: "Malzeme listesi", d: "Pompa, ana boru, filtrasyon ve dağıtım için ön liste." }, { t: "Ön mühendislik değerlendirmesi", d: "Sahaya çıkmadan sistemin yönü ve riskleri netleşir." }], wa: WA + "Merhaba%2C%20tar%C4%B1msal%20sulama%20ve%20kuyu%20analizi%20i%C3%A7in%20uzman%20de%C4%9Ferlendirmesi%20almak%20istiyorum.", trust: "Ön analiz aracıdır; kesin seçim saha verisi ve uzman incelemesiyle yapılır." },
+      { id: "malzeme", badge: "Listeleme", title: "Malzeme Planlama", sub: "Bina tipine göre kolon, pano ve ana malzeme listesi.", meta: "Bina · Kolon · Topraklama", href: "/mpa/", pBadge: "Bağımsız Araç", pTitle: "Malzeme Planlama Aracı", pDesc: "Konut, villa ve apartman için tahmini malzeme listesi: ADP, daire panosu, kablo ve kolon, topraklama, diyafon, kamera. PDF çıktısı ve WhatsApp ile teklif.", items: [{ t: "Bina tipi seçimi", d: "Müstakil ev, villa (2-3 kat) ve apartman için ayrı hesaplama motorları." }, { t: "ADP & Daire Panosu", d: "Sigorta (MCB), RCD ve TMŞ seçimi otomatik hesaplanır." }, { t: "Kablo & Kolon hesabı", d: "NYY, NAYY, NYM kesit seçimi, besleme tipi ve iç kolon metrajı." }, { t: "Topraklama sistemi", d: "Kazık veya galvaniz şerit yöntemine göre malzeme listesi." }, { t: "Diyafon & Kamera", d: "Zil, sesli ahize veya kameralı panel için kablo ve ekipman listesi." }, { t: "PDF & WhatsApp çıktısı", d: "Sonucu PDF'e aktar, WhatsApp'tan teklif al." }], wa: WA + "Merhaba%2C%20malzeme%20planlamas%C4%B1%20i%C3%A7in%20bilgi%20almak%20istiyorum.", trust: "Liste tahminidir; kesin malzeme ve fiyat için keşif gerekir." }
+    ];
+    const T = (name, lv, mod, headline, cta, ctaText, wa, qs) => ({ name, lv, mod, headline, cta, ctaText, wa, qs });
+    const topics = [
+      T("Projelendirme", 1, "proje", "Proje, işin sahaya çıkmadan önce çözülen kısmıdır.", "Projenizi İnceleyelim", "Projeniz var mı, yoksa sıfırdan mı başlıyorsunuz?", "Merhaba%2C%20projem%20i%C3%A7in%20destek%20istiyorum.", [
+        ["Elektrik projesi neden önemlidir?", "Yükleri, kabloları ve koruma elemanlarını uygulamadan önce belirler. Sahada fark edilen her hata söküm, malzeme ve zaman olarak geri döner.", "Sistemi kablo döşemeden önce kâğıt üzerinde çalıştırıyoruz."],
+        ["Proje sadece onay almak için mi gerekir?", "Hayır. Onay, projenin yalnızca bir çıktısıdır. Asıl değeri; yük dengesinin, gerilim düşümünün, seçiciliğin ve genişleme payının sahaya çıkmadan çözülmesidir.", "Projeyi uygulama için çiziyoruz; KCETAŞ süreçlerini de doğrudan takip ediyoruz."],
+        ["Yük analizi neyi değiştirir?", "Hangi cihazların aynı anda çalışacağını, toplam gücü ve faz dağılımını belirler. Yanlışı ya gereksiz pahalı bir sistem ya da sürekli atan sigortalar demektir.", "Eşzamanlılığı kullanım senaryonuza göre belirliyoruz; ezbere katsayı kullanmıyoruz."],
+        ["Projesiz yapılan tesisatta en sık ne sorun çıkar?", "Sürekli atan sigortalar, ısınan hatlar, fazlar arası dengesizlik ve sonradan eklenen cihazlar için yer kalmaması. Çoğu, duvar kapandıktan sonra ancak kırarak düzelir.", "Projesiz tesisatları da yerinde inceliyoruz; ölçüm ve raporlama ayrı hizmettir."],
+        ["Bir elektrik projesinde neler bulunur?", "Tek hat şeması, kat planları üzerinde tesisat çizimi, yük ve kesit hesapları, kısa devre ve gerilim düşümü hesapları, topraklama detayı ve malzeme listesi.", "Uygulama sırasında değişen detayları projeye işliyoruz."]
+      ]),
+      T("Güvenlik İlkesi", 1, "katman", "Güvenlik tek bir cihazla değil, katmanlarla sağlanır.", "Tesisatımı Kontrol Ettir", "Evinizde ya da işyerinizde bu katmanların hepsi var mı?", "Merhaba%2C%20tesisat%C4%B1m%C4%B1%20kontrol%20ettirmek%20istiyorum.", [
+        ["Bir elektrik tesisatında güvenlik neye dayanır?", "Dört koruma birlikte çalışır: aşırı yük kabloyu, kısa devre koruması tesisi yangından, kaçak akım insanı, aşırı gerilim cihazları korur. Hepsinin temeli topraklama ve eşpotansiyel bağlantıdır.", "Her katmanı ayrı ayrı planlıyoruz."],
+        ["Sigorta varken kaçak akım rölesi neden gerekli?", "Sigorta kabloyu aşırı akıma karşı korur; insan vücudundan geçen birkaç on miliamperlik akımı algılamaz. Bu akımı algılayıp devreyi kesen cihaz kaçak akım rölesidir (RCD).", "Priz, ıslak hacim ve dış mekân devrelerinde 30 mA RCD'yi standart uyguluyoruz."],
+        ["Parafudr (aşırı gerilim koruyucu) gerekli mi?", "Yıldırım ve şebeke darbeleri kombi kartı, inverter ve elektronik cihazları tek seferde bozabilir. Parafudr darbeyi toprağa yönlendirir; bunun için iyi topraklama ve kısa bağlantı gerekir.", "Parafudrü bina tipi ve korunacak ekipmana göre seçiyoruz."],
+        ["Güvenlik neden maliyetten önce gelir?", "Koruma elemanlarının maliyetteki payı küçüktür; eksikliklerinin bedeli yangın, cihaz ya da can kaybı olabilir.", "Maliyet düşecekse koruma elemanlarından değil, güzergâh ve alternatif üründen düşer."]
+      ]),
+      T("Doğru Ürün Seçimi", 1, "urun", "Aynı etiket, aynı ürün demek değildir.", "Malzeme Listenizi Kontrol Edelim", "Elinizde bir malzeme listesi mi var? Birlikte bakalım.", "Merhaba%2C%20malzeme%20listemi%20kontrol%20ettirmek%20istiyorum.", [
+        ["Neden her sigorta aynı değildir?", "Sigorta; akım, kesme kapasitesi, kutup sayısı, karakteristik ve sistem tipine göre seçilir. Aynı “16 A” yazan iki sigorta aynı devrede çok farklı davranabilir.", "Yalnızca ampere değil, çalışma koşuluna ve korunan ekipmana bakıyoruz."],
+        ["Ucuz ürün ile doğru ürün arasındaki fark ne?", "Aynı etiketli iki ürün; kesme kapasitesi, kontak malzemesi, belge ve ömür bakımından farklıdır. Fark ilk arızada ortaya çıkar.", "Belgeli ürünlerle çalışıyoruz."],
+        ["Hangi markalarla çalışıyorsunuz?", "Şaltta Legrand, Siemens, Schneider Electric; montaj ürünlerinde Viko, Ovivo, Cata gibi markaları tercih ediyoruz.", "Marka yetmez; aynı markanın serileri farklıdır. Seriyi de devreye göre seçiyoruz."]
+      ]),
+      T("Proje ve Maliyet", 1, "maliyet", "İyi proje, maliyetini kat kat geri kazandırır.", "Teklifinizi Değerlendirelim", "Elinizde başka bir teklif mi var? Kalem kalem bakalım.", "Merhaba%2C%20elimdeki%20teklifi%20de%C4%9Ferlendirmenizi%20istiyorum.", [
+        ["Proje ve mühendislik ek maliyet değil mi?", "Proje bedeli toplam maliyetin küçük bir kısmıdır. Doğru hesap; gereksiz kesit, fazla malzeme, yeniden yapılan iş ve arızadan kazandırır. Çoğu işte bu tasarruf proje bedelini karşılar.", "Teklifte proje bedeli ayrı kalemdir."],
+        ["Değişiklik ne zaman en ucuzdur?", "Kâğıt üzerindeyken. Projede bir hattı değiştirmek dakikalar sürer; sıvadan sonra kırma ve tamir, işletmede üretim kaybı demektir.", "Kararların çoğunu proje aşamasında sizinle birlikte veriyoruz."],
+        ["İki teklifi nasıl karşılaştırmalıyım?", "Kalemleri yan yana koyun: kablo kesiti, kesme kapasitesi, RCD sayısı ve tipi, topraklama yöntemi, ölçümün dahil olup olmadığı. Fiyat farkı çoğu zaman bunlardan birindedir.", "Elinizdeki teklifi kalem kalem değerlendirebiliriz."]
+      ]),
+      T("Kablo ve Kesit", 2, "kesit", "Kablo kesiti, sigortayla birlikte seçilir.", "Hattımı Hesaplayın", "Uzun bir hat ya da yeni bir yük mü ekleyeceksiniz?", "Merhaba%2C%20kablo%20kesiti%20hesab%C4%B1%20i%C3%A7in%20destek%20istiyorum.", [
+        ["Kablo kesiti nasıl belirlenir?", "Akım kapasitesi, döşeme şekli, ortam sıcaklığı, gruplama ve gerilim düşümü birlikte hesaplanır. “2,5'luk yeter” hesap değil, alışkanlıktır.", "Kesiti sigortayla birlikte seçiyoruz; biri diğerini korumak zorundadır."],
+        ["Ib ≤ In ≤ Iz ne demek?", "Ib devrenin akımı, In sigortanın anma akımı, Iz kablonun o koşulda taşıyabileceği akımdır. Sigorta yükü taşıyacak kadar büyük, kabloyu koruyacak kadar küçük olmalı.", "Projelendirdiğimiz devrelerde bu koşulu kontrol ediyoruz."],
+        ["Gerilim düşümü neden önemli?", "Uzun hatta gerilim düşer: motor ısınır, aydınlatma titrer, cihaz verimi düşer. Yönetmelik aydınlatma ve kuvvet hatları için ayrı sınır koyar.", "Uzun hatta kesiti gerilim düşümüne göre seçiyoruz, gereksiz büyütmüyoruz."],
+        ["Alüminyum mu, bakır mı?", "Alüminyum ucuzdur ama daha büyük kesit ve uygun klemens ister. Uzun beslemede ekonomik olabilir; iç tesisatta bakır tercih edilir.", "Besleme hatlarında ikisini maliyet ve güvenlikle karşılaştırıyoruz."]
+      ]),
+      T("Sigorta Kutupları", 2, "kutup", "Koruma elemanı hangi iletkenleri ayırıyor?", "Panomu Kontrol Ettir", "Panonuzda doğru kutup sayısı kullanılmış mı?", "Merhaba%2C%20panomu%20kontrol%20ettirmek%20istiyorum.", [
+        ["1P, 2P, 3P, 4P ne anlama gelir?", "Kutup sayısı, kaç iletkenin birlikte ayrıldığını gösterir. 1P fazı, 1P+N faz ve nötrü, 3P üç fazı, 4P üç faz ve nötrü ayırır.", "Ampere değil, hangi iletkenleri ayırdığına da bakıyoruz."],
+        ["Neden nötrü de ayırmak gerekir?", "Bazı sistemlerde ve bakımda nötr de tehlikeli potansiyel taşıyabilir. Yalnız fazı kesmek devreyi enerjisiz yapmaz.", "Kutup seçimini sistem tipine (TT, TN-S, TN-C-S) göre yapıyoruz."],
+        ["Trifaze motorda tek kutuplu sigortalar kullanılırsa?", "Bir faz açınca motor iki fazla zorlanır, ısınır, sargı yanabilir. Üç faz birlikte açmalıdır.", "Motor devrelerinde 3P koruma ve faz koruma rölesiyle çalışıyoruz."]
+      ]),
+      T("Sigorta Tipleri ve Semboller", 2, "tip", "B, C, D… Harf, sigortanın ne zaman açacağını söyler.", "Doğru Seçimi Birlikte Yapalım", "Yük tipinize uygun karakteristiği birlikte belirleyelim.", "Merhaba%2C%20sigorta%20se%C3%A7imi%20i%C3%A7in%20destek%20istiyorum.", [
+        ["Sigortanın üzerindeki semboller ne anlatıyor?", "Karakteristik ve anma akımı (C16), kesme kapasitesi (çerçevedeki 6000 = 6 kA), enerji sınırlama sınıfı (karedeki 3), gerilim ve standart. Okunmadan yapılan seçim tahmindir.", "Teklifte koruma elemanlarının bu değerlerini belirtiyoruz."],
+        ["Ev tipi devrelerde “32 A sigorta” demek yeterli mi?", "Hayır. Kesit, yük tipi ve karakteristik birlikte seçilir. Yanlış karakteristik ya gereksiz açma ya da arızada geç açma demektir.", "Aydınlatma, priz, klima ve motor devrelerini ayrı değerlendiriyoruz."],
+        ["MCB, TMŞ ve buşonlu sigorta arasındaki fark nedir?", "MCB son devrelerde kullanılır. TMŞ ana dağıtımda yüksek akım ve ayarlı koruma sunar. Buşonlu ve NH sigortalar eriyen elemanla çalışır, kesme kapasiteleri çok yüksektir.", "Her pano seviyesinin cihazını seçicilikle birlikte belirliyoruz."]
+      ]),
+      T("Kaçak Akım Rölesi", 2, "rcd", "Kaçak akım rölesi, insanı koruyan cihazdır.", "RCD Kontrolü İsteyin", "Kaçak akım röleniz sık mı atıyor, hiç mi atmıyor?", "Merhaba%2C%20ka%C3%A7ak%20ak%C4%B1m%20r%C3%B6lesi%20kontrol%C3%BC%20istiyorum.", [
+        ["30 mA ile 300 mA arasındaki fark nedir?", "30 mA hayat korumasıdır; insandan geçen tehlikeli akımı algılar. 300 mA ana girişte yangın koruması içindir; insanı korumaz.", "Priz, ıslak hacim ve dış mekânda 30 mA, gerekirse ana girişte 300 mA seçicili RCD kullanıyoruz."],
+        ["AC, A, F, B tipleri ne anlama gelir?", "Tip, rölenin algıladığı kaçak akım biçimini gösterir. Çamaşır makinesi, inverterli klima ve LED sürücü, AC tipin algılayamadığı kaçak akım üretebilir.", "Yükü görmeden RCD tipi seçmiyoruz."],
+        ["RCD neden sürekli atar?", "Nemli hat, bozuk yalıtım, nötr-toprak karışıklığı ya da tek röleye çok devre. Sorun çoğu zaman röle değil, tesisattır.", "Sebebi buluyoruz; röleyi iptal etmek çözüm değildir."],
+        ["Test butonu ne işe yarar?", "Rölenin mekanik çalışmasını kontrol eder. Üretici önerisiyle düzenli basılmalı; açmıyorsa röle değişmeli.", "Teslimde test butonunun kullanımını gösteriyoruz."]
+      ]),
+      T("Kurulum ve Uygulama", 2, "grup", "Projede doğru olan, sahada da doğru kalmalı.", "Saha Kontrolü İsteyin", "Mevcut tesisatınız projeye uygun mu uygulanmış?", "Merhaba%2C%20saha%20kontrol%C3%BC%20talep%20ediyorum.", [
+        ["Gruplama faktörü nedir?", "Bitişik kablolar birbirini ısıtır, taşıma kapasitesi düşer. IEC 60364-5-52'ye göre 9 devrelik sık demette yaklaşık yarıya iner.", "Gruplamayı kesit hesabına katıyor, kabloları aralıklı döşüyoruz."],
+        ["Bağlantı noktaları neden bu kadar önemli?", "Gevşek klemens, yüksek temas direnci ve ısınma demektir; pano ısınmasının yaygın sebebidir.", "Bağlantıları üretici torkuyla sıkıyoruz."],
+        ["Pano içi düzen neden önemli?", "Etiketsiz ve sıkışık panoda arıza bulmak saatler alır; havasız pano ısınır, cihaz ömrü kısalır.", "Her çıkışı etiketliyor, pano içinde boşluk ve genişleme payı bırakıyoruz."]
+      ]),
+      T("Kısa Devre ve Seçicilik", 3, "kisa", "Bir sigortanın “32 A” olması yeterli değildir.", "Panonuzu Değerlendirelim", "Panonuzdaki cihazlar kısa devreyi gerçekten kesebilir mi?", "Merhaba%2C%20panomun%20k%C4%B1sa%20devre%20de%C4%9Ferlendirmesini%20istiyorum.", [
+        ["Kısa devre akımı neden önemlidir?", "Koruma cihazının kesme kapasitesi, bulunduğu noktadaki kısa devre akımından küçük olamaz. Bu akım bilinmeden seçim yapılamaz.", "Cihazı pano noktasındaki kısa devre akımına göre seçiyoruz."],
+        ["Kesme kapasitesi yetersizse ne olur?", "Cihaz akımı kesemeyebilir; kontak kaynar, ark ve yangın riski oluşur. Koruma en gerekli anda devre dışı kalır.", "Kesme kapasitesinden tasarruf etmiyoruz."],
+        ["Trafoya yakın bir işletmede neden daha yüksek kapasite gerekir?", "Kaynağa yaklaştıkça empedans azalır, kısa devre akımı yükselir. Konutta 6 kA yeterken trafoya yakın ana panoda 25 kA ve üzeri gerekebilir.", "Aynı binada ana pano ve son devre için farklı sınıf seçiyoruz."],
+        ["Seçicilik nedir?", "Arızada yalnızca en yakın koruma cihazının açmasıdır. Seçicilik yoksa bir prizdeki kısa devre ana şalteri attırabilir.", "Üst ve alt cihazları üretici seçicilik tablosuyla eşleştiriyoruz."]
+      ]),
+      T("Topraklama", 3, "toprak", "Topraklama neden hayati?", "Topraklama Ölçümü Talep Et", "Topraklamanız en son ne zaman ölçüldü?", "Merhaba%2C%20topraklama%20%C3%B6l%C3%A7%C3%BCm%C3%BC%20talep%20ediyorum.", [
+        ["Topraklama nedir?", "Cihaz gövdesi gibi gerilim taşımaması gereken metal kısımları PE iletkeniyle toprağa bağlamaktır. Amaç, yalıtım hatasında akıma kontrollü bir dönüş yolu vermektir.", "Topraklamayı koruma cihazıyla birlikte tek sistem olarak kuruyoruz."],
+        ["İnsan güvenliği açısından neden önemlidir?", "Topraklama yoksa arızalı cihazın gövdesi gerilimde kalır. RCD varsa, akım ancak dokunan kişinin üzerinden toprağa akınca keser: koruma çalışır ama çarpılma yaşanır. RCD yoksa akımı kesen hiçbir şey yoktur. Doğru sistemde arıza akımı PE'den akar, koruma kimse dokunmadan keser.", "Topraklama ölçümü ve raporlaması ayrı bir hizmettir."],
+        ["Topraklama direnci tek başına yeterli bir ölçü mü?", "Hayır. PE sürekliliği, eşpotansiyel bağlantı, döngü empedansı ve koruma koordinasyonu da birlikte değerlendirilir.", "Topraklamayı koruma cihazları ve tesisatla birlikte değerlendiriyoruz."]
+      ]),
+      T("Topraklama Tipleri", 3, "ttip", "Topraklama tek bir yöntem değildir.", "Topraklama Projesi İsteyin", "Yeni bina mı, mevcut yapı mı?", "Merhaba%2C%20topraklama%20projesi%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.", [
+        ["Temel topraklaması nedir?", "Yeni binalarda betondan önce temele konan galvaniz şerittir. Kararlı ve uzun ömürlüdür; sonradan yapılamaz.", "Temel topraklamasını betondan önce yapıyoruz."],
+        ["Kazık ve şerit topraklama ne zaman kullanılır?", "Temel topraklaması olmayan yapılarda kazık ya da bina çevresine gömülen şerit kullanılır. Toprak, nem ve mevsim direnci etkiler.", "Kazık sayısı ve yeri, toprak koşullarına göre belirlenir."],
+        ["Eşpotansiyel bağlantı nedir?", "Su ve gaz boruları, metal konstrüksiyon gibi parçaların aynı potansiyele bağlanmasıdır. Arızada iki metal yüzey arasında tehlikeli gerilim farkını önler.", "Banyo ve tesisat girişlerinde eşpotansiyel bağlantıyı ayrıca kontrol ediyoruz."],
+        ["TT ve TN sistemler neden farklı?", "TT'de tesis kendi elektroduna bağlıdır ve RCD belirleyicidir; TN'de koruma iletkeni kaynağın topraklamasına bağlıdır. Sistem tipi, koruma cihazını belirler.", "Tesisinizin sistem tipini tespit etmeden koruma cihazı seçmiyoruz."],
+        ["Paratoner topraklaması ayrı mı tutulur?", "Paratonerin kendi topraklaması vardır; diğer topraklamalarla tek sistemde uygun şekilde birleştirilmesi önerilir. Kopuk ya da yanlış bağlı paratoner risk oluşturur.", "Paratoner ve tesisat topraklamasını birlikte değerlendiriyoruz."]
+      ]),
+      T("İşletme ve Bakım", 2, "bakim", "Sistem teslimden sonra da çalışmaya devam eder.", "Periyodik Kontrol Planlayın", "İşletmeniz için bakım planı oluşturalım.", "Merhaba%2C%20periyodik%20bak%C4%B1m%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.", [
+        ["Elektrik sistemi neden periyodik kontrol ister?", "Bağlantı gevşer, yalıtım yaşlanır, yük değişir. Periyodik ölçüm arızayı oluşmadan gösterir; işyerlerinde yasal zorunluluktur.", "Periyodik kontrolde ölçümleri kaydedip bir sonrakiyle karşılaştırıyoruz."],
+        ["Reaktif ceza neden çıkar?", "Kompanzasyon değişen yüke uymazsa reaktif sınır aşılır, faturaya ceza yansır.", "Ömer Emine Akın Anadolu Lisesi'nde kompanzasyonu yeniden düzenledik; ceza ödemeleri sona erdi."],
+        ["Genişleme payı neden baştan düşünülmeli?", "Bugüne yetecek pano, yarın eklenecek klima ya da şarj istasyonu için sökülür. Yedek hat ve pano boşluğu ilk günde ucuzdur.", "Projede gelecekteki yükleri soruyor ve yer ayırıyoruz."]
+      ])
+    ];
+    const poles = [
+      { id: "1P", name: "1P", sub: "tek kutup", L: { L1: "kes", L2: "yok", L3: "yok", N: "gec" }, note: "Yalnızca fazı keser; nötr bağlı kalır.", where: "TN-S sistemlerde tek fazlı aydınlatma ve priz son devreleri." },
+      { id: "1PN", name: "1P+N", sub: "faz + nötr", L: { L1: "kes", L2: "yok", L3: "yok", N: "kes" }, note: "Fazı korur, nötrü de birlikte ayırır.", where: "Tek fazlı son devreler; bakımda nötrün de ayrılması gereken yerler." },
+      { id: "2P", name: "2P", sub: "iki kutup", L: { L1: "kes", L2: "yok", L3: "yok", N: "kes" }, note: "Faz ve nötr birlikte korunur ve ayrılır.", where: "Tek fazlı ana besleme, TT sistemler, ıslak hacimler ve dış mekân." },
+      { id: "3P", name: "3P", sub: "üç faz", L: { L1: "kes", L2: "kes", L3: "kes", N: "yok" }, note: "Üç faz aynı anda açılır; faz kaybı oluşmaz.", where: "Trifaze motorlar, pompalar ve nötr kullanmayan dengeli yükler." },
+      { id: "4P", name: "4P", sub: "üç faz + nötr", L: { L1: "kes", L2: "kes", L3: "kes", N: "kes" }, note: "Üç faz ve nötr birlikte ayrılır.", where: "Trifaze ana dağıtım, ADP girişleri, nötrün de ayrılması gereken ana hatlar." }
+    ];
+    const fuses = [
+      { code: "B", kind: "MCB", trip: "3–5 × In", name: "B karakteristik minyatür devre kesici", where: "Konut aydınlatma ve priz devreleri, uzun hatlar, rezistif yükler.", why: "Düşük arıza akımlarında bile hızlı açar; uzun hatları güvenle korur.", wrong: "Motor, trafo gibi yüksek kalkış akımlı yüklerde gereksiz açmalar." },
+      { code: "C", kind: "MCB", trip: "5–10 × In", name: "C karakteristik minyatür devre kesici", where: "Ticari ve genel amaçlı devreler, klima, küçük motorlar, LED sürücü grupları.", why: "Orta seviye kalkış akımlarını açmadan tolere eder.", wrong: "Uzun ve ince kesitli hatlarda arıza akımı açma eşiğine ulaşmayabilir; koruma gecikir." },
+      { code: "D", kind: "MCB", trip: "10–20 × In", name: "D karakteristik minyatür devre kesici", where: "Trafolar, büyük motorlar, kaynak makineleri, yüksek ani akımlı yükler.", why: "Yüksek kalkış akımında gereksiz açma yapmaz.", wrong: "Konut devresinde kullanılırsa arızada zamanında açmayabilir; yangın riski." },
+      { code: "K", kind: "MCB", trip: "8–14 × In", name: "K karakteristik (IEC 60947-2)", where: "Motorlar, trafolar ve endüktif yükler.", why: "Yüksek kalkışa dayanır, aşırı yükte hassas korur.", wrong: "Elektronik ve hassas yüklerde gerekenden geç açabilir." },
+      { code: "Z", kind: "MCB", trip: "2–3 × In", name: "Z karakteristik", where: "Elektronik devreler, ölçü ve kontrol devreleri, yarı iletkenler.", why: "Küçük aşırı akımlarda bile çok hızlı açar.", wrong: "Kalkış akımı olan her yükte sürekli açma yapar." },
+      { code: "gG", kind: "NH / buşon", trip: "tam aralık", name: "Genel amaçlı eriyen sigorta", where: "Ana dağıtım, kolon hatları ve kablo koruması.", why: "Hem aşırı yükü hem kısa devreyi keser; çok yüksek kesme kapasitesi.", wrong: "Yanlış boy seçilirse seçicilik bozulur; üst sigorta önce atar, tüm bina karanlıkta kalır." },
+      { code: "aM", kind: "NH", trip: "kısmi aralık", name: "Motor devresi eriyen sigortası", where: "Motor devreleri; termik röle veya motor koruma şalteriyle birlikte.", why: "Kalkışa dayanır, kısa devreyi keser.", wrong: "Tek başına kullanılırsa motor aşırı yüke karşı korunmaz." }
+    ];
+    const rcds = [
+      { code: "AC", detects: "Yalnızca sinüs biçimli AC kaçak akım.", where: "Isıtıcı, akkor lamba gibi basit rezistif yükler.", note: "Modern cihazların ürettiği kaçak akımları kaçırabilir; yeni tesislerde tek başına önermiyoruz." },
+      { code: "A", detects: "AC + darbeli DC kaçak akım.", where: "Çamaşır ve bulaşık makinesi, LED sürücü, inverterli klima; konut ve ofislerde temel seçim.", note: "Günümüz konutları için asgari tercih." },
+      { code: "F", detects: "A tipinin algıladıkları + karışık frekanslı kaçak akım.", where: "Tek fazlı frekans konvertörlü cihazlar: inverterli pompa, ısı pompası.", note: "İnverterli tek fazlı yüklerde istenmeyen açmaları ve kör noktaları azaltır." },
+      { code: "B", detects: "Tüm biçimler, düz DC kaçak akım dahil.", where: "Trifaze sürücüler, bazı elektrikli araç şarj ve GES uygulamaları.", note: "Düz DC kaçak akım A tipi röleyi kör edebilir; bu yüklerde B tipi gerekir." }
+    ];
+    const steps = [
+      { title: "Keşif", desc: "Sahayı, mevcut tesisatı, yükleri ve kullanım alışkanlıklarınızı yerinde inceliyoruz.", checks: ["Mevcut tesisat", "Yük listesi", "Sistem tipi", "Genişleme planı"], out: "İhtiyaç ve risk listesi" },
+      { title: "Projelendirme", desc: "Yük analizi, kesit, gerilim düşümü, kısa devre ve seçicilik hesapları yapılır.", checks: ["Yük analizi", "Kesit & ΔU", "Kısa devre", "Seçicilik"], out: "Onaya hazır proje" },
+      { title: "Ürün Seçimi", desc: "Kesme kapasitesi, kutup sayısı, karakteristik ve belgeye göre malzeme belirlenir.", checks: ["Icu ≥ Ik", "Kutup & karakteristik", "Belge", "Stok & termin"], out: "Gerekçeli malzeme listesi" },
+      { title: "Uygulama", desc: "Projeye sadık montaj; kablo gruplaması, bağlantı torku ve pano yerleşimi kurala göre yapılır.", checks: ["Gruplama", "Bağlantı torku", "Etiketleme", "Pano yerleşimi"], out: "Projeye uygun montaj" },
+      { title: "Kontrol", desc: "Devreye almadan önce bağlantılar ve koruma elemanları gözden geçirilir. Ölçüm ve raporlama talep halinde ayrı bir hizmet olarak yapılır.", checks: ["Bağlantılar", "Koruma elemanları", "RCD test butonu", "Ölçüm (talebe bağlı)"], out: "Devreye almaya hazır sistem" },
+      { title: "Devreye Alma", desc: "Kontrollü enerjilendirme, abonelik süreçleri ve kullanıcıya teslim bilgilendirmesi.", checks: ["Kontrollü enerji", "Abonelik", "Kullanıcı bilgilendirme", "Bakım önerisi"], out: "Kullanıma hazır sistem" }
+    ];
+    const refs = [
+      { cat: "altyapi", tag: "Altyapı / TOKİ", title: "TOKİ 3. Etap — Ataşehir Altyapı", loc: "Ataşehir, İstanbul", desc: "Çok katlı blok tesisatı ve trafo köşkü yerleşimi. 700 m 3×185+95 ve 1000 m 3×95+50 kablo; otopark ve çevre aydınlatması dahil.", specs: ["Trafo köşkü", "1700 m kablo altyapısı", "Çevre aydınlatması", "Komple tesisat"], photo: "t-o-k-i-atasehir.jpg" },
+      { cat: "endustriyel", tag: "Endüstriyel / Analiz", title: "Tekstil Fabrikası Enerji Dengeleme", loc: "Yahyalı, Kayseri", desc: "Dengesiz yük nedeniyle nötre binen fazla akım tespit edildi; üretim durmadan tek bir 16 mm² ek nötr hattıyla çözüldü.", specs: ["Arıza tespiti", "Faz dengeleme", "Maliyet optimizasyonu", "Sistem sürekliliği"], photo: "20250923094015-1.jpg" },
+      { cat: "altyapi", tag: "Altyapı / Endüstriyel", title: "Kompanzasyon Panosu Optimizasyonu", loc: "Ömer Emine Akın Anadolu Lisesi, Yahyalı", desc: "Reaktif sınırı aşan kompanzasyon panosu tesisin ihtiyacına göre yeniden düzenlendi; ceza ödemeleri sona erdi.", specs: ["Kompanzasyon", "Reaktif ceza çözümü", "Sistem kontrolü", "Optimizasyon"], photo: "20260410-153150.jpg" },
+      { cat: "endustriyel", tag: "Endüstriyel / Otomasyon", title: "İkinci El Araç Lifti — Sıfırdan Otomasyon", loc: "Sanayi, Kayseri", desc: "Panosu sökülmüş ikinci el liftin kumanda devresi sıfırdan çizildi; sınır anahtarları ve pano dizilimiyle tam kapasite çalışır hale getirildi.", specs: ["Kumanda devresi", "Pano dizilimi", "Sınır anahtarı", "Sistem devreye alma"], photo: "Fotoram-io-1.jpg" },
+      { cat: "altyapi", tag: "Altyapı / Güvenlik", title: "YİBO Güvenlik ve Enerji Sistemleri", loc: "Yahyalı, Kayseri", desc: "Yangın kapıları için alarm sistemi, bilgisayar laboratuvarı enerjilendirmesi ve uzaktan kumandalı kapı montajı.", specs: ["Alarm sistemi", "Laboratuvar enerjilendirme", "Otomatik kapı", "Güvenlik"], photo: "YENİ" },
+      { cat: "ticari", tag: "Ticari / Eğitim", title: "Fen Lisesi Kütüphanesi Dekoratif Aydınlatma", loc: "Kayseri", desc: "Kütüphane elektrik tadilatı ve baffle tavanla entegre dekoratif aydınlatma.", specs: ["Baffle tavan", "Dekoratif aydınlatma", "Elektrik tadilatı", "Verimli dağılım"], photo: "20251128-165753.png" },
+      { cat: "konut", tag: "Konut / Off-Grid", title: "Yaylalarda Güneş Paneli Sistemleri", loc: "Yahyalı Yaylaları, Kayseri", desc: "Karavan ve off-grid yapılar için şebekeden bağımsız güneş paneli sistemleri.", specs: ["Güneş paneli", "Off-grid sistem", "Yenilenebilir enerji", "Karavan kurulumu"], photo: "YENİ" },
+      { cat: "konut", tag: "Konut / Güvenlik", title: "YİBO Lojman Tesisat & Koruma Revizyonu", loc: "Yahyalı, Kayseri", desc: "Lojman dairesinde RCD ve MCB değişimi, topraklama hattının standarda uygun hale getirilmesi.", specs: ["RCD/MCB değişimi", "Topraklama kontrolü", "Can güvenliği", "Tesisat revizyonu"], photo: "20260410-154153.jpg" },
+      { cat: "ticari", tag: "Ticari / Mağaza", title: "Kumsmall & Sivas Caddesi Mağaza Çözümleri", loc: "Kayseri Merkez", desc: "Profilo ve Ergül Mobilya mağazalarında aydınlatma altyapısı ve uzaktan kumanda sistemleri; periyodik servis ve bakım sürüyor.", specs: ["Aydınlatma altyapısı", "Uzaktan kumanda", "Servis & bakım", "Tadilat"], photo: "image-Picsart.png" },
+      { cat: "ticari", tag: "Ticari / Sağlık", title: "Diş Kliniği Bekleme Salonu Aydınlatması", loc: "Kayseri", desc: "Bekleme salonu için dekoratif aydınlatma tasarımı ve uygulaması.", specs: ["Dekoratif aydınlatma", "Sağlık tesisatı", "Modern tasarım", "Konforlu atmosfer"], photo: "20260123-184047.jpg" },
+      { cat: "konut", tag: "Konut / TOKİ", title: "Yahyalı TOKİ Saha Altyapı & Vinç Beslemesi", loc: "Yahyalı, Kayseri", desc: "Saha elektrik altyapısı, vinç beslemesi ve bağlantı aboneleri; uygulama projesi ve süreç takibi dahil.", specs: ["Vinç beslemesi", "Saha altyapısı", "Bağlantı abonesi", "Süreç takibi"], photo: "MG-20251124-WA0011.jpg" },
+      { cat: "konut", tag: "Konut / Ticari / Endüstriyel", title: "Sahadan Referanslar", loc: "Kayseri & Yahyalı", desc: "Konut, villa, apartman, ticari ve endüstriyel yapılarda altyapı, proje, abonelik ve arıza müdahaleleri.", specs: ["Konut & Villa", "Abonelik & Proje", "Arıza Müdahalesi", "Bağlantı Hattı"], photo: "1775239028022.png" }
+    ];
+    const projeItems = ["Yük analizi", "Eşzamanlılık", "Faz dengesi", "Kablo kesiti", "Gerilim düşümü", "Kısa devre akımı", "Seçicilik", "Topraklama", "Aydınlatma hesabı", "Genişleme payı"].map((t, i) => ({ t, n: String(i + 1).padStart(2, "0") }));
+    return { services, tools, topics, poles, fuses, rcds, steps, refs, projeItems };
+  }
+
+  renderVals() {
+    const s = Object.assign(this.defaults(), this.state || {});
+    const D = this.data();
+    const services = D.services.map((x, i) => Object.assign({}, x, {
+      cls: s.svc === i ? "active" : "", expanded: s.svc === i ? "true" : "false",
+      i0: x.icon === 0, i1: x.icon === 1, i2: x.icon === 2, i3: x.icon === 3, i4: x.icon === 4, i5: x.icon === 5, i6: x.icon === 6, i7: x.icon === 7,
+      pick: () => this.setState({ svc: s.svc === i ? -1 : i })
+    }));
+    const si = s.svc >= 0 ? s.svc : 0;
+    const svc = Object.assign({}, D.services[si], { code: "S-0" + (si + 1), hasNote: !!D.services[si].note });
+    const tools = D.tools.map((t) => Object.assign({}, t, {
+      cls: s.tool === t.id ? "open" : "", expanded: s.tool === t.id ? "true" : "false", btnId: "catbtn-" + t.id,
+      isAyd: t.id === "aydinlatma", isSalt: t.id === "salt", isSul: t.id === "sulama", isMlz: t.id === "malzeme",
+      pick: () => this.setState({ tool: s.tool === t.id ? "" : t.id })
+    }));
+    const tl = D.tools.find((t) => t.id === s.tool) || D.tools[3];
+    const tool = Object.assign({}, tl, { panelId: "cat-" + tl.id, hasTrust: !!tl.trust });
+    const lvlName = { 1: "Temel", 2: "Orta", 3: "İleri" };
+    const lvlCls = { 1: "lvl-1", 2: "lvl-2", 3: "lvl-3" };
+    const all = D.topics.map((t, i) => Object.assign({}, t, {
+      num: String(i + 1).padStart(2, "0"), level: lvlName[t.lv], lvlCls: lvlCls[t.lv],
+      cls: i === s.topic ? "is-on" : "", sel: i === s.topic ? "true" : "false",
+      ctaHref: "https://wa.me/905340140949?text=" + t.wa,
+      pick: () => this.setState({ topic: i, openQ: i + "-0" })
+    }));
+    const groups = [[1, "TEMEL"], [2, "ORTA"], [3, "İLERİ"]].map((g) => ({ label: g[1], items: all.filter((t) => t.lv === g[0]) }));
+    const topic = all[s.topic] || all[0];
+    const qs = topic.qs.map((q, j) => {
+      const key = s.topic + "-" + j;
+      const open = s.openQ === key;
+      return { q: q[0], a: q[1], b: q[2], open, cls: open ? "is-open" : "", toggle: () => this.setState({ openQ: open ? "" : key }) };
+    });
+    const m = {};
+    ["proje", "katman", "urun", "maliyet", "kesit", "kutup", "tip", "rcd", "grup", "kisa", "toprak", "ttip", "bakim"].forEach((k) => { m[k] = topic.mod === k; });
+    const pole = D.poles.find((p) => p.id === s.pole) || D.poles[1];
+    const poles = D.poles.map((p) => Object.assign({}, p, { cls: p.id === s.pole ? "is-on" : "", sel: p.id === s.pole ? "true" : "false", pick: () => this.setState({ pole: p.id }) }));
+    const noteFor = { kes: "ayrılır", gec: "bağlı kalır", yok: "yok" };
+    const poleRows = ["L1", "L2", "L3", "N"].map((k) => ({ label: k, cls: "cond-" + pole.L[k], kes: pole.L[k] === "kes", notKes: pole.L[k] !== "kes", note: noteFor[pole.L[k]] }));
+    const fuse = D.fuses.find((f) => f.code === s.fuse) || D.fuses[0];
+    const fuses = D.fuses.map((f) => Object.assign({}, f, { cls: f.code === s.fuse ? "is-on" : "", sel: f.code === s.fuse ? "true" : "false", pick: () => this.setState({ fuse: f.code }) }));
+    const rcd = D.rcds.find((r) => r.code === s.rcd) || D.rcds[1];
+    const rcds = D.rcds.map((r) => Object.assign({}, r, { cls: r.code === s.rcd ? "is-on" : "", sel: r.code === s.rcd ? "true" : "false", pick: () => this.setState({ rcd: r.code }) }));
+    const steps = D.steps.map((st, i) => Object.assign({}, st, {
+      num: String(i + 1).padStart(2, "0"), cls: i === s.step ? "is-on" : (i < s.step ? "is-done" : ""),
+      pick: () => this.setState({ step: i, auto: false })
+    }));
+    const step = steps[s.step] || steps[0];
+    const filters = [["all", "Tümü"], ["konut", "Konut"], ["ticari", "Ticari"], ["endustriyel", "Endüstriyel"], ["altyapi", "Altyapı"]];
+    const refFilters = filters.map((f) => ({ name: f[1], cls: s.ref === f[0] ? "active" : "", sel: s.ref === f[0] ? "true" : "false", pick: () => this.setState({ ref: f[0] }) }));
+    const refs = D.refs.filter((r) => s.ref === "all" || r.cat === s.ref).map((r) => Object.assign({}, r, { photo: r.photo === "YENİ" ? "YENİ FOTO GEREKLİ · şu an stok görsel" : "SAHA FOTO · " + r.photo }));
+    return {
+      menuOpen: !!s.menu, toggleMenu: () => this.setState({ menu: !s.menu }), closeMenu: () => this.setState({ menu: false }),
+      callOpen: !!s.call, openCall: () => this.setState({ call: true }), closeCall: () => this.setState({ call: false }),
+      openMalzeme: () => this.setState({ tool: "malzeme" }),
+      services, svc, svcOpen: s.svc >= 0,
+      tools, tool, toolOpen: !!s.tool,
+      groups, topic, qs, m, projeItems: D.projeItems,
+      nextTopic: () => { const n = (s.topic + 1) % D.topics.length; this.setState({ topic: n, openQ: n + "-0" }); },
+      poles, pole, poleRows, fuses, fuse, rcds, rcd,
+      earthOk: s.earth === "ok", earthRcd: s.earth === "rcd", earthNone: s.earth === "none",
+      earthOkCls: s.earth === "ok" ? "is-on" : "", earthRcdCls: s.earth === "rcd" ? "is-on" : "", earthNoneCls: s.earth === "none" ? "is-on" : "",
+      setEarthOk: () => this.setState({ earth: "ok" }), setEarthRcd: () => this.setState({ earth: "rcd" }), setEarthNone: () => this.setState({ earth: "none" }),
+      steps, step, progress: Math.round(((s.step + 1) / 6) * 100),
+      refFilters, refs,
+      noSubmit: (e) => { if (e && e.preventDefault) e.preventDefault(); }
+    };
+  }
+}
+</script>
+</body>
+</html>

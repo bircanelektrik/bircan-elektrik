@@ -20,20 +20,15 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')hideCallPopu
 /* ── SERVICES ── */
 var activeSvc=null;
 var services=[
-  {icon:'⚡',meta:'Elektrik Sistemleri',title:'Anahtar Teslim Elektrik Sistemleri',desc:'Konut, villa, işletme ve endüstriyel yapılarda elektrik altyapısını anahtar teslim kuruyoruz.',tag:'Tek Noktadan Tüm Sistem',cta:'Ücretsiz keşif',full:'Konut, villa, işletme ve endüstriyel yapılarda elektrik altyapısını anahtar teslim kuruyoruz. Malzemeyi güvenlik ve uzun ömür esasıyla, kendini kanıtlamış markalardan seçiyoruz.',noteTitle:'Tercih edilen markalar',note:'Legrand, Siemens, Schneider Electric gibi şalt ekipmanları; Viko, Ovivo, Cata gibi montaj ve uygulama ürünleri.',features:['Anahtar teslim','Kuvvetli akım','Zayıf akım','Sistem güvenliği','Devreye alma']},
-  {icon:'🏭',meta:'Otomasyon & Kontrol',title:'Endüstriyel Otomasyon & Kontrol',desc:'Motor kontrolü, proses yönetimi ve otomasyon sistemlerini işletme ihtiyaçlarına göre kurguluyoruz.',tag:'Akıllı Kontrol Sistemleri',cta:'Proje talep et',full:'Motor kontrolü, proses yönetimi ve otomasyonu işletmenin ihtiyacına göre kurguluyoruz.',features:['Tek faz motor yol verme','3 faz motor yol verme','Yıldız / Üçgen (Y/D) yol verme','Soft starter ile yol verme','Sürücü (inverter) ile kontrol','Direkt yol verme','PLC & otomasyon sistemleri']},
+  {icon:'⚡',meta:'Elektrik Sistemleri',title:'Anahtar Teslim Elektrik Sistemleri',desc:'Konut, villa, işletme ve endüstriyel yapılarda elektrik altyapısını anahtar teslim kuruyoruz.',tag:'Tek Noktadan Tüm Sistem',cta:'Ücretsiz keşif',full:'Konut, villa, işletme ve endüstriyel yapılarda elektrik altyapısını anahtar teslim kuruyoruz. Kullanılan tüm malzemeler, kendini kanıtlamış markalardan seçilmekte olup, sistem güvenliği ve uzun ömür esas alınmaktadır.',noteTitle:'Tercih edilen markalar',note:'Legrand, Siemens, Schneider Electric gibi şalt ekipmanları; Viko, Ovivo, Cata gibi montaj ve uygulama ürünleri.',features:['Anahtar teslim','Kuvvetli akım','Zayıf akım','Sistem güvenliği','Devreye alma']},
+  {icon:'🏭',meta:'Otomasyon & Kontrol',title:'Endüstriyel Otomasyon & Kontrol',desc:'Motor kontrolü, proses yönetimi ve otomasyon sistemlerini işletme ihtiyaçlarına göre kurguluyoruz.',tag:'Akıllı Kontrol Sistemleri',cta:'Proje talep et',full:'Motor kontrolü, proses yönetimi ve otomasyon sistemlerini işletme ihtiyaçlarına göre mühendislik temelli olarak kurguluyoruz.',features:['Tek faz motor yol verme','3 faz motor yol verme','Yıldız / Üçgen (Y/D) yol verme','Soft starter ile yol verme','Sürücü (inverter) ile kontrol','Direkt yol verme','PLC & otomasyon sistemleri']},
   {icon:'⚙️',meta:'Pano Çözümleri',title:'Kumanda & Pano Sistemleri',desc:'Ana dağıtım, tali dağıtım ve özel amaçlı panoları güvenli şekilde tasarlıyor ve devreye alıyoruz.',tag:'Güvenli Enerji Dağıtımı',cta:'Proje talep et',full:'Ana dağıtım, tali dağıtım ve özel amaçlı panoları, standartlara uygun bileşen seçimi ile tasarlıyor ve güvenli şekilde devreye alıyoruz.',features:['Ana dağıtım panosu','Tali pano sistemleri','Sokak dağıtım kutuları (SDK)','Kompanzasyon panoları','Sayaç panoları','MCC panolar','Özel tasarım panolar']},
-  {icon:'🔍',meta:'Test & Ölçüm',title:'Test, Ölçüm & Arıza Analizi',desc:'İzolasyon, topraklama ve kaçak akım testleriyle sistemin gerçek durumunu ortaya çıkarıyoruz.',tag:'Gerçek Durum Analizi',cta:'Detayları incele',full:'İzolasyon, topraklama ve kaçak akım testleriyle sistemin gerçek durumunu ortaya çıkarıyoruz.',features:['İzolasyon testi','Topraklama ölçümü','Kaçak akım testi','Arıza analizi','Profesyonel ölçüm']},
+  {icon:'🔍',meta:'Test & Ölçüm',title:'Test, Ölçüm & Arıza Analizi',desc:'İzolasyon, topraklama ve kaçak akım testleriyle sistemin gerçek durumunu ortaya çıkarıyoruz.',tag:'Gerçek Durum Analizi',cta:'Detayları incele',full:'İzolasyon, topraklama ve kaçak akım testlerini profesyonel ölçüm cihazları ile yaparak sistemin gerçek durumunu ortaya çıkarıyoruz.',features:['İzolasyon testi','Topraklama ölçümü','Kaçak akım testi','Arıza analizi','Profesyonel ölçüm']},
   {icon:'☀️',meta:'Enerji Sistemleri',title:'Güneş Enerji Sistemleri',desc:'Tarımsal ve ticari alanlar için güneş enerji sistemleri kurulum ve entegrasyonu sağlıyoruz.',tag:'Kendi Enerjini Üret',cta:'Ücretsiz keşif',full:'Tarımsal ve ticari alanlar için güneş enerji sistemleri kurulum ve entegrasyonu.',features:['Tarımsal GES','Ticari GES','Kurulum','Enerji entegrasyonu','Saha uygulaması']},
-  {icon:'💧',meta:'Sulama & Enerji',title:'Tarımsal Sulama & Enerji Sistemleri',desc:'Bahçe sulama, pompa sistemleri ve enerji altyapısını birlikte değerlendiriyoruz.',tag:'Verimli Sulama Sistemleri',cta:'Ücretsiz keşif',full:'Bahçe sulama, pompa sistemleri ve enerji altyapısını birlikte değerlendiriyoruz.',features:['Bahçe sulama otomasyonu','Don koruma sistemleri','Pompa kontrol sistemleri','Enerji entegrasyonu','Saha uygulamaları']},
+  {icon:'💧',meta:'Sulama & Enerji',title:'Tarımsal Sulama & Enerji Sistemleri',desc:'Bahçe sulama, pompa sistemleri ve enerji altyapısını birlikte değerlendiriyoruz.',tag:'Verimli Sulama Sistemleri',cta:'Ücretsiz keşif',full:'Bahçe sulama, pompa sistemleri ve enerji altyapısını birlikte değerlendirerek verimli ve sürdürülebilir çözümler sunuyoruz.',features:['Bahçe sulama otomasyonu','Don koruma sistemleri','Pompa kontrol sistemleri','Enerji entegrasyonu','Saha uygulamaları']},
   {icon:'🎥',meta:'Güvenlik Sistemleri',title:'Güvenlik & Kamera Sistemleri',desc:'Ev ve iş yerleri için güvenlik kamera sistemleri, uzaktan izleme ve kayıt çözümleri sunuyoruz.',tag:'Her An Gözünüz Üzerinde',cta:'Detayları incele',full:'Ev ve iş yerleri için güvenlik kamera sistemleri, uzaktan izleme ve kayıt çözümleri sunuyoruz.',features:['Uzaktan izleme','Wi-Fi kamera sistemleri','Kablolu kamera sistemleri','IP kamera sistemleri','Diyafon sistemleri']},
   {icon:'📐',meta:'Projelendirme',title:'Proje & Danışmanlık',desc:'1 kV altı ve üstü projelendirme, analiz ve resmi süreçleri mühendis sorumluluğunda yürütüyoruz.',tag:'Mühendis Onaylı Çözümler',cta:'Proje talep et',full:'1 kV altı ve üstü projelendirme, analiz ve tüm resmi süreçleri mühendis sorumluluğunda yürütüyoruz.',features:['1 kV altı & üstü proje','36 kV proje','Güç analizi','Kısa devre hesabı','Resmi süreç yönetimi','Onay & danışmanlık']}
 ];
-
-/* Yeni tasarım: emoji yerine çizgi ikon + hizmete özel çağrı metni */
-var SVC_ICONS=["<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M13 2 4 14h7l-1 8 9-12h-7z\"/></svg>","<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" aria-hidden=\"true\"><rect x=\"7\" y=\"7\" width=\"10\" height=\"10\" rx=\"1\"/><path d=\"M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4\"/></svg>","<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" aria-hidden=\"true\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"1\"/><path d=\"M8 7v4M12 7v4M16 7v4M8 15h8\"/></svg>","<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M4 17a8 8 0 1 1 16 0\"/><path d=\"M12 17l4-6\"/><path d=\"M4 21h16\"/></svg>","<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5\"/></svg>","<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" aria-hidden=\"true\"><path d=\"M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z\"/></svg>","<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 7h12v10H3z\"/><path d=\"m15 10 6-3v10l-6-3\"/></svg>","<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20V4l16 16z\"/><path d=\"M8 16v-4l4 4z\"/></svg>"];
-var SVC_WA_LABELS=["Keşif Talep Et","Mühendislik Desteği Alın","Pano Projesi Konuşalım","Ölçüm Talep Et","GES İçin Keşif İsteyin","Sulama Analizi İsteyin","Keşif Talep Et","Projenizi İnceleyelim"];
-services.forEach(function(s,i){ if(SVC_ICONS[i]) s.icon=SVC_ICONS[i]; s.waLabel=SVC_WA_LABELS[i]||'WhatsApp ile Sorun'; });
 
 function renderServicesGrid(){
   document.querySelectorAll('.svc-card').forEach(function(card,i){
@@ -55,29 +50,13 @@ function renderServiceDetail(i){
     '<h3>'+s.title+'</h3>'+
     '<p>'+s.full+'</p>'+
     (s.note?'<div class="detail-note"><div class="detail-note-label">'+s.noteTitle+'</div><p>'+s.note+'</p></div>':'')+
-    '<div class="features-wrap">'+s.features.map(function(f){return'<span class="feat-pill">'+f+'</span>';}).join('')+'</div>'+
-    '<div class="detail-actions"><a class="btn btn-gold" href="https://wa.me/905340140949?text='+encodeURIComponent('Merhaba, '+s.title+' hakkında bilgi almak istiyorum.')+'" target="_blank" rel="noopener">'+s.waLabel+'</a><a class="btn btn-line" href="#teklif">Teklif Formu</a></div>';
+    '<div class="features-wrap">'+s.features.map(function(f){return'<span class="feat-pill">'+f+'</span>';}).join('')+'</div>';
 }
 
-/* ── NAV SCROLL ──
-   Menüde ayrı karşılığı olmayan alt bölümler, ait oldukları menü başlığını yakar. */
+/* ── NAV SCROLL ── */
 (function(){
-  var links=document.querySelectorAll('.nav-links a[data-section]');
-  if(!links.length)return;
-  var alias={ilkeler:'teknik',isletme:'surec'};
-  var secs=Array.prototype.slice.call(document.querySelectorAll('main section[id]'));
-  var nav=document.querySelector('.topnav'),ticking=false;
-  function update(){
-    ticking=false;
-    var line=(nav?nav.offsetHeight:80)+window.innerHeight*0.3,cur='';
-    secs.forEach(function(s){if(s.getBoundingClientRect().top<=line)cur=s.id;});
-    if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4&&secs.length)cur=secs[secs.length-1].id;
-    cur=alias[cur]||cur;
-    links.forEach(function(a){var on=a.dataset.section===cur;a.classList.toggle('active',on);if(on)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');});
-  }
-  window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(update);}},{passive:true});
-  window.addEventListener('resize',update);
-  update();
+  var secs=document.querySelectorAll('section[id]'),links=document.querySelectorAll('.nav-links a[data-section]');
+  window.addEventListener('scroll',function(){var cur='',mid=window.scrollY+window.innerHeight/2;secs.forEach(function(s){if(mid>=s.offsetTop)cur=s.id;});links.forEach(function(a){a.classList.toggle('active',a.dataset.section===cur);});});
 })();
 
 /* ══════════════════════════════════════════
@@ -91,8 +70,7 @@ var DUKKAN={lat:38.09727312927777,lng:35.359152300000005};
 var SFUEL = 73;      // Varsayılan motorin fiyatı (TL/lt)
 var SCONS = 9;       // Araç yakıt tüketimi (L/100km)
 var SBASE = 350;     // Taban servis ücreti (TL)
-var SDMAX = 55;      // (eski) yol mesafesi sınırı — artık kullanılmıyor
-var SACIL = 45;      // Acil müdahale yarıçapı (km, kuş uçuşu). Çemberin içi her zaman hizmet alanıdır; yol km yalnızca ücret için kullanılır.
+var SDMAX = 55;      // Maksimum hizmet mesafesi (km)
 var SPMAX = 5000;    // Maksimum servis ücreti tavanı (TL)
 var SLABOR = 1500;   // İşçilik ücreti (TL/saat)
 var SKMR = 8;        // Km başı amortisman (TL/km)
@@ -122,7 +100,7 @@ function getFuelPrice(cb) {
     .catch(function() { cb({ motorin: SFUEL, canli: false, ts: Date.now() }); });
 }
 
-/* ── ROTA — OSRM → kuş uçuşu tahmini ── */
+/* ── ROTA — OSRM → ORS → haversine fallback ── */
 function getRouteDistance(lat1, lng1, lat2, lng2, cb) {
   // 1) OSRM
   var osrmUrl = 'https://router.project-osrm.org/route/v1/driving/' + lng1 + ',' + lat1 + ';' + lng2 + ',' + lat2 + '?overview=false';
@@ -136,9 +114,21 @@ function getRouteDistance(lat1, lng1, lat2, lng2, cb) {
       } else { throw new Error('OSRM boş'); }
     })
     .catch(function() {
-      // 2) Yol servisine ulaşılamazsa: kuş uçuşu × 1,45 (bölgedeki dağ yolları için ortalama dolambaç)
-      var hv = haversineKm(lat1, lng1, lat2, lng2);
-      cb({ km: hv * 1.45, dk: Math.round(hv * 1.45 * 1.2), src: 'hvFallback' });
+      // 2) ORS fallback
+      var orsUrl = 'https://api.openrouteservice.org/v2/directions/driving-car?start=' + lng1 + ',' + lat1 + '&end=' + lng2 + ',' + lat2;
+      fetch(orsUrl, { headers: { 'Accept': 'application/json' } })
+        .then(function(r) { return r.json(); })
+        .then(function(j) {
+          if (j && j.features && j.features.length > 0) {
+            var seg = j.features[0].properties.segments[0];
+            cb({ km: seg.distance / 1000, dk: Math.round(seg.duration / 60), src: 'ORS' });
+          } else { throw new Error('ORS boş'); }
+        })
+        .catch(function() {
+          // 3) Haversine fallback
+          var hv = haversineKm(lat1, lng1, lat2, lng2);
+          cb({ km: hv * 1.35, dk: Math.round(hv * 1.35 * 1.2), src: 'hvFallback' });
+        });
     });
 }
 
@@ -155,7 +145,7 @@ function kmToFiyat(km, fuelPrice) {
   return Math.round(Math.min(Math.max(toplam, 500), SPMAX) / 50) * 50;
 }
 function leafletTile(map){
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',{
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',{
     attribution:'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
     maxZoom:16
   }).addTo(map);
@@ -175,7 +165,7 @@ function initHizmetHarita(){
   var dot=L.divIcon({html:'<div style="background:#b8963e;border-radius:50%;width:9px;height:9px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.25);"></div>',className:'',iconSize:[9,9],iconAnchor:[4,4]});
   [{n:'Kayseri',lat:38.7225,lng:35.4875,km:84},{n:'Develi',lat:38.3897,lng:35.4897,km:46},{n:'Niğde',lat:37.9667,lng:34.6833,km:72},{n:'Tomarza',lat:38.4483,lng:36.0836,km:76},{n:'Pınarbaşı',lat:38.725,lng:36.3833,km:112},{n:'Aksaray',lat:38.3687,lng:34.037,km:138},{n:'Adana',lat:37.0,lng:35.3213,km:148},{n:'Sivas',lat:39.7477,lng:37.0179,km:142}
   ].forEach(function(c){L.marker([c.lat,c.lng],{icon:dot}).addTo(map).bindTooltip('<strong>'+c.n+'</strong><br>~'+c.km+' km',{direction:'top',offset:[0,-5]});});
-  setTimeout(function(){map.invalidateSize();map.fitBounds(L.latLng(DUKKAN.lat,DUKKAN.lng).toBounds(310000),{padding:[20,20]});},300);
+  setTimeout(function(){map.invalidateSize();map.fitBounds(L.circle([DUKKAN.lat,DUKKAN.lng],{radius:155000}).getBounds(),{padding:[20,20]});},300);
   } catch(e){ console.warn('Hizmet haritası yüklenemedi:', e.message); }
 }
 
@@ -186,7 +176,7 @@ function initUcretHarita(){
   var map=L.map(el,{center:[DUKKAN.lat,DUKKAN.lng],zoom:10,scrollWheelZoom:false});
   leafletTile(map);
   L.marker([DUKKAN.lat,DUKKAN.lng],{icon:mkIcon('⚡','#0f0f0f',34)}).addTo(map).bindPopup('<strong>Bircan Elektrik</strong><br>Gazibeyli, Yahyalı / Kayseri').openPopup();
-  L.circle([DUKKAN.lat,DUKKAN.lng],{radius:SACIL*1000,color:'#b8963e',weight:1.5,fillColor:'#b8963e',fillOpacity:0.07,dashArray:'6 4'}).addTo(map).bindTooltip('Acil müdahale alanı · ~'+SACIL+' km',{direction:'top',sticky:true});
+  L.circle([DUKKAN.lat,DUKKAN.lng],{radius:55000,color:'#b8963e',weight:1.5,fillColor:'#b8963e',fillOpacity:0.07,dashArray:'6 4'}).addTo(map);
   var sel=null, routeLayer=null;
 
   // Yakıt fiyatını ön yükle
@@ -201,9 +191,9 @@ function initUcretHarita(){
 
     // Önce kuş uçuşu ile ön kontrol
     var hvKm = haversineKm(DUKKAN.lat,DUKKAN.lng,lat,lng);
-    if(hvKm > SACIL) {
+    if(hvKm > SDMAX * 1.2) {
       var p=document.getElementById('ucret-sonuc');
-      if(p){p.innerHTML='<div style="padding:14px 16px;background:rgba(210,165,111,0.1);border:1px solid rgba(210,165,111,0.35);border-radius:8px;color:#e5c38f;font-weight:600;line-height:1.6;">Bu nokta acil müdahale alanımızın (~'+SACIL+' km) dışında — kuş uçuşu ~'+Math.round(hvKm)+' km. Planlı işler için bizi arayın: <a href="tel:+905340140949" style="color:inherit;text-decoration:underline;">0534 014 09 49</a></div>';p.style.display='block';}
+      if(p){p.innerHTML='<div style="padding:12px 16px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#ef4444;font-weight:600;">🚫 Hizmet alanı dışı — ~'+Math.round(hvKm)+' km (azami '+SDMAX+' km)</div>';p.style.display='block';}
       return;
     }
 
@@ -215,7 +205,12 @@ function initUcretHarita(){
       var km = Math.round(route.km * 10) / 10;
       var dk = route.dk;
 
-      /* Çemberin içindeki her nokta hizmet alanıdır; yol mesafesi yalnızca ücret hesabı içindir. */
+      if(km > SDMAX) {
+        if(sel)map.removeLayer(sel);
+        var p=document.getElementById('ucret-sonuc');
+        if(p){p.innerHTML='<div style="padding:12px 16px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#ef4444;font-weight:600;">🚫 Hizmet alanı dışı — '+km+' km yol mesafesi (azami '+SDMAX+' km)</div>';p.style.display='block';}
+        return;
+      }
 
       var fp = cachedFuel ? cachedFuel.motorin : SFUEL;
       var fiyat = kmToFiyat(km, fp);
@@ -241,7 +236,7 @@ function initUcretHarita(){
       showUcret(km, fiyat, dk, route.src, fp);
     });
   });
-  setTimeout(function(){map.invalidateSize();map.fitBounds(L.latLng(DUKKAN.lat,DUKKAN.lng).toBounds(SACIL*2000+4000),{padding:[30,30]});},300);
+  setTimeout(function(){map.invalidateSize();map.fitBounds(L.circle([DUKKAN.lat,DUKKAN.lng],{radius:57000}).getBounds(),{padding:[30,30]});},300);
   } catch(e){ console.warn('Ücret haritası yüklenemedi:', e.message); }
 }
 
@@ -250,17 +245,16 @@ function showUcret(km, fiyat, dk, src, fuelPrice) {
   var fp = fuelPrice || SFUEL;
   var canli = cachedFuel && cachedFuel.canli;
   var kmMaliyet = Math.round(((fp * SCONS) / 100 + SKMR) * 10) / 10;
-  var b=km<=10?'🟢 Yakın çevre':km<=30?'🟡 Yakın ilçe':'🟠 Acil müdahale alanı içinde';
+  var b=km<=10?'🟢 Yakın çevre':km<=30?'🟡 Yakın ilçe':km<=SDMAX?'🟠 Orta mesafe':'🔴 Uzak bölge';
 
   var html = '';
   // Üst: fiyat ve mesafe
   html += '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:12px;">';
   html += '<div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:4px;">Tahmini Yol Maliyeti</div>';
   html += '<div style="font-size:2rem;font-weight:800;">'+fiyat.toLocaleString('tr-TR')+' <span style="font-size:1rem;font-weight:600;">TL</span></div></div>';
-  html += '<div style="text-align:right;"><div style="font-size:11px;color:var(--gray);margin-bottom:4px;">'+(src==='hvFallback'?'Yaklaşık Mesafe':'Yol Mesafesi')+'</div>';
+  html += '<div style="text-align:right;"><div style="font-size:11px;color:var(--gray);margin-bottom:4px;">Yol Mesafesi</div>';
   html += '<div style="font-size:1.4rem;font-weight:700;">'+km+' km</div>';
   if(dk) html += '<div style="font-size:12px;color:var(--gray);">≈'+dk+' dk</div>';
-  if(src==='hvFallback') html += '<div style="font-size:11px;color:var(--gray);">yol servisine ulaşılamadı · kuş uçuşundan tahmin</div>';
   html += '</div></div>';
 
   // Hesap formülü
@@ -1031,97 +1025,83 @@ function mlzHesapla() {
 }
 
 /* ── REFERANS PROJELERİ ── */
-/* YEDEK: Referans kartları js/images.js → projeler listesinden okunur. Burayı düzenlemeyin;
-   images.js yüklenemezse bu liste gösterilir. */
 var refData = [
   /* ── VİTRİN PROJELERİ ── */
   {
     cat:'altyapi', tag:'Altyapı / TOKİ', title:'TOKİ 3. Etap — Ataşehir Altyapı',
     loc:'📍 Ataşehir, İstanbul',
-    desc:'Çok katlı blok tesisatı ve trafo köşkü yerleşimi. 700 m 3×185+95 ve 1000 m 3×95+50 kablo; otopark ve çevre aydınlatması dahil.',
+    desc:'Çok katlı blokların elektrik tesisatı, trafo köşkü yerleşimi. 700 m 3×185+95 ve 1000 m 3×95+50 kablo altyapısı. Otopark ve çevre aydınlatması dahil komple sistem kurulumu.',
     specs:['Trafo köşkü','1700 m kablo altyapısı','Çevre aydınlatması','Komple tesisat']
   },
   {
     cat:'endustriyel', tag:'Endüstriyel / Analiz', title:'Tekstil Fabrikası Enerji Dengeleme',
     loc:'📍 Yahyalı, Kayseri',
-    desc:'Dengesiz yük nedeniyle nötre binen fazla akım tespit edildi; üretim durmadan tek bir 16 mm² ek nötr hattıyla çözüldü.',
+    desc:'Arızalanan cihazların tespiti; 3 fazlı sistemde dengesiz yük sonucu nötr hattına binen fazla yükün analizi. Üretimi durdurmadan tek 16 mm² ek nötr hattıyla en optimum ve düşük maliyetli çözüm sağlandı.',
     specs:['Arıza tespiti','Faz dengeleme','Maliyet optimizasyonu','Sistem sürekliliği']
   },
   {
     cat:'altyapi', tag:'Altyapı / Endüstriyel', title:'Kompanzasyon Panosu Optimizasyonu',
     loc:'📍 Ömer Emine Akın Anadolu Lisesi, Yahyalı',
-    desc:'Reaktif sınırı aşan kompanzasyon panosu tesisin ihtiyacına göre yeniden düzenlendi; ceza ödemeleri sona erdi.',
+    desc:'Reaktif ceza sınırını aşan kompanzasyon panosunun tespiti ve kontrolü. Tesisin ihtiyacına uygun en optimum mühendislik çözümü uygulandı; ceza ödemeleri tamamen sona erdi.',
     specs:['Kompanzasyon','Reaktif ceza çözümü','Sistem kontrolü','Optimizasyon']
   },
   {
     cat:'endustriyel', tag:'Endüstriyel / Otomasyon', title:'İkinci El Araç Lifti — Sıfırdan Otomasyon',
     loc:'📍 Sanayi, Kayseri',
-    desc:'Panosu sökülmüş ikinci el liftin kumanda devresi sıfırdan çizildi; sınır anahtarları ve pano dizilimiyle tam kapasite çalışır hale getirildi.',
+    desc:'Panosu ve kumanda devresi tamamen sökülen ikinci el araç liftinin sıfırdan kumanda devresi çizimi. Sınır anahtarlarının doğru konumlandırılması, pano dizilimi ve liftin tam kapasite çalışır hale getirilmesi.',
     specs:['Kumanda devresi','Pano dizilimi','Sınır anahtarı','Sistem devreye alma']
   },
   /* ── TEKNİK / AKILLI İŞLER ── */
   {
     cat:'altyapi', tag:'Altyapı / Güvenlik', title:'YİBO Güvenlik ve Enerji Sistemleri',
     loc:'📍 Yahyalı, Kayseri',
-    desc:'Yangın kapıları için alarm sistemi, bilgisayar laboratuvarı enerjilendirmesi ve uzaktan kumandalı kapı montajı.',
+    desc:'Yangın kapılarının yanlış kullanımını engellemek için alarm sistemi kurulumu. Bilgisayar laboratuvarlarının enerjilendirmesi ve otomatik uzaktan kumandalı kapı montajı.',
     specs:['Alarm sistemi','Laboratuvar enerjilendirme','Otomatik kapı','Güvenlik']
   },
   {
     cat:'ticari', tag:'Ticari / Eğitim', title:'Fen Lisesi Kütüphanesi Dekoratif Aydınlatma',
     loc:'📍 Kayseri',
-    desc:'Kütüphane elektrik tadilatı ve baffle tavanla entegre dekoratif aydınlatma.',
+    desc:'Fen lisesi kütüphanesinin elektrik tadilatı ve baffle tavan ile entegre dekoratif aydınlatma uygulaması. Estetik ve verimli ışık dağılımı.',
     specs:['Baffle tavan','Dekoratif aydınlatma','Elektrik tadilatı','Verimli dağılım']
   },
   {
     cat:'konut', tag:'Konut / Off-Grid', title:'Yaylalarda Güneş Paneli Sistemleri',
     loc:'📍 Yahyalı Yaylaları, Kayseri',
-    desc:'Karavan ve off-grid yapılar için şebekeden bağımsız güneş paneli sistemleri.',
+    desc:'Karavanlar ve off-grid yapılar için güneş paneli sistemleri tasarımı ve kurulumu. Şebekeye bağımlılık olmadan bağımsız, güvenilir ve sürdürülebilir enerji.',
     specs:['Güneş paneli','Off-grid sistem','Yenilenebilir enerji','Karavan kurulumu']
   },
   {
     cat:'konut', tag:'Konut / Güvenlik', title:'YİBO Lojman Tesisat & Koruma Revizyonu',
     loc:'📍 Yahyalı, Kayseri',
-    desc:'Lojman dairesinde RCD ve MCB değişimi, topraklama hattının standarda uygun hale getirilmesi.',
+    desc:'Lojman dairesinde tüm koruma elemanlarının (RCD, MCB) değişimi. Topraklama hattının standartlara uygun hale getirilmesi ile can güvenliği sağlandı.',
     specs:['RCD/MCB değişimi','Topraklama kontrolü','Can güvenliği','Tesisat revizyonu']
   },
   /* ── SAHA İŞLERİ ── */
   {
     cat:'ticari', tag:'Ticari / Mağaza', title:'Kumsmall & Sivas Caddesi Mağaza Çözümleri',
     loc:'📍 Kayseri Merkez',
-    desc:'Profilo ve Ergül Mobilya mağazalarında aydınlatma altyapısı ve uzaktan kumanda sistemleri; periyodik servis ve bakım sürüyor.',
+    desc:'Profilo ve Ergül Mobilya mağazalarında tadilat sürecinde aydınlatma altyapısı, uzaktan kumanda sistemleri kurulumu. Devam eden periyodik servis ve bakım hizmetleri.',
     specs:['Aydınlatma altyapısı','Uzaktan kumanda','Servis & bakım','Tadilat']
   },
   {
     cat:'ticari', tag:'Ticari / Sağlık', title:'Diş Kliniği Bekleme Salonu Aydınlatması',
     loc:'📍 Kayseri',
-    desc:'Bekleme salonu için dekoratif aydınlatma tasarımı ve uygulaması.',
+    desc:'Diş kliniği bekleme salonunda hastaları rahatlatacak, modern ve dekoratif aydınlatma çözümlerinin tasarımı ve uygulanması.',
     specs:['Dekoratif aydınlatma','Sağlık tesisatı','Modern tasarım','Konforlu atmosfer']
   },
   {
     cat:'konut', tag:'Konut / TOKİ', title:'Yahyalı TOKİ Saha Altyapı & Vinç Beslemesi',
     loc:'📍 Yahyalı, Kayseri',
-    desc:'Saha elektrik altyapısı, vinç beslemesi ve bağlantı aboneleri; uygulama projesi ve süreç takibi dahil.',
+    desc:'TOKİ konut projesinde saha elektrik altyapısı düzenlemesi, vinç güç beslemesi ve bağlantı aboneleri. Uygulama projeleri ve süreç takibi dahil komple hizmet.',
     specs:['Vinç beslemesi','Saha altyapısı','Bağlantı abonesi','Süreç takibi']
   },
   {
     cat:'konut', tag:'Konut / Ticari / Endüstriyel', title:'Sahadan Referanslar',
     loc:'📍 Kayseri & Yahyalı',
-    desc:'Konut, villa, apartman, ticari ve endüstriyel yapılarda altyapı, proje, abonelik ve arıza müdahaleleri.',
+    desc:'Onlarca müstakil konut, villa, apartman, ticari alan ve endüstriyel işletmenin elektrik altyapısı, projelendirme ve abonelik süreçleri ile arıza müdahaleleri mühendislik disiplinimizle başarıyla gerçekleştirilmiştir.',
     specs:['Konut & Villa','Abonelik & Proje','Arıza Müdahalesi','Bağlantı Hattı']
   }
 ];
-
-/* Kartlar tek yerden: window.BIRCAN_IMAGES.projeler (js/images.js) */
-/* images.js'te yazım hatası olursa satırını yakala (uyarıda gösterilir) */
-window.addEventListener('error', function (e) { if (e && e.filename && /images\.js/.test(e.filename)) window.__imgErrLine = e.lineno; });
-function getRefData() {
-  var P = window.BIRCAN_IMAGES && window.BIRCAN_IMAGES.projeler;
-  if (!P || !P.length) return refData;
-  var norm = function (s) { return String(s || '').toLowerCase().replace(/ı/g, 'i').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ğ/g, 'g').replace(/ç/g, 'c').replace(/ö/g, 'o').replace(/[^a-z]/g, ''); };
-  return P.filter(function (p) { return p && p.baslik; }).map(function (p) {
-    return { cat: norm(p.kategori), tag: p.etiket || '', title: p.baslik, loc: p.yer ? '📍 ' + p.yer : '', desc: p.aciklama || '', specs: p.ozellikler || [] };
-  });
-}
 
 var activeRefFilter = 'all';
 
@@ -1134,7 +1114,7 @@ function filterRef(cat, btn) {
 
 function renderRef() {
   var el = document.getElementById('ref-grid'); if (!el) return;
-  var filtered = getRefData().filter(function(r) { return activeRefFilter === 'all' || r.cat === activeRefFilter; });
+  var filtered = refData.filter(function(r) { return activeRefFilter === 'all' || r.cat === activeRefFilter; });
   el.innerHTML = filtered.map(function(r) {
     return '<div class="ref-card">' +
       '<div class="ref-card-header"><span class="ref-title">' + r.title + '</span><span class="ref-tag">' + r.tag + '</span></div>' +
@@ -1144,13 +1124,6 @@ function renderRef() {
         '<div class="ref-specs">' + r.specs.map(function(s) { return '<span class="ref-spec">' + s + '</span>'; }).join('') + '</div>' +
       '</div></div>';
   }).join('');
-  /* images.js okunamadıysa (yazım hatası) görünür uyarı */
-  if (!(window.BIRCAN_IMAGES && window.BIRCAN_IMAGES.projeler)) {
-    var w = document.createElement('div');
-    w.className = 'ref-data-warn';
-    w.textContent = '⚠ js/images.js dosyasında yazım hatası var' + (window.__imgErrLine ? ' (satır ' + window.__imgErrLine + ')' : '') + '. Referanslar eski yedek listeden gösteriliyor.';
-    el.insertBefore(w, el.firstChild);
-  }
 }
 
 /* ── TEKLİF FORMU ── */

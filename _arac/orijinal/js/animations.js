@@ -38,6 +38,7 @@
     .from('.hero-badge',        { opacity: 0, y: 16, duration: 1, delay: 0.2 })
     .from('.hero h1',           { opacity: 0, y: 32, duration: 1.2 }, '-=0.6')
     .from('.hero p',            { opacity: 0, y: 20, duration: 1   }, '-=0.8')
+    .from('.hero-stats-inline', { opacity: 0, y: 16, duration: 0.8 }, '-=0.6')
     .from('.hero-right',        { opacity: 0, x: 24, duration: 0.9 }, '-=0.7');
 
   /* ─────────────────────────────────────────
@@ -73,11 +74,12 @@
   ScrollTrigger.create({
     start: 'top -60',
     onEnter: function () {
-      /* Yeni menü sticky (akış içinde): padding değişirse sayfa zıplar — yalnızca zemin ve gölge değişir */
-      gsap.to('nav', { backgroundColor: 'rgba(14,16,18,0.97)', boxShadow: '0 10px 30px rgba(0,0,0,0.35)', duration: 0.4, ease: 'power2.out' });
+      gsap.to('nav', { paddingTop: '0.7rem', paddingBottom: '0.7rem',
+        backgroundColor: 'rgba(18,20,23,0.94)', duration: 0.4, ease: 'power2.out' });
     },
     onLeaveBack: function () {
-      gsap.to('nav', { backgroundColor: 'rgba(18,20,23,0.92)', boxShadow: '0 0 0 rgba(0,0,0,0)', duration: 0.4, ease: 'power2.out' });
+      gsap.to('nav', { paddingTop: '1.1rem', paddingBottom: '1.1rem',
+        backgroundColor: 'rgba(24,27,31,0.82)', duration: 0.4, ease: 'power2.out' });
     }
   });
 
@@ -173,7 +175,7 @@
     trigger: '#yorumlar',
     start: 'top 72%',
     onEnter: function () {
-      var cards = document.querySelectorAll('#yorumlar .rev');
+      var cards = document.querySelectorAll('#yorumlar [style*="padding:1.5rem"]');
       gsap.from(cards, {
         opacity: 0, y: 32, stagger: 0.1, duration: 0.85, ease: 'power3.out'
       });
@@ -230,7 +232,7 @@
     scrollTrigger: { trigger: '#ekip', start: 'top 78%' }
   });
 
-  var teamCards = document.querySelectorAll('#ekip .contact-person-card');
+  var teamCards = document.querySelectorAll('#ekip [style*="border-radius:var(--radius)"], #ekip [style*="background:rgba(255,255,255,0.06)"]');
   gsap.from(teamCards, {
     opacity: 0, y: 28, stagger: 0.15, duration: 0.9, ease: 'power3.out',
     scrollTrigger: { trigger: '#ekip', start: 'top 72%' }
